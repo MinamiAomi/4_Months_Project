@@ -19,7 +19,7 @@ public:
         Clamp
     };
 
-    void Load(const std::filesystem::path& path);
+    static std::shared_ptr<Texture> Load(const std::filesystem::path& path);
 
     float GetWidth() const { return float(resource_.GetDesc().Width); }
     float GetHeight() const { return float(resource_.GetDesc().Height); }
