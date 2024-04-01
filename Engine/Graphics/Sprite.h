@@ -46,12 +46,15 @@ public:
     void SetRotate(float rotate) { rotate_ = rotate; }
     void SetScale(const Vector2& scale) { scale_ = scale; }
     void SetAnchor(const Vector2& anchor) { anchor_ = anchor; }
+    void SetTexcoordBase(const Vector2& base) { texcoordBase_ = base; }
+    void SetTexcoordSize(const Vector2& size) { texcoordSize_ = size; }
     void SetTexcoordRect(const Vector2& base, const Vector2& size) { texcoordBase_ = base, texcoordSize_ = size; }
     void SetColor(const Vector4& color) { color_ = color; }
     void SetDrawOrder(uint8_t drawOrder) { drawOrder_ = drawOrder; }
     void SetIsActive(bool isActive) { isActive_ = isActive; }
 
     uint8_t GetDrawOrder() const { return drawOrder_; }
+    const std::shared_ptr<Texture>& GetTexture() const { return texture_; }
 
 private:
     static std::list<Sprite*> instanceList_;
