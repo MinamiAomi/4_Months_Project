@@ -14,7 +14,7 @@
 void Test::OnInitialize() {
 	SceneManager* sceneManager = SceneManager::GetInstance();
 	//シーン設定
-	sceneManager->ChangeScene<TestScene>(false);
+	sceneManager->ChangeScene<GameScene>(false);
 
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	//resourceManager->AddModel("Title", Model::Load("Resources/title.obj"));

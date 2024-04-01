@@ -20,8 +20,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Block\Block.cpp" />
+    <ClCompile Include="Block\BlockManager.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
+    <ClCompile Include="Editor\EditorManager.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -36,10 +39,11 @@
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="BlockManager.h" />
+    <ClInclude Include="Block\Block.h" />
+    <ClInclude Include="Block\BlockManager.h" />
     <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
+    <ClInclude Include="Editor\EditorManager.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Player.h" />
