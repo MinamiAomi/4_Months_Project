@@ -10,6 +10,12 @@
     <Filter Include="Game\Object">
       <UniqueIdentifier>{290ad31e-91cf-4cd6-b3fe-027fa36fb487}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Editor">
+      <UniqueIdentifier>{1605b2b3-c5d3-48ac-aaa7-8c2590220f27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Block">
+      <UniqueIdentifier>{07ea8f72-0519-43b7-bf3d-7ef76acd4f53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -49,6 +55,7 @@
     <ClCompile Include="SponzaScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Block.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -86,6 +93,15 @@
     </ClInclude>
     <ClInclude Include="SponzaScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>Game\Object\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockManager.h">
+      <Filter>Game\Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Game\Object\Block</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
