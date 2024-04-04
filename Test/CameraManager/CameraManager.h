@@ -18,7 +18,6 @@ public:
 
 	void Initialize(Player* player);
 	void Update();
-
 	const std::shared_ptr<Camera>& GetCamera() const;
 private:
 	std::unique_ptr<DebugCamera> debugCamera_;

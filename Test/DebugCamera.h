@@ -14,7 +14,7 @@ public:
     void Update();
 
     const std::shared_ptr<Camera>& GetCamera() const { return camera_; }
-
+    void SetRenderManager();
 private:
     std::shared_ptr<Camera> camera_;
     Vector3 eulerAngle_;

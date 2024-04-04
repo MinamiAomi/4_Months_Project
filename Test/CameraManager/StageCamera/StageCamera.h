@@ -16,6 +16,8 @@ public:
 
     const std::shared_ptr<Camera>& GetCamera() const { return camera_; }
     void SetPlayer(Player* player) { player_ = player; }
+    void SetRenderManager();
+
 private:
     std::shared_ptr<Camera> camera_;
     Player* player_;

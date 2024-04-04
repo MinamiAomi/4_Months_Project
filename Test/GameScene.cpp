@@ -42,7 +42,7 @@ void GameScene::OnUpdate() {
 	for (auto& floor : floor_) {
 		floor->Update();
 		//auto tmp = player_->GetLocalPos().z - floor->GetLocalPos().z;
-		//if (std::fabs(tmp) > 550.0f * 0.4f) {
+		//if (std::fabs(tmp) > 550.0f * 0.5f) {
 		//	auto& pos = floor->GetLocalPos();
 		//	if (player_->GetLocalPos().z - floor->GetLocalPos().z < 0.0f) {
 		//		floor->SetLocalPos({ pos.x,pos.y,pos.z - 550.0f * 0.5f });

@@ -23,6 +23,18 @@ void CameraManager::Update() {
     static int selectedItem = static_cast<int>(state_);
     if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
         state_ = static_cast<CameraManager::State>(selectedItem);
+        switch (state_) {
+        case CameraManager::kStageCamera:
+        {
+            stageCamera_->SetRenderManager();
+        }
+        break;
+        case CameraManager::kDebugCamera:
+        {
+            debugCamera_->SetRenderManager();
+        }
+        break;
+        }
     }
     ImGui::End();
 

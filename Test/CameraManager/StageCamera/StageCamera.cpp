@@ -24,7 +24,11 @@ void StageCamera::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
-	camera_->SetPosition(player_->GetLocalPos() + offset_);
+	camera_->SetPosition({ offset_.x,offset_.y,player_->GetLocalPos().z + offset_.z });
 	camera_->SetRotate(Quaternion::MakeFromEulerAngle(eulerAngle_ * Math::ToRadian));
 	camera_->UpdateMatrices();
+}
+
+void StageCamera::SetRenderManager() {
+	RenderManager::GetInstance()->SetCamera(camera_);
 }

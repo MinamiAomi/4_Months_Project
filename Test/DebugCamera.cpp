@@ -45,3 +45,7 @@ void DebugCamera::Update() {
     camera_->SetRotate(Quaternion::MakeFromEulerAngle(eulerAngle_));
     camera_->UpdateMatrices();
 }
+
+void DebugCamera::SetRenderManager() {
+    RenderManager::GetInstance()->SetCamera(camera_);
+}

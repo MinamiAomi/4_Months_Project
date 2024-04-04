@@ -55,6 +55,7 @@ void Player::Update() {
 	}
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
+	transform.translate.x = std::clamp(transform.translate.x,-20.0f,20.0f);
 	transform.UpdateMatrix();
 	//playerModel_.Update();
 	model_->SetWorldMatrix(transform.worldMatrix);

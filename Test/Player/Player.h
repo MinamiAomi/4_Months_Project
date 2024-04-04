@@ -1,4 +1,5 @@
 #pragma once
+#include "Collision/Collider.h"
 #include "Collision/GameObject.h"
 
 #include <memory>
