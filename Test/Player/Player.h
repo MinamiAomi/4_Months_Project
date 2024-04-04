@@ -18,8 +18,8 @@ public:
 
 	void SetFollowCamera(const std::shared_ptr<FollowCamera>& followCamera) { followCamera_ = followCamera; }
 
-	const Vector3& GetLocalPos() { return transform.translate; }
-	const Matrix4x4& GetWorldMatrix() { return transform.worldMatrix; }
+	const Vector3& GetLocalPos() const { return transform.translate; }
+	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 private:
 	void Move();
 	void Jump();

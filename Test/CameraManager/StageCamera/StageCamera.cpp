@@ -12,7 +12,7 @@ void StageCamera::Initialize() {
 
 	transform.rotate = Quaternion::MakeForXAxis(10.0f * Math::ToRadian);
 
-	offset_ = { 0.0f,20.0f,-30.0f };
+	offset_ = { 0.0f,25.0f,-45.0f };
 	eulerAngle_ = Vector3(30.0f, 0.0f, 0.0f);
 }
 

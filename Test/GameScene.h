@@ -33,6 +33,6 @@ private:
     std::unique_ptr<EditorManager> editorManager_;
 
     std::unique_ptr<Player> player_;
-    std::unique_ptr<Floor> floor_;
+    std::array<std::unique_ptr<Floor>,2> floor_;
 
 };

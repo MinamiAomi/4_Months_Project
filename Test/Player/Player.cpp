@@ -44,7 +44,7 @@ void Player::Update() {
 	DebugParam();
 
 	// 地面についているとき
- 	if (!onGround_) {
+	if (!onGround_) {
 		acceleration_.y += gravity_;
 	}
 	if (transform.translate.y < 0.0f) {
@@ -88,8 +88,6 @@ void Player::Move() {
 		move.z = 1.0f;
 	}
 
-	// 移動処理
-	velocity_ = move;
 	if (move != Vector3::zero) {
 		move = move.Normalized();
 		// 地面に水平なカメラの回転
@@ -102,9 +100,6 @@ void Player::Move() {
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
 
-		// 移動
-		velocity_ += move;
-
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
 		if (parent) {
@@ -113,8 +108,8 @@ void Player::Move() {
 		// 回転
 		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation(move));
 
-		move = transform.rotate.Conjugate() * move;
-		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, move);
+		Vector3 vector = transform.rotate.Conjugate() * move;
+		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
 		transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWalk) {
 			playerModel_.PlayAnimation(PlayerModel::kWalk, true);
@@ -125,6 +120,11 @@ void Player::Move() {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/
 	}
+	// 移動処理
+	velocity_ = Vector3::zero;
+	// 移動
+	move.z += defaultSpeed_;
+	velocity_ += move;
 }
 
 void Player::Jump() {
@@ -140,6 +140,7 @@ void Player::DebugParam() {
 #ifdef _DEBUG
 	ImGui::Begin(fileName_.c_str());
 	ImGui::DragFloat3("Pos", &transform.translate.x);
+	ImGui::DragFloat3("velocity_", &velocity_.x);
 	ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
 	ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
 	ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
