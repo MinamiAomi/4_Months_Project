@@ -46,6 +46,7 @@
     <ClInclude Include="Block\BlockManager.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
+    <ClInclude Include="CollisionAttribute.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
     <ClInclude Include="Editor\EditorManager.h" />

@@ -159,5 +159,8 @@
     <ClInclude Include="Floor\floor.h">
       <Filter>Game\Object\Floor</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionAttribute.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

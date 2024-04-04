@@ -17,16 +17,17 @@ public:
 	void Initialize();
 	void Update();
 
-	void SetFollowCamera(const std::shared_ptr<FollowCamera>& followCamera) { followCamera_ = followCamera; }
-
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
+
+	void OnCollision(const CollisionInfo& collisionInfo);
+
 private:
 	void Move();
 	void Jump();
 	std::unique_ptr<ModelInstance> model_;
 	//PlayerModel playerModel_;
-	std::weak_ptr<FollowCamera> followCamera_;
+	std::unique_ptr<BoxCollider> collider_;
 
 	Vector3 acceleration_;
 	Vector3 velocity_;

@@ -2,6 +2,7 @@
 
 #include <fstream>
 
+#include "CollisionAttribute.h"
 #include "Externals/nlohmann/json.hpp"
 #include "Externals/ImGui/imgui.h"
 #include "FollowCamera.h"
@@ -22,6 +23,18 @@ void Player::Initialize() {
 	transform.scale = Vector3::one;
 
 	onGround_ = true;
+#pragma region コライダー
+	collider_ = std::make_unique<BoxCollider>();
+	collider_->SetGameObject(this);
+	collider_->SetName("Player");
+	collider_->SetCenter(transform.translate);
+	collider_->SetSize({ 1.0f, 2.0f, 1.0f });
+	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	collider_->SetCollisionAttribute(CollisionAttribute::Player);
+	collider_->SetCollisionMask(~CollisionAttribute::Player);
+	//collider_->SetIsActive(false);
+#pragma endregion
+
 
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
@@ -63,7 +76,6 @@ void Player::Update() {
 
 void Player::Move() {
 	auto input = Input::GetInstance();
-	auto followCamera = followCamera_.lock();
 
 	Vector3 move{};
 	// Gamepad入力
@@ -92,9 +104,9 @@ void Player::Move() {
 	if (move != Vector3::zero) {
 		move = move.Normalized();
 		// 地面に水平なカメラの回転
-		if (followCamera) {
+		/*if (followCamera) {
 			move = followCamera->GetCamera()->GetRotate() * move;
-		}
+		}*/
 		move.y = 0.0f;
 		move = move.Normalized();
 
@@ -189,7 +201,6 @@ void Player::SaveParameter(float param, std::string name) {
 	outputFile << std::setw(4) << root << std::endl;
 	outputFile.close();
 }
-
 
 void Player::LoadParameter(float& param, std::string name) {
 	const std::filesystem::path kDirectoryPath = "Resources/Data/" + fileName_ + "/" + fileName_;
