@@ -22,6 +22,7 @@ public:
 	const Matrix4x4& GetWorldMatrix() { return transform.worldMatrix; }
 private:
 	void Move();
+	void Jump();
 	std::unique_ptr<ModelInstance> model_;
 	//PlayerModel playerModel_;
 	std::weak_ptr<FollowCamera> followCamera_;

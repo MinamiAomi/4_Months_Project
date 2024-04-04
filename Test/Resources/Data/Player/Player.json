@@ -1,6 +1,6 @@
 {
     "Player": {
-        "defaultSpeed_": -0.10000000149011612,
+        "defaultSpeed_": -1.0,
         "horizontalSpeed_": 0.10000000149011612,
         "verticalSpeed_": 0.10000000149011612
     }

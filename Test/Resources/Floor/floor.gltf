@@ -15,12 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"yuka",
-			"scale":[
-				21.742334365844727,
-				1,
-				18.665830612182617
-			]
+			"name":"yuka"
 		}
 	],
 	"materials":[
@@ -70,35 +65,35 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":11383,
+			"count":11386,
 			"max":[
-				1.4436901807785034,
+				31.38919448852539,
 				4.7040605545043945,
-				29.410011291503906
+				548.9622802734375
 			],
 			"min":[
-				-1.4155985116958618,
+				-30.77841567993164,
 				-1,
-				-27.410593032836914
+				-511.6414794921875
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":11383,
+			"count":11386,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":11383,
+			"count":11386,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":11383,
+			"count":11386,
 			"type":"VEC4"
 		},
 		{
@@ -111,32 +106,32 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":136596,
+			"byteLength":136632,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":136596,
-			"byteOffset":136596,
+			"byteLength":136632,
+			"byteOffset":136632,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":91064,
-			"byteOffset":273192,
+			"byteLength":91088,
+			"byteOffset":273264,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":182128,
-			"byteOffset":364256,
+			"byteLength":182176,
+			"byteOffset":364352,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":55296,
-			"byteOffset":546384,
+			"byteOffset":546528,
 			"target":34963
 		}
 	],
@@ -148,7 +143,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":601680,
+			"byteLength":601824,
 			"uri":"floor.bin"
 		}
 	]

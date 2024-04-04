@@ -49,6 +49,7 @@ void Player::Move() {
 	Vector3 move{};
 	// Gamepad入力
 	auto& xinputState = input->GetXInputState();
+
 	const float margin = 0.8f;
 	const float shortMaxReci = 1.0f / float(SHRT_MAX);
 	move = { float(xinputState.Gamepad.sThumbLX), 0.0f, float(xinputState.Gamepad.sThumbLY) };
@@ -56,8 +57,21 @@ void Player::Move() {
 	if (move.Length() < margin) {
 		move = Vector3::zero;
 	}
+	if (input->IsKeyPressed(DIK_A)) {
+		move.x = -1.0f;
+	}
+	if (input->IsKeyPressed(DIK_D)) {
+		move.x = 1.0f;
+	}
+	if (input->IsKeyPressed(DIK_S)) {
+		move.z = -1.0f;
+	}
+	if (input->IsKeyPressed(DIK_W)) {
+		move.z = 1.0f;
+	}
 
 	// 移動処理
+	transform.translate.z += defaultSpeed_;
 	if (move != Vector3::zero) {
 		move = move.Normalized();
 		// 地面に水平なカメラの回転
@@ -70,12 +84,20 @@ void Player::Move() {
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
 
+		// 移動
+		transform.translate += move;
+
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
 		if (parent) {
 			move = parent->worldMatrix.Inverse().ApplyRotation(move);
 		}
+		// 回転
+		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation(move));
 
+		move = transform.rotate.Conjugate() * move;
+		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, move);
+		transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWalk) {
 			playerModel_.PlayAnimation(PlayerModel::kWalk, true);
 		}*/
@@ -85,28 +107,31 @@ void Player::Move() {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/
 	}
-	// 移動
-	// 強制敵に進む
-	move.z += defaultSpeed_;
-	transform.translate += move;
-	// 回転
-	transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation(move));
+	
+	
 
-	move = transform.rotate.Conjugate() * move;
-	Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, move);
-	transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
+}
+
+void Player::Jump() {
+	// ジャンプ
+	auto input = Input::GetInstance();
+	auto& xinputState = input->GetXInputState();
+	if (xinputState.Gamepad.wButtons &) {
+
+	}
 }
 
 void Player::DebugParam() {
 #ifdef _DEBUG
 	ImGui::Begin(fileName_.c_str());
-	ImGui::DragFloat("defaultSpeed_",&defaultSpeed_);
-	ImGui::DragFloat("verticalSpeed_",&verticalSpeed_);
-	ImGui::DragFloat("horizontalSpeed_",&horizontalSpeed_);
+	ImGui::DragFloat3("Pos", &transform.translate.x);
+	ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
+	ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
+	ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
 	if (ImGui::Button("Save")) {
-		SaveParameter(defaultSpeed_,"defaultSpeed_");
-		SaveParameter(verticalSpeed_,"verticalSpeed_");
-		SaveParameter(horizontalSpeed_,"horizontalSpeed_");
+		SaveParameter(defaultSpeed_, "defaultSpeed_");
+		SaveParameter(verticalSpeed_, "verticalSpeed_");
+		SaveParameter(horizontalSpeed_, "horizontalSpeed_");
 	}
 	ImGui::End();
 #endif // _DEBUG
