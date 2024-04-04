@@ -21,6 +21,8 @@ void Player::Initialize() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
+	onGround_ = true;
+
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
 
@@ -28,6 +30,8 @@ void Player::Initialize() {
 	LoadParameter(defaultSpeed_, "defaultSpeed_");
 	LoadParameter(verticalSpeed_, "verticalSpeed_");
 	LoadParameter(horizontalSpeed_, "horizontalSpeed_");
+	LoadParameter(jumpPower_, "jumpPower_");
+	LoadParameter(gravity_, "gravity_");
 #pragma endregion
 
 }
@@ -35,8 +39,22 @@ void Player::Initialize() {
 void Player::Update() {
 	Move();
 
+	Jump();
+
 	DebugParam();
 
+	// 地面についているとき
+ 	if (!onGround_) {
+		acceleration_.y += gravity_;
+	}
+	if (transform.translate.y < 0.0f) {
+		transform.translate.y = 0.0f;
+		acceleration_.y = 0.0f;
+		velocity_.y = 0.0f;
+		onGround_ = true;
+	}
+	velocity_ += acceleration_;
+	transform.translate += velocity_;
 	transform.UpdateMatrix();
 	//playerModel_.Update();
 	model_->SetWorldMatrix(transform.worldMatrix);
@@ -71,7 +89,7 @@ void Player::Move() {
 	}
 
 	// 移動処理
-	transform.translate.z += defaultSpeed_;
+	velocity_ = move;
 	if (move != Vector3::zero) {
 		move = move.Normalized();
 		// 地面に水平なカメラの回転
@@ -85,7 +103,7 @@ void Player::Move() {
 		move.z *= verticalSpeed_;
 
 		// 移動
-		transform.translate += move;
+		velocity_ += move;
 
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
@@ -107,17 +125,14 @@ void Player::Move() {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/
 	}
-	
-	
-
 }
 
 void Player::Jump() {
 	// ジャンプ
-	auto input = Input::GetInstance();
-	auto& xinputState = input->GetXInputState();
-	if (xinputState.Gamepad.wButtons &) {
-
+	if (onGround_ &&
+		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) {
+		acceleration_.y = jumpPower_;
+		onGround_ = false;
 	}
 }
 
@@ -128,10 +143,14 @@ void Player::DebugParam() {
 	ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
 	ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
 	ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
+	ImGui::DragFloat("jumpPower_", &jumpPower_);
+	ImGui::DragFloat("gravity_", &gravity_);
 	if (ImGui::Button("Save")) {
 		SaveParameter(defaultSpeed_, "defaultSpeed_");
 		SaveParameter(verticalSpeed_, "verticalSpeed_");
 		SaveParameter(horizontalSpeed_, "horizontalSpeed_");
+		SaveParameter(jumpPower_, "jumpPower_");
+		SaveParameter(gravity_, "gravity_");
 	}
 	ImGui::End();
 #endif // _DEBUG

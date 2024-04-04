@@ -27,10 +27,15 @@ private:
 	//PlayerModel playerModel_;
 	std::weak_ptr<FollowCamera> followCamera_;
 
+	Vector3 acceleration_;
+	Vector3 velocity_;
+	bool onGround_;
 #pragma region パラメーター
 	float defaultSpeed_;
 	float verticalSpeed_;
 	float horizontalSpeed_;
+	float jumpPower_;
+	float gravity_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();
