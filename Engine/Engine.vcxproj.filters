@@ -282,6 +282,9 @@
     <ClCompile Include="Graphics\Model.cpp">
       <Filter>Graphics\Standard</Filter>
     </ClCompile>
+    <ClCompile Include="File\JsonHelper.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -560,7 +563,7 @@
     <ClInclude Include="Graphics\FXAA.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="File\Serialize.h">
+    <ClInclude Include="File\JsonHelper.h">
       <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>

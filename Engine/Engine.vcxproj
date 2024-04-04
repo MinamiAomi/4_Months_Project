@@ -187,6 +187,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="File\JsonHelper.cpp" />
     <ClCompile Include="Framework\Engine.cpp" />
     <ClCompile Include="Graphics\Animation.cpp" />
     <ClCompile Include="Graphics\Bloom.cpp" />
@@ -298,7 +299,7 @@
     </ClInclude>
     <ClInclude Include="Externals\nlohmann\json.hpp" />
     <ClInclude Include="Externals\nlohmann\json_fwd.hpp" />
-    <ClInclude Include="File\Serialize.h" />
+    <ClInclude Include="File\JsonHelper.h" />
     <ClInclude Include="Framework\Engine.h" />
     <ClInclude Include="Framework\Game.h" />
     <ClInclude Include="Graphics\Animation.h" />

@@ -8,6 +8,7 @@
 namespace JsonHelper {
 
     bool Open(const std::filesystem::path& path);
+    bool Object(const std::string& name = "");
     bool Close();
 
     void Serialize(const uint32_t& value, const std::string& name);
@@ -36,6 +37,8 @@ namespace JsonHelper {
 
 #define JSON_OPEN(x) (JsonHelper::Open(x))
 #define JSON_CLOSE() (JsonHelper::Close())
+#define JSON_OBJECT() (JsonHelper::Object())
+#define JSON_OBJECT(x) (JsonHelper::Object(x))
 #define JSON_SERIALIZE(x) (JsonHelper::Serialize(x,  STRINGIFY(x)))
 #define JSON_DESERIALIZE(x) (JsonHelper::Deserialize(x,  STRINGIFY(x)))
 
