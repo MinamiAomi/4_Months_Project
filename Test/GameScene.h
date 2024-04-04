@@ -4,15 +4,18 @@
 #include <memory>
 #include <vector>
 
+#include "Graphics/Model.h"
+#include "Graphics/LightManager.h"
 #include "Math/Camera.h"
 #include "Math/Transform.h"
 #include "Math/Random.h"
-#include "Graphics/Model.h"
-#include "Graphics/LightManager.h"
 
 #include "Block/BlockManager.h"
-#include "Editor/EditorManager.h"
+#include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
+#include "Editor/EditorManager.h"
+#include "Floor/floor.h"
+#include "Player/Player.h"
 
 class GameScene :
     public BaseScene {
@@ -23,9 +26,13 @@ public:
     void OnFinalize() override;
 
 private:
-    std::shared_ptr<DebugCamera> debugCamera_;
+    std::shared_ptr<CameraManager> cameraManager_;
     std::shared_ptr<DirectionalLight> directionalLight_;
     
     std::unique_ptr<BlockManager> blockManager_;
     std::unique_ptr<EditorManager> editorManager_;
+
+    std::unique_ptr<Player> player_;
+    std::unique_ptr<Floor> floor_;
+
 };
