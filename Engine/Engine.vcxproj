@@ -298,6 +298,7 @@
     </ClInclude>
     <ClInclude Include="Externals\nlohmann\json.hpp" />
     <ClInclude Include="Externals\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="File\Serialize.h" />
     <ClInclude Include="Framework\Engine.h" />
     <ClInclude Include="Framework\Game.h" />
     <ClInclude Include="Graphics\Animation.h" />

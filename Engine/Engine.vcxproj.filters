@@ -58,6 +58,9 @@
     <Filter Include="Graphics\Raymarching">
       <UniqueIdentifier>{715d8bf0-90b2-46d9-af00-f83058a2e0f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{6c955196-946b-4bf8-a2f2-23e9af3a8405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -556,6 +559,9 @@
     </ClInclude>
     <ClInclude Include="Graphics\FXAA.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="File\Serialize.h">
+      <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
