@@ -14,7 +14,7 @@
 void Test::OnInitialize() {
 	SceneManager* sceneManager = SceneManager::GetInstance();
 	//シーン設定
-	sceneManager->ChangeScene<TestScene>(false);
+	sceneManager->ChangeScene<GameScene>(false);
 
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	//resourceManager->AddModel("Title", Model::Load("Resources/title.obj"));
@@ -26,8 +26,8 @@ void Test::OnInitialize() {
 	//resourceManager->AddModel("sphere",    Model::Load("Resources/sphere.obj"));
 	//resourceManager->AddModel("cylinder", Model::Load("Resources/cylinder.obj"));
 	//resourceManager->AddModel("torus",   Model::Load("Resources/torus.obj"));
-	//resourceManager->AddModel("suzanne", Model::Load("Resources/suzanne.obj"));
-	//resourceManager->AddModel("skydome", Model::Load("Resources/skydome.obj"));
+	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
+	resourceManager->AddModel("player", Model::Load("Resources/Player/player.obj"));
 	resourceManager->AddModel("pbr", Model::Load("Resources/pbr/pbr.gltf"));
 	resourceManager->AddModel("box", Model::Load("Resources/Box/Box.glb"));
 

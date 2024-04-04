@@ -7,53 +7,58 @@
 #include "TitleScene.h"
 
 void GameScene::OnInitialize() {
-    followCamera_ = std::make_shared<FollowCamera>();
-    player_ = std::make_shared<Player>();
-    ground = std::make_shared<Ground>();
+	cameraManager_ = std::make_unique<CameraManager>();
+	directionalLight_ = std::make_shared<DirectionalLight>();
 
-    const char* kTestObjectNames[] = {
-    /*    "teapot",
-        "bunny",
-        "box",
-        "sphere",
-        "cylinder",
-        "torus",
-        "suzanne",*/
-        "Sponza"
-    };
-    testObjects_.resize(_countof(kTestObjectNames));
-    for (size_t i = 0; i < testObjects_.size(); ++i) {
-        testObjects_[i] = std::make_shared<TestObject>();
-        testObjects_[i]->Initialize(kTestObjectNames[i], Vector3(i * 3 - (float)testObjects_.size() * 0.5f * 3, 1.5f, 5.0f));
-    }
+	blockManager_ = std::make_unique<BlockManager>();
+	editorManager_ = std::make_unique<EditorManager>();
 
-    testObjects_.back()->SetRotate(false);
-    testObjects_.back()->transform.scale = {0.01f, 0.01f, 0.01f};
+	player_ = std::make_unique<Player>();
 
 
-    player_->SetFollowCamera(followCamera_);
-    followCamera_->SetTarget(player_);
+	cameraManager_->Initialize(player_.get());
 
-    followCamera_->Initialize();
-    player_->Initialize();
-    ground->Initialize();
+	editorManager_->Initialize(blockManager_.get());
+	blockManager_->Initialize(0);
 
+	player_->Initialize();
+
+	for (uint32_t i = 0; auto & floor : floor_) {
+		floor = std::make_unique<Floor>();
+		floor->Initialize();
+		floor->SetLocalPos({ 0.0f,0.0f , i * -550.0f});
+		i++;
+	}
 }
 
 void GameScene::OnUpdate() {
-    player_->Update();
-    ground->Update();
-    followCamera_->Update();
+	directionalLight_->DrawImGui("directionalLight");
+	RenderManager::GetInstance()->SetSunLight(directionalLight_);
 
-    for (auto& testObject : testObjects_) {
-        testObject->Update();
-    }
+	blockManager_->Update();
+	editorManager_->Update();
 
-    bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
-    if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-        SceneManager::GetInstance()->ChangeScene<TitleScene>();
-    }
+	player_->Update();
+	for (auto& floor : floor_) {
+		floor->Update();
+		//auto tmp = player_->GetLocalPos().z - floor->GetLocalPos().z;
+		//if (std::fabs(tmp) > 550.0f * 0.5f) {
+		//	auto& pos = floor->GetLocalPos();
+		//	if (player_->GetLocalPos().z - floor->GetLocalPos().z < 0.0f) {
+		//		floor->SetLocalPos({ pos.x,pos.y,pos.z - 550.0f * 0.5f });
+
+		//	}
+		//	else {
+		//		floor->SetLocalPos({ pos.x,pos.y,pos.z + 550.0f * 0.5f });
+
+		//	}
+		//}
+	}
+	cameraManager_->Update();
+	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
+	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
+	//}
 }
 
-void GameScene::OnFinalize() {
-}
+void GameScene::OnFinalize() {}

@@ -4,13 +4,14 @@
 
 #include "Graphics/ImGuiManager.h"
 
-const std::string Block::kModelName = "Block";
+const std::string Block::kModelName = "box";
 
 void Block::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos) {
 	model_ = std::make_unique<ModelInstance>();
-	
+
 	transform.scale = scale;
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+	rotate_ = rotate;
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.translate = pos;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
@@ -18,9 +19,7 @@ void Block::Initialize(const Vector3& scale, const Vector3& rotate, const Vector
 }
 
 void Block::Update() {
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
 	model_->SetWorldMatrix(transform.worldMatrix);
-}
-
-void Block::Draw() {
 }

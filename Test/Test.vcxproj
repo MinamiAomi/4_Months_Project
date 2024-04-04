@@ -20,12 +20,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Block\Block.cpp" />
+    <ClCompile Include="Block\BlockManager.cpp" />
+    <ClCompile Include="CameraManager\CameraManager.cpp" />
+    <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
+    <ClCompile Include="Editor\EditorManager.cpp" />
+    <ClCompile Include="Floor\floor.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="SponzaScene.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -36,14 +42,19 @@
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="BlockManager.h" />
+    <ClInclude Include="Block\Block.h" />
+    <ClInclude Include="Block\BlockManager.h" />
+    <ClInclude Include="CameraManager\CameraManager.h" />
+    <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
+    <ClInclude Include="CollisionAttribute.h" />
     <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
+    <ClInclude Include="Editor\EditorManager.h" />
+    <ClInclude Include="Floor\floor.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerModel.h" />
+    <ClInclude Include="Player\Player.h" />
     <ClInclude Include="SponzaScene.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
