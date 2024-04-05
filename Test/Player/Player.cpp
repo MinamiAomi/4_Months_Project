@@ -29,7 +29,7 @@ void Player::Initialize() {
 	collider_->SetName("Player");
 	collider_->SetCenter(transform.translate);
 	collider_->SetSize({ 1.0f, 2.0f, 1.0f });
-	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	//collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Player);
 	collider_->SetCollisionMask(~CollisionAttribute::Player);
 	//collider_->SetIsActive(false);
@@ -44,6 +44,8 @@ void Player::Initialize() {
 	LoadParameter(horizontalSpeed_, "horizontalSpeed_");
 	LoadParameter(jumpPower_, "jumpPower_");
 	LoadParameter(gravity_, "gravity_");
+
+
 #pragma endregion
 
 }
@@ -115,7 +117,7 @@ void Player::Move() {
 
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
-		move.z += defaultSpeed_;
+		//move.z += defaultSpeed_;
 
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
@@ -123,7 +125,7 @@ void Player::Move() {
 			move = parent->worldMatrix.Inverse().ApplyRotation(move);
 		}
 		// 回転
-		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation(move));
+		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
 
 		Vector3 vector = transform.rotate.Conjugate() * move;
 		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
@@ -133,7 +135,8 @@ void Player::Move() {
 		}*/
 	}
 	else {
-		move.z += defaultSpeed_;
+		//move.z += defaultSpeed_;
+
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWait) {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/

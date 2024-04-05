@@ -120,7 +120,8 @@ float3 ShadeDirectionalLight(DirectionalLight light) {
     float3 diffuse = DiffuseBRDF();
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
-    return BRDF * NdotL * light.color;
+    float intensity = light.intensity * PI;
+    return BRDF * NdotL * light.color * intensity;
 }
 
 float GetDistanceAttenuation(float3 unNormalizedLightVector) {
