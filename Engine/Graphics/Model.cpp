@@ -54,6 +54,17 @@ namespace {
                 vertexIndex++;
             }
 
+            destMesh.minVertex = destMesh.maxVertex = destMesh.vertices[0].position;
+            for (size_t i = 1; i < destMesh.vertices.size(); ++i) {
+                auto& position = destMesh.vertices[i].position;
+                if (position.x < destMesh.minVertex.x) { destMesh.minVertex.x = position.x; }
+                if (position.y < destMesh.minVertex.y) { destMesh.minVertex.y = position.y; }
+                if (position.z < destMesh.minVertex.z) { destMesh.minVertex.z = position.z; }
+                if (position.x > destMesh.maxVertex.x) { destMesh.maxVertex.x = position.x; }
+                if (position.y > destMesh.maxVertex.y) { destMesh.maxVertex.y = position.y; }
+                if (position.z > destMesh.maxVertex.z) { destMesh.maxVertex.z = position.z; }
+            }
+
             destMesh.indices.reserve(srcMesh->mNumFaces * 3);
             for (uint32_t faceIndex = 0; faceIndex < srcMesh->mNumFaces; ++faceIndex) {
                 aiFace& srcFace = srcMesh->mFaces[faceIndex];

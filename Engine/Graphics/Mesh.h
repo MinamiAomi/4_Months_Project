@@ -26,6 +26,8 @@ struct Mesh {
     std::vector<Vertex> vertices;
     std::vector<Index> indices;
     std::shared_ptr<PBRMaterial> material;
+    
+    Vector3 minVertex, maxVertex;
 
     void CreateBuffers(CommandContext& commandContext);
 };
