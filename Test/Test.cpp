@@ -25,7 +25,7 @@ void Test::OnInitialize() {
 	//resourceManager->AddModel("box",  Model::Load("Resources/box.obj"));
 	//resourceManager->AddModel("sphere",    Model::Load("Resources/sphere.obj"));
 	//resourceManager->AddModel("cylinder", Model::Load("Resources/cylinder.obj"));
-	//resourceManager->AddModel("torus",   Model::Load("Resources/torus.obj"));
+	resourceManager->AddModel("boss",   Model::Load("Resources/Boss/boss.gltf"));
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
 	resourceManager->AddModel("player", Model::Load("Resources/Player/player.obj"));
 	resourceManager->AddModel("pbr", Model::Load("Resources/pbr/pbr.gltf"));

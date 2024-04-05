@@ -22,6 +22,7 @@
   <ItemGroup>
     <ClCompile Include="Block\Block.cpp" />
     <ClCompile Include="Block\BlockManager.cpp" />
+    <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
@@ -44,6 +45,7 @@
   <ItemGroup>
     <ClInclude Include="Block\Block.h" />
     <ClInclude Include="Block\BlockManager.h" />
+    <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CollisionAttribute.h" />

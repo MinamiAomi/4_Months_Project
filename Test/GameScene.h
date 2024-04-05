@@ -11,6 +11,7 @@
 #include "Math/Random.h"
 
 #include "Block/BlockManager.h"
+#include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
 #include "Editor/EditorManager.h"
@@ -29,10 +30,14 @@ private:
     std::shared_ptr<CameraManager> cameraManager_;
     std::shared_ptr<DirectionalLight> directionalLight_;
     
+#pragma region エディター
     std::unique_ptr<BlockManager> blockManager_;
     std::unique_ptr<EditorManager> editorManager_;
+#pragma endregion
 
+#pragma region ゲーム
     std::unique_ptr<Player> player_;
+    std::unique_ptr<Boss> boss_;
     std::array<std::unique_ptr<Floor>,2> floor_;
-
+#pragma endregion
 };

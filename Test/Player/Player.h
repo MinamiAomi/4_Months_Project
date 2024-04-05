@@ -1,9 +1,10 @@
 #pragma once
-#include "Collision/Collider.h"
 #include "Collision/GameObject.h"
 
 #include <memory>
 #include <string>
+
+#include "Collision/Collider.h"
 
 #include "CameraManager/StageCamera/StageCamera.h"
 #include "Graphics/Model.h"
@@ -35,6 +36,8 @@ private:
 	Vector3 acceleration_;
 	Vector3 velocity_;
 	bool onGround_;
+	bool canSecondJump_;
+
 #pragma region パラメーター
 	float defaultSpeed_;
 	float verticalSpeed_;

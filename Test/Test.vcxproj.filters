@@ -40,6 +40,9 @@
     <Filter Include="Game\Object\Floor">
       <UniqueIdentifier>{652cb754-13d6-4381-bcfc-9615d23b9246}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss">
+      <UniqueIdentifier>{3cd0faa8-3e04-4ea3-9dee-e9a59e9ca4e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -99,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="Floor\floor.cpp">
       <Filter>Game\Object\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\Boss.cpp">
+      <Filter>Game\Object\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="CollisionAttribute.h">
       <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\Boss.h">
+      <Filter>Game\Object\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

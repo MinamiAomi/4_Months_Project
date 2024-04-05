@@ -16,6 +16,7 @@ void GameScene::OnInitialize() {
 	editorManager_ = std::make_unique<EditorManager>();
 
 	player_ = std::make_unique<Player>();
+	boss_ = std::make_unique<Boss>();
 	
 	RenderManager::GetInstance()->SetSunLight(directionalLight_);
 
@@ -26,6 +27,8 @@ void GameScene::OnInitialize() {
 
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
+
+	boss_->Initialize();
 
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
@@ -42,6 +45,8 @@ void GameScene::OnUpdate() {
 	editorManager_->Update();
 
 	player_->Update();
+	boss_->Update();
+
 	for (int i = 0; auto & floor : floor_) {
 		floor->Update();
 		int playerNum = static_cast<int>(player_->transform.translate.z / floor->GetZLength());
@@ -59,6 +64,7 @@ void GameScene::OnUpdate() {
 	if (ImGui::Button("Reset")) {
 		player_->Reset();
 		cameraManager_->Reset();
+		boss_->Reset();
 	}
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {

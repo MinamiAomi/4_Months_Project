@@ -1,11 +1,9 @@
 #include "Player.h"
 
-#include <fstream>
-
 #include "CollisionAttribute.h"
 #include "Graphics/ImGuiManager.h"
-#include "FollowCamera.h"
 #include "File/JsonHelper.h"
+#include "FollowCamera.h"
 #include "Graphics/ResourceManager.h"
 #include "Input/Input.h"
 
@@ -20,6 +18,7 @@ void Player::Initialize() {
 	transform.scale = Vector3::one;
 
 	onGround_ = true;
+	canSecondJump_ = true;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -69,6 +68,7 @@ void Player::Update() {
 		acceleration_.y = 0.0f;
 		velocity_.y = 0.0f;
 		onGround_ = true;
+		canSecondJump_ = true;
 	}
 	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
 	transform.translate.z = std::clamp(transform.translate.z, stageCamera_->transform.translate.z - limitLine_, 100.0f);
@@ -82,6 +82,7 @@ void Player::Reset() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 	onGround_ = true;
+	canSecondJump_ = true;
 }
 
 //void Player::OnCollision(const CollisionInfo& collisionInfo) {
@@ -162,6 +163,12 @@ void Player::Jump() {
 		acceleration_.y = jumpPower_;
 		onGround_ = false;
 	}
+	else if (!onGround_ &&
+		canSecondJump_ &&
+		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) {
+		canSecondJump_ = false;
+		acceleration_.y = jumpPower_ * 0.5f;
+	}
 }
 
 void Player::DebugParam() {
@@ -175,6 +182,8 @@ void Player::DebugParam() {
 	ImGui::DragFloat("jumpPower_", &jumpPower_);
 	ImGui::DragFloat("gravity_", &gravity_);
 	ImGui::DragFloat("limitLine_", &limitLine_);
+	ImGui::Checkbox("onGround_", &onGround_);
+	ImGui::Checkbox("canSecondJump_", &canSecondJump_);
 	if (ImGui::Button("Save")) {
 		JSON_OPEN("Resources/Data/Player/Player.json");
 		JSON_OBJECT("Player");
