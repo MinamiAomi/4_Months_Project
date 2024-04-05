@@ -14,7 +14,8 @@ void GameScene::OnInitialize() {
 	editorManager_ = std::make_unique<EditorManager>();
 
 	player_ = std::make_unique<Player>();
-
+	
+	RenderManager::GetInstance()->SetSunLight(directionalLight_);
 
 	cameraManager_->Initialize(player_.get());
 
@@ -33,7 +34,6 @@ void GameScene::OnInitialize() {
 
 void GameScene::OnUpdate() {
 	directionalLight_->DrawImGui("directionalLight");
-	RenderManager::GetInstance()->SetSunLight(directionalLight_);
 
 	blockManager_->Update();
 	editorManager_->Update();
