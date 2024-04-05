@@ -26,7 +26,7 @@ void GameScene::OnInitialize() {
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
 		floor->Initialize();
-		floor->SetLocalPos({ 0.0f,-2.0f , -1060.0f / 2.0f + i * 1060.0f / 2.0f });
+		floor->SetLocalPos({ 0.0f,-2.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() / 2.0f });
 		i++;
 	}
 }
@@ -41,13 +41,13 @@ void GameScene::OnUpdate() {
 	player_->Update();
 	for (int i = 0; auto & floor : floor_) {
 		floor->Update();
-		int playerNum = static_cast<int>(player_->transform.translate.z / 1060.0f);
-		float playerLocation = fmodf(player_->transform.translate.z , 1060.0f);
+		int playerNum = static_cast<int>(player_->transform.translate.z / floor->GetZLength());
+		float playerLocation = std::fmodf(player_->transform.translate.z , floor->GetZLength());
 		//playerがのっていない
-		if (abs(playerNum % 2) != i) {
+		if (std::abs(playerNum % 2) != i) {
 			//playerが半分より-であれば
-			if (playerLocation < (-1060.0f / 2.0f)) {
-				floor->transform.translate.z = (playerNum - 1) * 1060.0f - 1060.0f / 2.0f;
+			if (playerLocation < (-floor->GetZLength() / 2.0f)) {
+				floor->transform.translate.z = (playerNum - 1) * floor->GetZLength() - floor->GetZLength() / 2.0f;
 			}
 		}
 		i++;
