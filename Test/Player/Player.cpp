@@ -29,7 +29,7 @@ void Player::Initialize() {
 	collider_->SetName("Player");
 	collider_->SetCenter(transform.translate);
 	collider_->SetSize({ 1.0f, 2.0f, 1.0f });
-	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	//collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Player);
 	collider_->SetCollisionMask(~CollisionAttribute::Player);
 	//collider_->SetIsActive(false);
@@ -45,6 +45,8 @@ void Player::Initialize() {
 	LoadParameter(horizontalSpeed_, "horizontalSpeed_");
 	LoadParameter(jumpPower_, "jumpPower_");
 	LoadParameter(gravity_, "gravity_");
+
+
 #pragma endregion
 
 }

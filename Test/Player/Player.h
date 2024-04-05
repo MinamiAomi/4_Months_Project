@@ -20,8 +20,6 @@ public:
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 
-	void OnCollision(const CollisionInfo& collisionInfo);
-
 private:
 	void Move();
 	void Jump();
