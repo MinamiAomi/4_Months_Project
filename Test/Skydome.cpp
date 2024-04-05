@@ -7,6 +7,7 @@ void Skydome::Initialize(const Player* player) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("skydome"));
 	model_->SetIsActive(true);
+	model_->SetUseLighting(false);
 
 	transform.translate = Vector3::zero;
 	transform.rotate = Quaternion::identity;
