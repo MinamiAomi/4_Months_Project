@@ -9,7 +9,7 @@ namespace JsonHelper {
 
     bool Open(const std::filesystem::path& path);
     bool Object(const std::string& name = "");
-    void Close();
+    bool Close();
 
     void Save(const bool& value, const std::string& name);
     void Save(const int32_t& value, const std::string& name);
@@ -32,8 +32,12 @@ namespace JsonHelper {
     bool Load(std::string& value, const std::string& name);
 }
 
+#ifndef STRINGIFY_HELPER
 #define STRINGIFY_HELPER(x) #x
+#endif
+#ifndef STRINGIFY
 #define STRINGIFY(x) STRINGIFY_HELPER(x)
+#endif
 
 /// ファイルを開く
 /// 必ず最初に呼び出す
@@ -42,6 +46,7 @@ namespace JsonHelper {
 #define JSON_OPEN(x) (JsonHelper::Open(x))
 /// ファイルを閉じる
 /// 必ず最後に呼び出す
+/// ファイルがもともとある時はTrue
 #define JSON_CLOSE() (JsonHelper::Close())
 // Jsonのルートに戻る
 #define JSON_ROOT() (JsonHelper::Object())

@@ -17,6 +17,8 @@ public:
 	void Initialize();
 	void Update();
 
+	void Reset();
+
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 
@@ -41,6 +43,5 @@ private:
 	void DebugParam();
 	void SaveJson();
 	void LoadJson();
-
 #pragma endregion
 };
