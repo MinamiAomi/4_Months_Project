@@ -6,10 +6,7 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/Model.h"
 
-#include "TitleScene.h"
 #include "GameScene.h"
-#include "TestScene.h"
-#include "SponzaScene.h"
 
 void Test::OnInitialize() {
 	SceneManager* sceneManager = SceneManager::GetInstance();
@@ -29,7 +26,7 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
 	resourceManager->AddModel("player", Model::Load("Resources/Player/player.obj"));
 	resourceManager->AddModel("pbr", Model::Load("Resources/pbr/pbr.gltf"));
-	resourceManager->AddModel("box", Model::Load("Resources/Box/Box.glb"));
+	resourceManager->AddModel("box", Model::Load("Resources/Box/Box.gltf"));
 
 	//resourceManager->AddModel("Sponza", Model::Load("Resources/Sponza/sponza.obj"));
 

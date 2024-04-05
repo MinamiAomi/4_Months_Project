@@ -160,7 +160,7 @@ void Player::Jump() {
 	// ジャンプ
 	if (onGround_ &&
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) {
-		acceleration_.y = jumpPower_;
+		acceleration_.y += jumpPower_;
 		onGround_ = false;
 	}
 	else if (!onGround_ &&
@@ -173,27 +173,30 @@ void Player::Jump() {
 
 void Player::DebugParam() {
 #ifdef _DEBUG
-	ImGui::Begin("Player");
-	ImGui::DragFloat3("Pos", &transform.translate.x);
-	ImGui::DragFloat3("velocity_", &velocity_.x);
-	ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
-	ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
-	ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
-	ImGui::DragFloat("jumpPower_", &jumpPower_);
-	ImGui::DragFloat("gravity_", &gravity_);
-	ImGui::DragFloat("limitLine_", &limitLine_);
-	ImGui::Checkbox("onGround_", &onGround_);
-	ImGui::Checkbox("canSecondJump_", &canSecondJump_);
-	if (ImGui::Button("Save")) {
-		JSON_OPEN("Resources/Data/Player/Player.json");
-		JSON_OBJECT("Player");
-		JSON_SAVE(defaultSpeed_);
-		JSON_SAVE(verticalSpeed_);
-		JSON_SAVE(horizontalSpeed_);
-		JSON_SAVE(jumpPower_);
-		JSON_SAVE(gravity_);
-		JSON_SAVE(limitLine_);
-		JSON_CLOSE();
+	ImGui::Begin("Editor");
+	if (ImGui::BeginMenu("Player")) {
+		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat3("velocity_", &velocity_.x);
+		ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
+		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
+		ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
+		ImGui::DragFloat("jumpPower_", &jumpPower_);
+		ImGui::DragFloat("gravity_", &gravity_);
+		ImGui::DragFloat("limitLine_", &limitLine_);
+		ImGui::Checkbox("onGround_", &onGround_);
+		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
+		if (ImGui::Button("Save")) {
+			JSON_OPEN("Resources/Data/Player/Player.json");
+			JSON_OBJECT("Player");
+			JSON_SAVE(defaultSpeed_);
+			JSON_SAVE(verticalSpeed_);
+			JSON_SAVE(horizontalSpeed_);
+			JSON_SAVE(jumpPower_);
+			JSON_SAVE(gravity_);
+			JSON_SAVE(limitLine_);
+			JSON_CLOSE();
+		}
+		ImGui::EndMenu();
 	}
 	ImGui::End();
 #endif // _DEBUG

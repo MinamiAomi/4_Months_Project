@@ -33,14 +33,11 @@
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="Player\Player.cpp" />
-    <ClCompile Include="SponzaScene.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TitleObject.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block\Block.h" />
@@ -57,13 +54,11 @@
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="Player\Player.h" />
-    <ClInclude Include="SponzaScene.h" />
+    <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />
-    <ClInclude Include="TestScene.h" />
     <ClInclude Include="TitleObject.h" />
-    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

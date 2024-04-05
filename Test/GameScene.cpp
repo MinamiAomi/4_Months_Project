@@ -6,14 +6,14 @@
 #include "Graphics/RenderManager.h"
 #include "Scene/SceneManager.h"
 
-#include "TitleScene.h"
-
 void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
 	blockManager_ = std::make_unique<BlockManager>();
 	editorManager_ = std::make_unique<EditorManager>();
+
+	isMove_ = true;
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
@@ -29,7 +29,6 @@ void GameScene::OnInitialize() {
 	player_->Initialize();
 
 	boss_->Initialize();
-
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
 		floor->Initialize();
@@ -61,10 +60,20 @@ void GameScene::OnUpdate() {
 		i++;
 	}
 	cameraManager_->Update();
+#ifdef _DEBUG
+	if (ImGui::Checkbox("Move",&isMove_)) {
+		cameraManager_->SetIsMove(isMove_);
+		boss_->SetIsMove(isMove_);
+	}
+#endif // _DEBUG
 	if (ImGui::Button("Reset")) {
 		player_->Reset();
 		cameraManager_->Reset();
 		boss_->Reset();
+		for (uint32_t i = 0; auto & floor : floor_) {
+			floor->SetLocalPos({ 0.0f,-2.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
+			i++;
+		}
 	}
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {

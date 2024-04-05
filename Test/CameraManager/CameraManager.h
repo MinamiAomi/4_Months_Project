@@ -19,6 +19,7 @@ public:
 	void Initialize(Player* player);
 	void Update();
 	void Reset();
+	void SetIsMove(bool flag);
 
 	const StageCamera* GetStageCamera() { return stageCamera_.get(); }
 	//const std::shared_ptr<Camera>& GetCamera() const;

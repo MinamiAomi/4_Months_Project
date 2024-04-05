@@ -43,6 +43,9 @@
     <Filter Include="Game\Object\Boss">
       <UniqueIdentifier>{3cd0faa8-3e04-4ea3-9dee-e9a59e9ca4e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerUI">
+      <UniqueIdentifier>{ec518bbb-7737-4640-bac2-3885872f21cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -50,12 +53,6 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScene.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="TestScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
@@ -69,9 +66,6 @@
     </ClCompile>
     <ClCompile Include="PlayerModel.cpp">
       <Filter>Game\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="SponzaScene.cpp">
-      <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Block\Block.cpp">
       <Filter>Game\Object\Block</Filter>
@@ -114,12 +108,6 @@
     <ClInclude Include="GameScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="TitleScene.h">
-      <Filter>Game\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScene.h">
-      <Filter>Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Ground.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
@@ -131,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="PlayerModel.h">
       <Filter>Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="SponzaScene.h">
-      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Block\Block.h">
       <Filter>Game\Object\Block</Filter>
@@ -170,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="Boss\Boss.h">
       <Filter>Game\Object\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerUI\PlayerUI.h">
+      <Filter>Game\Object\Player\PlayerUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

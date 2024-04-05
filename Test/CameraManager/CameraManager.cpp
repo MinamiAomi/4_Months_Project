@@ -16,24 +16,26 @@ void CameraManager::Initialize(Player* player) {
 
 void CameraManager::Update() {
 #ifdef _DEBUG
-    ImGui::Begin("CameraManager");
-
-    const char* items[] = { "Stage Camera", "Debug Camera" };
-    static int selectedItem = static_cast<int>(state_);
-    if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
-        state_ = static_cast<CameraManager::State>(selectedItem);
-        switch (state_) {
-        case CameraManager::kStageCamera:
-        {
-            stageCamera_->SetRenderManager();
+    ImGui::Begin("Editor");
+    if (ImGui::BeginMenu("CameraManager")) {
+        const char* items[] = { "Stage Camera", "Debug Camera" };
+        static int selectedItem = static_cast<int>(state_);
+        if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+            state_ = static_cast<CameraManager::State>(selectedItem);
+            switch (state_) {
+            case CameraManager::kStageCamera:
+            {
+                stageCamera_->SetRenderManager();
+            }
+            break;
+            case CameraManager::kDebugCamera:
+            {
+                debugCamera_->SetRenderManager();
+            }
+            break;
+            }
         }
-        break;
-        case CameraManager::kDebugCamera:
-        {
-            debugCamera_->SetRenderManager();
-        }
-        break;
-        }
+        ImGui::EndMenu();
     }
     ImGui::End();
 
@@ -56,6 +58,10 @@ void CameraManager::Update() {
 
 void CameraManager::Reset() {
     stageCamera_->Reset();
+}
+
+void CameraManager::SetIsMove(bool flag) {
+    stageCamera_->SetIsMove(flag);
 }
 
 //const std::shared_ptr<Camera>& CameraManager::GetCamera() const {

@@ -59,5 +59,3 @@ namespace JsonHelper {
 // 引数に与えた変数の名前でロード
 // 読み込めたらTrue
 #define JSON_LOAD(x) (JsonHelper::Load(x,  STRINGIFY(x)))
-
-

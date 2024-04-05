@@ -33,6 +33,7 @@ private:
 #pragma region エディター
     std::unique_ptr<BlockManager> blockManager_;
     std::unique_ptr<EditorManager> editorManager_;
+    bool isMove_;
 #pragma endregion
 
 #pragma region ゲーム

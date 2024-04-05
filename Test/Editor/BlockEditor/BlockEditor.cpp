@@ -30,6 +30,7 @@ void BlockEditor::Initialize() {
 }
 
 void BlockEditor::Update() {
+	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BlockEditor")) {
 		Vector3 blockScale{}, blockRotate{}, blockPos{};
 		for (uint32_t i = 0; auto & block : blockManager_->GetBlocks()) {
@@ -74,6 +75,7 @@ void BlockEditor::Update() {
 		}
 		ImGui::TreePop();
 	}
+	ImGui::End();
 	transform.UpdateMatrix();
 	model_->SetWorldMatrix(transform.worldMatrix);
 }

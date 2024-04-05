@@ -13,6 +13,8 @@ void Boss::Initialize() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 10.0f,10.0f,10.0f };
 
+	isMove_ = true;
+
 #pragma region パラメーター
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
 	JSON_OBJECT("Boss");
@@ -23,17 +25,22 @@ void Boss::Initialize() {
 
 void Boss::Update() {
 #ifdef _DEBUG
-	ImGui::Begin("Boss");
-	ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
-	if (ImGui::Button("Save")) {
-		JSON_OPEN("Resources/Data/Boss/Boss.json");
-		JSON_OBJECT("Boss");
-		JSON_SAVE(velocity_);
-		JSON_CLOSE();
+	ImGui::Begin("Editor");
+	if (ImGui::BeginMenu("Boss")) {
+		ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
+		if (ImGui::Button("Save")) {
+			JSON_OPEN("Resources/Data/Boss/Boss.json");
+			JSON_OBJECT("Boss");
+			JSON_SAVE(velocity_);
+			JSON_CLOSE();
+		}
+		ImGui::EndMenu();
 	}
 	ImGui::End();
 #endif // _DEBUG
-	transform.translate += velocity_;
+	if (isMove_) {
+		transform.translate += velocity_;
+	}
 	transform.UpdateMatrix();
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
