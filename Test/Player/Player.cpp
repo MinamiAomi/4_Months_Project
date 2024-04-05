@@ -62,7 +62,7 @@ void Player::Update() {
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
 	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
-	
+
 	if (transform.translate.y < 0.0f) {
 		transform.translate.y = 0.0f;
 		acceleration_.y = 0.0f;
@@ -134,9 +134,11 @@ void Player::Move() {
 		// 回転
 		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
 
-		Vector3 vector = transform.rotate.Conjugate() * move;
-		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
-		transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
+		Vector3 vector = transform.rotate.Conjugate() * move.Normalized();
+		if (Vector3::unitZ != vector) {
+			Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
+			transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
+		}
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWalk) {
 			playerModel_.PlayAnimation(PlayerModel::kWalk, true);
 		}*/
