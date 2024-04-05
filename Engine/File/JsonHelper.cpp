@@ -105,94 +105,121 @@ namespace JsonHelper {
         (*target)[name] = value;
     }
 
-    void Load(bool& value, const std::string& name) {
+    bool Load(bool& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // bool型
         assert(iter->is_boolean());
         value = iter->get<bool>();
+        return true;
     }
 
-    void Load(int32_t& value, const std::string& name) {
+    bool Load(int32_t& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 整数型
         assert(iter->is_number_integer());
         value = iter->get<int32_t>();
+        return true;
     }
 
-    void Load(uint32_t& value, const std::string& name) {
+    bool Load(uint32_t& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 符号なし整数型
         assert(iter->is_number_unsigned());
         value = iter->get<uint32_t>();
+        return true;
     }
 
-    void Load(float& value, const std::string& name) {
+    bool Load(float& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 符号なし整数型
         assert(iter->is_number_float());
         value = iter->get<float>();
+        return true;
     }
 
-    void Load(Vector2& value, const std::string& name) {
+    bool Load(Vector2& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 配列型かつ要素2
         assert(iter->is_array() && iter->size() == 2);
         value.x = iter->at(0);
         value.y = iter->at(1);
+        return true;
     }
 
-    void Load(Vector3& value, const std::string& name) {
+    bool Load(Vector3& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 配列型かつ要素3
         assert(iter->is_array() && iter->size() == 3);
         value.x = iter->at(0);
         value.y = iter->at(1);
         value.z = iter->at(2);
+        return true;
     }
 
-    void Load(Vector4& value, const std::string& name) {
+    bool Load(Vector4& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 配列型かつ要素4
         assert(iter->is_array() && iter->size() == 4);
         value.x = iter->at(0);
         value.y = iter->at(1);
         value.z = iter->at(2);
         value.w = iter->at(3);
+        return true;
     }
 
-    void Load(Quaternion& value, const std::string& name) {
+    bool Load(Quaternion& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 配列型かつ要素4
         assert(iter->is_array() && iter->size() == 4);
         value.x = iter->at(0);
         value.y = iter->at(1);
         value.z = iter->at(2);
         value.w = iter->at(3);
+        return true;
     }
 
-    void Load(std::string& value, const std::string& name) {
+    bool Load(std::string& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        assert(iter != target->end());
+        if (iter != target->end()) {
+            return false;
+        }
         // 配列型かつ要素4
         assert(iter->is_string());
         value = iter->get<std::string>();
+        return true;
     }
 
 }
