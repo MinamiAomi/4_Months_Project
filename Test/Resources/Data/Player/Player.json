@@ -2,7 +2,7 @@
     "Player": {
         "defaultSpeed_": -0.5,
         "gravity_": -0.03,
-        "horizontalSpeed_": 0.30,
+        "horizontalSpeed_": 0.3,
         "jumpPower_": 0.8,
         "verticalSpeed_": 0.3
     }
