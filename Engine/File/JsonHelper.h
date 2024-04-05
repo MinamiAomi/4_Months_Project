@@ -21,15 +21,15 @@ namespace JsonHelper {
     void Save(const Quaternion& value, const std::string& name);
     void Save(const std::string& value, const std::string& name);
 
-    void Load(bool& value, const std::string& name);
-    void Load(int32_t& value, const std::string& name);
-    void Load(uint32_t& value, const std::string& name);
-    void Load(float& value, const std::string& name);
-    void Load(Vector2& value, const std::string& name);
-    void Load(Vector3& value, const std::string& name);
-    void Load(Vector4& value, const std::string& name);
-    void Load(Quaternion& value, const std::string& name);
-    void Load(std::string& value, const std::string& name);
+    bool Load(bool& value, const std::string& name);
+    bool Load(int32_t& value, const std::string& name);
+    bool Load(uint32_t& value, const std::string& name);
+    bool Load(float& value, const std::string& name);
+    bool Load(Vector2& value, const std::string& name);
+    bool Load(Vector3& value, const std::string& name);
+    bool Load(Vector4& value, const std::string& name);
+    bool Load(Quaternion& value, const std::string& name);
+    bool Load(std::string& value, const std::string& name);
 }
 
 #define STRINGIFY_HELPER(x) #x
@@ -52,6 +52,7 @@ namespace JsonHelper {
 // 引数に与えた変数の名前でセーブ
 #define JSON_SAVE(x) (JsonHelper::Save(x,  STRINGIFY(x)))
 // 引数に与えた変数の名前でロード
+// 読み込めたらTrue
 #define JSON_LOAD(x) (JsonHelper::Load(x,  STRINGIFY(x)))
 
 
