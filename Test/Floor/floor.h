@@ -16,6 +16,9 @@ public:
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	void SetLocalPos(const Vector3& pos ) { transform.translate = pos; }
 	const Matrix4x4& GetWorld() const { return transform.worldMatrix; }
+
+public:
+	
 private:
 	std::unique_ptr<ModelInstance> model_;
 };

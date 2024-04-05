@@ -26,7 +26,7 @@ void GameScene::OnInitialize() {
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
 		floor->Initialize();
-		floor->SetLocalPos({ 0.0f,-2.0f , i * -550.0f});
+		floor->SetLocalPos({ 0.0f,-2.0f , -1060.0f / 2.0f + i * 1060.0f / 2.0f });
 		i++;
 	}
 }
@@ -39,20 +39,18 @@ void GameScene::OnUpdate() {
 	editorManager_->Update();
 
 	player_->Update();
-	for (auto& floor : floor_) {
+	for (int i = 0; auto & floor : floor_) {
 		floor->Update();
-		//auto tmp = player_->GetLocalPos().z - floor->GetLocalPos().z;
-		//if (std::fabs(tmp) > 550.0f * 0.5f) {
-		//	auto& pos = floor->GetLocalPos();
-		//	if (player_->GetLocalPos().z - floor->GetLocalPos().z < 0.0f) {
-		//		floor->SetLocalPos({ pos.x,pos.y,pos.z - 550.0f * 0.5f });
-
-		//	}
-		//	else {
-		//		floor->SetLocalPos({ pos.x,pos.y,pos.z + 550.0f * 0.5f });
-
-		//	}
-		//}
+		int playerNum = static_cast<int>(player_->transform.translate.z / 1060.0f);
+		float playerLocation = fmodf(player_->transform.translate.z , 1060.0f);
+		//playerがのっていない
+		if (abs(playerNum % 2) != i) {
+			//playerが半分より-であれば
+			if (playerLocation < (-1060.0f / 2.0f)) {
+				floor->transform.translate.z = (playerNum - 1) * 1060.0f - 1060.0f / 2.0f;
+			}
+		}
+		i++;
 	}
 	cameraManager_->Update();
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
