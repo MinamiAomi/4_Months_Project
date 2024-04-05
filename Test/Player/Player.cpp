@@ -68,10 +68,14 @@ void Player::Update() {
 	}
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
-	transform.translate.x = std::clamp(transform.translate.x,-20.0f,20.0f);
+	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
 	transform.UpdateMatrix();
 	//playerModel_.Update();
 	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void Player::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
 }
 
 void Player::Move() {
@@ -112,6 +116,7 @@ void Player::Move() {
 
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
+		move.z += defaultSpeed_;
 
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
@@ -129,6 +134,7 @@ void Player::Move() {
 		}*/
 	}
 	else {
+		move.z += defaultSpeed_;
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWait) {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/
@@ -136,7 +142,6 @@ void Player::Move() {
 	// 移動処理
 	velocity_ = Vector3::zero;
 	// 移動
-	move.z += defaultSpeed_;
 	velocity_ += move;
 }
 

@@ -26,7 +26,7 @@ void GameScene::OnInitialize() {
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
 		floor->Initialize();
-		floor->SetLocalPos({ 0.0f,0.0f , i * -550.0f});
+		floor->SetLocalPos({ 0.0f,-2.0f , i * -550.0f});
 		i++;
 	}
 }
