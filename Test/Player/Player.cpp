@@ -115,7 +115,7 @@ void Player::Move() {
 
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
-		//move.z += defaultSpeed_;
+		move.z += defaultSpeed_;
 
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
@@ -133,7 +133,7 @@ void Player::Move() {
 		}*/
 	}
 	else {
-		//move.z += defaultSpeed_;
+		move.z += defaultSpeed_;
 
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWait) {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
