@@ -16,6 +16,7 @@
 #include "Editor/EditorManager.h"
 #include "Floor/floor.h"
 #include "Player/Player.h"
+#include "Skydome.h"
 
 class GameScene :
     public BaseScene {
@@ -35,4 +36,5 @@ private:
     std::unique_ptr<Player> player_;
     std::array<std::unique_ptr<Floor>,2> floor_;
 
+    std::unique_ptr<Skydome> skydome_;
 };
