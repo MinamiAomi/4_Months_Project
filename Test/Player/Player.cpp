@@ -116,7 +116,7 @@ void Player::Move() {
 
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
-		move.z += defaultSpeed_;
+		//move.z += defaultSpeed_;
 
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
@@ -124,7 +124,7 @@ void Player::Move() {
 			move = parent->worldMatrix.Inverse().ApplyRotation(move);
 		}
 		// 回転
-		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation(move));
+		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
 
 		Vector3 vector = transform.rotate.Conjugate() * move;
 		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
@@ -134,7 +134,8 @@ void Player::Move() {
 		}*/
 	}
 	else {
-		move.z += defaultSpeed_;
+		//move.z += defaultSpeed_;
+
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWait) {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/
