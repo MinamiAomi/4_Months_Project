@@ -73,7 +73,7 @@ void LightingRenderingPass::Render(CommandContext& commandContext, GeometryRende
         Vector3 cameraPosition;
         float pad1;
         Vector3 lightColor;
-        float pad2;
+        float lightIntensity;
         Vector3 lightDirection;
     };
 
@@ -96,6 +96,7 @@ void LightingRenderingPass::Render(CommandContext& commandContext, GeometryRende
     sceneData.viewProjectionInverseMatrix = camera.GetViewProjectionMatrix().Inverse();
     sceneData.cameraPosition = camera.GetPosition();
     sceneData.lightColor = light.color;
+    sceneData.lightIntensity = light.intensity;
     sceneData.lightDirection = light.direction;
     commandContext.SetDynamicConstantBufferView(RootIndex::Scene, sizeof(sceneData), &sceneData);
     commandContext.SetDescriptorTable(RootIndex::Albedo, geometryRenderingPass.GetAlbedo().GetSRV());

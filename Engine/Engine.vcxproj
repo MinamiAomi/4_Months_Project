@@ -187,6 +187,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="File\JsonHelper.cpp" />
     <ClCompile Include="Framework\Engine.cpp" />
     <ClCompile Include="Graphics\Animation.cpp" />
     <ClCompile Include="Graphics\Bloom.cpp" />
@@ -241,8 +242,6 @@
     <ClCompile Include="Graphics\Sprite.cpp" />
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\Timer.cpp" />
-    <ClCompile Include="Graphics\ToonModel.cpp" />
-    <ClCompile Include="Graphics\ToonRenderer.cpp" />
     <ClCompile Include="Graphics\Transition.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Math\AnimationNode.cpp" />
@@ -300,6 +299,7 @@
     </ClInclude>
     <ClInclude Include="Externals\nlohmann\json.hpp" />
     <ClInclude Include="Externals\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="File\JsonHelper.h" />
     <ClInclude Include="Framework\Engine.h" />
     <ClInclude Include="Framework\Game.h" />
     <ClInclude Include="Graphics\Animation.h" />
@@ -357,8 +357,6 @@
     <ClInclude Include="Graphics\Sprite.h" />
     <ClInclude Include="Graphics\SpriteRenderer.h" />
     <ClInclude Include="Graphics\Timer.h" />
-    <ClInclude Include="Graphics\ToonModel.h" />
-    <ClInclude Include="Graphics\ToonRenderer.h" />
     <ClInclude Include="Graphics\Transition.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Math\AnimationNode.h" />
