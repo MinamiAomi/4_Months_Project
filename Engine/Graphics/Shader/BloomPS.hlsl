@@ -32,7 +32,7 @@ PSOutput main(PSInput input) {
     bloom /= NUM_TEXTURES;
     bloom.a = 1.0f;
 
-    output.color = bloom;
+    output.color = bloom * param_.intensity;
     
     return output;
 }
