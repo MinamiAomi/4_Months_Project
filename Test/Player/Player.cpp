@@ -35,7 +35,6 @@ void Player::Initialize() {
 	//collider_->SetIsActive(false);
 #pragma endregion
 
-
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
 
