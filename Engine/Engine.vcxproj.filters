@@ -58,6 +58,9 @@
     <Filter Include="Graphics\Raymarching">
       <UniqueIdentifier>{715d8bf0-90b2-46d9-af00-f83058a2e0f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{6c955196-946b-4bf8-a2f2-23e9af3a8405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -97,12 +100,6 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\RenderManager.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ToonModel.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\ToonRenderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Core\ColorBuffer.cpp">
@@ -285,6 +282,9 @@
     <ClCompile Include="Graphics\Model.cpp">
       <Filter>Graphics\Standard</Filter>
     </ClCompile>
+    <ClCompile Include="File\JsonHelper.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -333,12 +333,6 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\RenderManager.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ToonModel.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\ToonRenderer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Core\ColorBuffer.h">
@@ -568,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="Graphics\FXAA.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="File\JsonHelper.h">
+      <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

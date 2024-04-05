@@ -81,7 +81,7 @@ class BoxCollider :
     friend class SphereCollider;
 public:
     bool IsCollision(Collider* other, CollisionInfo& collisionInfo) override;
-    bool IsCollision(SphereCollider* other, CollisionInfo& collisionInfo) override;
+    bool IsCollision(SphereCollider* other, CollisionInfo& collisionInfo) override;  
     bool IsCollision(BoxCollider* other, CollisionInfo& collisionInfo) override;
     bool RayCast(const Vector3& origin, const Vector3& diff, uint32_t mask, RayCastInfo& nearest) override;
 

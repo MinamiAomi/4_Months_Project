@@ -11,7 +11,6 @@
 #include "ModelRenderer.h"
 #include "Bloom.h"
 #include "FXAA.h"
-#include "ToonRenderer.h"
 #include "ParticleRenderer.h"
 #include "SpriteRenderer.h"
 #include "PostEffect.h"
@@ -53,11 +52,6 @@ private:
     SwapChain swapChain_;
     CommandContext commandContext_;
 
-    ColorBuffer mainColorBuffer_;
-    DepthBuffer mainDepthBuffer_;
-    ColorBuffer preSwapChainBuffer_;
-
-    ParticleRenderer particleRenderer_;
     SpriteRenderer spriteRenderer_;
 
     GeometryRenderingPass geometryRenderingPass_;

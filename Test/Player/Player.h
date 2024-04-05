@@ -20,8 +20,6 @@ public:
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 
-	void OnCollision(const CollisionInfo& collisionInfo);
-
 private:
 	void Move();
 	void Jump();
@@ -42,14 +40,7 @@ private:
 #pragma region Json
 	void DebugParam();
 	void SaveJson();
-	void SaveParameter(float param, std::string name);
-	void LoadParameter(float& param, std::string name);
-	void SaveParameter(const Vector2& param, std::string name);
-	void LoadParameter(Vector2& param, std::string name);
-	void SaveParameter(const Vector3& param, std::string name);
-	void LoadParameter(Vector3& param, std::string name);
-	void SaveParameter(const Vector4& param, std::string name);
-	void LoadParameter(Vector4& param, std::string name);
-	std::string fileName_;
+	void LoadJson();
+
 #pragma endregion
 };

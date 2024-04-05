@@ -4,11 +4,10 @@
 
 
 void CameraManager::Initialize(Player* player) {
+    player;
     debugCamera_ = std::make_unique<DebugCamera>();
     stageCamera_ = std::make_unique<StageCamera>();
 
-    stageCamera_->SetPlayer(player);
-    
     debugCamera_->Initialize();
     stageCamera_->Initialize();
 
