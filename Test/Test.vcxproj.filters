@@ -46,6 +46,9 @@
     <Filter Include="Game\Object\Player\PlayerUI">
       <UniqueIdentifier>{ec518bbb-7737-4640-bac2-3885872f21cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerHP">
+      <UniqueIdentifier>{293e9174-49b2-4fc9-8a9e-66ebe6b1433d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -99,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="Boss\Boss.cpp">
       <Filter>Game\Object\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerUI\PlayerUI.cpp">
+      <Filter>Game\Object\Player\PlayerUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="Player\PlayerUI\PlayerUI.h">
       <Filter>Game\Object\Player\PlayerUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerHP\PlayerHP.h">
+      <Filter>Game\Object\Player\PlayerHP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

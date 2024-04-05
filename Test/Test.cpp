@@ -5,6 +5,7 @@
 #include "Scene/SceneManager.h"
 #include "Graphics/ResourceManager.h"
 #include "Graphics/Model.h"
+#include "Graphics/Sprite.h"
 
 #include "GameScene.h"
 
@@ -14,6 +15,7 @@ void Test::OnInitialize() {
 	sceneManager->ChangeScene<GameScene>(false);
 
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
+	resourceManager->AddTexture("hp", Texture::Load("Resources/skydome.png"));
 	//resourceManager->AddModel("Title", Model::Load("Resources/title.obj"));
 	//resourceManager->AddModel("Player", Model::Load("Resources/Player/Player.obj"));
 	//resourceManager->AddModel("Floor", Model::Load("Resources/Floor/Floor.obj"));

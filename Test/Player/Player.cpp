@@ -12,6 +12,8 @@ void Player::Initialize() {
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("player"));
 	model_->SetIsActive(true);
 
+	playerUI_ = std::make_unique<PlayerUI>();
+	playerUI_->Initialize();
 
 	transform.translate = Vector3::zero;
 	transform.rotate = Quaternion::identity;
@@ -54,6 +56,9 @@ void Player::Update() {
 	Jump();
 
 	DebugParam();
+
+	// UIアップデート
+	playerUI_->Update();
 
 	// 地面についているとき
 	if (!onGround_) {

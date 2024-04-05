@@ -10,6 +10,8 @@
 #include "Graphics/Model.h"
 #include "Math/MathUtils.h"
 #include "PlayerModel.h"
+#include "PlayerHP/PlayerHP.h"
+#include "PlayerUI/PlayerUI.h"
 
 class Player :
 	public GameObject {
@@ -28,6 +30,8 @@ private:
 	void Jump();
 
 	const StageCamera* stageCamera_;
+
+	std::unique_ptr<PlayerUI> playerUI_;
 
 	std::unique_ptr<ModelInstance> model_;
 	//PlayerModel playerModel_;
