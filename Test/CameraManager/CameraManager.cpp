@@ -54,6 +54,10 @@ void CameraManager::Update() {
     }
 }
 
+void CameraManager::Reset() {
+    stageCamera_->Reset();
+}
+
 //const std::shared_ptr<Camera>& CameraManager::GetCamera() const {
 //    switch (state_) {
 //    case CameraManager::kStageCamera:

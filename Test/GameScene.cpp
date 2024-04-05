@@ -1,5 +1,7 @@
 #include "GameScene.h"
 
+
+#include "Graphics/ImGuiManager.h"
 #include "Input/Input.h"
 #include "Graphics/RenderManager.h"
 #include "Scene/SceneManager.h"
@@ -59,6 +61,10 @@ void GameScene::OnUpdate() {
 		i++;
 	}
 	cameraManager_->Update();
+	if (ImGui::Button("Reset")) {
+		player_->Reset();
+		cameraManager_->Reset();
+	}
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();

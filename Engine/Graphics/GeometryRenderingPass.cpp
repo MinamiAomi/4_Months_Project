@@ -98,6 +98,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     struct InstanceData {
         Matrix4x4 worldMatrix;
         Matrix4x4 worldInverseTransposeMatrix;
+        uint32_t useLighting;
     };
 
 
@@ -161,6 +162,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         InstanceData instanceData;
         instanceData.worldMatrix = instance->GetWorldMatrix();
         instanceData.worldInverseTransposeMatrix = instance->GetWorldMatrix().Inverse().Transpose();
+        instanceData.useLighting = instance->UseLighting() ? 1 : 0;
         commandContext.SetDynamicConstantBufferView(RootIndex::Instance, sizeof(instanceData), &instanceData);
 
         for (auto& mesh : instance->GetModel()->GetMeshes()) {

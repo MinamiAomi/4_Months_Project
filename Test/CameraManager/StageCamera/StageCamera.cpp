@@ -51,3 +51,7 @@ void StageCamera::Update() {
 void StageCamera::SetRenderManager() {
 	RenderManager::GetInstance()->SetCamera(camera_);
 }
+
+void StageCamera::Reset() {
+	transform.translate = Vector3::zero;
+}

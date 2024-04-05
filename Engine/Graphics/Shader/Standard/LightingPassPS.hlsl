@@ -15,6 +15,7 @@ static float3 SpecularReflectance;
 static float Alpha;
 static float AlphaSq;
 static float NdotV;
+static uint UseLighting;
 
 struct PSInput {
     float4 svPosition : SV_POSITION0;
@@ -45,6 +46,7 @@ void InitializeSurfaceProperties(PSInput input) {
     Alpha = Roughness;
     AlphaSq = Alpha * Alpha;
     NdotV = saturate(dot(Normal, ViewDirection));
+    UseLighting = (uint)g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w;
 }
 
 float Pow5(float n) {
@@ -121,7 +123,7 @@ float3 ShadeDirectionalLight(DirectionalLight light) {
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
     float intensity = light.intensity * PI;
-    return BRDF * NdotL * light.color * intensity;
+    return BRDF * NdotL * light.color * intensity + Albedo * light.color * 0.1f;
 }
 
 float GetDistanceAttenuation(float3 unNormalizedLightVector) {
@@ -188,7 +190,7 @@ PSOutput main(PSInput input) {
     float3 color = 0.0f;
     color += ShadeDirectionalLight(g_Scene.directionalLight);
     
-    output.color.rgb = color;
+    output.color.rgb = lerp(Albedo, color, UseLighting);
     output.color.a = 1.0f;
     
     return output;
