@@ -34,6 +34,7 @@ void RenderManager::Initialize() {
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
 
+    bloom_.Initialize(&lightingRenderingPass_.GetResult());
     fxaa_.Initialize(&lightingRenderingPass_.GetResult());
     spriteRenderer_.Initialize(lightingRenderingPass_.GetResult());
 
@@ -80,6 +81,7 @@ void RenderManager::Render() {
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, *sunLight);
     }
 
+    bloom_.Render(commandContext_);
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
 
