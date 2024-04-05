@@ -43,6 +43,7 @@ void Player::Initialize() {
 	JSON_LOAD(horizontalSpeed_);
 	JSON_LOAD(jumpPower_);
 	JSON_LOAD(gravity_);
+	JSON_LOAD(limitLine_);
 	JSON_CLOSE();
 #pragma endregion
 
@@ -62,7 +63,7 @@ void Player::Update() {
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
 	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
-	
+
 	if (transform.translate.y < 0.0f) {
 		transform.translate.y = 0.0f;
 		acceleration_.y = 0.0f;
@@ -70,6 +71,7 @@ void Player::Update() {
 		onGround_ = true;
 	}
 	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
+	transform.translate.z = std::clamp(transform.translate.z, stageCamera_->transform.translate.z - limitLine_, 100.0f);
 	transform.UpdateMatrix();
 	//playerModel_.Update();
 	model_->SetWorldMatrix(transform.worldMatrix);
@@ -124,7 +126,6 @@ void Player::Move() {
 
 		move.x *= horizontalSpeed_;
 		move.z *= verticalSpeed_;
-		move.z += defaultSpeed_;
 
 		// 親がいる場合親の空間にする
 		const Transform* parent = transform.GetParent();
@@ -132,18 +133,18 @@ void Player::Move() {
 			move = parent->worldMatrix.Inverse().ApplyRotation(move);
 		}
 		// 回転
-		transform.rotate = Quaternion::Slerp(0.2f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
+		transform.rotate = Quaternion::Slerp(0.1f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
 
-		Vector3 vector = transform.rotate.Conjugate() * move;
-		Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
-		transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
+		Vector3 vector = transform.rotate.Conjugate() * move.Normalized();
+		if (Vector3::unitZ != vector) {
+			Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
+			transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
+		}
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWalk) {
 			playerModel_.PlayAnimation(PlayerModel::kWalk, true);
 		}*/
 	}
 	else {
-		move.z += defaultSpeed_;
-
 		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWait) {
 			playerModel_.PlayAnimation(PlayerModel::kWait, true);
 		}*/
@@ -173,6 +174,7 @@ void Player::DebugParam() {
 	ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
 	ImGui::DragFloat("jumpPower_", &jumpPower_);
 	ImGui::DragFloat("gravity_", &gravity_);
+	ImGui::DragFloat("limitLine_", &limitLine_);
 	if (ImGui::Button("Save")) {
 		JSON_OPEN("Resources/Data/Player/Player.json");
 		JSON_OBJECT("Player");
@@ -181,6 +183,7 @@ void Player::DebugParam() {
 		JSON_SAVE(horizontalSpeed_);
 		JSON_SAVE(jumpPower_);
 		JSON_SAVE(gravity_);
+		JSON_SAVE(limitLine_);
 		JSON_CLOSE();
 	}
 	ImGui::End();

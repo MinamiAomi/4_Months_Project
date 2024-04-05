@@ -24,6 +24,7 @@ void GameScene::OnInitialize() {
 	editorManager_->Initialize(blockManager_.get());
 	blockManager_->Initialize(0);
 
+	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
 	for (uint32_t i = 0; auto & floor : floor_) {

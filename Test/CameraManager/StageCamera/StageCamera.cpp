@@ -33,6 +33,7 @@ void StageCamera::Update() {
 	camera_->UpdateMatrices();
 #ifdef _DEBUG
 	ImGui::Begin("StageCamera");
+	ImGui::DragFloat3("Pos",&transform.translate.x,0.1f);
 	ImGui::DragFloat3("Offset",&offset_.x,0.1f);
 	ImGui::DragFloat3("eulerAngle_",&eulerAngle_.x,0.1f);
 	ImGui::DragFloat3("cameraVelocity_",&cameraVelocity_.x,0.1f);
