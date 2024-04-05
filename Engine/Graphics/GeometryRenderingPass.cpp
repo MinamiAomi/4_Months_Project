@@ -176,7 +176,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
                 if (mesh.material->normalMap) { materialData.normalMapIndex = mesh.material->normalMap->GetSRV().GetIndex(); }
             }
             commandContext.SetDynamicConstantBufferView(RootIndex::Material, sizeof(materialData), &materialData);
-            
+
             commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView());
             commandContext.SetIndexBuffer(mesh.indexBuffer.GetIndexBufferView());
             commandContext.DrawIndexed((UINT)mesh.indices.size());

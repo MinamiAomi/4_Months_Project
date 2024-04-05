@@ -87,6 +87,7 @@ void RenderManager::Render() {
         
     auto& swapChainBuffer = swapChain_.GetColorBuffer(targetSwapChainBufferIndex);
     commandContext_.CopyBuffer(swapChainBuffer, fxaa_.GetResult());
+    //commandContext_.CopyBuffer(swapChainBuffer, lightingRenderingPass_.GetResult());
 
     commandContext_.TransitionResource(swapChainBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
     commandContext_.FlushResourceBarriers();

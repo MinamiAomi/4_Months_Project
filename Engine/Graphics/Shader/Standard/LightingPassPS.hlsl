@@ -183,9 +183,9 @@ PSOutput main(PSInput input) {
     InitializeSurfaceProperties(input);
     
     // AlbedoのWが0の場合は計算しない
-    if (g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w == 0.0f) {
-        discard;
-    }
+    //if (g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w == 0.0f) {
+    //    discard;
+    //}
     
     float3 color = 0.0f;
     color += ShadeDirectionalLight(g_Scene.directionalLight);
