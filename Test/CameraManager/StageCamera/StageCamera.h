@@ -16,7 +16,7 @@ public:
 
     const std::shared_ptr<Camera>& GetCamera() const { return camera_; }
     void SetRenderManager();
-
+    void Reset();
 private:
     std::shared_ptr<Camera> camera_;
     Vector3 offset_;

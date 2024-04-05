@@ -59,18 +59,27 @@ void Player::Update() {
 	if (!onGround_) {
 		acceleration_.y += gravity_;
 	}
+	velocity_ += acceleration_;
+	transform.translate += velocity_;
+	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
+	
 	if (transform.translate.y < 0.0f) {
 		transform.translate.y = 0.0f;
 		acceleration_.y = 0.0f;
 		velocity_.y = 0.0f;
 		onGround_ = true;
 	}
-	velocity_ += acceleration_;
-	transform.translate += velocity_;
-	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
+	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
 	transform.UpdateMatrix();
 	//playerModel_.Update();
 	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void Player::Reset() {
+	transform.translate = Vector3::zero;
+	transform.rotate = Quaternion::identity;
+	transform.scale = Vector3::one;
+	onGround_ = true;
 }
 
 //void Player::OnCollision(const CollisionInfo& collisionInfo) {
