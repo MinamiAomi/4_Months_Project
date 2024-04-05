@@ -108,7 +108,7 @@ namespace JsonHelper {
     bool Load(bool& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // bool型
@@ -120,7 +120,7 @@ namespace JsonHelper {
     bool Load(int32_t& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 整数型
@@ -132,7 +132,7 @@ namespace JsonHelper {
     bool Load(uint32_t& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 符号なし整数型
@@ -144,7 +144,7 @@ namespace JsonHelper {
     bool Load(float& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 符号なし整数型
@@ -156,7 +156,7 @@ namespace JsonHelper {
     bool Load(Vector2& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 配列型かつ要素2
@@ -169,7 +169,7 @@ namespace JsonHelper {
     bool Load(Vector3& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 配列型かつ要素3
@@ -183,7 +183,7 @@ namespace JsonHelper {
     bool Load(Vector4& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 配列型かつ要素4
@@ -198,7 +198,7 @@ namespace JsonHelper {
     bool Load(Quaternion& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 配列型かつ要素4
@@ -213,7 +213,7 @@ namespace JsonHelper {
     bool Load(std::string& value, const std::string& name) {
         auto iter = target->find(name);
         // ファイルにデータがない
-        if (iter != target->end()) {
+        if (iter == target->end()) {
             return false;
         }
         // 配列型かつ要素4
