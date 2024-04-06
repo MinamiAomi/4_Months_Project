@@ -6,6 +6,7 @@
 
 #include "Collision/Collider.h"
 
+#include "Boss/Boss.h"
 #include "CameraManager/StageCamera/StageCamera.h"
 #include "Graphics/Model.h"
 #include "Math/MathUtils.h"
@@ -25,12 +26,19 @@ public:
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
 private:
 	void Move();
 	void Jump();
+	void Invincible();
+	void UpdateTransform();
+
+	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const StageCamera* stageCamera_;
+	const Boss* boss_;
 
+	std::unique_ptr<PlayerHP> playerHP_;
 	std::unique_ptr<PlayerUI> playerUI_;
 
 	std::unique_ptr<ModelInstance> model_;
@@ -41,7 +49,7 @@ private:
 	Vector3 velocity_;
 	bool onGround_;
 	bool canSecondJump_;
-
+	uint32_t invincibleTime_;
 #pragma region パラメーター
 	float defaultSpeed_;
 	float verticalSpeed_;
@@ -49,6 +57,8 @@ private:
 	float jumpPower_;
 	float gravity_;
 	float limitLine_;
+	float knockBack_;
+	uint32_t maxInvincibleTime_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();

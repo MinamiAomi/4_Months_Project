@@ -1,9 +1,10 @@
 #include "GameScene.h"
 
 
+#include "Collision/CollisionManager.h"
 #include "Graphics/ImGuiManager.h"
-#include "Input/Input.h"
 #include "Graphics/RenderManager.h"
+#include "Input/Input.h"
 #include "Scene/SceneManager.h"
 
 void GameScene::OnInitialize() {
@@ -25,6 +26,7 @@ void GameScene::OnInitialize() {
 	editorManager_->Initialize(blockManager_.get());
 	blockManager_->Initialize(0);
 
+	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
@@ -59,6 +61,10 @@ void GameScene::OnUpdate() {
 		}
 		i++;
 	}
+
+	// 当たり判定を取る
+	CollisionManager::GetInstance()->CheckCollision();
+
 	cameraManager_->Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move",&isMove_)) {

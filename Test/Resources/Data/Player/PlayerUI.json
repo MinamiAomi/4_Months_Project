@@ -80,5 +80,57 @@
             64.0,
             64.0
         ]
+    },
+    "revengeBarGageData_": {
+        "revengeBarGageData_.color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "revengeBarGageData_.order": 0,
+        "revengeBarGageData_.position": [
+            1180.0,
+            120.0
+        ],
+        "revengeBarGageData_.rotate": 0.0,
+        "revengeBarGageData_.scale": [
+            64.0,
+            200.0
+        ],
+        "revengeBarGageData_.textureBase": [
+            0.0,
+            0.0
+        ],
+        "revengeBarGageData_.textureSize": [
+            2.0,
+            2.0
+        ]
+    },
+    "revengeCircleGageData_": {
+        "revengeCircleGageData_.color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "revengeCircleGageData_.order": 0,
+        "revengeCircleGageData_.position": [
+            1180.0,
+            270.0
+        ],
+        "revengeCircleGageData_.rotate": 0.0,
+        "revengeCircleGageData_.scale": [
+            100.0,
+            100.0
+        ],
+        "revengeCircleGageData_.textureBase": [
+            0.0,
+            0.0
+        ],
+        "revengeCircleGageData_.textureSize": [
+            64.0,
+            64.0
+        ]
     }
 }

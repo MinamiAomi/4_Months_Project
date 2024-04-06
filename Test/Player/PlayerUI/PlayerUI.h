@@ -25,6 +25,11 @@ public:
 
 	void SetPlayerHP(PlayerHP* playerHP) { playerHP_ = playerHP; }
 private:
+	void HPUpdate();
+
+	void LoadJson();
+	void SaveJson();
+	std::unique_ptr<Sprite> CreateSprite(const SpriteData& spriteData,std::string spriteName);
 	void DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite);
 
 	PlayerHP* playerHP_;
@@ -32,8 +37,25 @@ private:
 	// HPUI
 	std::array< std::unique_ptr<Sprite>, PlayerHP::kMaxHP> hpSprit_;
 	std::array<SpriteData, PlayerHP::kMaxHP> hpSpriteData_;
-	// HPの下円
-	std::unique_ptr<Sprite> hpBaseSprit_;
-	SpriteData hpBaseSpriteData_;
+	Vector2 hpCenter_;
+	// HPのBase
+	/*std::unique_ptr<Sprite> hpBaseSprit_;
+	SpriteData hpBaseSpriteData_;*/
 #pragma endregion
+#pragma region 復讐ゲージ
+	// 棒のとこ
+	std::unique_ptr<Sprite> revengeBarGage_;
+	SpriteData revengeBarGageData_;
+	// Base
+	std::unique_ptr<Sprite> revengeBarGageBase_;
+	SpriteData revengeBarBaseGageBaseData_;
+
+	// 円のとこ
+	std::unique_ptr<Sprite> revengeCircleGage_;
+	SpriteData revengeCircleGageData_;
+	// Base
+	std::unique_ptr<Sprite> revengeCircleGageBase_;
+	SpriteData revengeCircleGageBaseData_;
+#pragma endregion
+
 };

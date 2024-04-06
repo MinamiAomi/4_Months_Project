@@ -17,7 +17,12 @@ public:
 	void Reset();
 	void SetIsMove(bool flag) { isMove_ = flag; }
 private:
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
 	std::unique_ptr<ModelInstance> model_;
+
+	std::unique_ptr<BoxCollider> collider_;
+
 	Vector3 velocity_;
 
 	bool isMove_;

@@ -12,10 +12,14 @@ void Player::Initialize() {
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("player"));
 	model_->SetIsActive(true);
 
+	playerHP_ = std::make_unique<PlayerHP>();
 	playerUI_ = std::make_unique<PlayerUI>();
+
+	playerHP_->Initialize();
+	playerUI_->SetPlayerHP(playerHP_.get());
 	playerUI_->Initialize();
 
-	transform.translate = Vector3::zero;
+	transform.translate = { 0.0f,0.0f,-50.0f };
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
@@ -26,11 +30,11 @@ void Player::Initialize() {
 	collider_->SetGameObject(this);
 	collider_->SetName("Player");
 	collider_->SetCenter(transform.translate);
-	collider_->SetSize({ 1.0f, 2.0f, 1.0f });
-	//collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	collider_->SetSize({ 2.0f, 4.0f, 2.0f });
+	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Player);
 	collider_->SetCollisionMask(~CollisionAttribute::Player);
-	//collider_->SetIsActive(false);
+	collider_->SetIsActive(true);
 #pragma endregion
 
 	//playerModel_.Initialize(&transform);
@@ -45,17 +49,25 @@ void Player::Initialize() {
 	JSON_LOAD(jumpPower_);
 	JSON_LOAD(gravity_);
 	JSON_LOAD(limitLine_);
+	JSON_LOAD(knockBack_);
+	JSON_LOAD(maxInvincibleTime_);
 	JSON_CLOSE();
 #pragma endregion
 
 }
 
 void Player::Update() {
+	// 移動
 	Move();
-
+	
+	// ジャンプ
 	Jump();
 
+	// 無敵
+	Invincible();
+
 	DebugParam();
+
 
 	// UIアップデート
 	playerUI_->Update();
@@ -64,6 +76,7 @@ void Player::Update() {
 	if (!onGround_) {
 		acceleration_.y += gravity_;
 	}
+	acceleration_.z *= 0.9f;
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
 	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
@@ -76,10 +89,9 @@ void Player::Update() {
 		canSecondJump_ = true;
 	}
 	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
-	transform.translate.z = std::clamp(transform.translate.z, stageCamera_->transform.translate.z - limitLine_, 100.0f);
-	transform.UpdateMatrix();
+	transform.translate.z = std::clamp(transform.translate.z, stageCamera_->transform.translate.z - limitLine_, boss_->transform.translate.z);
+	UpdateTransform();
 	//playerModel_.Update();
-	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void Player::Reset() {
@@ -88,11 +100,33 @@ void Player::Reset() {
 	transform.scale = Vector3::one;
 	onGround_ = true;
 	canSecondJump_ = true;
+	playerHP_->Reset();
 }
 
-//void Player::OnCollision(const CollisionInfo& collisionInfo) {
-//	collisionInfo;
-//}
+void Player::UpdateTransform() {
+
+	transform.UpdateMatrix();
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+	collider_->SetOrientation(rotate);
+	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void Player::OnCollision(const CollisionInfo& collisionInfo) {
+
+	if (collisionInfo.collider->GetName() == "Boss") {
+		if (invincibleTime_ == 0) {
+			invincibleTime_ = maxInvincibleTime_;
+			acceleration_.z -= knockBack_;
+			if (playerHP_->GetCurrentHP() > 0) {
+				playerHP_->AddHP(-1);
+			}
+		}
+	}
+
+}
 
 void Player::Move() {
 	auto input = Input::GetInstance();
@@ -176,6 +210,16 @@ void Player::Jump() {
 	}
 }
 
+void Player::Invincible() {
+	if (invincibleTime_ > 0) {
+		model_->SetColor({1.0f,0.0f,0.0f});
+		invincibleTime_--;
+	}
+	else {
+		model_->SetColor({1.0f,1.0f,1.0f});
+	}
+}
+
 void Player::DebugParam() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
@@ -188,6 +232,10 @@ void Player::DebugParam() {
 		ImGui::DragFloat("jumpPower_", &jumpPower_);
 		ImGui::DragFloat("gravity_", &gravity_);
 		ImGui::DragFloat("limitLine_", &limitLine_);
+		ImGui::DragFloat("knockBack_", &knockBack_);
+		int maxInvincibleTime = maxInvincibleTime_;
+		ImGui::DragInt("maxInvincibleTime_", &maxInvincibleTime);
+		maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
 		ImGui::Checkbox("onGround_", &onGround_);
 		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
 		if (ImGui::Button("Save")) {
@@ -199,6 +247,8 @@ void Player::DebugParam() {
 			JSON_SAVE(jumpPower_);
 			JSON_SAVE(gravity_);
 			JSON_SAVE(limitLine_);
+			JSON_SAVE(knockBack_);
+			JSON_SAVE(maxInvincibleTime_);
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
