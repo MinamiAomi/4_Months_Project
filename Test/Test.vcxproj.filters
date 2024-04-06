@@ -106,6 +106,7 @@
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp">
       <Filter>Game\Object\Player\PlayerUI</Filter>
     </ClCompile>
+    <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">

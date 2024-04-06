@@ -1,9 +1,17 @@
 #pragma once
 
+#include <cstdint>
+
 class PlayerHP {
 public:
+	static const uint32_t kMaxHP = 3;
+
 	void Initialize();
 	void Update();
-private:
 
+	void Reset();
+
+	const uint32_t GetCurrentHP() const { return currentHP_; }
+private:
+	uint32_t currentHP_;
 };

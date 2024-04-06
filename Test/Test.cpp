@@ -15,7 +15,9 @@ void Test::OnInitialize() {
 	sceneManager->ChangeScene<GameScene>(false);
 
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
-	resourceManager->AddTexture("hp", Texture::Load("Resources/skydome.png"));
+	resourceManager->AddTexture("circle", Texture::Load("Resources/whiteCircle.png"));
+	resourceManager->AddTexture("white2x2", Texture::Load("Resources/white2x2.png"));
+	resourceManager->AddTexture("hp", Texture::Load("Resources/playerHP.png"));
 	//resourceManager->AddModel("Title", Model::Load("Resources/title.obj"));
 	//resourceManager->AddModel("Player", Model::Load("Resources/Player/Player.obj"));
 	//resourceManager->AddModel("Floor", Model::Load("Resources/Floor/Floor.obj"));

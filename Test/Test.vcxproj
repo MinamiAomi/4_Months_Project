@@ -33,6 +33,7 @@
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
