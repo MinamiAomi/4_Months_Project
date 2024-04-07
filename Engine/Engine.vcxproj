@@ -189,7 +189,6 @@
     </ClCompile>
     <ClCompile Include="File\JsonHelper.cpp" />
     <ClCompile Include="Framework\Engine.cpp" />
-    <ClCompile Include="Graphics\Animation.cpp" />
     <ClCompile Include="Graphics\Bloom.cpp" />
     <ClCompile Include="Graphics\ComputeShader.cpp" />
     <ClCompile Include="Graphics\Core\ColorBuffer.cpp" />

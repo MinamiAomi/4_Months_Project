@@ -210,9 +210,6 @@
     <ClCompile Include="Graphics\ParticleRenderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Animation.cpp">
-      <Filter>Graphics\Standard</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Core\TextureLoader.cpp">
       <Filter>Graphics\Core</Filter>
     </ClCompile>
@@ -494,9 +491,6 @@
     <ClInclude Include="Graphics\Material.h">
       <Filter>Graphics\Standard</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Animation.h">
-      <Filter>Graphics\Standard</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Core\TextureLoader.h">
       <Filter>Graphics\Core</Filter>
     </ClInclude>
@@ -565,6 +559,9 @@
     </ClInclude>
     <ClInclude Include="File\JsonHelper.h">
       <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Animation.h">
+      <Filter>Graphics\Standard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
