@@ -7,6 +7,7 @@
 #include "Graphics/Sprite.h"
 
 #include "Player/PlayerHP/PlayerHP.h"
+#include "Player/PlayerRevengGage/PlayerRevengeGage.h"
 
 class PlayerUI {
 private:
@@ -24,8 +25,10 @@ public:
 	void Update();
 
 	void SetPlayerHP(PlayerHP* playerHP) { playerHP_ = playerHP; }
+	void SetPlaterRevengeGage(PlayerRevengeGage* playerRevengeGage) { playerRevengeGage_ = playerRevengeGage; }
 private:
-	void HPUpdate();
+	void UpdateHP();
+	void UpdateRevengeGage();
 
 	void LoadJson();
 	void SaveJson();
@@ -33,6 +36,7 @@ private:
 	void DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite);
 
 	PlayerHP* playerHP_;
+	PlayerRevengeGage* playerRevengeGage_;
 #pragma region HP
 	// HPUI
 	std::array< std::unique_ptr<Sprite>, PlayerHP::kMaxHP> hpSprit_;

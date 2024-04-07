@@ -1,5 +1,6 @@
 #include "StageCamera.h"
 
+#include "CharacterState.h"
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
 #include "File/JsonHelper.h"
@@ -26,7 +27,20 @@ void StageCamera::Initialize() {
 
 void StageCamera::Update() {
 	if (isMove_) {
+		switch (characterState_) {
+		case Character::State::kChase:
+		{
+		transform.translate -= cameraVelocity_;
+		}
+			break;
+		case Character::State::kRunAway:
+		{
 		transform.translate += cameraVelocity_;
+		}
+			break;
+		default:
+			break;
+		}
 	}
 	camera_->SetPosition({ transform.translate.x + offset_.x,transform.translate.y + offset_.y,transform.translate.z + offset_.z });
 	camera_->SetRotate(Quaternion::MakeFromEulerAngle(eulerAngle_ * Math::ToRadian));

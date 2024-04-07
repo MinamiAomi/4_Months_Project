@@ -1,5 +1,6 @@
 #include "Boss.h"
 
+#include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Graphics/ResourceManager.h"
 #include "File/JsonHelper.h"
@@ -10,7 +11,7 @@ void Boss::Initialize() {
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("boss"));
 	model_->SetIsActive(true);
 
-	transform.translate = { 0.0f,20.0f,50.0f };
+	transform.translate = { 0.0f,20.0f,100.0f };
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 10.0f,10.0f,10.0f };
 
@@ -52,13 +53,26 @@ void Boss::Update() {
 	ImGui::End();
 #endif // _DEBUG
 	if (isMove_) {
-		transform.translate += velocity_;
+		switch (characterState_) {
+		case Character::State::kChase:
+		{
+			transform.translate -= velocity_;
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			transform.translate += velocity_;
+		}
+		break;
+		default:
+			break;
+		}
 	}
 	UpdateTransform();
 }
 
 void Boss::Reset() {
-	transform.translate = { 0.0f,20.0f,50.0f };
+	transform.translate = { 0.0f,20.0f,100.0f };
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 10.0f,10.0f,10.0f };
 }

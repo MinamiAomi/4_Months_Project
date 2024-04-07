@@ -49,6 +49,9 @@
     <Filter Include="Game\Object\Player\PlayerHP">
       <UniqueIdentifier>{293e9174-49b2-4fc9-8a9e-66ebe6b1433d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerRevengeGage">
+      <UniqueIdentifier>{b9dcf59a-bee9-4604-a4b2-f93a2e86b1fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -107,6 +110,10 @@
       <Filter>Game\Object\Player\PlayerUI</Filter>
     </ClCompile>
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
+    <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp">
+      <Filter>Game\Object\Player\PlayerRevengeGage</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -168,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="Player\PlayerHP\PlayerHP.h">
       <Filter>Game\Object\Player\PlayerHP</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h">
+      <Filter>Game\Object\Player\PlayerRevengeGage</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterState.h">
+      <Filter>Game\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

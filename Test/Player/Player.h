@@ -13,6 +13,7 @@
 #include "PlayerModel.h"
 #include "PlayerHP/PlayerHP.h"
 #include "PlayerUI/PlayerUI.h"
+#include "PlayerRevengGage/PlayerRevengeGage.h"
 
 class Player :
 	public GameObject {
@@ -40,6 +41,7 @@ private:
 
 	std::unique_ptr<PlayerHP> playerHP_;
 	std::unique_ptr<PlayerUI> playerUI_;
+	std::unique_ptr<PlayerRevengeGage> playerRevengeGage_;
 
 	std::unique_ptr<ModelInstance> model_;
 	//PlayerModel playerModel_;

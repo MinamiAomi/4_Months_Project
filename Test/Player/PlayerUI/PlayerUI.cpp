@@ -23,7 +23,8 @@ void PlayerUI::Initialize() {
 }
 
 void PlayerUI::Update() {
-	HPUpdate();
+	UpdateHP();
+	UpdateRevengeGage();
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
@@ -52,7 +53,7 @@ void PlayerUI::Update() {
 
 }
 
-void PlayerUI::HPUpdate() {
+void PlayerUI::UpdateHP() {
 	if (playerHP_->GetCurrentHP() == 0) {
 		hpSprit_.at(0)->SetIsActive(false);
 		hpSprit_.at(1)->SetIsActive(false);
@@ -73,6 +74,24 @@ void PlayerUI::HPUpdate() {
 		hpSprit_.at(1)->SetIsActive(true);
 		hpSprit_.at(2)->SetIsActive(true);
 	}
+}
+
+void PlayerUI::UpdateRevengeGage() {
+	float barT = playerRevengeGage_->GetCurrentRevengeBarGage() / PlayerRevengeGage::kMaxRevengeBar;
+	float circleT = playerRevengeGage_->GetCurrentRevengeCircleGage() / PlayerRevengeGage::kMaxRevengeCircle;
+	revengeBarGage_->SetScale(
+		{
+		revengeBarGageData_.scale.x,
+		std::lerp(0.0f, revengeBarGageData_.scale.y,barT)
+		}
+	);
+	revengeCircleGage_->SetScale(
+		{
+		std::lerp(0.0f, revengeCircleGageData_.scale.x,circleT),
+		std::lerp(0.0f, revengeCircleGageData_.scale.y,circleT)
+		}
+	);
+
 }
 
 void PlayerUI::LoadJson() {
@@ -147,14 +166,12 @@ void PlayerUI::LoadJson() {
 
 	JSON_ROOT();
 #pragma endregion
-
 	JSON_CLOSE();
 
 }
 
 void PlayerUI::SaveJson() {
 	JSON_OPEN("Resources/Data/Player/PlayerUI.json");
-
 #pragma region HP
 	JSON_OBJECT("hpSpriteData_");
 	for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {

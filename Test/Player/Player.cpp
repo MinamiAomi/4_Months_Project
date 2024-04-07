@@ -1,11 +1,13 @@
 #include "Player.h"
 
+#include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 #include "FollowCamera.h"
 #include "Graphics/ResourceManager.h"
 #include "Input/Input.h"
+
 
 void Player::Initialize() {
 	model_ = std::make_unique<ModelInstance>();
@@ -14,14 +16,17 @@ void Player::Initialize() {
 
 	playerHP_ = std::make_unique<PlayerHP>();
 	playerUI_ = std::make_unique<PlayerUI>();
+	playerRevengeGage_ = std::make_unique<PlayerRevengeGage>();
 
 	playerHP_->Initialize();
 	playerUI_->SetPlayerHP(playerHP_.get());
+	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->Initialize();
+	playerRevengeGage_->Initialize();
 
 	transform.translate = { 0.0f,0.0f,-50.0f };
 	transform.rotate = Quaternion::identity;
-	transform.scale = Vector3::one;
+	transform.scale = { 2.0f,2.0f,2.0f };
 
 	onGround_ = true;
 	canSecondJump_ = true;
@@ -68,6 +73,11 @@ void Player::Update() {
 
 	DebugParam();
 
+	// リベンジゲージ
+	playerRevengeGage_->Update();
+
+	// HP
+	playerHP_->Update();
 
 	// UIアップデート
 	playerUI_->Update();
@@ -95,12 +105,13 @@ void Player::Update() {
 }
 
 void Player::Reset() {
-	transform.translate = Vector3::zero;
+	transform.translate = { 0.0f,0.0f,-50.0f };
 	transform.rotate = Quaternion::identity;
-	transform.scale = Vector3::one;
+	transform.scale = { 2.0f,2.0f,2.0f };
 	onGround_ = true;
 	canSecondJump_ = true;
 	playerHP_->Reset();
+	playerRevengeGage_->Reset();
 }
 
 void Player::UpdateTransform() {

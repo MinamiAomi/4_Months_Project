@@ -7,7 +7,6 @@
 #include "Collision/Collider.h"
 
 #include "Graphics/Model.h"
-
 class Boss :
 	public GameObject {
 public:
