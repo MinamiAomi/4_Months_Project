@@ -1,0 +1,10 @@
+{
+    "PlayerBulletManager": {
+        "coolTime_": 30,
+        "velocity_": [
+            0.0,
+            0.0,
+            2.0
+        ]
+    }
+}

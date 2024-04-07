@@ -16,7 +16,6 @@ void CameraManager::Initialize(Player* player) {
 
 void CameraManager::Update() {
 #ifdef _DEBUG
-    ImGui::Begin("Editor");
     if (ImGui::BeginMenu("CameraManager")) {
         const char* items[] = { "Stage Camera", "Debug Camera" };
         static int selectedItem = static_cast<int>(state_);
@@ -37,8 +36,6 @@ void CameraManager::Update() {
         }
         ImGui::EndMenu();
     }
-    ImGui::End();
-
 #endif // _DEBUG
 
 

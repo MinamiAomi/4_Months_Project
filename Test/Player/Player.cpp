@@ -17,12 +17,16 @@ void Player::Initialize() {
 	playerHP_ = std::make_unique<PlayerHP>();
 	playerUI_ = std::make_unique<PlayerUI>();
 	playerRevengeGage_ = std::make_unique<PlayerRevengeGage>();
+	
+	bulletManager_ = std::make_unique<BulletManager>();
 
 	playerHP_->Initialize();
 	playerUI_->SetPlayerHP(playerHP_.get());
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->Initialize();
 	playerRevengeGage_->Initialize();
+	
+	bulletManager_->Initialize();
 
 	transform.translate = { 0.0f,0.0f,-50.0f };
 	transform.rotate = Quaternion::identity;
@@ -101,6 +105,10 @@ void Player::Update() {
 	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
 	transform.translate.z = std::clamp(transform.translate.z, stageCamera_->transform.translate.z - limitLine_, boss_->transform.translate.z);
 	UpdateTransform();
+
+	// 弾アップデート
+	bulletManager_->Update(transform.worldMatrix.GetTranslate());
+	
 	//playerModel_.Update();
 }
 

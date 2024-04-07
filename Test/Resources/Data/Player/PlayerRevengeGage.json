@@ -1,0 +1,8 @@
+{
+    "PlayerRevengeGage": {
+        "addGageBar_": 0.10000000149011612,
+        "addGageCircle_": 0.10000000149011612,
+        "subGageBar_": 0.10000000149011612,
+        "subGageCircle_": 0.10000000149011612
+    }
+}

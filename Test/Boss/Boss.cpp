@@ -22,7 +22,7 @@ void Boss::Initialize() {
 	collider_->SetName("Boss");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize({ 40.0f, 40.0f, 2.0f });
+	collider_->SetSize({ 50.0f, 50.0f, 2.0f });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);

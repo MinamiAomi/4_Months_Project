@@ -10,7 +10,7 @@ const float PlayerRevengeGage::kMaxRevengeCircle = 50.0f;
 void PlayerRevengeGage::Initialize() {
 	Reset();
 
-	JSON_OPEN("Resources/Player/PlayerRevengeGage.json");
+	JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 	JSON_OBJECT("PlayerRevengeGage");
 	JSON_LOAD(addGageBar_);
 	JSON_LOAD(subGageBar_);
@@ -66,7 +66,7 @@ void PlayerRevengeGage::Update() {
 			ImGui::DragFloat("subGageCircle_", &subGageCircle_, 0.1f);
 
 			if (ImGui::Button("Save")) {
-				JSON_OPEN("Resources/Player/PlayerRevengeGage.json");
+				JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 				JSON_OBJECT("PlayerRevengeGage");
 				JSON_SAVE(addGageBar_);
 				JSON_SAVE(subGageBar_);
