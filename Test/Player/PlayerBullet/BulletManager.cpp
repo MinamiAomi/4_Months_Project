@@ -24,8 +24,8 @@ void BulletManager::Update(const Vector3& pos) {
 		time_--;
 	}
 	if (time_ == 0 &&
-		characterState_ == Character::kChase /*&&
-		(Input::GetInstance()->IsKeyPressed(DIK_LSHIFT) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))*/) {
+		characterState_ == Character::kChase &&
+		(Input::GetInstance()->IsKeyPressed(DIK_LSHIFT) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) {
 		Create(pos);
 		time_ = coolTime_;
 	}
