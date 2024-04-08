@@ -18,7 +18,7 @@ void GameScene::OnInitialize() {
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
-	
+
 	RenderManager::GetInstance()->SetSunLight(directionalLight_);
 
 	cameraManager_->Initialize(player_.get());
@@ -34,7 +34,7 @@ void GameScene::OnInitialize() {
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
 		floor->Initialize();
-		floor->SetLocalPos({ 0.0f,-2.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength()});
+		floor->SetLocalPos({ 0.0f,-2.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
 		i++;
 	}
 }
@@ -51,7 +51,7 @@ void GameScene::OnUpdate() {
 	for (int i = 0; auto & floor : floor_) {
 		floor->Update();
 		int playerNum = static_cast<int>(player_->transform.translate.z / floor->GetZLength());
-		float playerLocation = std::fmodf(player_->transform.translate.z , floor->GetZLength());
+		float playerLocation = std::fmodf(player_->transform.translate.z, floor->GetZLength());
 		//playerがのっていない
 		if (std::abs(playerNum % 2) != i) {
 			//playerが半分より-であれば
@@ -67,11 +67,30 @@ void GameScene::OnUpdate() {
 
 	cameraManager_->Update();
 #ifdef _DEBUG
-	if (ImGui::Checkbox("Move",&isMove_)) {
+	if (ImGui::Checkbox("Move", &isMove_)) {
 		cameraManager_->SetIsMove(isMove_);
 		boss_->SetIsMove(isMove_);
 	}
-#endif // _DEBUG
+	if (ImGui::BeginMenu("CharacterState")) {
+		const char* items[] = { "Chase", "RunAway" };
+		static int selectedItem = static_cast<int>(characterState_);
+		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+			characterState_ = static_cast<Character::State>(selectedItem);
+			switch (characterState_) {
+			case Character::State::kChase:
+			{
+				characterState_ = Character::State::kChase;
+			}
+			break;
+			case Character::State::kRunAway:
+			{
+				characterState_ = Character::State::kRunAway;
+			}
+			break;
+			}
+		}
+		ImGui::EndMenu();
+	}
 	if (ImGui::Button("Reset")) {
 		player_->Reset();
 		cameraManager_->Reset();
@@ -81,6 +100,7 @@ void GameScene::OnUpdate() {
 			i++;
 		}
 	}
+#endif // _DEBUG
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
