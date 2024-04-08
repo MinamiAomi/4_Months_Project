@@ -1,12 +1,18 @@
 {
     "Player": {
+        "chaseLimitLine_": 100.0,
         "defaultSpeed_": 0.0,
-        "gravity_": -0.029999999329447746,
+        "gravity_": -0.019999999552965164,
         "horizontalSpeed_": 0.30000001192092896,
-        "jumpPower_": 0.800000011920929,
-        "knockBack_": 4.0,
-        "limitLine_": 120.0,
+        "jumpPower_": 0.6499999761581421,
+        "knockBack_": 5.0,
         "maxInvincibleTime_": 15,
-        "verticalSpeed_": 0.800000011920929
+        "offset_": [
+            0.0,
+            0.0,
+            -20.0
+        ],
+        "runAwayLimitLine_": 85.0,
+        "verticalSpeed_": 0.5
     }
 }

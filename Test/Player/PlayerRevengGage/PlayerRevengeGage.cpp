@@ -23,7 +23,9 @@ void PlayerRevengeGage::Update() {
 	switch (characterState_) {
 	case Character::State::kChase:
 	{
-		currentRevengeBarGage_ -= subGageBar_;
+		if (isMove_) {
+			currentRevengeBarGage_ -= subGageBar_;
+		}
 		if (currentRevengeBarGage_ <= 0) {
 			characterState_ = Character::State::kRunAway;
 			currentRevengeBarGage_ = 0.0f;
@@ -33,11 +35,13 @@ void PlayerRevengeGage::Update() {
 	break;
 	case Character::State::kRunAway:
 	{
-		if (currentRevengeBarGage_ < kMaxRevengeBar) {
-			currentRevengeBarGage_ += addGageBar_;
-		}
-		else if (currentRevengeCircleGage_ < kMaxRevengeCircle) {
-			currentRevengeCircleGage_ += addGageBar_;
+		if (isMove_) {
+			if (currentRevengeBarGage_ < kMaxRevengeBar) {
+				currentRevengeBarGage_ += addGageBar_;
+			}
+			else if (currentRevengeCircleGage_ < kMaxRevengeCircle) {
+				currentRevengeCircleGage_ += addGageBar_;
+			}
 		}
 
 		if ((currentRevengeBarGage_ >= kMaxRevengeBar) &&
@@ -83,6 +87,7 @@ void PlayerRevengeGage::Update() {
 }
 
 void PlayerRevengeGage::Reset() {
+	isMove_ = true;
 	currentRevengeBarGage_ = 0.0f;
 	currentRevengeCircleGage_ = 0.0f;
 	characterState_ = Character::State::kRunAway;

@@ -60,12 +60,12 @@ void Boss::Update() {
 		switch (characterState_) {
 		case Character::State::kChase:
 		{
-			transform.translate -= velocity_;
+			transform.translate += velocity_;
 		}
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate += velocity_;
+			transform.translate -= velocity_;
 		}
 		break;
 		default:

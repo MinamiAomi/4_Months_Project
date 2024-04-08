@@ -12,6 +12,7 @@ public:
 	void Initialize();
 	void Update();
 	void Reset();
+	void SetIsMove(bool flag) { isMove_ = flag; }
 
 	const float GetCurrentRevengeBarGage()const { return currentRevengeBarGage_; }
 	const float GetCurrentRevengeCircleGage()const { return currentRevengeCircleGage_; }
@@ -23,4 +24,6 @@ private:
 	float currentRevengeBarGage_;
 	float currentRevengeCircleGage_;
 
+	// Debug
+	bool isMove_;
 };

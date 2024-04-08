@@ -1,9 +1,11 @@
 #pragma once
+#include "Collision/GameObject.h"
+
 #include <memory>
 #include <string>
 
 #include "Block/BlockManager.h"
-#include "Collision/GameObject.h"
+#include "Collision/Collider.h"
 #include "Graphics/Model.h"
 
 class BlockEditor 
@@ -19,6 +21,9 @@ public:
 private:
 	static const std::string kModelName;
 
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
+
 	BlockManager* blockManager_;
 
 	Vector3 rotate_;
@@ -28,5 +33,6 @@ private:
 	int stageIndex_;
 
 	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<BoxCollider> collider_;
 	bool isCreate_;
 };

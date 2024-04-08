@@ -29,6 +29,8 @@ public:
 
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
+
+	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 private:
 	void Move();
 	void Jump();
@@ -60,9 +62,11 @@ private:
 	float horizontalSpeed_;
 	float jumpPower_;
 	float gravity_;
-	float limitLine_;
+	float chaseLimitLine_;
+	float runAwayLimitLine_;
 	float knockBack_;
 	uint32_t maxInvincibleTime_;
+	Vector3 offset_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();

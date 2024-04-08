@@ -67,7 +67,7 @@ void GameScene::OnUpdate() {
 
 	cameraManager_->Update();
 #ifdef _DEBUG
-	if (Input::GetInstance()->IsKeyTrigger(DIK_TAB)) {
+	/*if (Input::GetInstance()->IsKeyTrigger(DIK_TAB)) {
 		if (isMove_) {
 			cameraManager_->SetState(CameraManager::State::kDebugCamera);
 			isMove_ = false;
@@ -76,11 +76,13 @@ void GameScene::OnUpdate() {
 			cameraManager_->SetState(CameraManager::State::kStageCamera);
 			isMove_ = true;
 		}
-	}
+	}*/
 	if (ImGui::Checkbox("Move", &isMove_)) {
+		player_->SetIsMove(isMove_);
 		boss_->SetIsMove(isMove_);
 		cameraManager_->SetIsMove(isMove_);
 	}
+	player_->SetIsMove(isMove_);
 	boss_->SetIsMove(isMove_);
 	cameraManager_->SetIsMove(isMove_);
 	if (ImGui::BeginMenu("CharacterState")) {

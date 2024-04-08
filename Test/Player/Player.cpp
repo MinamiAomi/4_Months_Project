@@ -10,6 +10,22 @@
 
 
 void Player::Initialize() {
+#pragma region パラメーター
+	JSON_OPEN("Resources/Data/Player/Player.json");
+	JSON_OBJECT("Player");
+	JSON_LOAD(defaultSpeed_);
+	JSON_LOAD(verticalSpeed_);
+	JSON_LOAD(horizontalSpeed_);
+	JSON_LOAD(jumpPower_);
+	JSON_LOAD(gravity_);
+	JSON_LOAD(chaseLimitLine_);
+	JSON_LOAD(runAwayLimitLine_);
+	JSON_LOAD(knockBack_);
+	JSON_LOAD(maxInvincibleTime_);
+	JSON_LOAD(offset_);
+	JSON_CLOSE();
+#pragma endregion
+
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("player"));
 	model_->SetIsActive(true);
@@ -28,7 +44,7 @@ void Player::Initialize() {
 
 	bulletManager_->Initialize();
 
-	transform.translate = { 0.0f,0.0f,-50.0f };
+	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
@@ -49,19 +65,6 @@ void Player::Initialize() {
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
 
-#pragma region パラメーター
-	JSON_OPEN("Resources/Data/Player/Player.json");
-	JSON_OBJECT("Player");
-	JSON_LOAD(defaultSpeed_);
-	JSON_LOAD(verticalSpeed_);
-	JSON_LOAD(horizontalSpeed_);
-	JSON_LOAD(jumpPower_);
-	JSON_LOAD(gravity_);
-	JSON_LOAD(limitLine_);
-	JSON_LOAD(knockBack_);
-	JSON_LOAD(maxInvincibleTime_);
-	JSON_CLOSE();
-#pragma endregion
 
 }
 
@@ -97,9 +100,24 @@ void Player::Update() {
 		onGround_ = true;
 		canSecondJump_ = true;
 	}
-	transform.translate.x = std::clamp(transform.translate.x, -20.0f,20.0f);
+	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
 	transform.translate.y = std::max(transform.translate.y, 0.0f);
-	transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - limitLine_, boss_->transform.translate.z);
+	switch (characterState_) {
+	case Character::kChase:
+	{
+		transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - chaseLimitLine_, boss_->transform.translate.z);
+	}
+	break;
+	case Character::kRunAway:
+	{
+		transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - runAwayLimitLine_, boss_->transform.translate.z);
+	}
+	break;
+	case Character::kCount:
+		break;
+	default:
+		break;
+	}
 	UpdateTransform();
 
 	// 弾アップデート
@@ -109,7 +127,7 @@ void Player::Update() {
 }
 
 void Player::Reset() {
-	transform.translate = { 0.0f,0.0f,-50.0f };
+	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 	onGround_ = true;
@@ -236,13 +254,17 @@ void Player::Move() {
 void Player::Jump() {
 	// ジャンプ
 	if (onGround_ &&
-		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) {
+		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
+			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
+				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		acceleration_.y += jumpPower_;
 		onGround_ = false;
 	}
 	else if (!onGround_ &&
 		canSecondJump_ &&
-		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) {
+		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
+			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
+				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		canSecondJump_ = false;
 		acceleration_.y = jumpPower_ * 0.5f;
 	}
@@ -263,13 +285,15 @@ void Player::DebugParam() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat3("offset_", &offset_.x);
 		ImGui::DragFloat3("velocity_", &velocity_.x);
 		ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
 		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
 		ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
 		ImGui::DragFloat("jumpPower_", &jumpPower_);
 		ImGui::DragFloat("gravity_", &gravity_);
-		ImGui::DragFloat("limitLine_", &limitLine_);
+		ImGui::DragFloat("chaseLimitLine_", &chaseLimitLine_);
+		ImGui::DragFloat("runAwayLimitLine_", &runAwayLimitLine_);
 		ImGui::DragFloat("knockBack_", &knockBack_);
 		int maxInvincibleTime = maxInvincibleTime_;
 		ImGui::DragInt("maxInvincibleTime_", &maxInvincibleTime);
@@ -284,9 +308,11 @@ void Player::DebugParam() {
 			JSON_SAVE(horizontalSpeed_);
 			JSON_SAVE(jumpPower_);
 			JSON_SAVE(gravity_);
-			JSON_SAVE(limitLine_);
+			JSON_SAVE(chaseLimitLine_);
+			JSON_SAVE(runAwayLimitLine_);
 			JSON_SAVE(knockBack_);
 			JSON_SAVE(maxInvincibleTime_);
+			JSON_SAVE(offset_);
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();

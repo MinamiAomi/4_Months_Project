@@ -9,9 +9,11 @@
 #include <list>
 #include <vector>
 
+#include "CollisionAttribute.h"
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/ResourceManager.h"
 #include "Externals/ImGui/imgui.h"
+
 const std::string BlockEditor::kModelName = "block";
 
 void BlockEditor::Initialize() {
@@ -21,16 +23,33 @@ void BlockEditor::Initialize() {
 
 	rotate_ = Vector3::zero;
 
-	transform.scale = Vector3::one;
+	transform.scale = { 5.0f,5.0f,5.0f };
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
-	transform.translate = Vector3::one;
+	transform.translate = Vector3::zero;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
+
+#pragma region コライダー
+	collider_ = std::make_unique<BoxCollider>();
+	collider_->SetGameObject(this);
+	collider_->SetName("Block");
+	collider_->SetCenter(transform.translate);
+	collider_->SetOrientation(transform.rotate);
+	collider_->SetSize(transform.scale);
+	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	collider_->SetCollisionAttribute(CollisionAttribute::Block);
+	collider_->SetCollisionMask(~CollisionAttribute::Block);
+	collider_->SetIsActive(true);
+#pragma endregion
 }
 
 void BlockEditor::Update() {
+	static bool isCollision = true;
 	ImGui::Begin("StageEditor");
+	if (ImGui::Checkbox("isCollision", &isCollision)) {
+		collider_->SetIsActive(isCollision);
+	}
 	if (ImGui::TreeNode("BlockEditor")) {
 		Vector3 blockScale{}, blockRotate{}, blockPos{};
 		for (uint32_t i = 0; auto & block : blockManager_->GetBlocks()) {
@@ -76,8 +95,7 @@ void BlockEditor::Update() {
 		ImGui::TreePop();
 	}
 	ImGui::End();
-	transform.UpdateMatrix();
-	model_->SetWorldMatrix(transform.worldMatrix);
+	UpdateTransform();
 }
 
 void BlockEditor::SaveFile(uint32_t stageName) {
@@ -215,4 +233,20 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 
 void BlockEditor::Clear() {
 	blockManager_->Clear();
+}
+
+void BlockEditor::UpdateTransform() {
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	transform.UpdateMatrix();
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+	collider_->SetSize(scale);
+	collider_->SetOrientation(rotate);
+	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void BlockEditor::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
 }

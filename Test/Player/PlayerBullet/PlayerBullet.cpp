@@ -10,7 +10,7 @@ void PlayerBullet::Initialize() {
 
 	transform.translate = Vector3::zero;
 	transform.rotate = Quaternion::identity;
-	transform.scale = { 5.0f,5.0f,5.0f };
+	transform.scale = { 2.0f,2.0f,2.0f };
 
 	isAlive_ = false;
 #pragma region コライダー
@@ -35,7 +35,7 @@ void PlayerBullet::Update() {
 }
 
 void PlayerBullet::Create(const Vector3& pos, const Vector3& velocity) {
-	transform.translate = pos;
+	transform.translate = { pos.x,pos.y + transform.scale.y,pos.z };
 	transform.rotate = Quaternion::identity;
 	velocity_ = velocity;
 	model_->SetIsActive(true);
@@ -55,12 +55,14 @@ void PlayerBullet::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
+	collider_->SetSize(scale);
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void PlayerBullet::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Boss") {
+	if (collisionInfo.collider->GetName() == "Boss" ||
+		collisionInfo.collider->GetName() == "Block") {
 		isAlive_ = false;
 		model_->SetIsActive(false);
 		collider_->SetIsActive(false);
