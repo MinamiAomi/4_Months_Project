@@ -47,13 +47,13 @@ public:
 
 class LightManager {
 public:
-    void Add(const std::shared_ptr<DirectionalLight>& directionalLight) { directionalLights_.emplace_back(directionalLight); }
-    void Add(const std::shared_ptr<PointLight>& pointLight) { pointLights_.emplace_back(pointLight); }
-    void Add(const std::shared_ptr<LineLight>& lineLight) { lineLights_.emplace_back(lineLight); }
+    void Add(const std::shared_ptr<DirectionalLight>& directionalLight) { directionalLights_.emplace_back(*directionalLight); }
+    void Add(const std::shared_ptr<PointLight>& pointLight) { pointLights_.emplace_back(*pointLight); }
+    void Add(const std::shared_ptr<LineLight>& lineLight) { lineLights_.emplace_back(*lineLight); }
 
-    std::vector<std::shared_ptr<DirectionalLight>> GetDirectionalLight() const { return directionalLights_; }
-    std::vector<std::shared_ptr<PointLight>> GetPointLight() const { return pointLights_; }
-    std::vector<std::shared_ptr<LineLight>> GetLineLight() const { return lineLights_; }
+    std::vector<DirectionalLight> GetDirectionalLight() const { return directionalLights_; }
+    std::vector<PointLight> GetPointLight() const { return pointLights_; }
+    std::vector<LineLight> GetLineLight() const { return lineLights_; }
 
     void Reset() {
         directionalLights_.clear();
@@ -62,7 +62,7 @@ public:
     }
 
 private:
-    std::vector<std::shared_ptr<DirectionalLight>> directionalLights_;
-    std::vector<std::shared_ptr<PointLight>> pointLights_;
-    std::vector<std::shared_ptr<LineLight>> lineLights_;
+    std::vector<DirectionalLight> directionalLights_;
+    std::vector<PointLight> pointLights_;
+    std::vector<LineLight> lineLights_;
 };
