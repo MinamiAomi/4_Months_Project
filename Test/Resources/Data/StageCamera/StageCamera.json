@@ -1,4 +1,36 @@
 {
-    "cameraParam_0": {},
-    "cameraParam_1": {}
+    "cameraParam_0": {
+        "cameraVelocity": [
+            0.0,
+            0.0,
+            0.5
+        ],
+        "eulerAngle": [
+            14.0,
+            0.0,
+            0.0
+        ],
+        "offset": [
+            0.0,
+            22.0,
+            -70.0
+        ]
+    },
+    "cameraParam_1": {
+        "cameraVelocity": [
+            0.0,
+            0.0,
+            0.5
+        ],
+        "eulerAngle": [
+            14.0,
+            0.0,
+            0.0
+        ],
+        "offset": [
+            0.0,
+            22.0,
+            -70.0
+        ]
+    }
 }

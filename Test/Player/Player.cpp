@@ -30,7 +30,7 @@ void Player::Initialize() {
 
 	transform.translate = { 0.0f,0.0f,-50.0f };
 	transform.rotate = Quaternion::identity;
-	transform.scale = { 2.0f,2.0f,2.0f };
+	transform.scale = Vector3::one;
 
 	onGround_ = true;
 	canSecondJump_ = true;
@@ -39,7 +39,7 @@ void Player::Initialize() {
 	collider_->SetGameObject(this);
 	collider_->SetName("Player");
 	collider_->SetCenter(transform.translate);
-	collider_->SetSize({ 2.0f, 4.0f, 2.0f });
+	collider_->SetSize({ 1.0f, 2.0f, 1.0f });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Player);
 	collider_->SetCollisionMask(~CollisionAttribute::Player);
@@ -114,8 +114,8 @@ void Player::Update() {
 
 void Player::Reset() {
 	transform.translate = { 0.0f,0.0f,-50.0f };
-	transform.rotate = Quaternion::identity;
-	transform.scale = { 2.0f,2.0f,2.0f };
+	transform.rotate = Quaternion::identity;	
+	transform.scale = Vector3::one;
 	onGround_ = true;
 	canSecondJump_ = true;
 	playerHP_->Reset();
