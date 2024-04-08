@@ -81,6 +81,10 @@
             64.0
         ]
     },
+    "hpSpriteData_0": {},
+    "hpSpriteData_1": {},
+    "hpSpriteData_2": {},
+    "revengeBarGageBaseData_": {},
     "revengeBarGageData_": {
         "revengeBarGageData_.color": [
             1.0,
@@ -107,6 +111,7 @@
             2.0
         ]
     },
+    "revengeCircleGageBaseData_": {},
     "revengeCircleGageData_": {
         "revengeCircleGageData_.color": [
             1.0,

@@ -13,12 +13,14 @@ void PlayerUI::Initialize() {
 		i++;
 	}
 
-	//hpBaseSprit_ = CreateSprite(hpBaseSpriteData_,"circle");
+	hpBaseSprit_ = CreateSprite(hpBaseSpriteData_, "circle");
 #pragma endregion
 #pragma region 復讐ゲージ
 	revengeBarGage_ = CreateSprite(revengeBarGageData_, "white2x2");
+	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "white2x2");
 
 	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "circle");
+	revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
 #pragma endregion
 }
 
@@ -31,13 +33,15 @@ void PlayerUI::Update() {
 		if (ImGui::TreeNode("PlayerUI")) {
 
 			DrawImGui(revengeBarGageData_, "revengeBarGageData_", revengeBarGage_.get());
+			DrawImGui(revengeBarGageBaseData_, "revengeBarGageBaseData_", revengeBarGageBase_.get());
 
 			DrawImGui(revengeCircleGageData_, "revengeCircleGageData_", revengeCircleGage_.get());
+			DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
 
-			//DrawImGui(hpBaseSpriteData_,"hpBaseSpriteData_",hpBaseSprit_.get());
+			DrawImGui(hpBaseSpriteData_, "hpBaseSpriteData_", hpBaseSprit_.get());
 
 			for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
-				std::string string = "hpSpriteData_.at(" + std::to_string(i) + ")";
+				std::string string = "hpSpriteData:(" + std::to_string(i) + ")";
 				DrawImGui(hpSpriteData_.at(i), string, hpSprit_.at(i).get());
 			}
 
@@ -98,72 +102,35 @@ void PlayerUI::LoadJson() {
 	JSON_OPEN("Resources/Data/Player/PlayerUI.json");
 #pragma region HP
 
-	JSON_OBJECT("hpSpriteData_");
 	for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
-		if (i == 0) {
-			JSON_LOAD(hpSpriteData_.at(0).scale);
-			JSON_LOAD(hpSpriteData_.at(0).position);
-			JSON_LOAD(hpSpriteData_.at(0).rotate);
-			JSON_LOAD(hpSpriteData_.at(0).color);
-			JSON_LOAD(hpSpriteData_.at(0).textureSize);
-			JSON_LOAD(hpSpriteData_.at(0).textureBase);
-			JSON_LOAD(hpSpriteData_.at(0).order);
-		}
-		else if (i == 1) {
-			JSON_LOAD(hpSpriteData_.at(1).scale);
-			JSON_LOAD(hpSpriteData_.at(1).position);
-			JSON_LOAD(hpSpriteData_.at(1).rotate);
-			JSON_LOAD(hpSpriteData_.at(1).color);
-			JSON_LOAD(hpSpriteData_.at(1).textureSize);
-			JSON_LOAD(hpSpriteData_.at(1).textureBase);
-			JSON_LOAD(hpSpriteData_.at(1).order);
-		}
-		else if (i == 2) {
-			JSON_LOAD(hpSpriteData_.at(2).scale);
-			JSON_LOAD(hpSpriteData_.at(2).position);
-			JSON_LOAD(hpSpriteData_.at(2).rotate);
-			JSON_LOAD(hpSpriteData_.at(2).color);
-			JSON_LOAD(hpSpriteData_.at(2).textureSize);
-			JSON_LOAD(hpSpriteData_.at(2).textureBase);
-			JSON_LOAD(hpSpriteData_.at(2).order);
-		}
+		JSON_OBJECT("hpSpriteData_" + std::to_string(i));
+		hpSpriteData_.at(i).Load();
+		JSON_ROOT();
 	}
 
 	JSON_ROOT();
-	/*JSON_OBJECT("hpBaseSpriteData_");
-	JSON_LOAD(hpBaseSpriteData_.scale);
-	JSON_LOAD(hpBaseSpriteData_.position);
-	JSON_LOAD(hpBaseSpriteData_.rotate);
-	JSON_LOAD(hpBaseSpriteData_.color);
-	JSON_LOAD(hpBaseSpriteData_.textureSize);
-	JSON_LOAD(hpBaseSpriteData_.textureBase);
-	JSON_LOAD(hpBaseSpriteData_.order);
 
-	JSON_ROOT();*/
+	JSON_OBJECT("hpBaseSpriteData_");
+	hpBaseSpriteData_.Load();
+	JSON_ROOT();
 
 #pragma endregion
 #pragma region 復讐ゲージ
 	// 棒
 	JSON_OBJECT("revengeBarGageData_");
-	JSON_LOAD(revengeBarGageData_.scale);
-	JSON_LOAD(revengeBarGageData_.position);
-	JSON_LOAD(revengeBarGageData_.rotate);
-	JSON_LOAD(revengeBarGageData_.color);
-	JSON_LOAD(revengeBarGageData_.textureSize);
-	JSON_LOAD(revengeBarGageData_.textureBase);
-	JSON_LOAD(revengeBarGageData_.order);
-
+	revengeBarGageData_.Load();
 	JSON_ROOT();
+	// Base
+	JSON_OBJECT("revengeBarGageBaseData_");
+	revengeBarGageBaseData_.Load();
+	JSON_ROOT();
+
 	// 円
 	JSON_OBJECT("revengeCircleGageData_");
-	JSON_LOAD(revengeCircleGageData_.scale);
-	JSON_LOAD(revengeCircleGageData_.position);
-	JSON_LOAD(revengeCircleGageData_.rotate);
-	JSON_LOAD(revengeCircleGageData_.color);
-	JSON_LOAD(revengeCircleGageData_.textureSize);
-	JSON_LOAD(revengeCircleGageData_.textureBase);
-	JSON_LOAD(revengeCircleGageData_.order);
-
+	revengeCircleGageData_.Load();
+	JSON_ROOT();
+	JSON_OBJECT("revengeCircleGageBaseData_");
+	revengeCircleGageBaseData_.Load();
 	JSON_ROOT();
 #pragma endregion
 	JSON_CLOSE();
@@ -173,71 +140,32 @@ void PlayerUI::LoadJson() {
 void PlayerUI::SaveJson() {
 	JSON_OPEN("Resources/Data/Player/PlayerUI.json");
 #pragma region HP
-	JSON_OBJECT("hpSpriteData_");
 	for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
-		if (i == 0) {
-			JSON_LOAD(hpSpriteData_.at(0).scale);
-			JSON_LOAD(hpSpriteData_.at(0).position);
-			JSON_LOAD(hpSpriteData_.at(0).rotate);
-			JSON_LOAD(hpSpriteData_.at(0).color);
-			JSON_LOAD(hpSpriteData_.at(0).textureSize);
-			JSON_LOAD(hpSpriteData_.at(0).textureBase);
-			JSON_LOAD(hpSpriteData_.at(0).order);
-		}
-		else if (i == 1) {
-			JSON_LOAD(hpSpriteData_.at(1).scale);
-			JSON_LOAD(hpSpriteData_.at(1).position);
-			JSON_LOAD(hpSpriteData_.at(1).rotate);
-			JSON_LOAD(hpSpriteData_.at(1).color);
-			JSON_LOAD(hpSpriteData_.at(1).textureSize);
-			JSON_LOAD(hpSpriteData_.at(1).textureBase);
-			JSON_LOAD(hpSpriteData_.at(1).order);
-		}
-		else if (i == 2) {
-			JSON_LOAD(hpSpriteData_.at(2).scale);
-			JSON_LOAD(hpSpriteData_.at(2).position);
-			JSON_LOAD(hpSpriteData_.at(2).rotate);
-			JSON_LOAD(hpSpriteData_.at(2).color);
-			JSON_LOAD(hpSpriteData_.at(2).textureSize);
-			JSON_LOAD(hpSpriteData_.at(2).textureBase);
-			JSON_LOAD(hpSpriteData_.at(2).order);
-		}
+		JSON_OBJECT("hpSpriteData_" + std::to_string(i));
+		hpSpriteData_.at(i).Save();
+		JSON_ROOT();
 	}
 	JSON_ROOT();
-
-	/*JSON_OBJECT("hpBaseSpriteData_");
-	JSON_SAVE(hpBaseSpriteData_.scale);
-	JSON_SAVE(hpBaseSpriteData_.position);
-	JSON_SAVE(hpBaseSpriteData_.rotate);
-	JSON_SAVE(hpBaseSpriteData_.color);
-	JSON_SAVE(hpBaseSpriteData_.textureSize);
-	JSON_SAVE(hpBaseSpriteData_.textureBase);
-	JSON_SAVE(hpBaseSpriteData_.order);
-
-	JSON_ROOT();*/
+	JSON_OBJECT("hpBaseSpriteData_");
+	hpBaseSpriteData_.Save();
+	JSON_ROOT();
 #pragma endregion
 #pragma region 復讐ゲージ
 	// 棒
 	JSON_OBJECT("revengeBarGageData_");
-	JSON_SAVE(revengeBarGageData_.scale);
-	JSON_SAVE(revengeBarGageData_.position);
-	JSON_SAVE(revengeBarGageData_.rotate);
-	JSON_SAVE(revengeBarGageData_.color);
-	JSON_SAVE(revengeBarGageData_.textureSize);
-	JSON_SAVE(revengeBarGageData_.textureBase);
-	JSON_SAVE(revengeBarGageData_.order);
-
+	revengeBarGageData_.Save();
+	JSON_ROOT();
+	// 棒
+	JSON_OBJECT("revengeBarGageBaseData_");
+	revengeBarGageBaseData_.Save();
 	JSON_ROOT();
 	// 円
 	JSON_OBJECT("revengeCircleGageData_");
-	JSON_SAVE(revengeCircleGageData_.scale);
-	JSON_SAVE(revengeCircleGageData_.position);
-	JSON_SAVE(revengeCircleGageData_.rotate);
-	JSON_SAVE(revengeCircleGageData_.color);
-	JSON_SAVE(revengeCircleGageData_.textureSize);
-	JSON_SAVE(revengeCircleGageData_.textureBase);
-	JSON_SAVE(revengeCircleGageData_.order);
-
+	revengeCircleGageData_.Save();
+	JSON_ROOT();
+	// 円
+	JSON_OBJECT("revengeCircleGageBaseData_");
+	revengeCircleGageBaseData_.Save();
 	JSON_ROOT();
 #pragma endregion
 	JSON_CLOSE();
@@ -278,4 +206,24 @@ void PlayerUI::DrawImGui(SpriteData& spriteData, std::string string, Sprite* spr
 
 		ImGui::TreePop();
 	}
+}
+
+void PlayerUI::SpriteData::Load() {
+	JSON_LOAD(scale);
+	JSON_LOAD(position);
+	JSON_LOAD(rotate);
+	JSON_LOAD(color);
+	JSON_LOAD(textureSize);
+	JSON_LOAD(textureBase);
+	JSON_LOAD(order);
+}
+
+void PlayerUI::SpriteData::Save() {
+	JSON_SAVE(scale);
+	JSON_SAVE(position);
+	JSON_SAVE(rotate);
+	JSON_SAVE(color);
+	JSON_SAVE(textureSize);
+	JSON_SAVE(textureBase);
+	JSON_SAVE(order);
 }

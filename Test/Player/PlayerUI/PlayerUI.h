@@ -19,6 +19,9 @@ private:
 		Vector2 textureSize;
 		Vector2 textureBase;
 		int order;
+
+		void Load();
+		void Save();
 	};
 public:
 	void Initialize();
@@ -32,7 +35,7 @@ private:
 
 	void LoadJson();
 	void SaveJson();
-	std::unique_ptr<Sprite> CreateSprite(const SpriteData& spriteData,std::string spriteName);
+	std::unique_ptr<Sprite> CreateSprite(const SpriteData& spriteData, std::string spriteName);
 	void DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite);
 
 	PlayerHP* playerHP_;
@@ -43,8 +46,8 @@ private:
 	std::array<SpriteData, PlayerHP::kMaxHP> hpSpriteData_;
 	Vector2 hpCenter_;
 	// HPのBase
-	/*std::unique_ptr<Sprite> hpBaseSprit_;
-	SpriteData hpBaseSpriteData_;*/
+	std::unique_ptr<Sprite> hpBaseSprit_;
+	SpriteData hpBaseSpriteData_;
 #pragma endregion
 #pragma region 復讐ゲージ
 	// 棒のとこ
@@ -52,7 +55,7 @@ private:
 	SpriteData revengeBarGageData_;
 	// Base
 	std::unique_ptr<Sprite> revengeBarGageBase_;
-	SpriteData revengeBarBaseGageBaseData_;
+	SpriteData revengeBarGageBaseData_;
 
 	// 円のとこ
 	std::unique_ptr<Sprite> revengeCircleGage_;
