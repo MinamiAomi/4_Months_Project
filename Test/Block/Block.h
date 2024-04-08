@@ -1,8 +1,10 @@
 #pragma once
+#include "Collision/GameObject.h"
+
 #include <memory>
 #include <string>
 
-#include "Collision/GameObject.h"
+#include "Collision/Collider.h"
 #include "Graphics/Model.h"
 #include "Engine/Math/MathUtils.h"
 
@@ -19,9 +21,17 @@ public:
 	const Vector3& GetRotate() { return rotate_; }
 	const Vector3& GetPosition() { return transform.translate; }
 private:
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
+
 	static const std::string kModelName;
 
 	std::unique_ptr<ModelInstance> model_;
 
+	std::unique_ptr<BoxCollider> collider_;
+
 	Vector3 rotate_;
+
+	bool onPlayer_;
+	bool onceOnPlayer_;
 };

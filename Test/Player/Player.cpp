@@ -17,7 +17,7 @@ void Player::Initialize() {
 	playerHP_ = std::make_unique<PlayerHP>();
 	playerUI_ = std::make_unique<PlayerUI>();
 	playerRevengeGage_ = std::make_unique<PlayerRevengeGage>();
-	
+
 	bulletManager_ = std::make_unique<BulletManager>();
 
 	playerHP_->Initialize();
@@ -25,7 +25,7 @@ void Player::Initialize() {
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->Initialize();
 	playerRevengeGage_->Initialize();
-	
+
 	bulletManager_->Initialize();
 
 	transform.translate = { 0.0f,0.0f,-50.0f };
@@ -68,7 +68,7 @@ void Player::Initialize() {
 void Player::Update() {
 	// 移動
 	Move();
-	
+
 	// ジャンプ
 	Jump();
 
@@ -108,13 +108,13 @@ void Player::Update() {
 
 	// 弾アップデート
 	bulletManager_->Update(transform.worldMatrix.GetTranslate());
-	
+
 	//playerModel_.Update();
 }
 
 void Player::Reset() {
 	transform.translate = { 0.0f,0.0f,-50.0f };
-	transform.rotate = Quaternion::identity;	
+	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 	onGround_ = true;
 	canSecondJump_ = true;
@@ -143,6 +143,29 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 				playerHP_->AddHP(-1);
 			}
 		}
+	}
+	else if (collisionInfo.collider->GetName() == "Block") {
+		// ワールド空間の押し出しベクトル
+		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
+		auto parent = transform.GetParent();
+		if (parent) {
+			pushVector = parent->rotate.Inverse() * pushVector;
+		}
+		transform.translate += pushVector;
+		// 上から乗ったら
+		if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
+			transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y;
+			acceleration_.y = 0.0f;
+			velocity_.y = 0.0f;
+			onGround_ = true;
+			canSecondJump_ = true;
+		}
+
+		UpdateTransform();
+		//const GameObject* nextParent = collisionInfo.collider->GetGameObject();
+		//if (nextParent) {
+		//	transform.SetParent(&nextParent->transform);
+		//}
 	}
 
 }
@@ -231,11 +254,11 @@ void Player::Jump() {
 
 void Player::Invincible() {
 	if (invincibleTime_ > 0) {
-		model_->SetColor({1.0f,0.0f,0.0f});
+		model_->SetColor({ 1.0f,0.0f,0.0f });
 		invincibleTime_--;
 	}
 	else {
-		model_->SetColor({1.0f,1.0f,1.0f});
+		model_->SetColor({ 1.0f,1.0f,1.0f });
 	}
 }
 
