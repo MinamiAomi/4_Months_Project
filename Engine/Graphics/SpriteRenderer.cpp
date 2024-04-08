@@ -94,7 +94,7 @@ void SpriteRenderer::Render(CommandContext& commandContext, float left, float to
 
     auto& instanceList = Sprite::instanceList_;
     // 描画順並べる
-    instanceList.sort([](Sprite* a, Sprite* b) { return a->GetDrawOrder() < b->GetDrawOrder(); });
+    instanceList.sort([](Sprite* a, Sprite* b) { return a->GetDrawOrder() > b->GetDrawOrder(); });
 
     for (auto instance : instanceList) {
         if (instance->isActive_) {

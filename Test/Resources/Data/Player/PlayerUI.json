@@ -1,139 +1,208 @@
 {
     "hpBaseSpriteData_": {
-        "hpBaseSpriteData_.color": [
+        "color": [
             1.0,
             1.0,
             1.0,
             1.0
         ],
-        "hpBaseSpriteData_.order": 1,
-        "hpBaseSpriteData_.position": [
+        "order": 1,
+        "position": [
             100.0,
             150.0
         ],
-        "hpBaseSpriteData_.rotate": 0.0,
-        "hpBaseSpriteData_.scale": [
+        "rotate": 0.0,
+        "scale": [
             80.0,
             80.0
         ],
-        "hpBaseSpriteData_.textureBase": [
+        "textureBase": [
             0.0,
             0.0
         ],
-        "hpBaseSpriteData_.textureSize": [
+        "textureSize": [
             64.0,
             64.0
         ]
     },
-    "hpSpriteData_": {
-        "hpSpriteData_.at(0).order": 0,
-        "hpSpriteData_.at(0).position": [
-            100.0,
-            150.0
-        ],
-        "hpSpriteData_.at(0).rotate": -3.0999999046325684,
-        "hpSpriteData_.at(0).scale": [
-            80.0,
-            80.0
-        ],
-        "hpSpriteData_.at(0).textureBase": [
-            0.0,
-            0.0
-        ],
-        "hpSpriteData_.at(0).textureSize": [
-            64.0,
-            64.0
-        ],
-        "hpSpriteData_.at(1).order": 0,
-        "hpSpriteData_.at(1).position": [
-            100.0,
-            150.0
-        ],
-        "hpSpriteData_.at(1).rotate": 1.0499999523162842,
-        "hpSpriteData_.at(1).scale": [
-            80.0,
-            80.0
-        ],
-        "hpSpriteData_.at(1).textureBase": [
-            0.0,
-            0.0
-        ],
-        "hpSpriteData_.at(1).textureSize": [
-            64.0,
-            64.0
-        ],
-        "hpSpriteData_.at(2).order": 0,
-        "hpSpriteData_.at(2).position": [
-            100.0,
-            150.0
-        ],
-        "hpSpriteData_.at(2).rotate": -1.100000023841858,
-        "hpSpriteData_.at(2).scale": [
-            80.0,
-            80.0
-        ],
-        "hpSpriteData_.at(2).textureBase": [
-            0.0,
-            0.0
-        ],
-        "hpSpriteData_.at(2).textureSize": [
-            64.0,
-            64.0
-        ]
-    },
-    "hpSpriteData_0": {},
-    "hpSpriteData_1": {},
-    "hpSpriteData_2": {},
-    "revengeBarGageBaseData_": {},
-    "revengeBarGageData_": {
-        "revengeBarGageData_.color": [
+    "hpSpriteData_0": {
+        "color": [
             1.0,
             1.0,
             1.0,
             1.0
         ],
-        "revengeBarGageData_.order": 0,
-        "revengeBarGageData_.position": [
+        "order": 0,
+        "position": [
+            100.0,
+            150.0
+        ],
+        "rotate": -3.0999999046325684,
+        "scale": [
+            80.0,
+            80.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            64.0,
+            64.0
+        ]
+    },
+    "hpSpriteData_1": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            100.0,
+            150.0
+        ],
+        "rotate": 1.0,
+        "scale": [
+            80.0,
+            80.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            64.0,
+            64.0
+        ]
+    },
+    "hpSpriteData_2": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            100.0,
+            150.0
+        ],
+        "rotate": -1.100000023841858,
+        "scale": [
+            80.0,
+            80.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            64.0,
+            64.0
+        ]
+    },
+    "revengeBarGageBaseData_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 1,
+        "position": [
             1180.0,
             120.0
         ],
-        "revengeBarGageData_.rotate": 0.0,
-        "revengeBarGageData_.scale": [
+        "rotate": 0.0,
+        "scale": [
             64.0,
             200.0
         ],
-        "revengeBarGageData_.textureBase": [
+        "textureBase": [
             0.0,
             0.0
         ],
-        "revengeBarGageData_.textureSize": [
+        "textureSize": [
+            0.0,
+            0.0
+        ]
+    },
+    "revengeBarGageData_": {
+        "color": [
+            0.0,
+            1.0,
+            0.6000000238418579,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            1180.0,
+            120.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            64.0,
+            200.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
             2.0,
             2.0
         ]
     },
-    "revengeCircleGageBaseData_": {},
-    "revengeCircleGageData_": {
-        "revengeCircleGageData_.color": [
+    "revengeCircleGageBaseData_": {
+        "color": [
             1.0,
             1.0,
             1.0,
             1.0
         ],
-        "revengeCircleGageData_.order": 0,
-        "revengeCircleGageData_.position": [
+        "order": 1,
+        "position": [
             1180.0,
             270.0
         ],
-        "revengeCircleGageData_.rotate": 0.0,
-        "revengeCircleGageData_.scale": [
+        "rotate": 0.0,
+        "scale": [
             100.0,
             100.0
         ],
-        "revengeCircleGageData_.textureBase": [
+        "textureBase": [
             0.0,
             0.0
         ],
-        "revengeCircleGageData_.textureSize": [
+        "textureSize": [
+            64.0,
+            64.0
+        ]
+    },
+    "revengeCircleGageData_": {
+        "color": [
+            0.0,
+            1.0,
+            0.6000000238418579,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            1180.0,
+            270.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            100.0,
+            100.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
             64.0,
             64.0
         ]
