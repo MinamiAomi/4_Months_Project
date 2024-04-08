@@ -98,9 +98,9 @@ void LightingRenderingPass::Render(CommandContext& commandContext, GeometryRende
     SceneData sceneData;
     sceneData.viewProjectionInverseMatrix = camera.GetViewProjectionMatrix().Inverse();
     sceneData.cameraPosition = camera.GetPosition();
-    sceneData.numDirectionalLights = (uint32_t)light.GetDirectionalLight().size();
-    sceneData.numPointLights = (uint32_t)light.GetPointLight().size();
-    sceneData.numLineLights = (uint32_t)light.GetLineLight().size();
+    sceneData.numDirectionalLights = light.GetDirectionalLight().size();
+    sceneData.numPointLights = light.GetPointLight().size();
+    sceneData.numLineLights = light.GetLineLight().size();
     commandContext.SetDynamicConstantBufferView(RootIndex::Scene, sizeof(sceneData), &sceneData);
     commandContext.SetDescriptorTable(RootIndex::Albedo, geometryRenderingPass.GetAlbedo().GetSRV());
     commandContext.SetDescriptorTable(RootIndex::MetallicRoughness, geometryRenderingPass.GetMetallicRoughness().GetSRV());
