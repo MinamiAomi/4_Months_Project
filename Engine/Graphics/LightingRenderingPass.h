@@ -19,13 +19,16 @@ public:
             MetallicRoughness,
             Normal,
             Depth,
+            DirectionalLights,
+            PointLights,
+            LineLights,
 
             NumRootParameters
         };
     };
 
     void Initialize(uint32_t width, uint32_t height);
-    void Render(CommandContext& commandContext, GeometryRenderingPass& geometryRenderingPass, const Camera& camera, const DirectionalLight& light);
+    void Render(CommandContext& commandContext, GeometryRenderingPass& geometryRenderingPass, const Camera& camera, const LightManager& light);
 
     ColorBuffer& GetResult() { return result_; }
 

@@ -14,7 +14,6 @@ void TitleScene::OnInitialize() {
     camera_->SetRotate(Quaternion::MakeLookRotation(-camera_->GetPosition()));
 
     sunLight_ = std::make_shared<DirectionalLight>();
-    RenderManager::GetInstance()->SetSunLight(sunLight_);
     sunLight_->direction = Vector3(0.0f, -1.0f, 1.0f).Normalized();
 
     titleObject_ = std::make_shared<TitleObject>();
@@ -30,6 +29,7 @@ void TitleScene::OnInitialize() {
 }
 
 void TitleScene::OnUpdate() {
+    RenderManager::GetInstance()->GetLightManager().Add(sunLight_);
 
     time_ += 1.0f / cycle_;
     if (time_ > 1.0f) { time_ -= 1.0f; }

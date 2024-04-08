@@ -15,10 +15,13 @@ void GameScene::OnInitialize() {
 	blockManager_ = std::make_unique<BlockManager>();
 	editorManager_ = std::make_unique<EditorManager>();
 
-	player_ = std::make_unique<Player>();
-	
-	RenderManager::GetInstance()->SetSunLight(directionalLight_);
 
+	player_ = std::make_unique<Player>();
+
+	skydome_ = std::make_unique<Skydome>();
+
+	skydome_->Initialize(player_.get());
+	
 	cameraManager_->Initialize(player_.get());
 
 	editorManager_->Initialize(blockManager_.get());
@@ -41,6 +44,7 @@ void GameScene::OnUpdate() {
 	editorManager_->Update();
 
 	player_->Update();
+	skydome_->Update();
 	for (int i = 0; auto & floor : floor_) {
 		floor->Update();
 		int playerNum = static_cast<int>(player_->transform.translate.z / floor->GetZLength());
@@ -63,6 +67,7 @@ void GameScene::OnUpdate() {
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
 	//}
+	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
 
 void GameScene::OnFinalize() {}

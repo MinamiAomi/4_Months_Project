@@ -11,7 +11,6 @@ void SponzaScene::OnInitialize() {
     debugCamera_->Initialize();
 
     sunLight_ = std::make_shared<DirectionalLight>();
-    RenderManager::GetInstance()->SetSunLight(sunLight_);
     sunLight_->direction = Vector3(0.1f, -1.0f, 0.1f).Normalized();
 
     testObjects_.emplace_back(std::make_shared<TestObject>());
@@ -87,6 +86,7 @@ void SponzaScene::OnUpdate() {
 #endif // ENABLE_IMGUI
 
     ParticleManager::GetInstance()->Update();
+    RenderManager::GetInstance()->GetLightManager().Add(sunLight_);
 }
 
 void SponzaScene::OnFinalize() {
