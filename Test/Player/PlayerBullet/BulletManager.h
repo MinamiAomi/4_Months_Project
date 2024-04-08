@@ -8,7 +8,7 @@
 
 class BulletManager {
 public:
-	static const uint32_t kMaxBullet = 20;
+	static const uint32_t kMaxBullet = 3;
 
 	void Initialize();
 	void Update(const Vector3& pos);
