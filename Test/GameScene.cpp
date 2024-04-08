@@ -67,10 +67,22 @@ void GameScene::OnUpdate() {
 
 	cameraManager_->Update();
 #ifdef _DEBUG
-	if (ImGui::Checkbox("Move", &isMove_)) {
-		cameraManager_->SetIsMove(isMove_);
-		boss_->SetIsMove(isMove_);
+	if (Input::GetInstance()->IsKeyTrigger(DIK_TAB)) {
+		if (isMove_) {
+			cameraManager_->SetState(CameraManager::State::kDebugCamera);
+			isMove_ = false;
+		}
+		else {
+			cameraManager_->SetState(CameraManager::State::kStageCamera);
+			isMove_ = true;
+		}
 	}
+	if (ImGui::Checkbox("Move", &isMove_)) {
+		boss_->SetIsMove(isMove_);
+		cameraManager_->SetIsMove(isMove_);
+	}
+	boss_->SetIsMove(isMove_);
+	cameraManager_->SetIsMove(isMove_);
 	if (ImGui::BeginMenu("CharacterState")) {
 		const char* items[] = { "Chase", "RunAway" };
 		static int selectedItem = static_cast<int>(characterState_);
@@ -95,6 +107,7 @@ void GameScene::OnUpdate() {
 		player_->Reset();
 		cameraManager_->Reset();
 		boss_->Reset();
+		blockManager_->Reset(0);
 		for (uint32_t i = 0; auto & floor : floor_) {
 			floor->SetLocalPos({ 0.0f,0.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
 			i++;

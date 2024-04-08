@@ -18,6 +18,11 @@ void BlockManager::Update() {
 	}
 }
 
+void BlockManager::Reset(uint32_t stageIndex) {
+	Clear();
+	LoadJson(stageIndex);
+}
+
 void BlockManager::Create(const Vector3& scale, const Vector3& rotate, const Vector3& position) {
 	Block* block = new Block();
 	block->Initialize(scale, rotate, position);

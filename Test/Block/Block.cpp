@@ -5,7 +5,7 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string Block::kModelName = "box";
+const std::string Block::kModelName = "block";
 
 void Block::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos) {
 	model_ = std::make_unique<ModelInstance>();
@@ -54,6 +54,7 @@ void Block::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
+	collider_->SetSize(scale);
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }

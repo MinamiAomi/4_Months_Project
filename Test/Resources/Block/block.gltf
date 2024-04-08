@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.44",
+		"generator":"Khronos glTF Blender I/O v4.0.43",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u7acb\u65b9\u4f53.003"
+			"name":"\u7acb\u65b9\u4f53.006"
 		}
 	],
 	"materials":[
@@ -33,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.071",
+			"name":"\u7acb\u65b9\u4f53.005",
 			"primitives":[
 				{
 					"attributes":{
@@ -65,73 +65,73 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":96,
+			"count":2576,
 			"max":[
-				1,
-				1,
-				1
+				0.49002373218536377,
+				0.5141708850860596,
+				0.5126945972442627
 			],
 			"min":[
-				-1,
-				-1,
-				-1
+				-0.509976327419281,
+				-0.48582908511161804,
+				-0.4873054027557373
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":96,
+			"count":2576,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":96,
+			"count":2576,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":96,
+			"count":2576,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":132,
+			"count":3876,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1152,
+			"byteLength":30912,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1152,
-			"byteOffset":1152,
+			"byteLength":30912,
+			"byteOffset":30912,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":768,
-			"byteOffset":2304,
+			"byteLength":20608,
+			"byteOffset":61824,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1536,
-			"byteOffset":3072,
+			"byteLength":41216,
+			"byteOffset":82432,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":264,
-			"byteOffset":4608,
+			"byteLength":7752,
+			"byteOffset":123648,
 			"target":34963
 		}
 	],
@@ -143,7 +143,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":4872,
+			"byteLength":131400,
 			"uri":"block.bin"
 		}
 	]

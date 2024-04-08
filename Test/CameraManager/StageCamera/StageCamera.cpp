@@ -68,7 +68,9 @@ void StageCamera::Update() {
 		case Character::State::kChase:
 		{
 			ImGui::DragFloat3("cameraVelocity", &cameraParam_.at(Character::State::kChase).cameraVelocity.x, 0.1f);
+			Vector3 pos = transform.translate - cameraParam_.at(Character::State::kChase).offset;
 			ImGui::DragFloat3("offset", &cameraParam_.at(Character::State::kChase).offset.x, 0.1f);
+			transform.translate = pos - cameraParam_.at(Character::State::kChase).offset;
 			ImGui::DragFloat3("eulerAngle", &cameraParam_.at(Character::State::kChase).eulerAngle.x, 0.1f);
 
 		}
@@ -76,7 +78,9 @@ void StageCamera::Update() {
 		case Character::State::kRunAway:
 		{
 			ImGui::DragFloat3("cameraVelocity", &cameraParam_.at(Character::State::kRunAway).cameraVelocity.x, 0.1f);
+			Vector3 pos = transform.translate - cameraParam_.at(Character::State::kRunAway).offset;
 			ImGui::DragFloat3("offset", &cameraParam_.at(Character::State::kRunAway).offset.x, 0.1f);
+			transform.translate = pos - cameraParam_.at(Character::State::kRunAway).offset;
 			ImGui::DragFloat3("eulerAngle", &cameraParam_.at(Character::State::kRunAway).eulerAngle.x, 0.1f);
 		}
 		break;

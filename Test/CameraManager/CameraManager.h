@@ -22,6 +22,7 @@ public:
 	void SetIsMove(bool flag);
 
 	const StageCamera* GetStageCamera() { return stageCamera_.get(); }
+	void SetState(State state) { state_ = state; }
 	//const std::shared_ptr<Camera>& GetCamera() const;
 private:
 	std::unique_ptr<DebugCamera> debugCamera_;

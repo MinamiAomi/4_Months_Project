@@ -9,6 +9,7 @@ class BlockManager {
 public:
 	void Initialize(uint32_t stageIndex);
 	void Update();
+	void Reset(uint32_t stageIndex);
 
 	void Create(const Vector3& scale, const Vector3& rotate, const Vector3& position);
 

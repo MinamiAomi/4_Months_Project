@@ -12,7 +12,7 @@
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/ResourceManager.h"
 #include "Externals/ImGui/imgui.h"
-const std::string BlockEditor::kModelName = "box";
+const std::string BlockEditor::kModelName = "block";
 
 void BlockEditor::Initialize() {
 	fileName_ = "Block";
