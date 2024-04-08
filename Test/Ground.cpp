@@ -9,7 +9,6 @@ void Ground::Initialize() {
     model_ = std::make_unique<ModelInstance>();
     skydomeModel_ = std::make_unique<ModelInstance>();
     sunLight_ = std::make_shared<DirectionalLight>();
-    RenderManager::GetInstance()->SetSunLight(sunLight_);
     sunLight_->direction = Vector3(0.0f, -1.0f, -1.0f).Normalized();
 
     model_->SetModel(ResourceManager::GetInstance()->FindModel("Floor"));
@@ -36,4 +35,5 @@ void Ground::Update() {
         ImGui::TreePop();
     }
 #endif // ENABLE_IMGUI
+    RenderManager::GetInstance()->GetLightManager().Add(sunLight_);
 }

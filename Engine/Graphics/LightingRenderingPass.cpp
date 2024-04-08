@@ -107,9 +107,27 @@ void LightingRenderingPass::Render(CommandContext& commandContext, GeometryRende
     commandContext.SetDescriptorTable(RootIndex::Normal, geometryRenderingPass.GetNormal().GetSRV());
     commandContext.SetDescriptorTable(RootIndex::Depth, geometryRenderingPass.GetDepth().GetSRV());
 
-    commandContext.SetDynamicShaderResourceView(RootIndex::DirectionalLights, sizeof(DirectionalLight) * sceneData.numDirectionalLights, light.GetDirectionalLight().data());
-    commandContext.SetDynamicShaderResourceView(RootIndex::PointLights, sizeof(PointLight) * sceneData.numPointLights, light.GetPointLight().data());
-    commandContext.SetDynamicShaderResourceView(RootIndex::LineLights, sizeof(LineLight) * sceneData.numLineLights, light.GetLineLight().data());
+    if (light.GetDirectionalLight().empty()) {
+        DirectionalLight temp;
+        commandContext.SetDynamicShaderResourceView(RootIndex::DirectionalLights, sizeof(DirectionalLight), &temp);
+    }
+    else {
+        commandContext.SetDynamicShaderResourceView(RootIndex::DirectionalLights, sizeof(DirectionalLight) * sceneData.numDirectionalLights, light.GetDirectionalLight().data());
+    }
+    if (light.GetPointLight().empty()) {
+        PointLight temp;
+        commandContext.SetDynamicShaderResourceView(RootIndex::PointLights, sizeof(PointLight), &temp);
+    }
+    else {
+        commandContext.SetDynamicShaderResourceView(RootIndex::PointLights, sizeof(PointLight) * sceneData.numPointLights, light.GetPointLight().data());
+    }
+    if (light.GetLineLight().empty()) {
+        LineLight temp;
+        commandContext.SetDynamicShaderResourceView(RootIndex::LineLights, sizeof(LineLight), &temp);
+    }
+    else {
+        commandContext.SetDynamicShaderResourceView(RootIndex::LineLights, sizeof(LineLight) * sceneData.numLineLights, light.GetLineLight().data());
+    }
 
     commandContext.Draw(3);
 }

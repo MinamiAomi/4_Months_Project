@@ -214,15 +214,16 @@ PSOutput main(PSInput input) {
     //}
     
     float3 color = 0.0f;
-    for (uint i = 0; i < g_Scene.numDirectionalLights; ++i) {
+    uint i = 0;
+    for (i = 0; i < g_Scene.numDirectionalLights; ++i) {
         color += ShadeDirectionalLight(g_DirectionalLight[i]);
     }
     
-    for (uint i = 0; i < g_Scene.numPointLights; ++i) {
+    for (i = 0; i < g_Scene.numPointLights; ++i) {
         color += ShadePointLight(g_PointLight[i]);
     }
     
-    for (uint i = 0; i < g_Scene.numLineLights; ++i) {
+    for (i = 0; i < g_Scene.numLineLights; ++i) {
         color += ShadeLineLight(g_LineLight[i]);
     }
     

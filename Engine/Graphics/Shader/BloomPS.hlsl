@@ -1,4 +1,4 @@
-s
+#define NUM_TEXTURES 4
 
 Texture2D<float4> blurTexture0_ : register(t0);
 Texture2D<float4> blurTexture1_ : register(t1);
@@ -18,7 +18,7 @@ struct PSInput {
 
 struct PSOutput {
     float4 color : SV_TARGET0;
-};
+}; 
 
 PSOutput main(PSInput input) {
     PSOutput output;

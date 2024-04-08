@@ -12,7 +12,6 @@ void TestScene::OnInitialize() {
 
     sunLight_ = std::make_shared<DirectionalLight>();
     sunLight_->direction = Vector3(1.0f, -1.0f, 1.0f).Normalized();
-    RenderManager::GetInstance()->SetSunLight(sunLight_);
 
     testObject_.Initialize("pbr", {});
     testObject_.transform.rotate = Quaternion::MakeForXAxis(-90.0f * Math::ToRadian);
@@ -25,7 +24,6 @@ void TestScene::OnInitialize() {
 }
 
 void TestScene::OnUpdate() {
-
   
 
     Input* input = Input::GetInstance();
@@ -61,6 +59,7 @@ void TestScene::OnUpdate() {
 
     sunLight_->DrawImGui("SunLight");
     //testObject_.DrawImGui("Sphere");
+    RenderManager::GetInstance()->GetLightManager().Add(sunLight_);
 }
 
 void TestScene::OnFinalize() {

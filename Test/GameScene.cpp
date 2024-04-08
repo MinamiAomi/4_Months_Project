@@ -22,8 +22,6 @@ void GameScene::OnInitialize() {
 
 	skydome_->Initialize(player_.get());
 	
-	RenderManager::GetInstance()->SetSunLight(directionalLight_);
-
 	cameraManager_->Initialize(player_.get());
 
 	editorManager_->Initialize(blockManager_.get());
@@ -69,6 +67,7 @@ void GameScene::OnUpdate() {
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
 	//}
+	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
 
 void GameScene::OnFinalize() {}

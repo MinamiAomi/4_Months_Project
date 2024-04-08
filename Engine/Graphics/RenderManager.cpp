@@ -77,7 +77,7 @@ void RenderManager::Render() {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
-        lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, *lightManager_);
+        lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
     }
 
     bloom_.Render(commandContext_);
