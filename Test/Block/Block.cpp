@@ -42,7 +42,7 @@ void Block::Update() {
 		transform.translate.y > -transform.scale.y * 0.5f) {
 		transform.translate.y -= 0.05f;
 	}
-	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 0.5f);
+	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 1.0f);
 	UpdateTransform();
 	onPlayer_ = false;
 }
@@ -61,7 +61,7 @@ void Block::UpdateTransform() {
 
 void Block::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
-		if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
+		if (collisionInfo.normal.y == -1.0f) {
 			onPlayer_ = true;
 			onceOnPlayer_ = true;
 		}
