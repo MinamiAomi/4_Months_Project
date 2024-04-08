@@ -5,6 +5,8 @@ namespace Character {
         kChase,
         // ボスから逃げる
         kRunAway,
+
+        kCount,
     };
 }
 

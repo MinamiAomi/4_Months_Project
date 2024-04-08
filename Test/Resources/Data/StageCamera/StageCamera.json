@@ -1,19 +1,4 @@
 {
-    "StageCamera": {
-        "cameraVelocity_": [
-            0.0,
-            0.0,
-            -0.5
-        ],
-        "eulerAngle_": [
-            14.199999809265137,
-            0.0,
-            0.0
-        ],
-        "offset_": [
-            0.0,
-            22.0,
-            -70.0
-        ]
-    }
+    "cameraParam_0": {},
+    "cameraParam_1": {}
 }

@@ -103,7 +103,7 @@ void Player::Update() {
 		canSecondJump_ = true;
 	}
 	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
-	transform.translate.z = std::clamp(transform.translate.z, stageCamera_->transform.translate.z - limitLine_, boss_->transform.translate.z);
+	transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - limitLine_, boss_->transform.translate.z);
 	UpdateTransform();
 
 	// 弾アップデート

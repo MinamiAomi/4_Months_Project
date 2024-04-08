@@ -1,6 +1,5 @@
 #include "StageCamera.h"
 
-#include "CharacterState.h"
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
 #include "File/JsonHelper.h"
@@ -13,51 +12,84 @@ void StageCamera::Initialize() {
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 	transform.rotate = Quaternion::MakeForXAxis(10.0f * Math::ToRadian);
-	
+
 	isMove_ = true;
 #pragma region パラメーター
 	JSON_OPEN("Resources/Data/StageCamera/StageCamera.json");
-	JSON_OBJECT("StageCamera");
-	JSON_LOAD(offset_);
-	JSON_LOAD(eulerAngle_);
-	JSON_LOAD(cameraVelocity_);
+	for (uint32_t i = 0; i < cameraParam_.size(); i++) {
+		JSON_OBJECT("cameraParam_" + std::to_string(i));
+		cameraParam_.at(i).Load();
+		JSON_ROOT();
+	}
 	JSON_CLOSE();
 #pragma endregion
 }
 
 void StageCamera::Update() {
-	if (isMove_) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-		transform.translate -= cameraVelocity_;
+
+	switch (characterState_) {
+	case Character::State::kChase:
+	{
+		if (isMove_) {
+			transform.translate += cameraParam_.at(Character::State::kChase).cameraVelocity;
 		}
-			break;
-		case Character::State::kRunAway:
-		{
-		transform.translate += cameraVelocity_;
-		}
-			break;
-		default:
-			break;
-		}
+		camera_->SetPosition(
+			{
+			transform.translate.x + cameraParam_.at(Character::State::kChase).offset.x,
+			transform.translate.y + cameraParam_.at(Character::State::kChase).offset.y,
+			transform.translate.z + cameraParam_.at(Character::State::kChase).offset.z
+			});
+		camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kChase).eulerAngle * Math::ToRadian));
 	}
-	camera_->SetPosition({ transform.translate.x + offset_.x,transform.translate.y + offset_.y,transform.translate.z + offset_.z });
-	camera_->SetRotate(Quaternion::MakeFromEulerAngle(eulerAngle_ * Math::ToRadian));
+	break;
+	case Character::State::kRunAway:
+	{
+		if (isMove_) {
+			transform.translate -= cameraParam_.at(Character::State::kRunAway).cameraVelocity;
+		}
+		camera_->SetPosition(
+			{
+			transform.translate.x + cameraParam_.at(Character::State::kRunAway).offset.x,
+			transform.translate.y + cameraParam_.at(Character::State::kRunAway).offset.y,
+			transform.translate.z + cameraParam_.at(Character::State::kRunAway).offset.z
+			});
+		camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kRunAway).eulerAngle * Math::ToRadian));
+	}
+	break;
+	default:
+		break;
+	}
 	camera_->UpdateMatrices();
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("CameraManager")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
-		ImGui::DragFloat3("Offset", &offset_.x, 0.1f);
-		ImGui::DragFloat3("eulerAngle_", &eulerAngle_.x, 0.1f);
-		ImGui::DragFloat3("cameraVelocity_", &cameraVelocity_.x, 0.1f);
+		switch (characterState_) {
+		case Character::State::kChase:
+		{
+			ImGui::DragFloat3("cameraVelocity", &cameraParam_.at(Character::State::kChase).cameraVelocity.x, 0.1f);
+			ImGui::DragFloat3("offset", &cameraParam_.at(Character::State::kChase).offset.x, 0.1f);
+			ImGui::DragFloat3("eulerAngle", &cameraParam_.at(Character::State::kChase).eulerAngle.x, 0.1f);
+
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			ImGui::DragFloat3("cameraVelocity", &cameraParam_.at(Character::State::kRunAway).cameraVelocity.x, 0.1f);
+			ImGui::DragFloat3("offset", &cameraParam_.at(Character::State::kRunAway).offset.x, 0.1f);
+			ImGui::DragFloat3("eulerAngle", &cameraParam_.at(Character::State::kRunAway).eulerAngle.x, 0.1f);
+		}
+		break;
+		default:
+			break;
+		}
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/StageCamera/StageCamera.json");
-			JSON_OBJECT("StageCamera");
-			JSON_SAVE(offset_);
-			JSON_SAVE(eulerAngle_);
-			JSON_SAVE(cameraVelocity_);
+			for (uint32_t i = 0; i < cameraParam_.size(); i++) {
+				JSON_OBJECT("cameraParam_" + std::to_string(i));
+				cameraParam_.at(i).Save();
+				JSON_ROOT();
+			}
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
@@ -73,4 +105,16 @@ void StageCamera::SetRenderManager() {
 void StageCamera::Reset() {
 	transform.translate = Vector3::zero;
 	isMove_ = true;
+}
+
+void StageCamera::CameraParameter::Load() {
+	JSON_LOAD(offset);
+	JSON_LOAD(eulerAngle);
+	JSON_LOAD(cameraVelocity);
+}
+
+void StageCamera::CameraParameter::Save() {
+	JSON_SAVE(offset);
+	JSON_SAVE(eulerAngle);
+	JSON_SAVE(cameraVelocity);
 }
