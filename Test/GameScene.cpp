@@ -34,7 +34,7 @@ void GameScene::OnInitialize() {
 	for (uint32_t i = 0; auto & floor : floor_) {
 		floor = std::make_unique<Floor>();
 		floor->Initialize();
-		floor->SetLocalPos({ 0.0f,-2.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
+		floor->SetLocalPos({ 0.0f, 0.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
 		i++;
 	}
 }
@@ -96,7 +96,7 @@ void GameScene::OnUpdate() {
 		cameraManager_->Reset();
 		boss_->Reset();
 		for (uint32_t i = 0; auto & floor : floor_) {
-			floor->SetLocalPos({ 0.0f,-2.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
+			floor->SetLocalPos({ 0.0f,0.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
 			i++;
 		}
 	}

@@ -86,15 +86,10 @@ void Player::Update() {
 	// UIアップデート
 	playerUI_->Update();
 
-	// 地面についているとき
-	if (!onGround_) {
-		acceleration_.y += gravity_;
-	}
+	acceleration_.y += gravity_;
 	acceleration_.z *= 0.9f;
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
-	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
-
 	if (transform.translate.y < 0.0f) {
 		transform.translate.y = 0.0f;
 		acceleration_.y = 0.0f;
@@ -102,7 +97,8 @@ void Player::Update() {
 		onGround_ = true;
 		canSecondJump_ = true;
 	}
-	transform.translate.y = std::clamp(transform.translate.y, 0.0f, 100.0f);
+	transform.translate.x = std::clamp(transform.translate.x, -20.0f,20.0f);
+	transform.translate.y = std::max(transform.translate.y, 0.0f);
 	transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - limitLine_, boss_->transform.translate.z);
 	UpdateTransform();
 
@@ -154,7 +150,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		transform.translate += pushVector;
 		// 上から乗ったら
 		if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
-			transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y;
+			//transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y + collisionInfo.collider->GetGameObject()->transform.scale.y * 0.5f;
 			acceleration_.y = 0.0f;
 			velocity_.y = 0.0f;
 			onGround_ = true;

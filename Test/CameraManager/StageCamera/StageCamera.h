@@ -30,7 +30,8 @@ public:
 	void SetRenderManager();
 	void Reset();
 
-	void SetIsMove(bool flag) { isMove_ = flag; }
+	void SetIsMove(bool flag) { isMove_ = flag; } 
+
 private:
 	std::shared_ptr<Camera> camera_;
 	std::array<CameraParameter, Character::State::kCount> cameraParam_;

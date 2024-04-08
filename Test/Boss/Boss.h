@@ -23,6 +23,7 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 
 	Vector3 velocity_;
+	Vector3 offset_;
 
 	bool isMove_;
 };

@@ -40,9 +40,9 @@ void Block::Update() {
 	if (!onPlayer_ &&
 		onceOnPlayer_ &&
 		transform.translate.y > -transform.scale.y * 0.5f) {
-		transform.translate.y -= 0.5f;
+		transform.translate.y -= 0.05f;
 	}
-	transform.translate.y = std::clamp(transform.translate.y, -transform.scale.y * 0.5f, 1000.0f);
+	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 0.5f);
 	UpdateTransform();
 	onPlayer_ = false;
 }

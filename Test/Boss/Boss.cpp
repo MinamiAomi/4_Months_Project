@@ -7,11 +7,19 @@
 #include "Graphics/ImGuiManager.h"
 
 void Boss::Initialize() {
+#pragma region パラメーター
+	JSON_OPEN("Resources/Data/Boss/Boss.json");
+	JSON_OBJECT("Boss");
+	JSON_LOAD(velocity_);
+	JSON_LOAD(offset_);
+	JSON_CLOSE();
+#pragma endregion
+
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("boss"));
 	model_->SetIsActive(true);
 
-	transform.translate = { 0.0f,20.0f,100.0f };
+	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 10.0f,10.0f,10.0f };
 
@@ -28,12 +36,6 @@ void Boss::Initialize() {
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
 	collider_->SetIsActive(true);
 #pragma endregion
-#pragma region パラメーター
-	JSON_OPEN("Resources/Data/Boss/Boss.json");
-	JSON_OBJECT("Boss");
-	JSON_LOAD(velocity_);
-	JSON_CLOSE();
-#pragma endregion
 }
 
 void Boss::Update() {
@@ -42,10 +44,12 @@ void Boss::Update() {
 	if (ImGui::BeginMenu("Boss")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
 		ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
+		ImGui::DragFloat3("offset_", &offset_.x, 0.1f);
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
 			JSON_OBJECT("Boss");
 			JSON_SAVE(velocity_);
+			JSON_SAVE(offset_);
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
@@ -72,7 +76,7 @@ void Boss::Update() {
 }
 
 void Boss::Reset() {
-	transform.translate = { 0.0f,20.0f,100.0f };
+	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 10.0f,10.0f,10.0f };
 }
