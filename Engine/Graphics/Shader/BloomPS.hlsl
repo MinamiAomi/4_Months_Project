@@ -1,5 +1,4 @@
-
-#define NUM_TEXTURES 4
+s
 
 Texture2D<float4> blurTexture0_ : register(t0);
 Texture2D<float4> blurTexture1_ : register(t1);

@@ -38,9 +38,8 @@ public:
     void Render();
 
     void SetCamera(const std::shared_ptr<Camera>& camera) { camera_ = camera; }
-    void SetSunLight(const std::shared_ptr<DirectionalLight>& light) { sunLight_ = light; }
+    LightManager& GetLightManager() { return lightManager_; }
 
-    //LightManager& GetLightManager() { return lightManager_; }
     Transition& GetTransition() { return transition_; }
 
 private:
@@ -65,11 +64,10 @@ private:
     FXAA fxaa_;
     PostEffect postEffect_;
     ComputeShaderTester computeShaderTester_;
-    //LightManager lightManager_;
     
     Timer timer_;
     std::weak_ptr<const Camera> camera_;
-    std::weak_ptr<const DirectionalLight> sunLight_;
+    LightManager lightManager_;
 
     UINT64 frameCount_;
     bool raymarching_ = false;

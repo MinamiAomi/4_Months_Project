@@ -70,15 +70,14 @@ void RenderManager::Render() {
     uint32_t targetSwapChainBufferIndex = (swapChain_.GetCurrentBackBufferIndex() + 1) % SwapChain::kNumBuffers;
 
     auto camera = camera_.lock();
-    auto sunLight = sunLight_.lock();
 
     commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-    if (camera && sunLight) {
+    if (camera) {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
-        lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, *sunLight);
+        lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, *lightManager_);
     }
 
     bloom_.Render(commandContext_);
@@ -129,4 +128,6 @@ void RenderManager::Render() {
     timer_.KeepFrameRate(60);
 
     imguiManager->NewFrame();
+    // ライトをリセット
+    lightManager_.Reset();
 }
