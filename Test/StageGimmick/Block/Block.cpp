@@ -38,11 +38,10 @@ void Block::Initialize(const Vector3& scale, const Vector3& rotate, const Vector
 void Block::Update() {
 	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
 	if (!onPlayer_ &&
-		onceOnPlayer_ &&
-		transform.translate.y > -transform.scale.y * 0.5f) {
+		onceOnPlayer_) {
 		transform.translate.y -= 0.05f;
 	}
-	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 1.0f);
+	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
 	UpdateTransform();
 	onPlayer_ = false;
 }
