@@ -26,6 +26,7 @@ public:
 
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
+	const Vector3& GetVelocity() const { return velocity_; }
 
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }

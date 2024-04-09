@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 
+#include "Player/Player.h"
 #include "Block.h"
 
 class BlockManager {
@@ -13,6 +14,8 @@ public:
 
 	void Create(const Vector3& scale, const Vector3& rotate, const Vector3& position);
 
+	void SetPlayer(const Player* player) { player_ = player; }
+
 	const std::list<std::unique_ptr<Block>>& GetBlocks() const { return blocks_; }
 	void DeleteBlock(Block* block);
 
@@ -20,5 +23,6 @@ public:
 
 	void Clear();
 private:
+	const Player* player_;
 	std::list<std::unique_ptr<Block>> blocks_;
 };

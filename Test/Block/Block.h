@@ -7,6 +7,7 @@
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
 #include "Engine/Math/MathUtils.h"
+#include "Player/Player.h"
 
 class Block :
 	public GameObject {
@@ -14,6 +15,7 @@ public:
 	void Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos);
 	void Update();
 
+	void SetPlayer(const Player* player) { player_ = player; }
 	void SetScale(const Vector3& scale) { transform.scale = scale; }
 	void SetRotate(const Vector3& rotate) { rotate_= rotate; }
 	void SetPosition(const Vector3& pos) { transform.translate = pos; }
@@ -25,6 +27,8 @@ private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	static const std::string kModelName;
+
+	const Player* player_;
 
 	std::unique_ptr<ModelInstance> model_;
 

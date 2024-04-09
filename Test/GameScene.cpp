@@ -24,6 +24,7 @@ void GameScene::OnInitialize() {
 	cameraManager_->Initialize(player_.get());
 
 	editorManager_->Initialize(blockManager_.get());
+	blockManager_->SetPlayer(player_.get());
 	blockManager_->Initialize(0);
 
 	player_->SetBoss(boss_.get());

@@ -61,7 +61,9 @@ void Block::UpdateTransform() {
 
 void Block::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
-		if (collisionInfo.normal.y == -1.0f) {
+		// 落下しているとき
+		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f&&
+			player_->GetVelocity().y < 0.0f) {
 			onPlayer_ = true;
 			onceOnPlayer_ = true;
 		}
