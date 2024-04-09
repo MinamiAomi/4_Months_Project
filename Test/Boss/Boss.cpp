@@ -39,6 +39,7 @@ void Boss::Update() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
+		ImGui::DragFloat3("Scale", &transform.scale.x, 0.1f);
 		ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
 		ImGui::DragFloat3("offset_", &offset_.x, 0.1f);
 		if (ImGui::Button("Save")) {
@@ -74,7 +75,7 @@ void Boss::Update() {
 void Boss::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
-	transform.scale = {9.0f,9.0f,9.0f};
+	transform.scale = {15.0f,15.0f,15.0f};
 }
 
 void Boss::UpdateTransform() {
