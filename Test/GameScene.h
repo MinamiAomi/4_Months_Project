@@ -11,12 +11,12 @@
 #include "Math/Random.h"
 
 #include "StageGimmick/Block/BlockManager.h"
+#include "StageGimmick/Floor/FloorManager.h"
 #include "StageGimmick/FireBar/FireBarManager.h"
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
 #include "Editor/EditorManager.h"
-#include "Floor/floor.h"
 #include "Player/Player.h"
 
 class GameScene :
@@ -38,11 +38,11 @@ private:
 #pragma region ステージギミック
 	std::unique_ptr<BlockManager> blockManager_;
 	std::unique_ptr<FireBarManager> fireBarManager_;
+	std::unique_ptr<FloorManager> floorManager_;
 #pragma endregion
 
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Boss> boss_;
-	std::array<std::unique_ptr<Floor>, 2> floor_;
 #pragma endregion
 };

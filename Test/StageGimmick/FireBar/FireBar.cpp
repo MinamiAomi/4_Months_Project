@@ -22,6 +22,7 @@ void Center::Initialize(const Vector3& scale, const Vector3& rotate, const Vecto
 
 	onPlayer_ = false;
 	onceOnPlayer_ = false;
+	isDown_ = false;
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -40,11 +41,9 @@ void Center::Initialize(const Vector3& scale, const Vector3& rotate, const Vecto
 void Center::Update() {
 	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
 	if (!onPlayer_ &&
-		onceOnPlayer_ &&
-		transform.translate.y > -transform.scale.y * 0.5f) {
-		transform.translate.y -= 0.05f;
+		onceOnPlayer_) {
+		isDown_ = true;
 	}
-	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 1.0f);
 	// ブロックがおり切ったら
 	if (transform.translate.y == (-transform.scale.y * 0.5f) - 1.0f) {
 		collider_->SetIsActive(false);
@@ -113,6 +112,11 @@ void Bar::Update() {
 	UpdateTransform();
 }
 
+void Bar::SetIsActive(bool flag) {
+	collider_->SetIsActive(flag);
+	model_->SetIsActive(flag);
+}
+
 void Bar::UpdateTransform() {
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
@@ -126,14 +130,15 @@ void Bar::UpdateTransform() {
 }
 
 void Bar::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Player") {
-		// 落下しているとき
-		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-			player_->GetVelocity().y <= 0.0f) {
-			collider_->SetIsActive(false);
-			model_->SetIsActive(false);
-		}
-	}
+	collisionInfo;
+	//if (collisionInfo.collider->GetName() == "Player") {
+	//	// 落下しているとき
+	//	if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
+	//		player_->GetVelocity().y <= 0.0f) {
+	//		collider_->SetIsActive(false);
+	//		model_->SetIsActive(false);
+	//	}
+	//}
 }
 
 #pragma endregion
@@ -150,6 +155,14 @@ void FireBar::Initialize(const Vector3& pos, const Vector3& centerScale, const V
 }
 
 void FireBar::Update() {
+	if (center_->GetIsDown()) {
+		pos_.y -= 0.05f;
+	}
+	if (center_->GetOnceOnPlayer()) {
+		bar_->SetIsActive(false);
+	}
+	// -3.0fは床の高さ
+	pos_.y = std::max(pos_.y, -center_->GetScale().y - 3.0f);
 	center_->SetPosition(pos_);
 	bar_->SetPosition(pos_);
 	center_->Update();

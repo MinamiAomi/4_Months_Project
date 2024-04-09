@@ -2,17 +2,21 @@
 
 #include "StageGimmick/Block/BlockManager.h"
 #include "StageGimmick/FireBar/FireBarManager.h"
+#include "StageGimmick/Floor/FloorManager.h"
 #include "Externals/ImGui/imgui.h"
 
-void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor) {
+void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor) {
 	blockEditor_ = std::make_unique<BlockEditor>();
 	fireBarEditor_ = std::make_unique<FireBarEditor>();
+	floorEditor_ = std::make_unique<FloorEditor>();
 
 	blockEditor_->SetBlockManager(blockEditor);
 	fireBarEditor_->SetFireManager(fireBarEditor);
+	floorEditor_->SetFloorManager(floorEditor);
 
 	blockEditor_->Initialize();
 	fireBarEditor_->Initialize();
+	floorEditor_->Initialize();
 
 	stageIndex_ = 0;
 }
@@ -37,6 +41,7 @@ void EditorManager::Update() {
 		if (ImGui::Button("Save")) {
 			blockEditor_->SaveFile(stageIndex_);
 			fireBarEditor_->SaveFile(stageIndex_);
+			floorEditor_->SaveFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
@@ -61,10 +66,12 @@ void EditorManager::Update() {
 			fireBarEditor_->Clear();
 			blockEditor_->LoadFile(stageIndex_);
 			fireBarEditor_->LoadFile(stageIndex_);
+			floorEditor_->LoadFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
 	ImGui::End();
 	blockEditor_->Update();
 	fireBarEditor_->Update();
+	floorEditor_->Update();
 }

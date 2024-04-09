@@ -55,10 +55,10 @@ private:
 	Vector3 acceleration_;
 	Vector3 velocity_;
 	bool onGround_;
+	bool canFirstJump_;
 	bool canSecondJump_;
 	uint32_t invincibleTime_;
 #pragma region パラメーター
-	float defaultSpeed_;
 	float verticalSpeed_;
 	float horizontalSpeed_;
 	float jumpPower_;

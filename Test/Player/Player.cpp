@@ -13,7 +13,6 @@ void Player::Initialize() {
 #pragma region パラメーター
 	JSON_OPEN("Resources/Data/Player/Player.json");
 	JSON_OBJECT("Player");
-	JSON_LOAD(defaultSpeed_);
 	JSON_LOAD(verticalSpeed_);
 	JSON_LOAD(horizontalSpeed_);
 	JSON_LOAD(jumpPower_);
@@ -48,7 +47,8 @@ void Player::Initialize() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
-	onGround_ = true;
+
+	canFirstJump_ = true;
 	canSecondJump_ = true;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -93,15 +93,13 @@ void Player::Update() {
 	acceleration_.z *= 0.9f;
 	velocity_ += acceleration_;
 	transform.translate += velocity_;
-	if (transform.translate.y < 0.0f) {
-		transform.translate.y = 0.0f;
-		acceleration_.y = 0.0f;
-		velocity_.y = 0.0f;
-		onGround_ = true;
-		canSecondJump_ = true;
-	}
+
 	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
-	transform.translate.y = std::max(transform.translate.y, 0.0f);
+	transform.translate.y = std::max(transform.translate.y, -10.0f);
+	// 救済
+	if (transform.translate.y <= -10.0f) {
+		transform.translate.y = 0.0f;
+	}
 	switch (characterState_) {
 	case Character::kChase:
 	{
@@ -130,14 +128,15 @@ void Player::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
-	onGround_ = true;
+	canFirstJump_ = true;
 	canSecondJump_ = true;
+	velocity_ = Vector3::zero;
+	acceleration_ = Vector3::zero;
 	playerHP_->Reset();
 	playerRevengeGage_->Reset();
 }
 
 void Player::UpdateTransform() {
-
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;
@@ -159,7 +158,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||
-		collisionInfo.collider->GetName() == "FireBarCenter") {
+		collisionInfo.collider->GetName() == "FireBarCenter"||
+		collisionInfo.collider->GetName() == "Floor") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();
@@ -170,11 +170,11 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		// 上から乗ったら
 		if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
 			//transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y + collisionInfo.collider->GetGameObject()->transform.scale.y * 0.5f;
-			if (acceleration_.y < 0) {
+			if (acceleration_.y < 0.0f) {
 				acceleration_.y = 0.0f;
 			}
-			velocity_.y = 0.0f;
-			onGround_ = true;
+			//velocity_.y = 0.0f;
+			canFirstJump_ = true;
 			canSecondJump_ = true;
 		}
 
@@ -264,14 +264,16 @@ void Player::Move() {
 
 void Player::Jump() {
 	// ジャンプ
-	if (onGround_ &&
+	if (canFirstJump_ &&
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		acceleration_.y += jumpPower_;
+		canFirstJump_ = false;
+
 		onGround_ = false;
 	}
-	else if (!onGround_ &&
+	else if (!canFirstJump_ &&
 		canSecondJump_ &&
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
@@ -298,7 +300,7 @@ void Player::DebugParam() {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
 		ImGui::DragFloat3("offset_", &offset_.x);
 		ImGui::DragFloat3("velocity_", &velocity_.x);
-		ImGui::DragFloat("defaultSpeed_", &defaultSpeed_);
+		ImGui::DragFloat3("acceleration_", &acceleration_.x);
 		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
 		ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
 		ImGui::DragFloat("jumpPower_", &jumpPower_);
@@ -314,7 +316,6 @@ void Player::DebugParam() {
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Player/Player.json");
 			JSON_OBJECT("Player");
-			JSON_SAVE(defaultSpeed_);
 			JSON_SAVE(verticalSpeed_);
 			JSON_SAVE(horizontalSpeed_);
 			JSON_SAVE(jumpPower_);

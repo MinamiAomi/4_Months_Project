@@ -57,6 +57,8 @@ void FireBarEditor::Initialize() {
 void FireBarEditor::Update() {
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
+		center_->SetIsActive(true);
+		bar_->SetIsActive(true);
 		static bool isCollision = true;
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
@@ -76,12 +78,12 @@ void FireBarEditor::Update() {
 				barRotateVelocity = fireBar->GetBar()->GetRotateVelocity();
 				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &pos.x, 1.0f);
 				if (ImGui::TreeNode("Center")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &centerScale.x, 1.0f);
+					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &centerScale.x, 0.1f);
 					ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &centerRotate.x, 0.01f);
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Bar")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &barScale.x, 1.0f);
+					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &barScale.x, 0.1f);
 					ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &barRotate.x, 0.01f);
 					ImGui::DragFloat(("barRotateVelocity:" + std::to_string(i)).c_str(), &barRotateVelocity, 0.01f);
 					ImGui::TreePop();
@@ -126,6 +128,11 @@ void FireBarEditor::Update() {
 			isCreate_ = false;
 		}
 		ImGui::TreePop();
+	}
+	else {
+		center_->SetIsActive(false);
+		bar_->SetIsActive(false);
+		collider_->SetIsActive(false);
 	}
 	ImGui::End();
 	barTransform_.translate = transform.translate;

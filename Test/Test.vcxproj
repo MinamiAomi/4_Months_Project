@@ -28,7 +28,7 @@
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
     <ClCompile Include="Editor\EditorManager.cpp" />
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
-    <ClCompile Include="Floor\floor.cpp" />
+    <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
@@ -42,6 +42,8 @@
     <ClCompile Include="StageGimmick\Block\BlockManager.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBar.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBarManager.cpp" />
+    <ClCompile Include="StageGimmick\Floor\Floor.cpp" />
+    <ClCompile Include="StageGimmick\Floor\FloorManager.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -58,7 +60,7 @@
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
     <ClInclude Include="Editor\EditorManager.h" />
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
-    <ClInclude Include="Floor\floor.h" />
+    <ClInclude Include="Editor\FloorEditor\FloorEditor.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="PlayerModel.h" />
@@ -72,6 +74,8 @@
     <ClInclude Include="StageGimmick\Block\BlockManager.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBar.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBarManager.h" />
+    <ClInclude Include="StageGimmick\Floor\Floor.h" />
+    <ClInclude Include="StageGimmick\Floor\FloorManager.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />

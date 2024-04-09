@@ -16,6 +16,7 @@ void GameScene::OnInitialize() {
 
 	blockManager_ = std::make_unique<BlockManager>();
 	fireBarManager_ = std::make_unique<FireBarManager>();
+	floorManager_ = std::make_unique<FloorManager>();
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
@@ -24,24 +25,21 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
-	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get());
+	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get());
 	
 	blockManager_->SetPlayer(player_.get());
 	blockManager_->Initialize(0);
 	fireBarManager_->SetPlayer(player_.get());
 	fireBarManager_->Initialize(0);
+	floorManager_->SetPlayer(player_.get());
+	floorManager_->Initialize(0);
+
 
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
 	boss_->Initialize();
-	for (uint32_t i = 0; auto & floor : floor_) {
-		floor = std::make_unique<Floor>();
-		floor->Initialize();
-		floor->SetLocalPos({ 0.0f, 0.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
-		i++;
-	}
 }
 
 void GameScene::OnUpdate() {
@@ -49,24 +47,11 @@ void GameScene::OnUpdate() {
 
 	blockManager_->Update();
 	fireBarManager_->Update();
+	floorManager_->Update();
 	editorManager_->Update();
 
 	player_->Update();
 	boss_->Update();
-
-	for (int i = 0; auto & floor : floor_) {
-		floor->Update();
-		int playerNum = static_cast<int>(player_->transform.translate.z / floor->GetZLength());
-		float playerLocation = std::fmodf(player_->transform.translate.z, floor->GetZLength());
-		//playerがのっていない
-		if (std::abs(playerNum % 2) != i) {
-			//playerが半分より-であれば
-			if (playerLocation < (-floor->GetZLength() / 2.0f)) {
-				floor->transform.translate.z = (playerNum - 1) * floor->GetZLength() - floor->GetZLength() / 2.0f;
-			}
-		}
-		i++;
-	}
 
 	// 当たり判定を取る
 	CollisionManager::GetInstance()->CheckCollision();
@@ -117,10 +102,7 @@ void GameScene::OnUpdate() {
 		boss_->Reset();
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
-		for (uint32_t i = 0; auto & floor : floor_) {
-			floor->SetLocalPos({ 0.0f,0.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
-			i++;
-		}
+		floorManager_->Reset(0);
 	}
 #endif // _DEBUG
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);

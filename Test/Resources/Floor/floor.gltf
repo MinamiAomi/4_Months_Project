@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v4.0.44",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,12 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"yuka",
-			"translation":[
-				4.098783493041992,
-				-1.7212841510772705,
-				-6.017847061157227
-			]
+			"name":"yuka.001"
 		}
 	],
 	"materials":[
@@ -38,16 +33,15 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.031",
+			"name":"\u7acb\u65b9\u4f53.001",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
@@ -70,73 +64,61 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":11384,
+			"count":1813,
 			"max":[
-				31.297353744506836,
-				4.287924766540527,
-				530.7933349609375
+				7.459254264831543,
+				1.0000896453857422,
+				19.82461166381836
 			],
 			"min":[
-				-30.870258331298828,
-				-1.4161365032196045,
-				-529.8104248046875
+				-7.045081615447998,
+				-0.33072546124458313,
+				-19.742935180664062
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":11384,
+			"count":1813,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":11384,
+			"count":1813,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":11384,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":27648,
+			"count":4368,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":136608,
+			"byteLength":21756,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":136608,
-			"byteOffset":136608,
+			"byteLength":21756,
+			"byteOffset":21756,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":91072,
-			"byteOffset":273216,
+			"byteLength":14504,
+			"byteOffset":43512,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":182144,
-			"byteOffset":364288,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":55296,
-			"byteOffset":546432,
+			"byteLength":8736,
+			"byteOffset":58016,
 			"target":34963
 		}
 	],
@@ -148,7 +130,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":601728,
+			"byteLength":66752,
 			"uri":"floor.bin"
 		}
 	]

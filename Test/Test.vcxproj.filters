@@ -34,9 +34,6 @@
     <Filter Include="Game\Object\CameraManager\FollowCamera">
       <UniqueIdentifier>{2338eee5-95c1-4265-bf5c-f4bec2ab492f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Floor">
-      <UniqueIdentifier>{652cb754-13d6-4381-bcfc-9615d23b9246}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Object\Boss">
       <UniqueIdentifier>{3cd0faa8-3e04-4ea3-9dee-e9a59e9ca4e3}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,12 @@
     </Filter>
     <Filter Include="Game\Object\Editor\FireBarEditor">
       <UniqueIdentifier>{7988a3ee-460a-4653-a194-59ba892bcee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\StageGimmick\Floor">
+      <UniqueIdentifier>{d477cf61-46fd-4fd1-a47a-f3fe8eac677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Editor\FloorEditor">
+      <UniqueIdentifier>{2084eb1d-bd26-4274-a345-2e708c0ee742}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +109,6 @@
     <ClCompile Include="CameraManager\CameraManager.cpp">
       <Filter>Game\Object\CameraManager</Filter>
     </ClCompile>
-    <ClCompile Include="Floor\floor.cpp">
-      <Filter>Game\Object\Floor</Filter>
-    </ClCompile>
     <ClCompile Include="Boss\Boss.cpp">
       <Filter>Game\Object\Boss</Filter>
     </ClCompile>
@@ -142,7 +142,18 @@
     <ClCompile Include="StageGimmick\FireBar\FireBar.cpp">
       <Filter>Game\Object\StageGimmick\FireBar</Filter>
     </ClCompile>
-    <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
+    <ClCompile Include="StageGimmick\Floor\Floor.cpp">
+      <Filter>Game\Object\StageGimmick\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp">
+      <Filter>Game\Object\Editor\FireBarEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Floor\FloorManager.cpp">
+      <Filter>Game\Object\StageGimmick\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp">
+      <Filter>Game\Object\Editor\FloorEditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -184,9 +195,6 @@
     <ClInclude Include="CameraManager\CameraManager.h">
       <Filter>Game\Object\CameraManager</Filter>
     </ClInclude>
-    <ClInclude Include="Floor\floor.h">
-      <Filter>Game\Object\Floor</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionAttribute.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
@@ -225,6 +233,15 @@
     </ClInclude>
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h">
       <Filter>Game\Object\Editor\FireBarEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Floor\Floor.h">
+      <Filter>Game\Object\StageGimmick\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Floor\FloorManager.h">
+      <Filter>Game\Object\StageGimmick\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\FloorEditor\FloorEditor.h">
+      <Filter>Game\Object\Editor\FloorEditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

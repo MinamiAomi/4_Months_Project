@@ -24,6 +24,8 @@ public:
 	const Vector3& GetScale() { return transform.scale; }
 	const Vector3& GetRotate() { return rotate_; }
 	const Vector3& GetPosition() { return transform.translate; }
+	bool GetIsDown() { return isDown_; }
+	bool GetOnceOnPlayer() { return onceOnPlayer_; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
@@ -39,6 +41,8 @@ private:
 
 	bool onPlayer_;
 	bool onceOnPlayer_;
+
+	bool isDown_;
 };
 
 class Bar :
@@ -56,6 +60,7 @@ public:
 	const Vector3& GetRotate() { return rotate_; }
 	const Vector3& GetPosition() { return pos_; }
 	float GetRotateVelocity() { return rotateVelocity_; }
+	void SetIsActive(bool flag);
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);

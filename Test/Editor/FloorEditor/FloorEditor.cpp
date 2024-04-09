@@ -1,4 +1,4 @@
-#include "BlockEditor.h"
+#include "FloorEditor.h"
 
 #include <Windows.h>
 
@@ -14,10 +14,10 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string BlockEditor::kModelName = "block";
+const std::string FloorEditor::kModelName = "floor";
 
-void BlockEditor::Initialize() {
-	fileName_ = "Block";
+void FloorEditor::Initialize() {
+	fileName_ = "Floor";
 
 	model_ = std::make_unique<ModelInstance>();
 
@@ -25,7 +25,7 @@ void BlockEditor::Initialize() {
 
 	transform.scale = { 5.0f,5.0f,5.0f };
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
-	transform.translate = Vector3::zero;
+	transform.translate = {0.0f,-3.0f,0.0f};
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
@@ -33,44 +33,45 @@ void BlockEditor::Initialize() {
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
-	collider_->SetName("Block");
+	collider_->SetName("Floor");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize(transform.scale);
+	collider_->SetSize({ transform.scale.x * 8.0f,transform.scale.y,transform.scale.z * 40.0f });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::Block);
-	collider_->SetCollisionMask(~CollisionAttribute::Block);
+	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
+	collider_->SetCollisionMask(~CollisionAttribute::Floor);
 	collider_->SetIsActive(true);
 #pragma endregion
+
 }
 
-void BlockEditor::Update() {
+void FloorEditor::Update() {
 	ImGui::Begin("StageEditor");
-	if (ImGui::TreeNode("BlockEditor")) {
+	if (ImGui::TreeNode("FloorEditor")) {
 		model_->SetIsActive(true);
-		static bool isCollision = true;
+		static bool isCollision = false;
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
 		}
-		Vector3 blockScale{}, blockRotate{}, blockPos{};
-		for (uint32_t i = 0; auto & block : blockManager_->GetBlocks()) {
-			if (block.get() == nullptr) {
+		Vector3 floorScale{}, floorRotate{}, floorPos{};
+		for (uint32_t i = 0; auto & floor : floorManager_->GetFloors()) {
+			if (floor.get() == nullptr) {
 				continue;
 			}
-			if (ImGui::TreeNode(("Block:" + std::to_string(i)).c_str())) {
-				blockScale = block->GetScale();
-				blockRotate = block->GetRotate();
-				blockPos = block->GetPosition();
+			if (ImGui::TreeNode(("Floor:" + std::to_string(i)).c_str())) {
+				floorScale = floor->transform.scale;
+				floorRotate = floor->GetRotate();
+				floorPos = floor->GetPosition();
 
-				ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &blockScale.x, 0.1f);
-				ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &blockRotate.x, 0.01f);
-				ImGui::DragFloat3(("position:" + std::to_string(i)).c_str(), &blockPos.x, 1.0f);
+				ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &floorScale.x, 0.1f);
+				ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &floorRotate.x, 0.01f);
+				ImGui::DragFloat3(("position:" + std::to_string(i)).c_str(), &floorPos.x, 1.0f);
 
-				block->SetScale(blockScale);
-				block->SetRotate(blockRotate);
-				block->SetPosition(blockPos);
+				floor->SetScale(floorScale);
+				floor->SetRotate(floorRotate);
+				floor->SetPosition(floorPos);
 				if (ImGui::Button("Delete")) {
-					blockManager_->DeleteBlock(block.get());
+					floorManager_->DeleteFloor(floor.get());
 					ImGui::TreePop();
 					break;
 				}
@@ -85,7 +86,7 @@ void BlockEditor::Update() {
 			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
 			if (ImGui::Button("Create")) {
-				blockManager_->Create(transform.scale, rotate_, transform.translate);
+				floorManager_->Create(transform.scale, rotate_, transform.translate);
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
@@ -103,17 +104,17 @@ void BlockEditor::Update() {
 	UpdateTransform();
 }
 
-void BlockEditor::SaveFile(uint32_t stageName) {
+void FloorEditor::SaveFile(uint32_t stageName) {
 	nlohmann::json root;
 
 	root = nlohmann::json::object();
 
 	root[fileName_] = nlohmann::json::object();
 
-	for (size_t i = 0; auto & blockData : blockManager_->GetBlocks()) {
-		root[fileName_]["objectData"][("Block:" + std::to_string(i)).c_str()]["scale"] = nlohmann::json::array({ blockData->GetScale().x, blockData->GetScale().y, blockData->GetScale().z });
-		root[fileName_]["objectData"][("Block:" + std::to_string(i)).c_str()]["rotate"] = nlohmann::json::array({ blockData->GetRotate().x, blockData->GetRotate().y, blockData->GetRotate().z });
-		root[fileName_]["objectData"][("Block:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ blockData->GetPosition().x, blockData->GetPosition().y, blockData->GetPosition().z });
+	for (size_t i = 0; auto & floorData : floorManager_->GetFloors()) {
+		root[fileName_]["objectData"][("Floor:" + std::to_string(i)).c_str()]["scale"] = nlohmann::json::array({ floorData->GetScale().x, floorData->GetScale().y, floorData->GetScale().z });
+		root[fileName_]["objectData"][("Floor:" + std::to_string(i)).c_str()]["rotate"] = nlohmann::json::array({ floorData->GetRotate().x, floorData->GetRotate().y, floorData->GetRotate().z });
+		root[fileName_]["objectData"][("Floor:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ floorData->GetPosition().x, floorData->GetPosition().y, floorData->GetPosition().z });
 
 		i++;
 	}
@@ -137,7 +138,7 @@ void BlockEditor::SaveFile(uint32_t stageName) {
 	file.close();
 }
 
-void BlockEditor::LoadFile(uint32_t stageName) {
+void FloorEditor::LoadFile(uint32_t stageName) {
 	const std::filesystem::path kDirectoryPath = "Resources/Data/" + fileName_ + "/" + std::to_string(stageName);
 	//読み込むJSONファイルのフルパスを合成する
 	std::string filePath = kDirectoryPath.string() + ".json";
@@ -229,29 +230,29 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 
 				// 生成
 				for (size_t i = 0; i < pos.size(); i++) {
-					blockManager_->Create(scale.at(i), rotate.at(i), pos.at(i));
+					floorManager_->Create(scale.at(i), rotate.at(i), pos.at(i));
 				}
 			}
 		}
 	}
 }
 
-void BlockEditor::Clear() {
-	blockManager_->Clear();
+void FloorEditor::Clear() {
+	floorManager_->Clear();
 }
 
-void BlockEditor::UpdateTransform() {
+void FloorEditor::UpdateTransform() {
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
+	collider_->SetSize({ scale.x * 8.0f,scale.y,scale.z * 40.0f });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
-void BlockEditor::OnCollision(const CollisionInfo& collisionInfo) {
+void FloorEditor::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
