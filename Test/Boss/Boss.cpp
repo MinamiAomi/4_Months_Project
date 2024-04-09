@@ -18,11 +18,7 @@ void Boss::Initialize() {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("boss"));
 	model_->SetIsActive(true);
-
-	transform.translate = offset_;
-	transform.rotate = Quaternion::identity;
-	transform.scale = { 10.0f,10.0f,10.0f };
-
+	Reset();
 	isMove_ = true;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -78,7 +74,7 @@ void Boss::Update() {
 void Boss::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
-	transform.scale = { 10.0f,10.0f,10.0f };
+	transform.scale = {9.0f,9.0f,9.0f};
 }
 
 void Boss::UpdateTransform() {

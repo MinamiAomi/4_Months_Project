@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v3.5.30",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,13 +15,19 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u7acb\u65b9\u4f53.007"
+			"name":"\u7acb\u65b9\u4f53",
+			"rotation":[
+				0,
+				-0.7071068286895752,
+				0.7071068286895752,
+				3.090862321641907e-08
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"boss",
+			"name":"\u30de\u30c6\u30ea\u30a2\u30eb",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -33,16 +39,15 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.002",
+			"name":"\u7acb\u65b9\u4f53.003",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":0,
-						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":1,
+						"NORMAL":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
@@ -65,73 +70,61 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":600,
+			"count":1661,
 			"max":[
-				1.2548267841339111,
-				1.7536876201629639,
-				1.2548267841339111
+				2.2436046600341797,
+				2.4766616821289062,
+				2.360703945159912
 			],
 			"min":[
-				-1.2548267841339111,
-				-1.2548267841339111,
-				-1.2548267841339111
+				-2.337413787841797,
+				-1.6777876615524292,
+				-1.617151141166687
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":600,
-			"type":"VEC3"
+			"count":1661,
+			"type":"VEC2"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":600,
-			"type":"VEC2"
+			"count":1661,
+			"type":"VEC3"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":600,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":900,
+			"count":2562,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":7200,
+			"byteLength":19932,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":7200,
-			"byteOffset":7200,
+			"byteLength":13288,
+			"byteOffset":19932,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4800,
-			"byteOffset":14400,
+			"byteLength":19932,
+			"byteOffset":33220,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":9600,
-			"byteOffset":19200,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":1800,
-			"byteOffset":28800,
+			"byteLength":5124,
+			"byteOffset":53152,
 			"target":34963
 		}
 	],
@@ -143,7 +136,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":30600,
+			"byteLength":58276,
 			"uri":"boss.bin"
 		}
 	]
