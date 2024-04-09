@@ -10,7 +10,8 @@
 #include "Math/Transform.h"
 #include "Math/Random.h"
 
-#include "Block/BlockManager.h"
+#include "StageGimmick/Block/BlockManager.h"
+#include "StageGimmick/FireBar/FireBarManager.h"
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
@@ -19,26 +20,29 @@
 #include "Player/Player.h"
 
 class GameScene :
-    public BaseScene {
+	public BaseScene {
 public:
 
-    void OnInitialize() override;
-    void OnUpdate() override;
-    void OnFinalize() override;
+	void OnInitialize() override;
+	void OnUpdate() override;
+	void OnFinalize() override;
 
 private:
-    std::shared_ptr<CameraManager> cameraManager_;
-    std::shared_ptr<DirectionalLight> directionalLight_;
-    
+	std::shared_ptr<CameraManager> cameraManager_;
+	std::shared_ptr<DirectionalLight> directionalLight_;
+
 #pragma region エディター
-    std::unique_ptr<BlockManager> blockManager_;
-    std::unique_ptr<EditorManager> editorManager_;
-    bool isMove_;
+	std::unique_ptr<EditorManager> editorManager_;
+	bool isMove_;
+#pragma endregion
+#pragma region ステージギミック
+	std::unique_ptr<BlockManager> blockManager_;
+	std::unique_ptr<FireBarManager> fireBarManager_;
 #pragma endregion
 
 #pragma region ゲーム
-    std::unique_ptr<Player> player_;
-    std::unique_ptr<Boss> boss_;
-    std::array<std::unique_ptr<Floor>,2> floor_;
+	std::unique_ptr<Player> player_;
+	std::unique_ptr<Boss> boss_;
+	std::array<std::unique_ptr<Floor>, 2> floor_;
 #pragma endregion
 };

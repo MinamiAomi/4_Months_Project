@@ -20,8 +20,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block\Block.cpp" />
-    <ClCompile Include="Block\BlockManager.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
@@ -29,6 +27,7 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
     <ClCompile Include="Editor\EditorManager.cpp" />
+    <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
     <ClCompile Include="Floor\floor.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
@@ -39,6 +38,10 @@
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
+    <ClCompile Include="StageGimmick\Block\Block.cpp" />
+    <ClCompile Include="StageGimmick\Block\BlockManager.cpp" />
+    <ClCompile Include="StageGimmick\FireBar\FireBar.cpp" />
+    <ClCompile Include="StageGimmick\FireBar\FireBarManager.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -46,8 +49,6 @@
     <ClCompile Include="TitleObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Block\Block.h" />
-    <ClInclude Include="Block\BlockManager.h" />
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
@@ -56,6 +57,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
     <ClInclude Include="Editor\EditorManager.h" />
+    <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
     <ClInclude Include="Floor\floor.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
@@ -66,6 +68,10 @@
     <ClInclude Include="Player\PlayerHP\PlayerHP.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
+    <ClInclude Include="StageGimmick\Block\Block.h" />
+    <ClInclude Include="StageGimmick\Block\BlockManager.h" />
+    <ClInclude Include="StageGimmick\FireBar\FireBar.h" />
+    <ClInclude Include="StageGimmick\FireBar\FireBarManager.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />

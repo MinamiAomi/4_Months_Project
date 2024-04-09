@@ -4,17 +4,17 @@
 #include <memory>
 #include <string>
 
-#include "StageGimmick/Block/BlockManager.h"
+#include "StageGimmick/FireBar/FireBarManager.h"
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
 
-class BlockEditor 
+class FireBarEditor
 	: public GameObject {
 public:
 	void Initialize();
 	void Update();
 
-	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
+	void SetFireManager(FireBarManager* fireBarManager) { fireBarManager_ = fireBarManager; }
 	void SaveFile(uint32_t stageName);
 	void LoadFile(uint32_t stageName);
 	void Clear();
@@ -24,15 +24,19 @@ private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
-	BlockManager* blockManager_;
+	FireBarManager* fireBarManager_;
 
-	Vector3 rotate_;
+	Vector3 centerRotate_;
+	Vector3 barRotate_;
+	float barRotateVelocity_;
 
 	std::string fileName_;
 
 	int stageIndex_;
 
-	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<ModelInstance> center_;
+	std::unique_ptr<ModelInstance> bar_;
+	Transform barTransform_;
 	std::unique_ptr<BoxCollider> collider_;
 	bool isCreate_;
 };

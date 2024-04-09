@@ -17,7 +17,7 @@ public:
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetScale(const Vector3& scale) { transform.scale = scale; }
-	void SetRotate(const Vector3& rotate) { rotate_= rotate; }
+	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
 	void SetPosition(const Vector3& pos) { transform.translate = pos; }
 	const Vector3& GetScale() { return transform.scale; }
 	const Vector3& GetRotate() { return rotate_; }

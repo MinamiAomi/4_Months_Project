@@ -45,12 +45,12 @@ void BlockEditor::Initialize() {
 }
 
 void BlockEditor::Update() {
-	static bool isCollision = true;
 	ImGui::Begin("StageEditor");
-	if (ImGui::Checkbox("isCollision", &isCollision)) {
-		collider_->SetIsActive(isCollision);
-	}
 	if (ImGui::TreeNode("BlockEditor")) {
+		static bool isCollision = true;
+		if (ImGui::Checkbox("isCollision", &isCollision)) {
+			collider_->SetIsActive(isCollision);
+		}
 		Vector3 blockScale{}, blockRotate{}, blockPos{};
 		for (uint32_t i = 0; auto & block : blockManager_->GetBlocks()) {
 			if (block.get() == nullptr) {

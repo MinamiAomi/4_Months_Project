@@ -13,9 +13,6 @@
     <Filter Include="Game\Object\Editor">
       <UniqueIdentifier>{1605b2b3-c5d3-48ac-aaa7-8c2590220f27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Block">
-      <UniqueIdentifier>{07ea8f72-0519-43b7-bf3d-7ef76acd4f53}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Object\Editor\BlockEditor">
       <UniqueIdentifier>{beb05186-f4e8-4956-9bc8-134a05bf5285}</UniqueIdentifier>
     </Filter>
@@ -55,6 +52,18 @@
     <Filter Include="Game\Object\Player\PlayerBullet">
       <UniqueIdentifier>{804e4e22-784b-416a-9de7-a117f882ee41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageGimmick">
+      <UniqueIdentifier>{8b80384c-7cd9-440c-aeab-c02acaa6182a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\StageGimmick\Block">
+      <UniqueIdentifier>{b39fa96b-60df-4cf6-a76c-abc114ce1cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\StageGimmick\FireBar">
+      <UniqueIdentifier>{44f80ed9-7e3e-49ce-9adf-6b2f2f8822ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Editor\FireBarEditor">
+      <UniqueIdentifier>{7988a3ee-460a-4653-a194-59ba892bcee0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -75,12 +84,6 @@
     </ClCompile>
     <ClCompile Include="PlayerModel.cpp">
       <Filter>Game\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Block\Block.cpp">
-      <Filter>Game\Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Block\BlockManager.cpp">
-      <Filter>Game\Object\Block</Filter>
     </ClCompile>
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp">
       <Filter>Game\Object\Editor\BlockEditor</Filter>
@@ -127,6 +130,19 @@
     <ClCompile Include="CharacterState.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
+    <ClCompile Include="StageGimmick\Block\Block.cpp">
+      <Filter>Game\Object\StageGimmick\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Block\BlockManager.cpp">
+      <Filter>Game\Object\StageGimmick\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\FireBar\FireBarManager.cpp">
+      <Filter>Game\Object\StageGimmick\FireBar</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\FireBar\FireBar.cpp">
+      <Filter>Game\Object\StageGimmick\FireBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -146,12 +162,6 @@
     </ClInclude>
     <ClInclude Include="PlayerModel.h">
       <Filter>Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Block\Block.h">
-      <Filter>Game\Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Block\BlockManager.h">
-      <Filter>Game\Object\Block</Filter>
     </ClInclude>
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h">
       <Filter>Game\Object\Editor\BlockEditor</Filter>
@@ -200,6 +210,21 @@
     </ClInclude>
     <ClInclude Include="Player\PlayerBullet\BulletManager.h">
       <Filter>Game\Object\Player\PlayerBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Block\Block.h">
+      <Filter>Game\Object\StageGimmick\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Block\BlockManager.h">
+      <Filter>Game\Object\StageGimmick\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\FireBar\FireBar.h">
+      <Filter>Game\Object\StageGimmick\FireBar</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\FireBar\FireBarManager.h">
+      <Filter>Game\Object\StageGimmick\FireBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h">
+      <Filter>Game\Object\Editor\FireBarEditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,10 +11,11 @@ void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
-	blockManager_ = std::make_unique<BlockManager>();
 	editorManager_ = std::make_unique<EditorManager>();
-
 	isMove_ = true;
+
+	blockManager_ = std::make_unique<BlockManager>();
+	fireBarManager_ = std::make_unique<FireBarManager>();
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
@@ -23,9 +24,12 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
-	editorManager_->Initialize(blockManager_.get());
+	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get());
+	
 	blockManager_->SetPlayer(player_.get());
 	blockManager_->Initialize(0);
+	fireBarManager_->SetPlayer(player_.get());
+	fireBarManager_->Initialize(0);
 
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
@@ -44,6 +48,7 @@ void GameScene::OnUpdate() {
 	directionalLight_->DrawImGui("directionalLight");
 
 	blockManager_->Update();
+	fireBarManager_->Update();
 	editorManager_->Update();
 
 	player_->Update();
@@ -111,6 +116,7 @@ void GameScene::OnUpdate() {
 		cameraManager_->Reset();
 		boss_->Reset();
 		blockManager_->Reset(0);
+		fireBarManager_->Reset(0);
 		for (uint32_t i = 0; auto & floor : floor_) {
 			floor->SetLocalPos({ 0.0f,0.0f , -floor->GetZLength() / 2.0f + i * floor->GetZLength() });
 			i++;

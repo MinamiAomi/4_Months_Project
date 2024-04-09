@@ -158,7 +158,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			}
 		}
 	}
-	else if (collisionInfo.collider->GetName() == "Block") {
+	else if (collisionInfo.collider->GetName() == "Block" ||
+		collisionInfo.collider->GetName() == "FireBarCenter") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();
@@ -182,6 +183,14 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		//if (nextParent) {
 		//	transform.SetParent(&nextParent->transform);
 		//}
+	}
+	else if (collisionInfo.collider->GetName() == "FireBarBar") {
+		if (invincibleTime_ == 0) {
+			invincibleTime_ = maxInvincibleTime_;
+			if (playerHP_->GetCurrentHP() > 0) {
+				playerHP_->AddHP(-1);
+			}
+		}
 	}
 
 }

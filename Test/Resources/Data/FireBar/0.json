@@ -1,0 +1,118 @@
+{
+    "FireBar": {
+        "objectData": {
+            "FireBar:0": {
+                "barRotate": [
+                    0.0,
+                    -4.0882463455200195,
+                    0.0
+                ],
+                "barScale": [
+                    5.0,
+                    5.0,
+                    20.0
+                ],
+                "berRotateVelocity": -0.009999999776482582,
+                "centerRotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "centerScale": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "position": [
+                    -20.0,
+                    0.0,
+                    -45.75
+                ]
+            },
+            "FireBar:1": {
+                "barRotate": [
+                    0.0,
+                    0.08274561911821365,
+                    0.0
+                ],
+                "barScale": [
+                    5.0,
+                    5.0,
+                    20.0
+                ],
+                "berRotateVelocity": 0.009999999776482582,
+                "centerRotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "centerScale": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "position": [
+                    20.0,
+                    0.0,
+                    -66.5
+                ]
+            },
+            "FireBar:2": {
+                "barRotate": [
+                    0.0,
+                    5.3463029861450195,
+                    0.0
+                ],
+                "barScale": [
+                    5.0,
+                    5.0,
+                    25.0
+                ],
+                "berRotateVelocity": 0.019999999552965164,
+                "centerRotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "centerScale": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "position": [
+                    0.0,
+                    0.0,
+                    -137.5
+                ]
+            },
+            "FireBar:3": {
+                "barRotate": [
+                    0.0,
+                    0.7548614144325256,
+                    0.0
+                ],
+                "barScale": [
+                    5.0,
+                    5.0,
+                    15.800000190734863
+                ],
+                "berRotateVelocity": 0.009999999776482582,
+                "centerRotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "centerScale": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "position": [
+                    -8.0,
+                    0.0,
+                    -239.0
+                ]
+            }
+        }
+    }
+}
