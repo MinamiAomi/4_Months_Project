@@ -17,6 +17,7 @@ void GameScene::OnInitialize() {
 	blockManager_ = std::make_unique<BlockManager>();
 	fireBarManager_ = std::make_unique<FireBarManager>();
 	floorManager_ = std::make_unique<FloorManager>();
+	pendulumManager_ = std::make_unique<PendulumManager>();
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
@@ -25,7 +26,7 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
-	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get());
+	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get());
 	
 	blockManager_->SetPlayer(player_.get());
 	blockManager_->Initialize(0);
@@ -33,6 +34,8 @@ void GameScene::OnInitialize() {
 	fireBarManager_->Initialize(0);
 	floorManager_->SetPlayer(player_.get());
 	floorManager_->Initialize(0);
+	pendulumManager_->SetPlayer(player_.get());
+	pendulumManager_->Initialize(0);
 
 
 	player_->SetBoss(boss_.get());
@@ -48,6 +51,7 @@ void GameScene::OnUpdate() {
 	blockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
+	pendulumManager_->Update();
 	editorManager_->Update();
 
 	player_->Update();
@@ -103,6 +107,7 @@ void GameScene::OnUpdate() {
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
+		pendulumManager_->Reset(0);
 	}
 #endif // _DEBUG
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);

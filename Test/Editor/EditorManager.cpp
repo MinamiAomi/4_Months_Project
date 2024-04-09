@@ -5,18 +5,21 @@
 #include "StageGimmick/Floor/FloorManager.h"
 #include "Externals/ImGui/imgui.h"
 
-void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor) {
+void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager) {
 	blockEditor_ = std::make_unique<BlockEditor>();
 	fireBarEditor_ = std::make_unique<FireBarEditor>();
 	floorEditor_ = std::make_unique<FloorEditor>();
+	pendulumEditor_ = std::make_unique<PendulumEditor>();
 
 	blockEditor_->SetBlockManager(blockEditor);
 	fireBarEditor_->SetFireManager(fireBarEditor);
 	floorEditor_->SetFloorManager(floorEditor);
+	pendulumEditor_->SetPendulumManager(pendulumManager);
 
 	blockEditor_->Initialize();
 	fireBarEditor_->Initialize();
 	floorEditor_->Initialize();
+	pendulumEditor_->Initialize();
 
 	stageIndex_ = 0;
 }
@@ -42,6 +45,7 @@ void EditorManager::Update() {
 			blockEditor_->SaveFile(stageIndex_);
 			fireBarEditor_->SaveFile(stageIndex_);
 			floorEditor_->SaveFile(stageIndex_);
+			pendulumEditor_->SaveFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
@@ -67,6 +71,7 @@ void EditorManager::Update() {
 			blockEditor_->LoadFile(stageIndex_);
 			fireBarEditor_->LoadFile(stageIndex_);
 			floorEditor_->LoadFile(stageIndex_);
+			pendulumEditor_->LoadFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
@@ -74,4 +79,5 @@ void EditorManager::Update() {
 	blockEditor_->Update();
 	fireBarEditor_->Update();
 	floorEditor_->Update();
+	pendulumEditor_->Update();
 }

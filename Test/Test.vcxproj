@@ -29,6 +29,7 @@
     <ClCompile Include="Editor\EditorManager.cpp" />
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
     <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp" />
+    <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
@@ -44,6 +45,8 @@
     <ClCompile Include="StageGimmick\FireBar\FireBarManager.cpp" />
     <ClCompile Include="StageGimmick\Floor\Floor.cpp" />
     <ClCompile Include="StageGimmick\Floor\FloorManager.cpp" />
+    <ClCompile Include="StageGimmick\Pendulum\Pendulum.cpp" />
+    <ClCompile Include="StageGimmick\Pendulum\PendulumManager.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -61,6 +64,7 @@
     <ClInclude Include="Editor\EditorManager.h" />
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
     <ClInclude Include="Editor\FloorEditor\FloorEditor.h" />
+    <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="PlayerModel.h" />
@@ -76,6 +80,8 @@
     <ClInclude Include="StageGimmick\FireBar\FireBarManager.h" />
     <ClInclude Include="StageGimmick\Floor\Floor.h" />
     <ClInclude Include="StageGimmick\Floor\FloorManager.h" />
+    <ClInclude Include="StageGimmick\Pendulum\Pendulum.h" />
+    <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />

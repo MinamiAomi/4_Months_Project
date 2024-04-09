@@ -11,4 +11,5 @@ namespace CollisionAttribute {
     const uint32_t FireBarCenter =  0b10000;
     const uint32_t FireBarBar =     0b100000;
     const uint32_t Floor =          0b1000000;
+    const uint32_t PendulumBall =   0b10000000;
 }

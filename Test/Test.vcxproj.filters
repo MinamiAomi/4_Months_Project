@@ -67,6 +67,12 @@
     <Filter Include="Game\Object\Editor\FloorEditor">
       <UniqueIdentifier>{2084eb1d-bd26-4274-a345-2e708c0ee742}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageGimmick\Pendulum">
+      <UniqueIdentifier>{708e7718-a69b-4711-9dc1-524c4c6079af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Editor\PendulumEditor">
+      <UniqueIdentifier>{0735628f-bf6d-4f1f-9b0a-9f3cb8b2adb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -153,6 +159,15 @@
     </ClCompile>
     <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp">
       <Filter>Game\Object\Editor\FloorEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Pendulum\Pendulum.cpp">
+      <Filter>Game\Object\StageGimmick\Pendulum</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Pendulum\PendulumManager.cpp">
+      <Filter>Game\Object\StageGimmick\Pendulum</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp">
+      <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +257,15 @@
     </ClInclude>
     <ClInclude Include="Editor\FloorEditor\FloorEditor.h">
       <Filter>Game\Object\Editor\FloorEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Pendulum\Pendulum.h">
+      <Filter>Game\Object\StageGimmick\Pendulum</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h">
+      <Filter>Game\Object\StageGimmick\Pendulum</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h">
+      <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
