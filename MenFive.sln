@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{AD87FDE8-76C1-49F8-A74C-BE6C0737525F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "a", "a", "{AD87FDE8-76C1-49F8-A74C-BE6C0737525F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
