@@ -12,10 +12,18 @@
 class Pendulum :
 	public GameObject {
 public:
-	void Initialize(
-		const Vector3& scale, const Vector3& rotate, 
-		const Vector3& ballScale, const Vector3& ballRotate,
-		const Vector3& pos,float length, float speed,float angle);
+	struct Desc {
+		Vector3 translate;
+		Vector3 rotate;
+		Vector3 scale;
+		Vector3 ballScale;
+		Vector3 ballRotate;
+		float length;
+		float speed;
+		float angle;
+	};
+
+	void Initialize(const Desc& desc);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }

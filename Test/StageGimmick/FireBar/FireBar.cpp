@@ -9,13 +9,13 @@ const std::string Center::kModelName = "block";
 const std::string Bar::kModelName = "block";
 
 #pragma region Center
-void Center::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos) {
+void Center::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = scale;
-	rotate_ = rotate;
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-	transform.translate = pos;
+	transform.scale = desc.scale;
+	rotate_ = desc.rotate;
+	transform.rotate = Quaternion::MakeFromEulerAngle(desc.rotate);
+	transform.translate = desc.translate;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);

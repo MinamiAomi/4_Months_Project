@@ -7,22 +7,20 @@
 
 const std::string Pendulum::kStickName = "block";
 const std::string Pendulum::kBallName = "block";
-void Pendulum::Initialize(
-	const Vector3& scale, const Vector3& rotate,
-	const Vector3& ballScale, const Vector3& ballRotate,
-	const Vector3& pos, float length, float speed, float angle) {
+void Pendulum::Initialize(const Desc& desc) {
 
 	stick_ = std::make_unique<ModelInstance>();
 	ball_ = std::make_unique<ModelInstance>();
 
-	transform.scale = scale;
-	rotate_ = rotate;
-	pos_ = pos;
+	transform.scale = desc.scale;
+	rotate_ = desc.rotate;
+	pos_ = desc.translate;
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3{ 0.0f, 0.0f ,270.0f * Math::ToRadian } - rotate_);
+	transform.rotate = Quaternion::MakeForZAxis(Math::ToRadian * 1.0f);
 	transform.translate = (transform.rotate.GetForward() * transform.scale.z * 0.5f) + pos_;
 
-	ballTransform_.scale = ballScale;
-	ballRotate_ = ballRotate;
+	ballTransform_.scale = desc.ballScale;
+	ballRotate_ = desc.ballRotate;
 	transform.rotate = Quaternion::MakeFromEulerAngle(ballRotate_);
 	ballTransform_.translate = transform.rotate.GetForward() * (transform.scale.z + ballTransform_.scale.z);
 
@@ -31,9 +29,9 @@ void Pendulum::Initialize(
 	ball_->SetModel(ResourceManager::GetInstance()->FindModel(kStickName));
 	ball_->SetIsActive(true);
 
-	speed_ = speed;
-	length_ = length;
-	angle_ = angle;
+	speed_ = desc.speed;
+	length_ = desc.length;
+	angle_ = desc.angle;
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
