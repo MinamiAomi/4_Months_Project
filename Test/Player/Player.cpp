@@ -98,7 +98,7 @@ void Player::Update() {
 	transform.translate.y = std::max(transform.translate.y, -10.0f);
 	// 救済
 	if (transform.translate.y <= -10.0f) {
-		transform.translate.y = 0.0f;
+		transform.translate.y = 5.0f;
 	}
 	switch (characterState_) {
 	case Character::kChase:

@@ -30,7 +30,9 @@ void Center::Initialize(const Desc& desc) {
 	collider_->SetName("FireBarCenter");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize(transform.scale);
+
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
 	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
@@ -59,7 +61,9 @@ void Center::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
+
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
@@ -96,7 +100,9 @@ void Bar::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3&
 	collider_->SetName("FireBarBar");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize(transform.scale);
+
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::FireBarBar);
 	collider_->SetCollisionMask(~CollisionAttribute::FireBarBar);
@@ -124,7 +130,8 @@ void Bar::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }

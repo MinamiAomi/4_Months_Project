@@ -9,6 +9,19 @@
 #include "Engine/Math/MathUtils.h"
 #include "Player/Player.h"
 
+struct PendulumDesc {
+	Vector3 anchor;
+	float length;
+	float angle;
+	float gravity;
+	float angularVelocity;
+	float angularAcceleration;
+
+	void Update();
+	const Vector3 GetPosition();
+};
+
+
 class Pendulum :
 	public GameObject {
 public:

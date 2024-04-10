@@ -27,7 +27,7 @@ void FireBarEditor::Initialize() {
 
 	barRotateVelocity_ = 0.01f;
 
-	transform.scale = { 5.0f,5.0f,5.0f };
+	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
 	transform.translate = Vector3::zero;
 	barTransform_.scale = transform.scale;
@@ -46,7 +46,8 @@ void FireBarEditor::Initialize() {
 	collider_->SetName("FireBarCenter");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize(transform.scale);
+	Vector3 modelSize = (center_->GetModel()->GetMeshes().at(0).maxVertex - center_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
 	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
@@ -57,8 +58,6 @@ void FireBarEditor::Initialize() {
 void FireBarEditor::Update() {
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
-		center_->SetIsActive(true);
-		bar_->SetIsActive(true);
 		static bool isCollision = true;
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
@@ -104,7 +103,10 @@ void FireBarEditor::Update() {
 			}
 			i++;
 		}
-		if (ImGui::TreeNode("CreateBlock")) {
+		if (ImGui::TreeNode("CreateFireBar")) {
+			center_->SetIsActive(true);
+			bar_->SetIsActive(true);
+			collider_->SetIsActive(true);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
 
 			if (ImGui::TreeNode("Center")) {
@@ -125,6 +127,9 @@ void FireBarEditor::Update() {
 			isCreate_ = true;
 		}
 		else {
+			center_->SetIsActive(false);
+			bar_->SetIsActive(false);
+			collider_->SetIsActive(false);
 			isCreate_ = false;
 		}
 		ImGui::TreePop();
@@ -133,6 +138,7 @@ void FireBarEditor::Update() {
 		center_->SetIsActive(false);
 		bar_->SetIsActive(false);
 		collider_->SetIsActive(false);
+		isCreate_ = false;
 	}
 	ImGui::End();
 	barTransform_.translate = transform.translate;
@@ -303,7 +309,6 @@ void FireBarEditor::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
 	collider_->SetOrientation(rotate);
 	center_->SetWorldMatrix(transform.worldMatrix);
 
