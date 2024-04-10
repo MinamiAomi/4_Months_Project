@@ -9,19 +9,6 @@
 #include "Engine/Math/MathUtils.h"
 #include "Player/Player.h"
 
-//struct PendulumDesc {
-//	Vector3 anchor;
-//	float length;
-//	float angle;
-//	float gravity;
-//	float angularVelocity;
-//	float angularAcceleration;
-//
-//	void Update();
-//	const Vector3 GetPosition();
-//};
-
-
 class Stick :
 	public GameObject {
 public:
@@ -31,7 +18,7 @@ public:
 
 	void Initialize(const Transform* transform,const Desc& desc);
 	void SetDesc(const Desc& desc);
-	void Update();
+	void Update(const Vector3& direction, float length);
 
 	void SetIsActive(bool flag) { 
 		model_->SetIsActive(flag);
@@ -45,7 +32,6 @@ private:
 
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
-	Vector3 rotate_;
 };
 
 class Ball :
@@ -65,6 +51,8 @@ public:
 		collider_->SetIsActive(flag);
 	}
 	void SetDesc(const Desc& desc);
+	float GetLength() const { return length_; }
+	void SetAngle(float angle) { angle_ = angle; }
 private:
 	static const std::string kModelName;
 
@@ -100,11 +88,8 @@ public:
 		ball_->SetIsActive(flag);
 	}
 	Desc& GetDesc() { return desc_; }
-	void SetDesc(const Desc& desc) { 
-		desc_= desc; 
-		stick_->SetDesc(desc_.stickDesc);
-		ball_->SetDesc(desc_.ballDesc);
-	}
+	void SetDesc(const Desc& desc);
+	Ball* GetBall() { return ball_.get(); }
 private:
 	void UpdateTransform();
 

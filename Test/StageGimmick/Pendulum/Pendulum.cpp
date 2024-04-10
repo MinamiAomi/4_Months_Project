@@ -32,14 +32,18 @@ void Stick::Initialize(const Transform* Transform, const Desc& desc) {
 
 void Stick::SetDesc(const Desc& desc) {
 	transform.scale = desc.scale;
+	UpdateTransform();
 }
 
-void Stick::Update() {
+void Stick::Update(const Vector3& direction, float length) {
+	transform.rotate = Quaternion::MakeFromEulerAngle(direction);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	transform.translate = direction * (modelSize.y * length * 0.5f);
 	UpdateTransform();
 }
 
 void Stick::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;
@@ -64,7 +68,7 @@ void Ball::Initialize(const Transform* Transform, const Desc& desc) {
 	transform.scale = desc.scale;
 	length_ = desc.length;
 	gravity_ = desc.gravity;
-	angle_ = desc.angle;
+	angle_ = desc.angle * Math::ToRadian;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -93,6 +97,8 @@ void Ball::SetDesc(const Desc& desc) {
 	transform.scale = desc.scale;
 	length_ = desc.length;
 	gravity_ = desc.gravity;
+	angle_ = desc.angle * Math::ToRadian;
+	UpdateTransform();
 }
 
 void Ball::UpdateTransform() {
@@ -121,15 +127,26 @@ void Pendulum::Initialize(const Desc& desc) {
 
 	desc_ = desc;
 
-	stick_->Initialize(&transform,desc.stickDesc);
-	ball_->Initialize(&transform,desc.ballDesc);
+	stick_->Initialize(&transform, desc.stickDesc);
+	ball_->Initialize(&transform, desc.ballDesc);
 }
 
 void Pendulum::Update() {
 	transform.translate = desc_.pos;
-	stick_->Update();
 	ball_->Update();
+	Vector3 direction = (ball_->transform.translate).Normalize();
+	stick_->Update(direction.Normalize(), ball_->GetLength());
 	UpdateTransform();
+}
+
+void Pendulum::SetDesc(const Desc& desc) {
+	desc_ = desc;
+	transform.translate = desc.pos;
+	UpdateTransform();
+	ball_->SetDesc(desc_.ballDesc);
+	Vector3 direction = (ball_->transform.translate).Normalize();
+	stick_->Update(direction.Normalize(), ball_->GetLength());
+	stick_->SetDesc(desc_.stickDesc);
 }
 
 void Pendulum::UpdateTransform() {

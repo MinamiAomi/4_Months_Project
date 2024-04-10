@@ -20,17 +20,20 @@ void PendulumEditor::Initialize() {
 
 	pendulum_ = std::make_unique<Pendulum>();
 	Pendulum::Desc desc{};
-	desc.pos = Vector3::zero;
-	desc.ballDesc.scale = { 5.0f,5.0f,5.0f };
-	desc.ballDesc.length = 10.0f;
+	desc.ballDesc.length = 15.0f;
+	desc.pos = { 0.0f,desc.ballDesc.length,0.0f };
+	desc.ballDesc.scale = { 3.0f,3.0f,3.0f };
 	desc.ballDesc.gravity = { 0.002f };
-	desc.ballDesc.angle = { 10.0f * Math::ToRadian };
-	desc.stickDesc.scale = { 2.0f,desc.ballDesc.length,2.0f };
+	desc.ballDesc.angle = 10.0f;
+	desc.stickDesc.scale = { 1.0f,desc.ballDesc.length,1.0f };
 	pendulum_->Initialize(desc);
 	pendulum_->SetIsActive(false);
+	// 一回だけ実行
+	pendulum_->Update();
 }
 
 void PendulumEditor::Update() {
+	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("PendulumEditor")) {
 		static bool isCollision = true;
@@ -45,14 +48,18 @@ void PendulumEditor::Update() {
 				auto desc = pendulum->GetDesc();
 				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
 				if (ImGui::TreeNode("Stick")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &desc.stickDesc.scale.x, 0.1f);
+					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.stickDesc.scale.x, 0.1f);
+					desc.stickDesc.scale.z = desc.stickDesc.scale.x;
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Ball")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &desc.ballDesc.scale.x, 0.1f);
+					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.ballDesc.scale.x, 0.1f);
+					desc.ballDesc.scale.z = desc.ballDesc.scale.x;
+					desc.ballDesc.scale.y = desc.ballDesc.scale.x;
 					ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.ballDesc.angle, 0.01f);
 					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.ballDesc.length, 0.01f);
 					ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.ballDesc.gravity, 0.001f);
+					desc.stickDesc.scale.z = desc.ballDesc.length;
 					ImGui::TreePop();
 				}
 				pendulum->SetDesc(desc);
@@ -71,17 +78,30 @@ void PendulumEditor::Update() {
 			auto desc = pendulum_->GetDesc();
 			ImGui::DragFloat3("position", &desc.pos.x, 0.1f);
 			if (ImGui::TreeNode("Stick")) {
-				ImGui::DragFloat3("scale", &desc.stickDesc.scale.x, 0.25f);
+				ImGui::DragFloat("scale", &desc.stickDesc.scale.x, 0.1f);
+				desc.stickDesc.scale.z = desc.stickDesc.scale.x;
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Ball")) {
-				ImGui::DragFloat3("scale", &desc.ballDesc.scale.x, 0.1f);
+				ImGui::DragFloat("scale", &desc.ballDesc.scale.x, 0.1f);
+				desc.ballDesc.scale.y = desc.ballDesc.scale.x;
+				desc.ballDesc.scale.z = desc.ballDesc.scale.x;
 				ImGui::DragFloat("angle", &desc.ballDesc.angle, 0.01f);
 				ImGui::DragFloat("length", &desc.ballDesc.length, 0.1f);
+				desc.stickDesc.scale.y = desc.ballDesc.length;
 				ImGui::DragFloat("gravity", &desc.ballDesc.gravity, 0.001f);
 				ImGui::TreePop();
 			}
-			pendulum_->SetDesc(desc);
+			if (!isPlay) {
+				pendulum_->SetDesc(desc);
+			}
+
+			if (ImGui::Button("Play")) {
+				isPlay ^= true;
+				if (isPlay) {
+					pendulum_->GetBall()->SetAngle(desc.ballDesc.angle * Math::ToRadian);
+				}
+			}
 			if (ImGui::Button("Create")) {
 				pendulumManager_->Create(pendulum_->GetDesc());
 			}
@@ -98,8 +118,10 @@ void PendulumEditor::Update() {
 		pendulum_->SetIsActive(false);
 	}
 	ImGui::End();
+	if (isPlay) {
+		pendulum_->Update();
+	}
 
-	pendulum_->Update();
 }
 
 void PendulumEditor::SaveFile(uint32_t stageName) {
