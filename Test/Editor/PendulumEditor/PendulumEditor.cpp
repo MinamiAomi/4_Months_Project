@@ -24,7 +24,7 @@ void PendulumEditor::Initialize() {
 	desc.pos = { 0.0f,desc.ballDesc.length,0.0f };
 	desc.ballDesc.scale = { 3.0f,3.0f,3.0f };
 	desc.ballDesc.gravity = { 0.002f };
-	desc.ballDesc.angle = 10.0f;
+	desc.ballDesc.angle = 10.0f*Math::ToRadian;
 	desc.stickDesc.scale = { 1.0f,desc.ballDesc.length,1.0f };
 	pendulum_->Initialize(desc);
 	pendulum_->SetIsActive(false);
@@ -56,7 +56,9 @@ void PendulumEditor::Update() {
 					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.ballDesc.scale.x, 0.1f);
 					desc.ballDesc.scale.z = desc.ballDesc.scale.x;
 					desc.ballDesc.scale.y = desc.ballDesc.scale.x;
-					ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.ballDesc.angle, 0.01f);
+					desc.ballDesc.angle *= Math::ToDegree;
+					ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.ballDesc.angle, 0.1f);
+					desc.ballDesc.angle *= Math::ToRadian;
 					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.ballDesc.length, 0.01f);
 					ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.ballDesc.gravity, 0.001f);
 					desc.stickDesc.scale.z = desc.ballDesc.length;
@@ -86,7 +88,9 @@ void PendulumEditor::Update() {
 				ImGui::DragFloat("scale", &desc.ballDesc.scale.x, 0.1f);
 				desc.ballDesc.scale.y = desc.ballDesc.scale.x;
 				desc.ballDesc.scale.z = desc.ballDesc.scale.x;
-				ImGui::DragFloat("angle", &desc.ballDesc.angle, 0.01f);
+				desc.ballDesc.angle *= Math::ToDegree;
+				ImGui::DragFloat("angle:", &desc.ballDesc.angle, 0.1f);
+				desc.ballDesc.angle *= Math::ToRadian;
 				ImGui::DragFloat("length", &desc.ballDesc.length, 0.1f);
 				desc.stickDesc.scale.y = desc.ballDesc.length;
 				ImGui::DragFloat("gravity", &desc.ballDesc.gravity, 0.001f);
@@ -99,7 +103,7 @@ void PendulumEditor::Update() {
 			if (ImGui::Button("Play")) {
 				isPlay ^= true;
 				if (isPlay) {
-					pendulum_->GetBall()->SetAngle(desc.ballDesc.angle * Math::ToRadian);
+					pendulum_->GetBall()->SetAngle(desc.ballDesc.angle);
 				}
 			}
 			if (ImGui::Button("Create")) {

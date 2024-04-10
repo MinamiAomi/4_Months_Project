@@ -18,7 +18,7 @@ public:
 
 	void Initialize(const Transform* transform,const Desc& desc);
 	void SetDesc(const Desc& desc);
-	void Update(const Vector3& direction, float length);
+	void Update(float angle);
 
 	void SetIsActive(bool flag) { 
 		model_->SetIsActive(flag);
@@ -41,6 +41,7 @@ public:
 		Vector3 scale;
 		float length;
 		float gravity;
+		// Radian
 		float angle;
 	};
 	void Initialize(const Transform* transform, const Desc& desc);
@@ -51,7 +52,7 @@ public:
 		collider_->SetIsActive(flag);
 	}
 	void SetDesc(const Desc& desc);
-	float GetLength() const { return length_; }
+	float GetAngle() const { return angle_; }
 	void SetAngle(float angle) { angle_ = angle; }
 private:
 	static const std::string kModelName;

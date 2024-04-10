@@ -35,10 +35,18 @@ void Stick::SetDesc(const Desc& desc) {
 	UpdateTransform();
 }
 
-void Stick::Update(const Vector3& direction, float length) {
-	transform.rotate = Quaternion::MakeFromEulerAngle(direction);
+void Stick::Update(float angle) {
+	transform.rotate = Quaternion::MakeForZAxis(angle);
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	transform.translate = direction * (modelSize.y * length * 0.5f);
+	// z軸で回転した後のoffsetを取得
+	Vector3 offset = Quaternion::MakeForZAxis(angle).GetForward();
+
+	// y軸方向に移動するための変換
+	offset = Vector3(offset.x, offset.y, 0.0f);
+
+	// y軸方向に移動
+	transform.translate = offset * (modelSize.y * transform.scale.y);
+
 	UpdateTransform();
 }
 
@@ -68,7 +76,7 @@ void Ball::Initialize(const Transform* Transform, const Desc& desc) {
 	transform.scale = desc.scale;
 	length_ = desc.length;
 	gravity_ = desc.gravity;
-	angle_ = desc.angle * Math::ToRadian;
+	angle_ = desc.angle;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -97,7 +105,7 @@ void Ball::SetDesc(const Desc& desc) {
 	transform.scale = desc.scale;
 	length_ = desc.length;
 	gravity_ = desc.gravity;
-	angle_ = desc.angle * Math::ToRadian;
+	angle_ = desc.angle;
 	UpdateTransform();
 }
 
@@ -134,8 +142,7 @@ void Pendulum::Initialize(const Desc& desc) {
 void Pendulum::Update() {
 	transform.translate = desc_.pos;
 	ball_->Update();
-	Vector3 direction = (ball_->transform.translate).Normalize();
-	stick_->Update(direction.Normalize(), ball_->GetLength());
+	stick_->Update(ball_->GetAngle());
 	UpdateTransform();
 }
 
@@ -144,8 +151,7 @@ void Pendulum::SetDesc(const Desc& desc) {
 	transform.translate = desc.pos;
 	UpdateTransform();
 	ball_->SetDesc(desc_.ballDesc);
-	Vector3 direction = (ball_->transform.translate).Normalize();
-	stick_->Update(direction.Normalize(), ball_->GetLength());
+	stick_->Update(ball_->GetAngle());
 	stick_->SetDesc(desc_.stickDesc);
 }
 
