@@ -10,7 +10,7 @@
         "offset_": [
             0.0,
             0.0,
-            -20.0
+            0.0
         ],
         "runAwayLimitLine_": 85.0,
         "verticalSpeed_": 0.5
