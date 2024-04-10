@@ -110,7 +110,6 @@ void RenderManager::Render() {
         bloom_.SetThreshold(threshold);
         ImGui::TreePop();
     }
-
     ImGui::End();
 #endif // ENABLE_IMGUI
 
