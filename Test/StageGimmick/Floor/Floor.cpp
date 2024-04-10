@@ -15,7 +15,6 @@ void Floor::Initialize(const Desc& desc) {
 	transform.rotate = Quaternion::MakeFromEulerAngle(desc.rotate);
 	transform.scale = desc.scale;
 
-
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);

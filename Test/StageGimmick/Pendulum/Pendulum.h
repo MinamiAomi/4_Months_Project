@@ -9,73 +9,111 @@
 #include "Engine/Math/MathUtils.h"
 #include "Player/Player.h"
 
-struct PendulumDesc {
-	Vector3 anchor;
-	float length;
-	float angle;
-	float gravity;
-	float angularVelocity;
-	float angularAcceleration;
+//struct PendulumDesc {
+//	Vector3 anchor;
+//	float length;
+//	float angle;
+//	float gravity;
+//	float angularVelocity;
+//	float angularAcceleration;
+//
+//	void Update();
+//	const Vector3 GetPosition();
+//};
 
+
+class Stick :
+	public GameObject {
+public:
+	struct Desc {
+		Vector3 scale;
+	};
+
+	void Initialize(const Transform* transform,const Desc& desc);
+	void SetDesc(const Desc& desc);
 	void Update();
-	const Vector3 GetPosition();
+
+	void SetIsActive(bool flag) { 
+		model_->SetIsActive(flag);
+		collider_->SetIsActive(flag);
+	}
+private:
+	static const std::string kModelName;
+
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
+
+	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<BoxCollider> collider_;
+	Vector3 rotate_;
 };
 
+class Ball :
+	public GameObject {
+public:
+	struct Desc {
+		Vector3 scale;
+		float length;
+		float gravity;
+		float angle;
+	};
+	void Initialize(const Transform* transform, const Desc& desc);
+	void Update();
+
+	void SetIsActive(bool flag) {
+		model_->SetIsActive(flag);
+		collider_->SetIsActive(flag);
+	}
+	void SetDesc(const Desc& desc);
+private:
+	static const std::string kModelName;
+
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
+
+	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<BoxCollider> collider_;
+
+	Vector3 rotate_;
+	float length_;
+	float angle_;
+	float gravity_;
+	float angularVelocity_;
+	float angularAcceleration_;
+};
 
 class Pendulum :
 	public GameObject {
 public:
 	struct Desc {
-		Vector3 translate;
-		Vector3 rotate;
-		Vector3 scale;
-		Vector3 ballScale;
-		Vector3 ballRotate;
-		float length;
-		float speed;
-		float angle;
+		Stick::Desc stickDesc;
+		Ball::Desc ballDesc;
+		Vector3 pos;
 	};
 
 	void Initialize(const Desc& desc);
 	void Update();
 
-	void SetPlayer(const Player* player) { player_ = player; }
-	void SetStickScale(const Vector3& scale) { transform.scale = scale; }
-	void SetStickRotate(const Vector3& rotate) { rotate_ = rotate; }
-	void SetPosition(const Vector3& pos) { pos_ = pos; }
-	const Vector3& GetStickScale() { return transform.scale; }
-	const Vector3& GetStickRotate() { return rotate_; }
-	const Vector3& GetPosition() { return pos_; }
-
-	void SetBallScale(const Vector3& scale) { ballTransform_.scale = scale; }
-	void SetBallRotate(const Vector3& rotate) { ballRotate_ = rotate; }
-	const Vector3& GetBallScale() { return ballTransform_.scale; }
-	const Vector3& GetBallRotate() { return ballRotate_; }
-
-	void SetSpeed(float speed) { speed_ = speed; }
-	float GetSpeed() { return speed_; }
-	void SetAngle(float angle) { angle_ = angle; }
-	float GetAngle() { return angle_; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetIsActive(bool flag) {
+		stick_->SetIsActive(flag);
+		ball_->SetIsActive(flag);
+	}
+	Desc& GetDesc() { return desc_; }
+	void SetDesc(const Desc& desc) { 
+		desc_= desc; 
+		stick_->SetDesc(desc_.stickDesc);
+		ball_->SetDesc(desc_.ballDesc);
+	}
 private:
 	void UpdateTransform();
-	void OnCollision(const CollisionInfo& collisionInfo);
 
-	static const std::string kStickName;
-	static const std::string kBallName;
+	const Boss* boss_;
 
-	const Player* player_;
-
-	std::unique_ptr<ModelInstance> stick_;
-	std::unique_ptr<ModelInstance> ball_;
-	Transform ballTransform_;
-
-	std::unique_ptr<BoxCollider> collider_;
+	std::unique_ptr<Stick> stick_;
+	std::unique_ptr<Ball> ball_;
 
 	Vector3 rotate_;
-	Vector3 ballRotate_;
-	Vector3 pos_;
 
-	float speed_;
-	float length_;
-	float angle_;
+	Desc desc_;
 };

@@ -5,41 +5,24 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string Pendulum::kStickName = "block";
-const std::string Pendulum::kBallName = "block";
-void Pendulum::Initialize(const Desc& desc) {
+const std::string Stick::kModelName = "block";
+const std::string Ball::kModelName = "block";
 
-	stick_ = std::make_unique<ModelInstance>();
-	ball_ = std::make_unique<ModelInstance>();
+void Stick::Initialize(const Transform* Transform, const Desc& desc) {
+	model_ = std::make_unique<ModelInstance>();
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+	model_->SetIsActive(true);
 
+	transform.SetParent(Transform);
 	transform.scale = desc.scale;
-	rotate_ = desc.rotate;
-	pos_ = desc.translate;
-	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3{ 0.0f, 0.0f ,270.0f * Math::ToRadian } - rotate_);
-	transform.rotate = Quaternion::MakeForZAxis(Math::ToRadian * 1.0f);
-	transform.translate = (transform.rotate.GetForward() * transform.scale.z * 0.5f) + pos_;
-
-	ballTransform_.scale = desc.ballScale;
-	ballRotate_ = desc.ballRotate;
-	transform.rotate = Quaternion::MakeFromEulerAngle(ballRotate_);
-	ballTransform_.translate = transform.rotate.GetForward() * (transform.scale.z + ballTransform_.scale.z);
-
-	stick_->SetModel(ResourceManager::GetInstance()->FindModel(kStickName));
-	stick_->SetIsActive(true);
-	ball_->SetModel(ResourceManager::GetInstance()->FindModel(kStickName));
-	ball_->SetIsActive(true);
-
-	speed_ = desc.speed;
-	length_ = desc.length;
-	angle_ = desc.angle;
-
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
-	collider_->SetName("PendulumBall");
-	collider_->SetCenter(ballTransform_.translate);
-	collider_->SetOrientation(ballTransform_.rotate);
-	collider_->SetSize(ballTransform_.scale);
+	collider_->SetName("PendulumStick");
+	collider_->SetCenter(transform.translate);
+	collider_->SetOrientation(transform.rotate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::PendulumBall);
 	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
@@ -47,50 +30,108 @@ void Pendulum::Initialize(const Desc& desc) {
 #pragma endregion
 }
 
+void Stick::SetDesc(const Desc& desc) {
+	transform.scale = desc.scale;
+}
+
+void Stick::Update() {
+	UpdateTransform();
+}
+
+void Stick::UpdateTransform() {
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	transform.UpdateMatrix();
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetOrientation(rotate);
+	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void Stick::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void Ball::Initialize(const Transform* Transform, const Desc& desc) {
+	model_ = std::make_unique<ModelInstance>();
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+	model_->SetIsActive(true);
+
+	transform.SetParent(Transform);
+	transform.scale = desc.scale;
+	length_ = desc.length;
+	gravity_ = desc.gravity;
+	angle_ = desc.angle;
+#pragma region コライダー
+	collider_ = std::make_unique<BoxCollider>();
+	collider_->SetGameObject(this);
+	collider_->SetName("PendulumBall");
+	collider_->SetCenter(transform.translate);
+	collider_->SetOrientation(transform.rotate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	collider_->SetCollisionAttribute(CollisionAttribute::PendulumBall);
+	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
+	collider_->SetIsActive(true);
+#pragma endregion
+}
+
+void Ball::Update() {
+	angularAcceleration_ = -(gravity_ / length_) * std::sin(angle_);
+
+	angularVelocity_ += angularAcceleration_;
+	angle_ += angularVelocity_;
+
+	UpdateTransform();
+}
+
+void Ball::SetDesc(const Desc& desc) {
+	transform.scale = desc.scale;
+	length_ = desc.length;
+	gravity_ = desc.gravity;
+}
+
+void Ball::UpdateTransform() {
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	transform.translate = { std::sin(angle_) * length_, -std::cos(angle_) * length_, 0.0f };
+	transform.UpdateMatrix();
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetOrientation(rotate);
+	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void Ball::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void Pendulum::Initialize(const Desc& desc) {
+	stick_ = std::make_unique<Stick>();
+	ball_ = std::make_unique<Ball>();
+
+	transform.translate = desc.pos;
+
+	desc_ = desc;
+
+	stick_->Initialize(&transform,desc.stickDesc);
+	ball_->Initialize(&transform,desc.ballDesc);
+}
+
 void Pendulum::Update() {
-	static bool  clockwise = true;
-	if (clockwise) {
-		rotate_.z += speed_;
-	}
-	else {
-		rotate_.z -= speed_;
-	}
-	if (std::fabs(rotate_.z) >= angle_ * Math::ToRadian) {
-		clockwise ^= true;
-	}
+	transform.translate = desc_.pos;
+	stick_->Update();
+	ball_->Update();
 	UpdateTransform();
 }
 
 void Pendulum::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3{ 0.0f, 0.0f,270.0f * Math::ToRadian } - rotate_);
-	transform.translate = (transform.rotate.GetForward() * transform.scale.x) + pos_;
 	transform.UpdateMatrix();
-	stick_->SetWorldMatrix(transform.worldMatrix);
-
-	ballTransform_.rotate = Quaternion::MakeFromEulerAngle(ballRotate_);
-	ballTransform_.translate = transform.rotate.GetForward() * (transform.scale.x + ballTransform_.scale.x);
-
-	ballTransform_.UpdateMatrix();
-	ball_->SetWorldMatrix(ballTransform_.worldMatrix);
-	Vector3 scale, translate;
-	Quaternion rotate;
-	ballTransform_.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
-	collider_->SetOrientation(rotate);
-}
-
-void Pendulum::OnCollision(const CollisionInfo& collisionInfo) {
-	collisionInfo;
-}
-
-void PendulumDesc::PendulumDesc::Update() {
-	angularAcceleration = -(gravity / length) * std::sin(angle);
-
-	angularVelocity += angularAcceleration;
-	angle += angularVelocity;
-};
-
-const Vector3 PendulumDesc::PendulumDesc::GetPosition() {
-	return { anchor.x + std::sin(angle) * length,anchor.y - std::cos(angle) * length,anchor.z };
 }

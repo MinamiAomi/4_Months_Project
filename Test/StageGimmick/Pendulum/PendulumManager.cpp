@@ -23,21 +23,8 @@ void PendulumManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void PendulumManager::Create(
-	const Vector3& scale, const Vector3& rotate,
-	const Vector3& ballScale, const Vector3& ballRotate,
-	const Vector3& pos, float length, float speed, float angle) {
+void PendulumManager::Create(Pendulum::Desc desc) {
 	Pendulum* pendulum = new Pendulum();
-	pendulum->SetPlayer(player_);
-	Pendulum::Desc desc{};
-	desc.scale = scale;
-	desc.rotate = rotate;
-	desc.ballScale = ballScale;
-	desc.ballRotate = ballRotate;
-	desc.translate = pos;
-	desc.length = length;
-	desc.speed = speed;
-	desc.angle = angle;
 	pendulum->Initialize(desc);
 	pendulums_.emplace_back(std::move(pendulum));
 }
@@ -116,52 +103,38 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 				//保険
 				assert(itData != itObject->end());
 				if (objectName.find("Pendulum") != std::string::npos) {
-					Vector3 pos{}, stickRotate{}, stickScale{}, ballRotate{}, ballScale{};
-					float length=0.0f, speed = 0.0f, angle = 0.0f;
+					Pendulum::Desc desc{};
 					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 						//アイテム名を取得
 						const std::string& itemNameObject = itItemObject.key();
 						//要素数3の配列であれば
 						if (itItemObject->is_array() && itItemObject->size() == 3) {
 							//名前がpositionだった場合、positionを登録
-							if (itemNameObject == "position") {
+							if (itemNameObject == "ballDesc:scale") {
 								//float型のjson配列登録
-								pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.ballDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "stickRotate") {
+							else if (itemNameObject == "stickDesc:scale") {
 								//float型のjson配列登録
-								stickRotate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がscaleだった場合、scaleを登録
-							else if (itemNameObject == "stickScale") {
-								//float型のjson配列登録
-								stickScale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "ballRotate") {
+							else if (itemNameObject == "position") {
 								//float型のjson配列登録
-								ballRotate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がscaleだった場合、scaleを登録
-							else if (itemNameObject == "ballScale") {
-								//float型のjson配列登録
-								ballScale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 						}
 						else {
 							if (itemNameObject == "length") {
-								length = itItemObject->get<float>();
+								desc.ballDesc.length = itItemObject->get<float>();
 							}
-							else if (itemNameObject == "speed") {
-								speed = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "angle") {
-								angle = itItemObject->get<float>();
+							else if (itemNameObject == "gravity") {
+								desc.ballDesc.gravity = itItemObject->get<float>();
 							}
 						}
 					}
-					Create(stickScale, stickRotate, ballScale, ballRotate, pos, length, speed, angle);
+					Create(desc);
 				}
 			}
 		}
