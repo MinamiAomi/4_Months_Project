@@ -101,7 +101,15 @@ void RenderManager::Render() {
     auto io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::Text("FrameCount : %d", frameCount_);
-
+    if (ImGui::TreeNode("Bloom")) {
+        float knee = bloom_.GetKnee();
+        float threshold = bloom_.GetThreshold();
+        ImGui::DragFloat("knee",&knee,0.01f,0.0f,1.0f);
+        ImGui::DragFloat("threshold",&threshold,0.01f,0.0f,1.0f);
+        bloom_.SetKnee(knee);
+        bloom_.SetThreshold(threshold);
+        ImGui::TreePop();
+    }
     ImGui::End();
 #endif // ENABLE_IMGUI
 
