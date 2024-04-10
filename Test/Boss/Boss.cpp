@@ -76,7 +76,7 @@ void Boss::Update() {
 void Boss::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
-	transform.scale = Vector3::one;
+	transform.scale = { 7.0f,7.0f,7.0f };
 }
 
 void Boss::UpdateTransform() {
