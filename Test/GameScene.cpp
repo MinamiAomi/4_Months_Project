@@ -22,8 +22,6 @@ void GameScene::OnInitialize() {
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
-	RenderManager::GetInstance()->SetSunLight(directionalLight_);
-
 	cameraManager_->Initialize(player_.get());
 
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get());
@@ -114,6 +112,7 @@ void GameScene::OnUpdate() {
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
 	//}
+	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
 
 void GameScene::OnFinalize() {}

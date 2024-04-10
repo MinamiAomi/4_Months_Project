@@ -1,4 +1,3 @@
-
 #define NUM_TEXTURES 4
 
 Texture2D<float4> blurTexture0_ : register(t0);
@@ -19,7 +18,7 @@ struct PSInput {
 
 struct PSOutput {
     float4 color : SV_TARGET0;
-};
+}; 
 
 PSOutput main(PSInput input) {
     PSOutput output;
@@ -32,7 +31,7 @@ PSOutput main(PSInput input) {
     bloom /= NUM_TEXTURES;
     bloom.a = 1.0f;
 
-    output.color = bloom;
+    output.color = bloom * param_.intensity;
     
     return output;
 }

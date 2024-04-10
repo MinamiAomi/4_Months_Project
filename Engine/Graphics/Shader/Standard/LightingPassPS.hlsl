@@ -15,6 +15,7 @@ static float3 SpecularReflectance;
 static float Alpha;
 static float AlphaSq;
 static float NdotV;
+static uint UseLighting;
 
 struct PSInput {
     float4 svPosition : SV_POSITION0;
@@ -45,6 +46,7 @@ void InitializeSurfaceProperties(PSInput input) {
     Alpha = Roughness;
     AlphaSq = Alpha * Alpha;
     NdotV = saturate(dot(Normal, ViewDirection));
+    UseLighting = (uint) g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w;
 }
 
 float Pow5(float n) {
@@ -121,12 +123,13 @@ float3 ShadeDirectionalLight(DirectionalLight light) {
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
     float intensity = light.intensity * PI;
-    return BRDF * NdotL * light.color * intensity + Albedo * light.color * 0.1f;
+    float3 ambient = Albedo * light.color * 0.1f;
+    return BRDF * NdotL * light.color * intensity + ambient;
 }
 
-float GetDistanceAttenuation(float3 unNormalizedLightVector) {
-    float distSq = dot(unNormalizedLightVector, unNormalizedLightVector);
-    float attenuation = 1.0f / max(distSq, EPSILON);
+float GetDistanceAttenuation(float3 unNormalizedLightVector, float decay, float range) {
+    float dist = length(unNormalizedLightVector);
+    float attenuation = pow(saturate(-dist / range + 1), decay);
     return attenuation;
 }
 
@@ -143,9 +146,9 @@ float3 ShadePointLight(PointLight light) {
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
     
-    float attenuation = GetDistanceAttenuation(diff);
-    
-    return BRDF * NdotL * light.color * attenuation * INV_PI;  
+    float attenuation = GetDistanceAttenuation(diff, light.decay, light.range);
+    float3 ambient = Albedo * light.color * 0.1f;
+    return BRDF * NdotL * light.color * attenuation + ambient;
 }
 
 float GetAngleAttenuation(float3 unNormalizedLightVector, float3 lightDirection, float lightAngleScale, float lightAngleOffset) {
@@ -168,10 +171,35 @@ float3 ShadeSpotLight(SpotLight light) {
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
     
-    float attenuation = GetDistanceAttenuation(diff);
-    attenuation = GetAngleAttenuation(-lightDirection, light.direction, light.angleScale, light.angleOffset);
+    //float attenuation = GetDistanceAttenuation(diff);
+    //attenuation = GetAngleAttenuation(-lightDirection, light.direction, light.angleScale, light.angleOffset);
     
-    return BRDF * NdotL * light.color * attenuation * INV_PI;
+    return BRDF * NdotL * light.color * INV_PI;
+}
+
+float3 ShadeLineLight(LineLight light) {
+    float len = length(light.diff);
+    float3 dir = light.diff * (1.0f / len);
+    float dis = dot(Position - light.origin, dir);
+    dis = clamp(dis, 0.0f, len);
+    float3 closestPoint = light.origin + dis * dir;
+    
+    
+    float3 diff = closestPoint - Position;
+    float3 lightDirection = normalize(diff);
+    
+    float3 halfVector = normalize(lightDirection + ViewDirection);
+    float NdotL = saturate(dot(Normal, lightDirection));
+    float LdotH = saturate(dot(lightDirection, halfVector));
+    float NdotH = saturate(dot(Normal, halfVector));
+        
+    float3 diffuse = DiffuseBRDF();
+    float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
+    float3 BRDF = diffuse + specular;
+    
+    float attenuation = GetDistanceAttenuation(diff, light.decay, light.range);
+    float3 ambient = Albedo * light.color * 0.1f;
+    return BRDF * NdotL * light.color * attenuation + ambient;
 }
 
 PSOutput main(PSInput input) {
@@ -181,14 +209,25 @@ PSOutput main(PSInput input) {
     InitializeSurfaceProperties(input);
     
     // AlbedoのWが0の場合は計算しない
-    if (g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w == 0.0f) {
-        discard;
-    }
+    //if (g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w == 0.0f) {
+    //    discard;
+    //}
     
     float3 color = 0.0f;
-    color += ShadeDirectionalLight(g_Scene.directionalLight);
+    uint i = 0;
+    for (i = 0; i < g_Scene.numDirectionalLights; ++i) {
+        color += ShadeDirectionalLight(g_DirectionalLight[i]);
+    }
     
-    output.color.rgb = color;
+    for (i = 0; i < g_Scene.numPointLights; ++i) {
+        color += ShadePointLight(g_PointLight[i]);
+    }
+    
+    for (i = 0; i < g_Scene.numLineLights; ++i) {
+        color += ShadeLineLight(g_LineLight[i]);
+    }
+    
+    output.color.rgb = lerp(Albedo, color, UseLighting);
     output.color.a = 1.0f;
     
     return output;

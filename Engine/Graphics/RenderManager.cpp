@@ -34,10 +34,11 @@ void RenderManager::Initialize() {
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
 
+    bloom_.Initialize(&lightingRenderingPass_.GetResult());
     fxaa_.Initialize(&lightingRenderingPass_.GetResult());
     spriteRenderer_.Initialize(lightingRenderingPass_.GetResult());
 
-//    modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
+    //    modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
     transition_.Initialize();
     raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
 
@@ -69,24 +70,25 @@ void RenderManager::Render() {
     uint32_t targetSwapChainBufferIndex = (swapChain_.GetCurrentBackBufferIndex() + 1) % SwapChain::kNumBuffers;
 
     auto camera = camera_.lock();
-    auto sunLight = sunLight_.lock();
 
     commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-    if (camera && sunLight) {
+    if (camera) {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
-        lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, *sunLight);
+        lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
     }
 
+    bloom_.Render(commandContext_);
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
 
     transition_.Dispatch(commandContext_, lightingRenderingPass_.GetResult());
-        
+
     auto& swapChainBuffer = swapChain_.GetColorBuffer(targetSwapChainBufferIndex);
     commandContext_.CopyBuffer(swapChainBuffer, fxaa_.GetResult());
+    //commandContext_.CopyBuffer(swapChainBuffer, lightingRenderingPass_.GetResult());
 
     commandContext_.TransitionResource(swapChainBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
     commandContext_.FlushResourceBarriers();
@@ -109,7 +111,7 @@ void RenderManager::Render() {
 
     commandContext_.TransitionResource(swapChainBuffer, D3D12_RESOURCE_STATE_PRESENT);
 
-     // コマンドリスト完成(クローズ)
+    // コマンドリスト完成(クローズ)
     commandContext_.Close();
 
     // バックバッファをフリップ
@@ -126,4 +128,6 @@ void RenderManager::Render() {
     timer_.KeepFrameRate(60);
 
     imguiManager->NewFrame();
+    // ライトをリセット
+    lightManager_.Reset();
 }

@@ -39,7 +39,7 @@ void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
         rootParameters[RootIndex::BindlessTexture].InitAsDescriptorTable(1, &srvRange);
 
         CD3DX12_STATIC_SAMPLER_DESC staticSamplerDesc[1]{};
-        staticSamplerDesc[0].Init(0, D3D12_FILTER_MIN_MAG_MIP_POINT);
+        staticSamplerDesc[0].Init(0, D3D12_FILTER_MIN_MAG_MIP_LINEAR);
 
         D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
         rootSignatureDesc.NumParameters = _countof(rootParameters);
@@ -98,6 +98,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     struct InstanceData {
         Matrix4x4 worldMatrix;
         Matrix4x4 worldInverseTransposeMatrix;
+        uint32_t useLighting;
     };
 
 
@@ -161,6 +162,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         InstanceData instanceData;
         instanceData.worldMatrix = instance->GetWorldMatrix();
         instanceData.worldInverseTransposeMatrix = instance->GetWorldMatrix().Inverse().Transpose();
+        instanceData.useLighting = instance->UseLighting() ? 1 : 0;
         commandContext.SetDynamicConstantBufferView(RootIndex::Instance, sizeof(instanceData), &instanceData);
 
         for (auto& mesh : instance->GetModel()->GetMeshes()) {
@@ -174,7 +176,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
                 if (mesh.material->normalMap) { materialData.normalMapIndex = mesh.material->normalMap->GetSRV().GetIndex(); }
             }
             commandContext.SetDynamicConstantBufferView(RootIndex::Material, sizeof(materialData), &materialData);
-            
+
             commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView());
             commandContext.SetIndexBuffer(mesh.indexBuffer.GetIndexBufferView());
             commandContext.DrawIndexed((UINT)mesh.indices.size());

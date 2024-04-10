@@ -118,5 +118,4 @@ void Bloom::Render(CommandContext& commandContext, uint32_t level) {
     }
     commandContext.Draw(3);
 
-    commandContext.TransitionResource(*originalTexture_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

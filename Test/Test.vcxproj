@@ -47,6 +47,7 @@
     <ClCompile Include="StageGimmick\Floor\FloorManager.cpp" />
     <ClCompile Include="StageGimmick\Pendulum\Pendulum.cpp" />
     <ClCompile Include="StageGimmick\Pendulum\PendulumManager.cpp" />
+    <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="StageGimmick\Floor\FloorManager.h" />
     <ClInclude Include="StageGimmick\Pendulum\Pendulum.h" />
     <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h" />
+    <ClInclude Include="Skydome.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />

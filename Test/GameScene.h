@@ -19,6 +19,7 @@
 #include "DebugCamera.h"
 #include "Editor/EditorManager.h"
 #include "Player/Player.h"
+#include "Skydome.h"
 
 class GameScene :
 	public BaseScene {
@@ -32,11 +33,11 @@ private:
 	std::shared_ptr<CameraManager> cameraManager_;
 	std::shared_ptr<DirectionalLight> directionalLight_;
 
-#pragma region エディター
+#pragma region 
 	std::unique_ptr<EditorManager> editorManager_;
 	bool isMove_;
 #pragma endregion
-#pragma region ステージギミック
+#pragma region 
 	std::unique_ptr<BlockManager> blockManager_;
 	std::unique_ptr<FireBarManager> fireBarManager_;
 	std::unique_ptr<FloorManager> floorManager_;
@@ -46,5 +47,6 @@ private:
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Boss> boss_;
+	std::unique_ptr<Skydome> skydome_;
 #pragma endregion
 };

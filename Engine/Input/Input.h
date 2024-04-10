@@ -12,6 +12,28 @@
 
 #define MOUSE_CLICKED_VALUE 0x80
 
+// コントローラーボタン
+enum Gamepad {
+    GamepadButtonUp = 0x0001,			// 上
+    GamepadButtonDown = 0x0002,			// 下
+    GamepadButtonLeft = 0x0004,			// 左
+    GamepadButtonRight = 0x0008,		// 右
+    GamepadButtonStart = 0x0010,		// メニュー
+    GamepadButtonBack = 0x0020,			// ビュー
+    GamepadButtonLeftThumb = 0x0040,			// L3
+    GamepadButtonRightThumb = 0x0080,			// R3
+    GamepadButtonLeftShoulder = 0x0100,		// L1
+    GamepadButtonRightShoulder = 0x0200,		// R1
+    GamepadButtonA = 0x1000,			// A
+    GamepadButtonB = 0x2000,			// B
+    GamepadButtonX = 0x4000,			// X
+    GamepadButtonY = 0x8000,			// Y
+    GamepadLeftTrigger = 0x000F0000,	// L2 (適当な数字を割り当て)
+    GamepadRightTrigger = 0x00FF0000,	// R2 (適当な数字を割り当て)
+};
+
+
+
 class Input {
 public:
 
@@ -38,7 +60,7 @@ public:
 
 private:
     static const uint32_t kNumKeys = 256;
-   
+
     Input() = default;
     Input(const Input&) = delete;
     Input& operator=(const Input&) = delete;

@@ -73,6 +73,9 @@
     <Filter Include="Game\Object\Editor\PendulumEditor">
       <UniqueIdentifier>{0735628f-bf6d-4f1f-9b0a-9f3cb8b2adb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Skydome">
+      <UniqueIdentifier>{c65d2f12-a84e-4867-b73b-d36608a5f8d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -168,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>Game\Object\Skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

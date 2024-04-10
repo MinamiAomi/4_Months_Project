@@ -152,13 +152,28 @@ void GaussianBlur::Render(CommandContext& commandContext) {
 
 void GaussianBlur::UpdateWeightTable(float blurPower) {
     float total = 0;
-    for (uint32_t i = 0; i < kNumWeights; ++i) {
-        weights_[i] = std::exp(-0.5f * float(i * i) / blurPower);
-        total += 2.0f * weights_[i];
+    blurPower = blurPower * 100.0f;
+
+    if (blurPower > 0.0f) {
+        for (uint32_t i = 0; i < kNumWeights; ++i) {
+            float r = 1.0f + 2.0f * i;
+            float w = std::exp(-0.5f * float(r * r) / blurPower);
+            weights_[i] = w;
+            if (i > 0) {
+                w *= 2.0f;
+            }
+            total += w;
+        }
+        //total = 1.0f / total;
+        for (uint32_t i = 0; i < kNumWeights; ++i) {
+            weights_[i] /= total;
+        }
     }
-    total = 1.0f / total;
-    for (uint32_t i = 0; i < kNumWeights; ++i) {
-        weights_[i] *= total;
+    else {
+        for (uint32_t i = 0; i < kNumWeights; ++i) {
+            weights_[i] = 0.0f;
+        }
+        weights_[0] = 1.0f;
     }
     constantBuffer_.Copy(weights_, sizeof(weights_));
 }
