@@ -83,3 +83,14 @@ void Pendulum::UpdateTransform() {
 void Pendulum::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
+
+void PendulumDesc::PendulumDesc::Update() {
+	angularAcceleration = -(gravity / length) * std::sin(angle);
+
+	angularVelocity += angularAcceleration;
+	angle += angularVelocity;
+};
+
+const Vector3 PendulumDesc::PendulumDesc::GetPosition() {
+	return { anchor.x + std::sin(angle) * length,anchor.y - std::cos(angle) * length,anchor.z };
+}

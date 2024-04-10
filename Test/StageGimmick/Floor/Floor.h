@@ -17,7 +17,6 @@ public:
 		Vector3 rotate;
 		Vector3	scale;
 	};
-
 	void Initialize(const Desc& desc);
 	void Update();
 

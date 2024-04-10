@@ -62,7 +62,8 @@ void PlayerBullet::UpdateTransform() {
 
 void PlayerBullet::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Boss" ||
-		collisionInfo.collider->GetName() == "Block") {
+		collisionInfo.collider->GetName() == "Block"||
+		collisionInfo.collider->GetName() == "FireBarCenter") {
 		isAlive_ = false;
 		model_->SetIsActive(false);
 		collider_->SetIsActive(false);

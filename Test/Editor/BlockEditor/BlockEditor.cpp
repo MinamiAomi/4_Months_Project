@@ -23,7 +23,7 @@ void BlockEditor::Initialize() {
 
 	rotate_ = Vector3::zero;
 
-	transform.scale = { 5.0f,5.0f,5.0f };
+	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
 	transform.translate = Vector3::zero;
 
@@ -36,7 +36,8 @@ void BlockEditor::Initialize() {
 	collider_->SetName("Block");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize(transform.scale);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
@@ -48,6 +49,7 @@ void BlockEditor::Update() {
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BlockEditor")) {
 		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
 		static bool isCollision = true;
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
@@ -247,7 +249,8 @@ void BlockEditor::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }

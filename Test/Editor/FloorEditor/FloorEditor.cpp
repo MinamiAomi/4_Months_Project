@@ -23,9 +23,9 @@ void FloorEditor::Initialize() {
 
 	rotate_ = Vector3::zero;
 
-	transform.scale = { 5.0f,5.0f,5.0f };
+	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
-	transform.translate = {0.0f,-3.0f,0.0f};
+	transform.translate = { 0.0f,-3.0f,0.0f };
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
@@ -36,7 +36,8 @@ void FloorEditor::Initialize() {
 	collider_->SetName("Floor");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize({ transform.scale.x * 8.0f,transform.scale.y,transform.scale.z * 40.0f });
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
 	collider_->SetCollisionMask(~CollisionAttribute::Floor);
@@ -48,7 +49,6 @@ void FloorEditor::Initialize() {
 void FloorEditor::Update() {
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FloorEditor")) {
-		model_->SetIsActive(true);
 		static bool isCollision = false;
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
@@ -80,7 +80,9 @@ void FloorEditor::Update() {
 			}
 			i++;
 		}
-		if (ImGui::TreeNode("CreateBlock")) {
+		if (ImGui::TreeNode("CreateFloor")) {
+			model_->SetIsActive(true);
+			collider_->SetIsActive(true);
 			ImGui::DragFloat3("scale", &transform.scale.x, 0.25f);
 			ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
 			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
@@ -92,13 +94,11 @@ void FloorEditor::Update() {
 			isCreate_ = true;
 		}
 		else {
+			model_->SetIsActive(false);
+			collider_->SetIsActive(false);
 			isCreate_ = false;
 		}
 		ImGui::TreePop();
-	}
-	else {
-		model_->SetIsActive(false);
-		collider_->SetIsActive(false);
 	}
 	ImGui::End();
 	UpdateTransform();
@@ -248,7 +248,8 @@ void FloorEditor::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize({ scale.x * 8.0f,scale.y,scale.z * 40.0f });
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * scale.x,modelSize.y * scale.y ,modelSize.z * scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
