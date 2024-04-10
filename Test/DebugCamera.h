@@ -8,14 +8,15 @@
 #include "Math/Camera.h"
 
 class DebugCamera :
-    public GameObject {
+	public GameObject {
 public:
-    void Initialize();
-    void Update();
+	void Initialize();
+	void Update();
 
-    const std::shared_ptr<Camera>& GetCamera() const { return camera_; }
-    void SetRenderManager();
+	const std::shared_ptr<Camera>& GetCamera() const { return camera_; }
+	void SetCamera(const std::shared_ptr<Camera>& camera) { camera_ = camera; }
+	void SetRenderManager();
 private:
-    std::shared_ptr<Camera> camera_;
-    Vector3 eulerAngle_;
+	std::shared_ptr<Camera> camera_;
+	Vector3 eulerAngle_;
 };

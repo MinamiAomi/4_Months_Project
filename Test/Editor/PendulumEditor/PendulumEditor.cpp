@@ -21,6 +21,13 @@ void PendulumEditor::Initialize() {
 	stick_ = std::make_unique<ModelInstance>();
 	ball_ = std::make_unique<ModelInstance>();
 
+	pendulum_.anchor = { 0.0f,1.0f,0.0f };
+	pendulum_.length = 0.8f;
+	pendulum_.angle = 0.7f;
+	pendulum_.gravity = 0.002f;
+	pendulum_.angularVelocity = 0.0f;
+	pendulum_.angularAcceleration = 0.0f;
+
 	speed_ = 0.01f;
 	angle_ = 15.0f;
 	length_ = 5.0f;
@@ -148,6 +155,15 @@ void PendulumEditor::Update() {
 	if (std::fabs(rotate_.z) >= angle_ * Math::ToRadian) {
 		clockwise ^= true;
 	}
+	ImGui::Begin("pendulum");
+	ImGui::DragFloat3("anchor",&pendulum_.anchor.x,0.1f);
+	ImGui::DragFloat("length",&pendulum_.length,0.1f);
+	ImGui::DragFloat("angle",&pendulum_.angle,0.1f);
+	ImGui::DragFloat("gravity",&pendulum_.gravity,0.001f);
+	ImGui::DragFloat("angularVelocity",&pendulum_.angularVelocity,0.1f);
+	ImGui::DragFloat("angularAcceleration",&pendulum_.angularAcceleration,0.1f);
+	ImGui::End();
+	pendulum_.Update();
 	UpdateTransform();
 }
 
@@ -311,8 +327,7 @@ void PendulumEditor::Clear() {
 }
 
 void PendulumEditor::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3{ 0.0f, 0.0f,270.0f * Math::ToRadian } - rotate_);
-	transform.translate = pos_ + (transform.rotate.GetForward() * transform.scale.x);
+	transform.translate = pendulum_.GetPosition();
 	transform.UpdateMatrix();
 	stick_->SetWorldMatrix(transform.worldMatrix);
 
@@ -331,4 +346,15 @@ void PendulumEditor::UpdateTransform() {
 
 void PendulumEditor::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
+}
+
+void PendulumEditor::PendulumDesc::Update() {
+	angularAcceleration = -(gravity / length) * std::sin(angle);
+
+	angularVelocity += angularAcceleration;
+	angle += angularVelocity;
+}
+
+const Vector3 PendulumEditor::PendulumDesc::GetPosition() {
+	return { anchor.x + std::sin(angle) * length,anchor.y - std::cos(angle) * length,anchor.z };
 }
