@@ -150,7 +150,12 @@ void FireBar::Initialize(const Vector3& pos, const Vector3& centerScale, const V
 	bar_ = std::make_unique<Bar>();
 	center_->SetPlayer(player_);
 	bar_->SetPlayer(player_);
-	center_->Initialize(centerScale, centerRotate, pos_);
+
+	Center::Desc centerDesc{};
+	centerDesc.translate = pos_;
+	centerDesc.rotate = centerRotate;
+	centerDesc.scale = centerScale;
+	center_->Initialize(centerDesc);
 	bar_->Initialize(barScale, barRotate, pos_, barRotateVelocity);
 }
 

@@ -29,7 +29,16 @@ void PendulumManager::Create(
 	const Vector3& pos, float length, float speed, float angle) {
 	Pendulum* pendulum = new Pendulum();
 	pendulum->SetPlayer(player_);
-	pendulum->Initialize(scale, rotate, ballScale, ballRotate, pos, length, speed, angle);
+	Pendulum::Desc desc{};
+	desc.scale = scale;
+	desc.rotate = rotate;
+	desc.ballScale = ballScale;
+	desc.ballRotate = ballRotate;
+	desc.translate = pos;
+	desc.length = length;
+	desc.speed = speed;
+	desc.angle = angle;
+	pendulum->Initialize(desc);
 	pendulums_.emplace_back(std::move(pendulum));
 }
 

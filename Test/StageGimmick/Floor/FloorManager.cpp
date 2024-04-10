@@ -24,9 +24,13 @@ void FloorManager::Reset(uint32_t stageIndex) {
 }
 
 void FloorManager::Create(const Vector3& scale, const Vector3& rotate, const Vector3& position) {
-	Floor* floor= new Floor();
+	Floor* floor = new Floor();
 	floor->SetPlayer(player_);
-	floor->Initialize(scale, rotate, position);
+	Floor::Desc desc{};
+	desc.scale = scale;
+	desc.rotate = rotate;
+	desc.translate = position;
+	floor->Initialize(desc);
 	floors_.emplace_back(std::move(floor));
 }
 

@@ -26,7 +26,11 @@ void BlockManager::Reset(uint32_t stageIndex) {
 void BlockManager::Create(const Vector3& scale, const Vector3& rotate, const Vector3& position) {
 	Block* block = new Block();
 	block->SetPlayer(player_);
-	block->Initialize(scale, rotate, position);
+	Block::Desc desc{};
+	desc.scale = scale;
+	desc.rotate = rotate;
+	desc.translate = position;
+	block->Initialize(desc);
 	blocks_.emplace_back(std::move(block));
 }
 
