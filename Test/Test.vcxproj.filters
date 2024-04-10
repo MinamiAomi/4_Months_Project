@@ -273,5 +273,8 @@
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>Game\Object\Skydome</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
