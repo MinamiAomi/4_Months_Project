@@ -12,7 +12,12 @@
 class Block :
 	public GameObject {
 public:
-	void Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos);
+	struct Desc {
+		Vector3 translate;
+		Vector3 rotate;
+		Vector3 scale;
+	};
+	void Initialize(const Desc& desc);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }

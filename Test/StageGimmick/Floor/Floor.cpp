@@ -4,16 +4,16 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-void Floor::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos) {
+void Floor::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("floor"));
 	model_->SetIsActive(true);
 
-	rotate_ = rotate;
+	rotate_ = desc.rotate;
 
-	transform.translate = pos;
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-	transform.scale = scale;
+	transform.translate = desc.translate;
+	transform.rotate = Quaternion::MakeFromEulerAngle(desc.rotate);
+	transform.scale = desc.scale;
 
 
 #pragma region コライダー

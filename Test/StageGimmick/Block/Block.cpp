@@ -7,13 +7,13 @@
 
 const std::string Block::kModelName = "block";
 
-void Block::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos) {
+void Block::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = scale;
-	rotate_ = rotate;
+	transform.scale = desc.scale;
+	rotate_ = desc.rotate;
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-	transform.translate = pos;
+	transform.translate = desc.translate;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
