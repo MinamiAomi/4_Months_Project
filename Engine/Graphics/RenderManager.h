@@ -39,7 +39,7 @@ public:
 
     void SetCamera(const std::shared_ptr<Camera>& camera) { camera_ = camera; }
     LightManager& GetLightManager() { return lightManager_; }
-
+    Bloom& GetBloom() { return bloom_; }
     Transition& GetTransition() { return transition_; }
 
 private:
