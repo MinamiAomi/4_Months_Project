@@ -32,12 +32,12 @@ void DebugCamera::Update() {
 		eulerAngle_.y += rotSpeed * static_cast<float>(mouseMoveX);
 	}
 	else if (input->IsMousePressed(2)) {
-		Vector3 cameraX = rotate.GetRight() * (-static_cast<float>(mouseMoveX) * 0.01f);
-		Vector3 cameraY = rotate.GetUp() * (static_cast<float>(mouseMoveY) * 0.01f);
+		Vector3 cameraX = rotate.GetRight() * (-static_cast<float>(mouseMoveX) * 0.02f);
+		Vector3 cameraY = rotate.GetUp() * (static_cast<float>(mouseMoveY) * 0.02f);
 		diffPosition += cameraX + cameraY;
 	}
 	else if (wheel != 0) {
-		Vector3 cameraZ = rotate.GetForward() * (static_cast<float>(wheel / 120) * 0.5f);
+		Vector3 cameraZ = rotate.GetForward() * (static_cast<float>(wheel / 120) * 2.5f);
 		diffPosition += cameraZ;
 	}
 
