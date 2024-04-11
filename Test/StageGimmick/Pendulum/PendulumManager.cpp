@@ -115,14 +115,9 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 								desc.ballDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "stickDesc:scale") {
-								//float型のjson配列登録
-								desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がrotationだった場合、rotationを登録
 							else if (itemNameObject == "position") {
 								//float型のjson配列登録
-								desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 						}
 						else {

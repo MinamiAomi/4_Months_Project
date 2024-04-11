@@ -13,10 +13,10 @@ class Stick :
 	public GameObject {
 public:
 	struct Desc {
-		Vector3 scale;
+		float length;
 	};
 
-	void Initialize(const Transform* transform,const Desc& desc);
+	void Initialize(const Transform* transform, const Desc& desc);
 	void SetDesc(const Desc& desc);
 	void Update(float angle);
 
@@ -60,6 +60,7 @@ private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
+	Transform modelTransform_;
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
 
@@ -75,7 +76,6 @@ class Pendulum :
 	public GameObject {
 public:
 	struct Desc {
-		Stick::Desc stickDesc;
 		Ball::Desc ballDesc;
 		Vector3 pos;
 	};
