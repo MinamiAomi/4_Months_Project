@@ -15,6 +15,7 @@ public:
 	BossState(BossStateManager& manager) : manager_(manager) {}
 	virtual ~BossState() {}
 	virtual void Initialize() = 0;
+	virtual	void SetDesc() = 0;
 	virtual void Update() = 0;
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
 	BossStateManager& GetManager() { return manager_; }
@@ -30,6 +31,7 @@ public:
 	};
 	using BossState::BossState;
 	void Initialize() override;
+	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 
@@ -43,20 +45,19 @@ public:
 	struct JsonData {
 		Vector3 startPosition;
 		Vector3 endPosition;
-		Vector3 rotate;
+		Vector3 startRotate;
+		Vector3 endRotate;
 		float easingTime;
 	};
 	using BossState::BossState;
 	void Initialize() override;
+	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 
 private:
-	Vector3 startPosition_;
-	Vector3 endPosition_;
-	Vector3 rotate_;
+	JsonData data_;
 	float time_;
-	float easingTime_;
 };
 
 

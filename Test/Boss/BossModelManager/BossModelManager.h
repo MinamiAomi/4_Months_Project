@@ -24,12 +24,19 @@ class BossModel :
 public:
 	void Initialize(uint32_t index);
 	void Update();
+
+	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
+	const Vector3& GetOffset()const { return offset_; }
 private:
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
 	void UpdateTransform();
+	void DrawImGui();
 
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
+	Vector3 offset_;
+	Vector3 rotate_;
+	std::string name_;
 };
 
 class Body :public BossModel {

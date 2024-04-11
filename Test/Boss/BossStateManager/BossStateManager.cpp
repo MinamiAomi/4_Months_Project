@@ -13,7 +13,8 @@ void BossStateManager::Initialize() {
 	JSON_OBJECT("StateAtacck");
 	JSON_LOAD(jsonData_.attackData.startPosition);
 	JSON_LOAD(jsonData_.attackData.endPosition);
-	JSON_LOAD(jsonData_.attackData.rotate);
+	JSON_LOAD(jsonData_.attackData.startRotate);
+	JSON_LOAD(jsonData_.attackData.endRotate);
 	JSON_LOAD(jsonData_.attackData.easingTime);
 	JSON_ROOT();
 	JSON_CLOSE();
@@ -70,13 +71,16 @@ void BossStateManager::DrawImGui() {
 		if (ImGui::TreeNode("Attack")) {
 			ImGui::DragFloat3("startPosition", &jsonData_.attackData.startPosition.x, 0.1f);
 			ImGui::DragFloat3("endPosition", &jsonData_.attackData.endPosition.x, 0.1f);
-			Vector3 rotate = jsonData_.attackData.rotate * Math::ToDegree;
-			ImGui::DragFloat3("rotate", &rotate.x, 0.1f);
-			jsonData_.attackData.rotate = rotate * Math::ToRadian;
+			Vector3 rotate = jsonData_.attackData.startRotate * Math::ToDegree;
+			ImGui::DragFloat3("startRotate", &rotate.x, 0.1f);
+			jsonData_.attackData.startRotate = rotate * Math::ToRadian;
+			rotate = jsonData_.attackData.endRotate * Math::ToDegree;
+			ImGui::DragFloat3("endRotate", &rotate.x, 0.1f);
+			jsonData_.attackData.endRotate = rotate * Math::ToRadian;
 			ImGui::DragFloat("easingTime", &jsonData_.attackData.easingTime, 0.1f);
 			ImGui::TreePop();
 		}
-		activeState_->Initialize();
+		activeState_->SetDesc();
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
 			JSON_OBJECT("StateRoot");
@@ -85,7 +89,8 @@ void BossStateManager::DrawImGui() {
 			JSON_OBJECT("StateAtacck");
 			JSON_SAVE(jsonData_.attackData.startPosition);
 			JSON_SAVE(jsonData_.attackData.endPosition);
-			JSON_SAVE(jsonData_.attackData.rotate);
+			JSON_SAVE(jsonData_.attackData.startRotate);
+			JSON_SAVE(jsonData_.attackData.endRotate);
 			JSON_SAVE(jsonData_.attackData.easingTime);
 			JSON_ROOT();
 			JSON_CLOSE();
@@ -97,7 +102,19 @@ void BossStateManager::DrawImGui() {
 }
 
 void BossStateRoot::Initialize() {
-	velocity_ = GetManager().GetData().rootData.velocity;
+	SetDesc();
+	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
+	leftArmTransform.translate = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->GetOffset();
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(Vector3::zero);
+	leftArmTransform.rotate = Quaternion::identity;
+	auto& rightArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->transform;
+	rightArmTransform.translate = manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->GetOffset();
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->SetRotate(Vector3::zero);
+	rightArmTransform.rotate = Quaternion::identity;
+}
+
+void BossStateRoot::SetDesc() {
+	velocity_ = manager_.jsonData_.rootData.velocity;
 }
 
 void BossStateRoot::Update() {
@@ -125,20 +142,26 @@ void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void BossStateAttack::Initialize() {
-	startPosition_ = manager_.jsonData_.attackData.startPosition;
-	endPosition_ = manager_.jsonData_.attackData.endPosition;
-	rotate_ = manager_.jsonData_.attackData.rotate;
-	easingTime_ = manager_.jsonData_.attackData.easingTime;
+	SetDesc();
 	time_ = 0.0f;
+}
+
+void BossStateAttack::SetDesc() {
+	data_ = manager_.jsonData_.attackData;
 }
 
 void BossStateAttack::Update() {
 	auto& transform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
-	float t = time_ / easingTime_;
-	transform.translate.x = std::lerp(startPosition_.x, endPosition_.x, t);
-	transform.translate.y = std::lerp(startPosition_.y, endPosition_.y, t);
-	transform.translate.z = std::lerp(startPosition_.z, endPosition_.z, t);
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	float t = time_ / data_.easingTime;
+	time_ += 1.0f;
+	transform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
+	transform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
+	transform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
+	Vector3 rotate{};
+	rotate.x = std::lerp(data_.startRotate.x, data_.endRotate.x, t);
+	rotate.y = std::lerp(data_.startRotate.y, data_.endRotate.y, t);
+	rotate.z = std::lerp(data_.startRotate.z, data_.endRotate.z, t);
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
 	if (t >= 1.0f) {
 		manager_.ChangeState<BossStateRoot>();
 	}
