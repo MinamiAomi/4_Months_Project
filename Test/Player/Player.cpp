@@ -47,7 +47,7 @@ void Player::Initialize() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
-
+	transform.UpdateMatrix();
 	canFirstJump_ = true;
 	canSecondJump_ = true;
 #pragma region コライダー

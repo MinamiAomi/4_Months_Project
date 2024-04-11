@@ -56,6 +56,9 @@ void FireBarEditor::Initialize() {
 }
 
 void FireBarEditor::Update() {
+#ifdef _DEBUG
+
+
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
 		Vector3 pos{}, centerRotate{}, centerScale{}, barRotate{}, barScale{};
@@ -137,6 +140,7 @@ void FireBarEditor::Update() {
 		isCreate_ = false;
 	}
 	ImGui::End();
+#endif // _DEBUG
 	barTransform_.translate = transform.translate;
 	transform.scale.z = transform.scale.x;
 	barTransform_.scale.x = transform.scale.z;

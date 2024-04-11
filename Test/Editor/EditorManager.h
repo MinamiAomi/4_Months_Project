@@ -9,12 +9,12 @@ class BlockManager;
 class FireBarManager;
 class FloorManager;
 class PendulumManager;
+class Player;
 class EditorManager {
 public:
-	void Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager);
+	void Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager,const Player* player);
 
 	void Update();
-
 private:
 	int stageIndex_;
 

@@ -32,6 +32,7 @@ void Stick::Initialize(const Transform* Transform, const Desc& desc) {
 
 void Stick::SetDesc(const Desc& desc) {
 	transform.scale = desc.scale;
+
 	UpdateTransform();
 }
 
@@ -143,6 +144,15 @@ void Pendulum::Update() {
 	transform.translate = desc_.pos;
 	ball_->Update();
 	stick_->Update(ball_->GetAngle());
+	// 雑カリング
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+		ball_->SetIsActive(true);
+		stick_->SetIsActive(true);
+	}
+	else {
+		ball_->SetIsActive(false);
+		stick_->SetIsActive(false);
+	}
 	UpdateTransform();
 }
 

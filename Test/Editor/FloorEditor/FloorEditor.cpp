@@ -49,7 +49,6 @@ void FloorEditor::Initialize() {
 void FloorEditor::Update() {
 #ifdef _DEBUG
 
-
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FloorEditor")) {
 		static bool isCollision = false;
