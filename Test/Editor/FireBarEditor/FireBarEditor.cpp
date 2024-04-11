@@ -58,10 +58,6 @@ void FireBarEditor::Initialize() {
 void FireBarEditor::Update() {
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
-		static bool isCollision = true;
-		if (ImGui::Checkbox("isCollision", &isCollision)) {
-			collider_->SetIsActive(isCollision);
-		}
 		Vector3 pos{}, centerRotate{}, centerScale{}, barRotate{}, barScale{};
 		float barRotateVelocity;
 		for (uint32_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
