@@ -88,7 +88,7 @@ void RenderManager::Render() {
             commandContext_.TransitionResource(ds, D3D12_RESOURCE_STATE_DEPTH_READ);
             commandContext_.SetRenderTarget(rt.GetRTV(), ds.GetDSV());
             commandContext_.SetViewportAndScissorRect(0, 0, rt.GetWidth(), rt.GetHeight());
-            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeScaling({ 250.0f, 250.0f, 250.0f}));
+            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ 250.0f, 250.0f, 250.0f}, Quaternion::identity, camera->GetPosition()));
         }
     }
 
