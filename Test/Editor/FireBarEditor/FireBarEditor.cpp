@@ -37,8 +37,17 @@ void FireBarEditor::Initialize() {
 
 	center_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	bar_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+
+#ifdef _DEBUG
 	center_->SetIsActive(true);
 	bar_->SetIsActive(true);
+#else
+	center_->SetIsActive(false);
+	bar_->SetIsActive(false);
+
+#endif // _DEBUG
+
+
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -51,7 +60,12 @@ void FireBarEditor::Initialize() {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
 	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
+#ifdef _DEBUG
 	collider_->SetIsActive(true);
+#else
+	collider_->SetIsActive(false);
+
+#endif // _DEBUG
 #pragma endregion
 }
 

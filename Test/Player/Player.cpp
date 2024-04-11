@@ -148,7 +148,7 @@ void Player::UpdateTransform() {
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
-	if (collisionInfo.collider->GetName() == "BossBody") {
+	if (collisionInfo.collider->GetName() == "Boss") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			acceleration_.z -= knockBack_;
@@ -185,7 +185,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		//}
 	}
 	else if (collisionInfo.collider->GetName() == "FireBarBar"||
-		collisionInfo.collider->GetName() == "PendulumBall") {
+		collisionInfo.collider->GetName() == "PendulumBall"||
+		collisionInfo.collider->GetName() == "bossLeftArm") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {

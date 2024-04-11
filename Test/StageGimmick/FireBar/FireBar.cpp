@@ -52,7 +52,7 @@ void Center::Update() {
 	}
 	onPlayer_ = false;
 	// 雑カリング
-	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 	}

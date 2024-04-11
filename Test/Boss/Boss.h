@@ -35,4 +35,7 @@ private:
 	Vector3 offset_;
 
 	bool isMove_;
+
+	float time_;
+	float interval_ = 600.0f;
 };

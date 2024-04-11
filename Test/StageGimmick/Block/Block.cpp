@@ -44,7 +44,7 @@ void Block::Update() {
 	}
 	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
 	// 雑カリング
-	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 	}
