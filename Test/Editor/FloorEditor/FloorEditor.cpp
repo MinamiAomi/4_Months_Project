@@ -28,7 +28,11 @@ void FloorEditor::Initialize() {
 	transform.translate = { 0.0f,-3.0f,0.0f };
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	model_->SetIsActive(true);
+#ifdef _DEBUG
+	model_->SetIsActive(true); 
+#else
+	model_->SetIsActive(false); 
+#endif // _DEBUG
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -41,7 +45,13 @@ void FloorEditor::Initialize() {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
 	collider_->SetCollisionMask(~CollisionAttribute::Floor);
+	
+#ifdef _DEBUG
 	collider_->SetIsActive(true);
+#else
+	collider_->SetIsActive(false);
+#endif // _DEBUG
+	
 #pragma endregion
 
 }

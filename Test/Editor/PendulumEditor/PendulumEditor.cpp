@@ -28,6 +28,7 @@ void PendulumEditor::Initialize() {
 	desc.stickDesc.scale = { 1.0f,desc.ballDesc.length,1.0f };
 	pendulum_->SetPlayer(player_);
 	pendulum_->Initialize(desc);
+#
 	pendulum_->SetIsActive(false);
 	// 一回だけ実行
 	pendulum_->Update();

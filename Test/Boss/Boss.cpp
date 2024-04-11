@@ -52,6 +52,11 @@ void Boss::Update() {
 	}
 	ImGui::End();
 #endif // _DEBUG
+	time_ -= 1.0f;
+	if (time_<=0.0f) {
+		state_->ChangeState<BossStateAttack>();
+		time_ = interval_;
+	}
 	state_->Update();
 	UpdateTransform();
 	bossModelManager_->Update();
@@ -62,6 +67,7 @@ void Boss::Reset() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 7.0f,7.0f,7.0f };
 	state_->ChangeState<BossStateRoot>();
+	time_ = interval_;
 }
 
 void Boss::UpdateTransform() {

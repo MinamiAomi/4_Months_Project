@@ -148,7 +148,7 @@ void Player::UpdateTransform() {
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
-	if (collisionInfo.collider->GetName() == "BossBody") {
+	if (collisionInfo.collider->GetName() == "Boss") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			acceleration_.z -= knockBack_;

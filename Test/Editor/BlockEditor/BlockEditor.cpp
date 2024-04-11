@@ -28,7 +28,13 @@ void BlockEditor::Initialize() {
 	transform.translate = Vector3::zero;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+
+#ifdef _DEBUG
 	model_->SetIsActive(true);
+#else
+	model_->SetIsActive(false);
+#endif // _DEBUG
+
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -41,7 +47,11 @@ void BlockEditor::Initialize() {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
+#ifdef _DEBUG
 	collider_->SetIsActive(true);
+#else
+	collider_->SetIsActive(false);
+#endif // _DEBUG
 #pragma endregion
 }
 
