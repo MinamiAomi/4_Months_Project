@@ -7,6 +7,8 @@
 #include "Collision/Collider.h"
 
 #include "Graphics/Model.h"
+#include "BossModelManager/BossModelManager.h"
+
 class Boss :
 	public GameObject {
 public:
@@ -18,9 +20,10 @@ public:
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
-	std::unique_ptr<ModelInstance> model_;
-
+	
 	std::unique_ptr<BoxCollider> collider_;
+
+	std::unique_ptr<BossModelManager> bossModelManager_;
 
 	Vector3 velocity_;
 	Vector3 offset_;
