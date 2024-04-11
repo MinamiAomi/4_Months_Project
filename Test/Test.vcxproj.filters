@@ -79,6 +79,9 @@
     <Filter Include="Game\Object\Boss\BossModelManager">
       <UniqueIdentifier>{35e4222a-50d9-4e05-b79c-598ae3ecdb9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\BossStateManager">
+      <UniqueIdentifier>{b8406276-c75d-4c3d-9952-f9470efcc620}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp">
       <Filter>Game\Object\Boss\BossModelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp">
+      <Filter>Game\Object\Boss\BossStateManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h">
       <Filter>Game\Object\Boss\BossModelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossStateManager\BossStateManager.h">
+      <Filter>Game\Object\Boss\BossStateManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

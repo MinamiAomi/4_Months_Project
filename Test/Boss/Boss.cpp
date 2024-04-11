@@ -7,17 +7,20 @@
 #include "Graphics/ImGuiManager.h"
 
 void Boss::Initialize() {
-#pragma region パラメーター
+#pragma endregion
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
 	JSON_OBJECT("Boss");
-	JSON_LOAD(velocity_);
 	JSON_LOAD(offset_);
+	JSON_ROOT();
 	JSON_CLOSE();
-#pragma endregion
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform);
-	Reset();
 	isMove_ = true;
+
+	state_ = std::make_unique<BossStateManager>(*this);
+	state_->Initialize();
+	state_->ChangeState<BossStateRoot>();
+	Reset();
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -36,37 +39,20 @@ void Boss::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
-		ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
-		ImGui::DragFloat3("Scale", &transform.scale.x, 0.1f);
-		ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
-		ImGui::DragFloat3("offset_", &offset_.x, 0.1f);
-		if (ImGui::Button("Save")) {
+		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat3("offset_", &offset_.x);
+		if (ImGui::Button("OffsetSave")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
 			JSON_OBJECT("Boss");
-			JSON_SAVE(velocity_);
-			JSON_SAVE(offset_);
+			JSON_LOAD(offset_);
+			JSON_ROOT();
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
 	}
 	ImGui::End();
 #endif // _DEBUG
-	if (isMove_) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			transform.translate += velocity_;
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			transform.translate -= velocity_;
-		}
-		break;
-		default:
-			break;
-		}
-	}
+	state_->Update();
 	UpdateTransform();
 	bossModelManager_->Update();
 }
@@ -75,6 +61,7 @@ void Boss::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 7.0f,7.0f,7.0f };
+	state_->ChangeState<BossStateRoot>();
 }
 
 void Boss::UpdateTransform() {
@@ -88,6 +75,7 @@ void Boss::UpdateTransform() {
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
+	state_->OnCollision(collisionInfo);
 	if (collisionInfo.collider->GetName() == "Player") {
 
 	}

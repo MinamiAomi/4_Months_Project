@@ -10,5 +10,25 @@
             0.0,
             0.25
         ]
+    },
+    "StateAtacck": {
+        "jsonData_.attackData.endPosition": [
+            20.0,
+            0.0,
+            0.0
+        ],
+        "jsonData_.attackData.rotate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "jsonData_.attackData.startPosition": [
+            -20.0,
+            0.0,
+            0.0
+        ]
+    },
+    "StateRoot": {
+        "jsonData_.rootData.velocity": 0.25
     }
 }
