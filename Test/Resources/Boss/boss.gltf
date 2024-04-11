@@ -15,13 +15,18 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u7acb\u65b9\u4f53"
+			"name":"Boss",
+			"translation":[
+				0,
+				1.0257337093353271,
+				0
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"\u30de\u30c6\u30ea\u30a2\u30eb",
+			"name":"boss",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -65,73 +70,73 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":5293,
+			"count":1714,
 			"max":[
-				4.490138530731201,
-				3.442695379257202,
+				1.2390648126602173,
+				1.3454220294952393,
 				1.1175042390823364
 			],
 			"min":[
-				-4.490138530731201,
-				-1.8521668910980225,
-				-1.2375497817993164
+				-1.2513066530227661,
+				-0.9130545258522034,
+				-1.0449705123901367
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":5293,
+			"count":1714,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":5293,
+			"count":1714,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":5293,
+			"count":1714,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":8358,
+			"count":2694,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":63516,
+			"byteLength":20568,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":63516,
-			"byteOffset":63516,
+			"byteLength":20568,
+			"byteOffset":20568,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":42344,
-			"byteOffset":127032,
+			"byteLength":13712,
+			"byteOffset":41136,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":84688,
-			"byteOffset":169376,
+			"byteLength":27424,
+			"byteOffset":54848,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":16716,
-			"byteOffset":254064,
+			"byteLength":5388,
+			"byteOffset":82272,
 			"target":34963
 		}
 	],
@@ -143,7 +148,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":270780,
+			"byteLength":87660,
 			"uri":"boss.bin"
 		}
 	]
