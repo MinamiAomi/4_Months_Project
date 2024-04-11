@@ -56,7 +56,7 @@ private:
     GeometryRenderingPass geometryRenderingPass_;
     LightingRenderingPass lightingRenderingPass_;
 
-    RaytracingRenderer raytracingRenderer_;
+   // RaytracingRenderer raytracingRenderer_;
     //RaymarchingRenderer raymarchingRenderer_;
     //ModelRenderer modelRenderer;
     Transition transition_;

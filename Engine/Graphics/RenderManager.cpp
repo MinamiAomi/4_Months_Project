@@ -38,9 +38,9 @@ void RenderManager::Initialize() {
     fxaa_.Initialize(&lightingRenderingPass_.GetResult());
     spriteRenderer_.Initialize(lightingRenderingPass_.GetResult());
 
-    //    modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
+    //modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
     transition_.Initialize();
-    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    //raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
 
     //raymarchingRenderer_.Create(mainColorBuffer_.GetWidth(), mainColorBuffer_.GetHeight());
 
