@@ -5,8 +5,8 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string Center::kModelName = "block";
-const std::string Bar::kModelName = "block";
+const std::string Center::kModelName = "fireBarCenter";
+const std::string Bar::kModelName = "fireBarBar";
 
 #pragma region Center
 void Center::Initialize(const Desc& desc) {

@@ -5,7 +5,7 @@
 
 void PlayerBullet::Initialize() {
 	model_ = std::make_unique<ModelInstance>();
-	model_->SetModel(ResourceManager::GetInstance()->FindModel("player"));
+	model_->SetModel(ResourceManager::GetInstance()->FindModel("block"));
 	model_->SetIsActive(false);
 
 	transform.translate = Vector3::zero;

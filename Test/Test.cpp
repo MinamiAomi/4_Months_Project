@@ -22,9 +22,11 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("bossRightArm", Model::Load("Resources/Boss/RightArm/rightArm.gltf"));
 	resourceManager->AddModel("bossLeftArm", Model::Load("Resources/Boss/LeftArm/leftArm.gltf"));
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
-	resourceManager->AddModel("player", Model::Load("Resources/Player/player.obj"));
+	resourceManager->AddModel("player", Model::Load("Resources/Player/player.gltf"));
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
 	resourceManager->AddModel("skydome", Model::Load("Resources/Skydome/skydome.gltf"));
+	resourceManager->AddModel("fireBarCenter", Model::Load("Resources/FireBar/Bar/bar.gltf"));
+	resourceManager->AddModel("fireBarBar", Model::Load("Resources/FireBar/Center/center.gltf"));
 }
 
 void Test::OnFinalize() {}
