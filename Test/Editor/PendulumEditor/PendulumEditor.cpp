@@ -36,10 +36,6 @@ void PendulumEditor::Update() {
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("PendulumEditor")) {
-		static bool isCollision = true;
-		if (ImGui::Checkbox("isCollision", &isCollision)) {
-			pendulum_->SetIsActive(isCollision);
-		}
 		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
 			if (pendulum.get() == nullptr) {
 				continue;

@@ -14,10 +14,8 @@ void Boss::Initialize() {
 	JSON_LOAD(offset_);
 	JSON_CLOSE();
 #pragma endregion
-
-	model_ = std::make_unique<ModelInstance>();
-	model_->SetModel(ResourceManager::GetInstance()->FindModel("boss"));
-	model_->SetIsActive(true);
+	bossModelManager_ = std::make_unique<BossModelManager>();
+	bossModelManager_->Initialize(&transform);
 	Reset();
 	isMove_ = true;
 #pragma region コライダー
@@ -26,8 +24,7 @@ void Boss::Initialize() {
 	collider_->SetName("Boss");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetSize(transform.scale);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -71,6 +68,7 @@ void Boss::Update() {
 		}
 	}
 	UpdateTransform();
+	bossModelManager_->Update();
 }
 
 void Boss::Reset() {
@@ -85,10 +83,8 @@ void Boss::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetSize(transform.scale);
 	collider_->SetOrientation(rotate);
-	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {

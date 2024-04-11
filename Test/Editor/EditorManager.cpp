@@ -65,7 +65,7 @@ void EditorManager::Update() {
 		if (ImGui::Combo("Stage", &stageIndex_, stageArray.data(), static_cast<int>(stageArray.size()))) {
 
 		}
-		if (ImGui::Button("Load") ) {
+		if (ImGui::Button("Load")) {
 			blockEditor_->Clear();
 			fireBarEditor_->Clear();
 			blockEditor_->LoadFile(stageIndex_);
@@ -76,8 +76,8 @@ void EditorManager::Update() {
 		ImGui::TreePop();
 	}
 	ImGui::End();
+	pendulumEditor_->Update();
 	blockEditor_->Update();
 	fireBarEditor_->Update();
 	floorEditor_->Update();
-	pendulumEditor_->Update();
 }
