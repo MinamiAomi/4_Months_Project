@@ -1,9 +1,13 @@
-struct Param {
+struct Scene {
+    float4x4 viewMatrix;
+    float4x4 projectionMatrix;
+    float4x4 worldMatrix;
+    float4x4 worldInverseTransposeMatrix;
     float3 topColor;
     float3 bottomColor;
 };
 
-ConstantBuffer<Param> g_Param : register(b2);
+ConstantBuffer<Scene> g_Scene : register(b0);
 
 Texture2D<float4> g_Texture : register(t0);
 SamplerState g_Sampler : register(s0);
@@ -26,21 +30,21 @@ float3 HSVToRGB(in float3 hsv) {
 }
 
 PSOutput main(PSInput input) {
-
+    float3 normal = normalize(input.normal);
+    
     PSOutput output;
     output.color.rgb = 0.0f;
     output.color.a = 1.0f;
     
 
-    if (input.normal.y <= -0.9f) {
-        output.color.rgb = HSVToRGB(g_Param.topColor.xyz);
+    if (normal.y <= -0.9f) {
+        output.color.rgb = HSVToRGB(g_Scene.topColor.xyz);
     }
-    else if (input.normal.y >= 0.9f) {
-        output.color.rgb = HSVToRGB(g_Param.bottomColor.xyz);
+    else if (normal.y >= 0.9f) {
+        output.color.rgb = HSVToRGB(g_Scene.bottomColor.xyz);
     }
     else {
-        float3 hsv = lerp(g_Param.topColor, g_Param.bottomColor, input.texcoord.y);
-
+        float3 hsv = lerp(g_Scene.topColor, g_Scene.bottomColor, input.texcoord.y);
         output.color.rgb = HSVToRGB(hsv.xyz);
     }
 

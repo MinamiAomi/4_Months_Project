@@ -1,7 +1,7 @@
 #define FLT_MAX 3.402823466e+38F;
 
 struct Constant {
-    float numPoints;
+    uint numPoints;
 };
 
 struct Point {

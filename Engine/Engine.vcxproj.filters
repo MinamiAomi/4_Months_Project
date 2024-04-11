@@ -294,6 +294,9 @@
     <ClCompile Include="Graphics\App\Voronoi.cpp">
       <Filter>Graphics\App</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\App\SkyRenderer.cpp">
+      <Filter>Graphics\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
