@@ -46,6 +46,9 @@ void BlockEditor::Initialize() {
 }
 
 void BlockEditor::Update() {
+#ifdef _DEBUG
+
+
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BlockEditor")) {
 		model_->SetIsActive(true);
@@ -102,6 +105,7 @@ void BlockEditor::Update() {
 		collider_->SetIsActive(false);
 	}
 	ImGui::End();
+#endif // DEBUG
 	UpdateTransform();
 }
 
