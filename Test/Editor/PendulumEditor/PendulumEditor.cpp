@@ -24,22 +24,23 @@ void PendulumEditor::Initialize() {
 	desc.pos = { 0.0f,desc.ballDesc.length,0.0f };
 	desc.ballDesc.scale = { 3.0f,3.0f,3.0f };
 	desc.ballDesc.gravity = { 0.002f };
-	desc.ballDesc.angle = 10.0f*Math::ToRadian;
+	desc.ballDesc.angle = 10.0f * Math::ToRadian;
 	desc.stickDesc.scale = { 1.0f,desc.ballDesc.length,1.0f };
+	pendulum_->SetPlayer(player_);
 	pendulum_->Initialize(desc);
+#
 	pendulum_->SetIsActive(false);
 	// 一回だけ実行
 	pendulum_->Update();
 }
 
 void PendulumEditor::Update() {
+#ifdef _DEBUG
+
+
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("PendulumEditor")) {
-		static bool isCollision = true;
-		if (ImGui::Checkbox("isCollision", &isCollision)) {
-			pendulum_->SetIsActive(isCollision);
-		}
 		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
 			if (pendulum.get() == nullptr) {
 				continue;
@@ -125,7 +126,7 @@ void PendulumEditor::Update() {
 	if (isPlay) {
 		pendulum_->Update();
 	}
-
+#endif // _DEBUG
 }
 
 void PendulumEditor::SaveFile(uint32_t stageName) {

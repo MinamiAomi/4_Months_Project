@@ -186,6 +186,11 @@ std::unique_ptr<Sprite> PlayerUI::CreateSprite(const SpriteData& spriteData, std
 }
 
 void PlayerUI::DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite) {
+	sprite;
+	spriteData;
+#ifdef _DEBUG
+
+
 	if (ImGui::TreeNode(string.c_str())) {
 		ImGui::DragFloat2((string.c_str() + std::string(":scale")).c_str(), &spriteData.scale.x);
 		ImGui::DragFloat((string.c_str() + std::string(":rotate")).c_str(), &spriteData.rotate, 0.1f);
@@ -206,6 +211,7 @@ void PlayerUI::DrawImGui(SpriteData& spriteData, std::string string, Sprite* spr
 
 		ImGui::TreePop();
 	}
+#endif // _DEBUG
 }
 
 void PlayerUI::SpriteData::Load() {

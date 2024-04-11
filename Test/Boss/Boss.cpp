@@ -7,27 +7,27 @@
 #include "Graphics/ImGuiManager.h"
 
 void Boss::Initialize() {
-#pragma region パラメーター
+#pragma endregion
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
 	JSON_OBJECT("Boss");
-	JSON_LOAD(velocity_);
 	JSON_LOAD(offset_);
+	JSON_ROOT();
 	JSON_CLOSE();
-#pragma endregion
-
-	model_ = std::make_unique<ModelInstance>();
-	model_->SetModel(ResourceManager::GetInstance()->FindModel("boss"));
-	model_->SetIsActive(true);
-	Reset();
+	bossModelManager_ = std::make_unique<BossModelManager>();
+	bossModelManager_->Initialize(&transform);
 	isMove_ = true;
+
+	state_ = std::make_unique<BossStateManager>(*this);
+	state_->Initialize();
+	state_->ChangeState<BossStateRoot>();
+	Reset();
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Boss");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetSize(transform.scale);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -39,44 +39,35 @@ void Boss::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
-		ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
-		ImGui::DragFloat3("Scale", &transform.scale.x, 0.1f);
-		ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
-		ImGui::DragFloat3("offset_", &offset_.x, 0.1f);
-		if (ImGui::Button("Save")) {
+		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat3("offset_", &offset_.x);
+		if (ImGui::Button("OffsetSave")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
 			JSON_OBJECT("Boss");
-			JSON_SAVE(velocity_);
-			JSON_SAVE(offset_);
+			JSON_LOAD(offset_);
+			JSON_ROOT();
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
 	}
 	ImGui::End();
 #endif // _DEBUG
-	if (isMove_) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			transform.translate += velocity_;
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			transform.translate -= velocity_;
-		}
-		break;
-		default:
-			break;
-		}
+	time_ -= 1.0f;
+	if (time_<=0.0f) {
+		state_->ChangeState<BossStateAttack>();
+		time_ = interval_;
 	}
+	state_->Update();
 	UpdateTransform();
+	bossModelManager_->Update();
 }
 
 void Boss::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 7.0f,7.0f,7.0f };
+	state_->ChangeState<BossStateRoot>();
+	time_ = interval_;
 }
 
 void Boss::UpdateTransform() {
@@ -85,13 +76,12 @@ void Boss::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetSize(transform.scale);
 	collider_->SetOrientation(rotate);
-	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
+	state_->OnCollision(collisionInfo);
 	if (collisionInfo.collider->GetName() == "Player") {
 
 	}

@@ -37,8 +37,17 @@ void FireBarEditor::Initialize() {
 
 	center_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	bar_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+
+#ifdef _DEBUG
 	center_->SetIsActive(true);
 	bar_->SetIsActive(true);
+#else
+	center_->SetIsActive(false);
+	bar_->SetIsActive(false);
+
+#endif // _DEBUG
+
+
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -51,17 +60,21 @@ void FireBarEditor::Initialize() {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
 	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
+#ifdef _DEBUG
 	collider_->SetIsActive(true);
+#else
+	collider_->SetIsActive(false);
+
+#endif // _DEBUG
 #pragma endregion
 }
 
 void FireBarEditor::Update() {
+#ifdef _DEBUG
+
+
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
-		static bool isCollision = true;
-		if (ImGui::Checkbox("isCollision", &isCollision)) {
-			collider_->SetIsActive(isCollision);
-		}
 		Vector3 pos{}, centerRotate{}, centerScale{}, barRotate{}, barScale{};
 		float barRotateVelocity;
 		for (uint32_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
@@ -141,6 +154,7 @@ void FireBarEditor::Update() {
 		isCreate_ = false;
 	}
 	ImGui::End();
+#endif // _DEBUG
 	barTransform_.translate = transform.translate;
 	transform.scale.z = transform.scale.x;
 	barTransform_.scale.x = transform.scale.z;
@@ -195,7 +209,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 
 	//ファイルオープン失敗したら表示
 	if (ifs.fail()) {
-		MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
 		return;
 	}
 	nlohmann::json root;
@@ -208,7 +222,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 	nlohmann::json::iterator itGroup = root.find(fileName_);
 	//未登録チェック
 	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 	}
 	// アイテム
 	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
@@ -220,7 +234,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 
 		//未登録チェック
 		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+			//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 		}
 
 		//保険
@@ -240,7 +254,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 
 				//未登録チェック
 				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+					//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 				}
 
 				//保険

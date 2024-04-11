@@ -28,7 +28,13 @@ void BlockEditor::Initialize() {
 	transform.translate = Vector3::zero;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+
+#ifdef _DEBUG
 	model_->SetIsActive(true);
+#else
+	model_->SetIsActive(false);
+#endif // _DEBUG
+
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -41,11 +47,18 @@ void BlockEditor::Initialize() {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
+#ifdef _DEBUG
 	collider_->SetIsActive(true);
+#else
+	collider_->SetIsActive(false);
+#endif // _DEBUG
 #pragma endregion
 }
 
 void BlockEditor::Update() {
+#ifdef _DEBUG
+
+
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BlockEditor")) {
 		model_->SetIsActive(true);
@@ -102,6 +115,7 @@ void BlockEditor::Update() {
 		collider_->SetIsActive(false);
 	}
 	ImGui::End();
+#endif // DEBUG
 	UpdateTransform();
 }
 
@@ -150,7 +164,7 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 
 	//ファイルオープン失敗したら表示
 	if (ifs.fail()) {
-		MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
 		return;
 	}
 	nlohmann::json root;
@@ -163,7 +177,7 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 	nlohmann::json::iterator itGroup = root.find(fileName_);
 	//未登録チェック
 	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 	}
 	// アイテム
 	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
@@ -175,7 +189,7 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 
 		//未登録チェック
 		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+			//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 		}
 
 		//保険
@@ -195,7 +209,7 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 
 				//未登録チェック
 				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+					//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 				}
 
 				//保険

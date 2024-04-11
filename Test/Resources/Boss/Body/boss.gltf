@@ -15,10 +15,10 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Boss_RightArm",
+			"name":"Boss",
 			"translation":[
-				-1.5,
-				3.702124834060669,
+				0,
+				1.0257337093353271,
 				0
 			]
 		}
@@ -38,7 +38,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.009",
+			"name":"\u7acb\u65b9\u4f53.003",
 			"primitives":[
 				{
 					"attributes":{
@@ -70,73 +70,73 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1788,
+			"count":1714,
 			"max":[
-				0.0886005163192749,
-				0.7993001937866211,
-				0.723213255405426
+				1.2390648126602173,
+				1.3454220294952393,
+				1.1175042390823364
 			],
 			"min":[
-				-2.7784533500671387,
-				-4.495561599731445,
-				-1.4425508975982666
+				-1.2513066530227661,
+				-0.9130545258522034,
+				-1.0449705123901367
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1788,
+			"count":1714,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1788,
+			"count":1714,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":1788,
+			"count":1714,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":2832,
+			"count":2694,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":21456,
+			"byteLength":20568,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":21456,
-			"byteOffset":21456,
+			"byteLength":20568,
+			"byteOffset":20568,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":14304,
-			"byteOffset":42912,
+			"byteLength":13712,
+			"byteOffset":41136,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":28608,
-			"byteOffset":57216,
+			"byteLength":27424,
+			"byteOffset":54848,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":5664,
-			"byteOffset":85824,
+			"byteLength":5388,
+			"byteOffset":82272,
 			"target":34963
 		}
 	],
@@ -148,8 +148,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":91488,
-			"uri":"rightArm.bin"
+			"byteLength":87660,
+			"uri":"boss.bin"
 		}
 	]
 }

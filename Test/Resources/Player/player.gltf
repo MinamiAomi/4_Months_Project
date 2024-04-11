@@ -15,13 +15,13 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u7acb\u65b9\u4f53"
+			"name":"Player"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"\u30de\u30c6\u30ea\u30a2\u30eb",
+			"name":"Player",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -33,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.003",
+			"name":"\u7acb\u65b9\u4f53.017",
 			"primitives":[
 				{
 					"attributes":{
@@ -57,81 +57,81 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"boss",
-			"uri":"boss.png"
+			"name":"Player",
+			"uri":"Player.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":5293,
+			"count":1406,
 			"max":[
-				4.490138530731201,
-				3.442695379257202,
-				1.1175042390823364
+				1.108398675918579,
+				0.6550976634025574,
+				2.1409826278686523
 			],
 			"min":[
-				-4.490138530731201,
-				-1.8521668910980225,
-				-1.2375497817993164
+				-1.3349823951721191,
+				-1.004701852798462,
+				-0.9961280822753906
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":5293,
+			"count":1406,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":5293,
+			"count":1406,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":5293,
+			"count":1406,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":8358,
+			"count":2028,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":63516,
+			"byteLength":16872,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":63516,
-			"byteOffset":63516,
+			"byteLength":16872,
+			"byteOffset":16872,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":42344,
-			"byteOffset":127032,
+			"byteLength":11248,
+			"byteOffset":33744,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":84688,
-			"byteOffset":169376,
+			"byteLength":22496,
+			"byteOffset":44992,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":16716,
-			"byteOffset":254064,
+			"byteLength":4056,
+			"byteOffset":67488,
 			"target":34963
 		}
 	],
@@ -143,8 +143,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":270780,
-			"uri":"boss.bin"
+			"byteLength":71544,
+			"uri":"player.bin"
 		}
 	]
 }

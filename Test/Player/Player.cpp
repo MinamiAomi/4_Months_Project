@@ -47,7 +47,7 @@ void Player::Initialize() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
-
+	transform.UpdateMatrix();
 	canFirstJump_ = true;
 	canSecondJump_ = true;
 #pragma region コライダー
@@ -184,7 +184,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		//	transform.SetParent(&nextParent->transform);
 		//}
 	}
-	else if (collisionInfo.collider->GetName() == "FireBarBar") {
+	else if (collisionInfo.collider->GetName() == "FireBarBar"||
+		collisionInfo.collider->GetName() == "PendulumBall"||
+		collisionInfo.collider->GetName() == "bossLeftArm") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {

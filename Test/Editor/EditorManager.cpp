@@ -5,7 +5,7 @@
 #include "StageGimmick/Floor/FloorManager.h"
 #include "Externals/ImGui/imgui.h"
 
-void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager) {
+void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager, const Player* player) {
 	blockEditor_ = std::make_unique<BlockEditor>();
 	fireBarEditor_ = std::make_unique<FireBarEditor>();
 	floorEditor_ = std::make_unique<FloorEditor>();
@@ -19,6 +19,7 @@ void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBa
 	blockEditor_->Initialize();
 	fireBarEditor_->Initialize();
 	floorEditor_->Initialize();
+	pendulumEditor_->SetPlayer(player);
 	pendulumEditor_->Initialize();
 
 	stageIndex_ = 0;
@@ -26,6 +27,9 @@ void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBa
 
 void EditorManager::Update() {
 	static const uint32_t kCount = 10;
+#ifdef _DEBUG
+
+
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("SaveFile")) {
 		std::list<std::string> stageList;
@@ -65,7 +69,7 @@ void EditorManager::Update() {
 		if (ImGui::Combo("Stage", &stageIndex_, stageArray.data(), static_cast<int>(stageArray.size()))) {
 
 		}
-		if (ImGui::Button("Load") ) {
+		if (ImGui::Button("Load")) {
 			blockEditor_->Clear();
 			fireBarEditor_->Clear();
 			blockEditor_->LoadFile(stageIndex_);
@@ -76,8 +80,9 @@ void EditorManager::Update() {
 		ImGui::TreePop();
 	}
 	ImGui::End();
+#endif // _DEBUG
+	pendulumEditor_->Update();
 	blockEditor_->Update();
 	fireBarEditor_->Update();
 	floorEditor_->Update();
-	pendulumEditor_->Update();
 }

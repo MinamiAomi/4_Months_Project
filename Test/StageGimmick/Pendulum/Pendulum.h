@@ -91,9 +91,12 @@ public:
 	Desc& GetDesc() { return desc_; }
 	void SetDesc(const Desc& desc);
 	Ball* GetBall() { return ball_.get(); }
+	
+	void SetPlayer(const Player* player) { player_ = player; }
 private:
 	void UpdateTransform();
 
+	const Player* player_;
 	const Boss* boss_;
 
 	std::unique_ptr<Stick> stick_;

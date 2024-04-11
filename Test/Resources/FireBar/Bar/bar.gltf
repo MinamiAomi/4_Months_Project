@@ -15,10 +15,15 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Boss_RightArm",
+			"name":"FireBarBar",
+			"scale":[
+				0.19630450010299683,
+				0.19630450010299683,
+				0.19630450010299683
+			],
 			"translation":[
-				-1.5,
-				3.702124834060669,
+				1.6486167907714844,
+				1.3557950258255005,
 				0
 			]
 		}
@@ -26,7 +31,7 @@
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"boss",
+			"name":"FireBar",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -38,7 +43,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.009",
+			"name":"\u7acb\u65b9\u4f53.034",
 			"primitives":[
 				{
 					"attributes":{
@@ -62,81 +67,81 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"boss",
-			"uri":"boss.png"
+			"name":"FireBarBar",
+			"uri":"FireBarBar.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1788,
+			"count":1624,
 			"max":[
-				0.0886005163192749,
-				0.7993001937866211,
-				0.723213255405426
+				33.020225524902344,
+				6.628395080566406,
+				6.842040061950684
 			],
 			"min":[
-				-2.7784533500671387,
-				-4.495561599731445,
-				-1.4425508975982666
+				-1,
+				-7.055684566497803,
+				-6.842040061950684
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1788,
+			"count":1624,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1788,
+			"count":1624,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":1788,
+			"count":1624,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":2832,
+			"count":2532,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":21456,
+			"byteLength":19488,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":21456,
-			"byteOffset":21456,
+			"byteLength":19488,
+			"byteOffset":19488,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":14304,
-			"byteOffset":42912,
+			"byteLength":12992,
+			"byteOffset":38976,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":28608,
-			"byteOffset":57216,
+			"byteLength":25984,
+			"byteOffset":51968,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":5664,
-			"byteOffset":85824,
+			"byteLength":5064,
+			"byteOffset":77952,
 			"target":34963
 		}
 	],
@@ -148,8 +153,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":91488,
-			"uri":"rightArm.bin"
+			"byteLength":83016,
+			"uri":"bar.bin"
 		}
 	]
 }

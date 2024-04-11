@@ -43,6 +43,15 @@ void Block::Update() {
 		transform.translate.y -= 0.05f;
 	}
 	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
+	// 雑カリング
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+	}
+	else {
+		model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
 	UpdateTransform();
 	onPlayer_ = false;
 }

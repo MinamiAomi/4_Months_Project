@@ -8,6 +8,7 @@
 #include "StageGimmick/Pendulum/Pendulum.h"
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
+#include "Player/Player.h"
 
 class PendulumEditor
 {
@@ -19,10 +20,14 @@ public:
 	void SaveFile(uint32_t stageName);
 	void LoadFile(uint32_t stageName);
 	void Clear();
+	// 突貫
+	void SetPlayer(const Player* player) { player_ = player; }
 private:
 	static const std::string kModelName;
 
 	void OnCollision(const CollisionInfo& collisionInfo);
+
+	const Player* player_;
 
 	PendulumManager* pendulumManager_;
 

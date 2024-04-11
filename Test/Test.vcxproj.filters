@@ -76,6 +76,12 @@
     <Filter Include="Game\Object\Skydome">
       <UniqueIdentifier>{c65d2f12-a84e-4867-b73b-d36608a5f8d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\BossModelManager">
+      <UniqueIdentifier>{35e4222a-50d9-4e05-b79c-598ae3ecdb9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\BossStateManager">
+      <UniqueIdentifier>{b8406276-c75d-4c3d-9952-f9470efcc620}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -174,6 +180,12 @@
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>Game\Object\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp">
+      <Filter>Game\Object\Boss\BossModelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp">
+      <Filter>Game\Object\Boss\BossStateManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +287,12 @@
     </ClInclude>
     <ClInclude Include="Skydome.h">
       <Filter>Game\Object\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossModelManager\BossModelManager.h">
+      <Filter>Game\Object\Boss\BossModelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossStateManager\BossStateManager.h">
+      <Filter>Game\Object\Boss\BossStateManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
