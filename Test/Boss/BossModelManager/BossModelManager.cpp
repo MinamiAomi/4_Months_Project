@@ -6,12 +6,21 @@
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
 
-void BossModelManager::Initialize(const Transform* Transform) {
-	models_.at(BossParts::Parts::kBody) = std::unique_ptr<Body>();
-	models_.at(BossParts::Parts::kRightArm) = std::unique_ptr<RightArm>();
-	models_.at(BossParts::Parts::kLeftArm) = std::unique_ptr<LeftArm>();
+namespace BossParts {
+	// 実際の定義
+	std::array<std::string, Parts::kCount> partsName_ = {
+		"bossBody",
+		"bossRightArm",
+		"bossLeftArm",
+	};
+}
 
-	for (uint32_t i = 0; auto & model: models_) {
+void BossModelManager::Initialize(const Transform* Transform) {
+	models_.at(BossParts::Parts::kBody) = std::make_unique<Body>();
+	models_.at(BossParts::Parts::kRightArm) = std::make_unique<RightArm>();
+	models_.at(BossParts::Parts::kLeftArm) = std::make_unique<LeftArm>();
+
+	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
 		model->Initialize(i);
 		i++;

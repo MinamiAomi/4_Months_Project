@@ -18,12 +18,13 @@ void Test::OnInitialize() {
 	resourceManager->AddTexture("circle", Texture::Load("Resources/whiteCircle.png"));
 	resourceManager->AddTexture("white2x2", Texture::Load("Resources/white2x2.png"));
 	resourceManager->AddTexture("hp", Texture::Load("Resources/playerHP.png"));
-	resourceManager->AddModel("boss",   Model::Load("Resources/Boss/boss.gltf"));
+	resourceManager->AddModel("bossBody", Model::Load("Resources/Boss/Body/boss.gltf"));
+	resourceManager->AddModel("bossRightArm", Model::Load("Resources/Boss/RightArm/rightArm.gltf"));
+	resourceManager->AddModel("bossLeftArm", Model::Load("Resources/Boss/LeftArm/leftArm.gltf"));
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
 	resourceManager->AddModel("player", Model::Load("Resources/Player/player.obj"));
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
 	resourceManager->AddModel("skydome", Model::Load("Resources/Skydome/skydome.gltf"));
 }
 
-void Test::OnFinalize() {
-}
+void Test::OnFinalize() {}

@@ -195,7 +195,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 
 	//ファイルオープン失敗したら表示
 	if (ifs.fail()) {
-		MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
 		return;
 	}
 	nlohmann::json root;
@@ -208,7 +208,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 	nlohmann::json::iterator itGroup = root.find(fileName_);
 	//未登録チェック
 	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 	}
 	// アイテム
 	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
@@ -220,7 +220,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 
 		//未登録チェック
 		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+			//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 		}
 
 		//保険
@@ -240,7 +240,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 
 				//未登録チェック
 				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+					//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 				}
 
 				//保険

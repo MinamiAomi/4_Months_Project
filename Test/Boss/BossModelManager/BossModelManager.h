@@ -16,11 +16,7 @@ namespace BossParts {
 
 		kCount,
 	};
-	std::array<std::string, Parts::kCount> partsName_ = { // 修正
-		"bossBody",
-		"bossRightArm",
-		"bossLeftArm",
-	};
+	extern std::array<std::string, Parts::kCount> partsName_;
 }
 
 class BossModel :

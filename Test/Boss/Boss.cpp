@@ -14,7 +14,7 @@ void Boss::Initialize() {
 	JSON_LOAD(offset_);
 	JSON_CLOSE();
 #pragma endregion
-
+	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform);
 	Reset();
 	isMove_ = true;
@@ -68,6 +68,7 @@ void Boss::Update() {
 		}
 	}
 	UpdateTransform();
+	bossModelManager_->Update();
 }
 
 void Boss::Reset() {
@@ -84,7 +85,6 @@ void Boss::UpdateTransform() {
 	collider_->SetCenter(translate);
 	collider_->SetSize(transform.scale);
 	collider_->SetOrientation(rotate);
-	body_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
