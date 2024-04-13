@@ -30,7 +30,7 @@ void EditorManager::Update() {
 #ifdef _DEBUG
 
 
-	ImGui::Begin("StageEditor");
+	ImGui::Begin("StageEditorSave");
 	if (ImGui::TreeNode("SaveFile")) {
 		std::list<std::string> stageList;
 		for (uint32_t i = 0; i < kCount; i++) {
