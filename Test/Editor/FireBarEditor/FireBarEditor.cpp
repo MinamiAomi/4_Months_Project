@@ -35,8 +35,8 @@ void FireBarEditor::Initialize() {
 	barTransform_.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
 	barTransform_.translate = transform.translate;
 
-	center_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	bar_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+	center_->SetModel(ResourceManager::GetInstance()->FindModel("fireBarCenter"));
+	bar_->SetModel(ResourceManager::GetInstance()->FindModel("fireBarBar"));
 
 #ifdef _DEBUG
 	center_->SetIsActive(true);
