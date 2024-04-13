@@ -18,6 +18,7 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.attackData.easingTime);
 	JSON_ROOT();
 	JSON_CLOSE();
+	jsonData_.attackData.velocity = jsonData_.rootData.velocity;
 	state_ = State::kRoot;
 }
 
@@ -151,17 +152,36 @@ void BossStateAttack::SetDesc() {
 }
 
 void BossStateAttack::Update() {
-	auto& transform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
+	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
 	float t = time_ / data_.easingTime;
 	time_ += 1.0f;
-	transform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
-	transform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
-	transform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
+	leftArmTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
+	leftArmTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
+	leftArmTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
 	Vector3 rotate{};
 	rotate.x = std::lerp(data_.startRotate.x, data_.endRotate.x, t);
 	rotate.y = std::lerp(data_.startRotate.y, data_.endRotate.y, t);
 	rotate.z = std::lerp(data_.startRotate.z, data_.endRotate.z, t);
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
+
+	auto& transform = manager_.boss.transform;
+	if (manager_.boss.GetIsMove()) {
+		switch (characterState_) {
+		case Character::State::kChase:
+		{
+			transform.translate.z += data_.velocity;
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			transform.translate.z -= data_.velocity;
+		}
+		break;
+		default:
+			break;
+		}
+	}
+
 	if (t >= 1.0f) {
 		manager_.ChangeState<BossStateRoot>();
 	}

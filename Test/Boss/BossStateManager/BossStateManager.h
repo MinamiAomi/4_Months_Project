@@ -48,6 +48,7 @@ public:
 		Vector3 startRotate;
 		Vector3 endRotate;
 		float easingTime;
+		float velocity;
 	};
 	using BossState::BossState;
 	void Initialize() override;
