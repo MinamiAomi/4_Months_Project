@@ -54,7 +54,6 @@ private:
 
 	Vector3 acceleration_;
 	Vector3 velocity_;
-	bool onGround_;
 	bool canFirstJump_;
 	bool canSecondJump_;
 	uint32_t invincibleTime_;

@@ -9,18 +9,18 @@ void PlayerUI::Initialize() {
 	LoadJson();
 #pragma region HP
 	for (uint32_t i = 0; auto & sprite : hpSprit_) {
-		sprite = CreateSprite(hpSpriteData_.at(i), "hp");
+		sprite = CreateSprite(hpSpriteData_.at(i), "HPBar_Gauge");
 		i++;
 	}
 
-	hpBaseSprit_ = CreateSprite(hpBaseSpriteData_, "circle");
+	hpBaseSprit_ = CreateSprite(hpBaseSpriteData_, "HPBar_Flame");
 #pragma endregion
 #pragma region 復讐ゲージ
-	revengeBarGage_ = CreateSprite(revengeBarGageData_, "white2x2");
-	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "white2x2");
+	revengeBarGage_ = CreateSprite(revengeBarGageData_, "RevengeBar_RevengeGauge");
+	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "RevengeBar_Flame");
 
-	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "circle");
-	revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
+	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "RevengeBar_WeaponGauge");
+	//revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
 #pragma endregion
 }
 
@@ -36,7 +36,7 @@ void PlayerUI::Update() {
 			DrawImGui(revengeBarGageBaseData_, "revengeBarGageBaseData_", revengeBarGageBase_.get());
 
 			DrawImGui(revengeCircleGageData_, "revengeCircleGageData_", revengeCircleGage_.get());
-			DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
+			//DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
 
 			DrawImGui(hpBaseSpriteData_, "hpBaseSpriteData_", hpBaseSprit_.get());
 
@@ -129,9 +129,9 @@ void PlayerUI::LoadJson() {
 	JSON_OBJECT("revengeCircleGageData_");
 	revengeCircleGageData_.Load();
 	JSON_ROOT();
-	JSON_OBJECT("revengeCircleGageBaseData_");
+	/*JSON_OBJECT("revengeCircleGageBaseData_");
 	revengeCircleGageBaseData_.Load();
-	JSON_ROOT();
+	JSON_ROOT();*/
 #pragma endregion
 	JSON_CLOSE();
 
@@ -164,9 +164,9 @@ void PlayerUI::SaveJson() {
 	revengeCircleGageData_.Save();
 	JSON_ROOT();
 	// 円
-	JSON_OBJECT("revengeCircleGageBaseData_");
+	/*JSON_OBJECT("revengeCircleGageBaseData_");
 	revengeCircleGageBaseData_.Save();
-	JSON_ROOT();
+	JSON_ROOT();*/
 #pragma endregion
 	JSON_CLOSE();
 }

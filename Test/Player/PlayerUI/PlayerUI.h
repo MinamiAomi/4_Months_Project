@@ -60,9 +60,9 @@ private:
 	// 円のとこ
 	std::unique_ptr<Sprite> revengeCircleGage_;
 	SpriteData revengeCircleGageData_;
-	// Base
-	std::unique_ptr<Sprite> revengeCircleGageBase_;
-	SpriteData revengeCircleGageBaseData_;
+	//// Base
+	//std::unique_ptr<Sprite> revengeCircleGageBase_;
+	//SpriteData revengeCircleGageBaseData_;
 #pragma endregion
 
 };

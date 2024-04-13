@@ -17,7 +17,13 @@ void Test::OnInitialize() {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	resourceManager->AddTexture("circle", Texture::Load("Resources/whiteCircle.png"));
 	resourceManager->AddTexture("white2x2", Texture::Load("Resources/white2x2.png"));
-	resourceManager->AddTexture("hp", Texture::Load("Resources/playerHP.png"));
+	
+	resourceManager->AddTexture("HPBar_Gauge", Texture::Load("Resources/Player/PlayerUI/HPBar_Gauge.png"));
+	resourceManager->AddTexture("HPBar_Flame", Texture::Load("Resources/Player/PlayerUI/HPBar_Flame.png"));
+	resourceManager->AddTexture("RevengeBar_RevengeGauge", Texture::Load("Resources/Player/PlayerUI/RevengeBar_RevengeGauge.png"));
+	resourceManager->AddTexture("RevengeBar_Flame", Texture::Load("Resources/Player/PlayerUI/RevengeBar_Flame.png"));
+	resourceManager->AddTexture("RevengeBar_WeaponGauge", Texture::Load("Resources/Player/PlayerUI/RevengeBar_WeaponGauge.png"));
+
 	resourceManager->AddModel("bossBody", Model::Load("Resources/Boss/Body/boss.gltf"));
 	resourceManager->AddModel("bossRightArm", Model::Load("Resources/Boss/RightArm/rightArm.gltf"));
 	resourceManager->AddModel("bossLeftArm", Model::Load("Resources/Boss/LeftArm/leftArm.gltf"));

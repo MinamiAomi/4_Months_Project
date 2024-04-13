@@ -272,8 +272,6 @@ void Player::Jump() {
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		acceleration_.y += jumpPower_;
 		canFirstJump_ = false;
-
-		onGround_ = false;
 	}
 	else if (!canFirstJump_ &&
 		canSecondJump_ &&
@@ -313,7 +311,7 @@ void Player::DebugParam() {
 		int maxInvincibleTime = maxInvincibleTime_;
 		ImGui::DragInt("maxInvincibleTime_", &maxInvincibleTime);
 		maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
-		ImGui::Checkbox("onGround_", &onGround_);
+		ImGui::Checkbox("onGround_", &canFirstJump_);
 		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Player/Player.json");
