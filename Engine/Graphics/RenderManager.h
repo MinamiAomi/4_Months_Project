@@ -22,8 +22,10 @@
 #include "GeometryRenderingPass.h"
 #include "LightingRenderingPass.h"
 
-//#define SHADER_DIRECTORY "../Engine/Graphics/Shader"
-#define SHADER_DIRECTORY "Resources/Shader"
+#include "App/SkyRenderer.h"
+
+#define SHADER_DIRECTORY "../Engine/Graphics/Shader"
+//#define SHADER_DIRECTORY "Resources/Shader"
 #ifdef _DEBUG
 #else
 #endif // _DEBUG
@@ -38,6 +40,8 @@ public:
     void Render();
 
     void SetCamera(const std::shared_ptr<Camera>& camera) { camera_ = camera; }
+    void SetSkyWorldMatrix(const Matrix4x4& mat) { skyTransform_ = mat; }
+    void SetUseSky(bool useSky) { useSky_ = useSky; }
     LightManager& GetLightManager() { return lightManager_; }
     Bloom& GetBloom() { return bloom_; }
     Transition& GetTransition() { return transition_; }
@@ -65,10 +69,14 @@ private:
     PostEffect postEffect_;
     ComputeShaderTester computeShaderTester_;
 
+    SkyRenderer skyRenderer_;
+    Matrix4x4 skyTransform_;
+
     Timer timer_;
     std::weak_ptr<const Camera> camera_;
     LightManager lightManager_;
 
     UINT64 frameCount_;
     bool raymarching_ = false;
+    bool useSky_ = true;
 };
