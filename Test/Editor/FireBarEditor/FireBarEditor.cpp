@@ -23,7 +23,7 @@ void FireBarEditor::Initialize() {
 
 	desc_.transform = transform;
 	desc_.barDesc.barInitialAngle.y = 90.0f * Math::ToRadian;
-	desc_.barDesc.length = 5.0f;
+	desc_.barDesc.length = 1.0f;
 	desc_.barDesc.rotateVelocity = 0.01f;
 
 	fireBar_ = std::make_unique<FireBar>();
