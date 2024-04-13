@@ -5,100 +5,18 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string Center::kModelName = "fireBarCenter";
 const std::string Bar::kModelName = "fireBarBar";
 
-#pragma region Center
-void Center::Initialize(const Desc& desc) {
-	model_ = std::make_unique<ModelInstance>();
-
-	transform.scale = desc.scale;
-	rotate_ = desc.rotate;
-	transform.rotate = Quaternion::MakeFromEulerAngle(desc.rotate);
-	transform.translate = desc.translate;
-
-	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	model_->SetIsActive(true);
-
-	onPlayer_ = false;
-	onceOnPlayer_ = false;
-	isDown_ = false;
-
-#pragma region コライダー
-	collider_ = std::make_unique<BoxCollider>();
-	collider_->SetGameObject(this);
-	collider_->SetName("FireBarCenter");
-	collider_->SetCenter(transform.translate);
-	collider_->SetOrientation(transform.rotate);
-
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
-	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
-	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
-	collider_->SetIsActive(true);
-#pragma endregion
-}
-
-void Center::Update() {
-	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
-	if (!onPlayer_ &&
-		onceOnPlayer_) {
-		isDown_ = true;
-	}
-	// ブロックがおり切ったら
-	if (transform.translate.y == (-transform.scale.y * 0.5f) - 1.0f) {
-		collider_->SetIsActive(false);
-	}
-	onPlayer_ = false;
-	// 雑カリング
-	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
-		model_->SetIsActive(true);
-		collider_->SetIsActive(true);
-	}
-	else {
-		model_->SetIsActive(false);
-		collider_->SetIsActive(false);
-	}
-	UpdateTransform();
-}
-
-void Center::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-	transform.UpdateMatrix();
-	Vector3 scale, translate;
-	Quaternion rotate;
-	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
-	collider_->SetOrientation(rotate);
-	model_->SetWorldMatrix(transform.worldMatrix);
-}
-
-void Center::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Player") {
-		// 落下しているとき
-		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-			player_->GetVelocity().y <= 0.0f) {
-			onPlayer_ = true;
-			onceOnPlayer_ = true;
-		}
-	}
-}
-#pragma endregion
-
 #pragma region Bar
-void Bar::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3& pos, float rotateVelocity) {
+void Bar::Initialize(const Desc& desc) {
+	rotateVelocity_ = desc.rotateVelocity;
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = scale;
-	rotate_ = rotate;
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-	transform.translate = pos;
+	transform.scale = Vector3::one;
+	transform.scale.x = desc.length;
 
-	rotateVelocity_ = rotateVelocity;
+	rotate_ = desc.barInitialAngle;
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
@@ -107,7 +25,7 @@ void Bar::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3&
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("FireBarBar");
-	collider_->SetCenter(transform.translate);
+	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
@@ -122,9 +40,15 @@ void Bar::Initialize(const Vector3& scale, const Vector3& rotate, const Vector3&
 void Bar::Update() {
 	rotate_.y += rotateVelocity_;
 	rotate_.y = std::fmod(rotate_.y, Math::Pi * 2.0f);
-	Vector3 forward = transform.rotate.GetForward();
-	transform.translate = pos_ + (forward * transform.scale.z * 0.5f);
 	UpdateTransform();
+}
+
+void Bar::SetDesc(const Desc& desc) {
+	rotateVelocity_ = desc.rotateVelocity;
+
+	transform.scale.x = desc.length;
+
+	rotate_ = desc.barInitialAngle;
 }
 
 void Bar::SetIsActive(bool flag) {
@@ -147,45 +71,115 @@ void Bar::UpdateTransform() {
 
 void Bar::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
-	//if (collisionInfo.collider->GetName() == "Player") {
-	//	// 落下しているとき
-	//	if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-	//		player_->GetVelocity().y <= 0.0f) {
-	//		collider_->SetIsActive(false);
-	//		model_->SetIsActive(false);
-	//	}
-	//}
 }
 
 #pragma endregion
 
-void FireBar::Initialize(const Vector3& pos, const Vector3& centerScale, const Vector3& centerRotate, const Vector3& barScale, const Vector3& barRotate, float barRotateVelocity) {
-	pos_ = pos;
+void FireBar::Initialize(const Desc& desc) {
+	desc_ = desc;
 
-	center_ = std::make_unique<Center>();
+	transform = desc.transform;
+
+	model_ = std::make_unique<ModelInstance>();
+
+	model_->SetModel(ResourceManager::GetInstance()->FindModel("fireBarCenter"));
+	model_->SetIsActive(true);
+
+	onPlayer_ = false;
+	onceOnPlayer_ = false;
+	isDown_ = false;
+
+#pragma region コライダー
+	collider_ = std::make_unique<BoxCollider>();
+	collider_->SetGameObject(this);
+	collider_->SetName("FireBarCenter");
+	collider_->SetCenter(transform.worldMatrix.GetTranslate());
+	collider_->SetOrientation(transform.rotate);
+
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
+	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
+	collider_->SetIsActive(true);
+#pragma endregion
+
 	bar_ = std::make_unique<Bar>();
-	center_->SetPlayer(player_);
+
+	bar_->transform.SetParent(&transform);
 	bar_->SetPlayer(player_);
 
-	Center::Desc centerDesc{};
-	centerDesc.translate = pos_;
-	centerDesc.rotate = centerRotate;
-	centerDesc.scale = centerScale;
-	center_->Initialize(centerDesc);
-	bar_->Initialize(barScale, barRotate, pos_, barRotateVelocity);
+	bar_->Initialize(desc.barDesc);
 }
 
 void FireBar::Update() {
-	if (center_->GetIsDown()) {
-		pos_.y -= 0.05f;
+
+	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
+	if (!onPlayer_ &&
+		onceOnPlayer_) {
+		isDown_ = true;
 	}
-	if (center_->GetOnceOnPlayer()) {
+	onPlayer_ = false;
+	// ブロックが下がる
+	if (isDown_) {
+		transform.translate.y -= 0.05f;
+	}
+	// ブロックがおり切ったら
+	if (transform.translate.y <= (-transform.scale.y * 0.5f) - 1.0f) {
+		collider_->SetIsActive(false);
+		model_->SetIsActive(false);
+	}
+	// 一度でもプレイヤーがブロックのうえに乗ったら
+	if (onceOnPlayer_) {
 		bar_->SetIsActive(false);
 	}
-	// -3.0fは床の高さ
-	pos_.y = std::max(pos_.y, -center_->GetScale().y - 3.0f);
-	center_->SetPosition(pos_);
-	bar_->SetPosition(pos_);
-	center_->Update();
+	// 雑カリング
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+	}
+	else {
+		model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
+	UpdateTransform();
 	bar_->Update();
+}
+
+void FireBar::SetDesc(const Desc& desc) {
+	desc_ = desc;
+	transform = desc.transform;
+
+	bar_->SetDesc(desc.barDesc);
+}
+
+void FireBar::SetIsActive(bool flag) {
+	collider_->SetIsActive(flag);
+	model_->SetIsActive(flag);
+	bar_->SetIsActive(flag);
+}
+
+void FireBar::OnCollision(const CollisionInfo& collisionInfo) {
+	if (collisionInfo.collider->GetName() == "Player") {
+		// 落下しているとき
+		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
+			player_->GetVelocity().y <= 0.0f) {
+			onPlayer_ = true;
+			onceOnPlayer_ = true;
+		}
+	}
+}
+
+void FireBar::UpdateTransform() {
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	transform.UpdateMatrix();
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetOrientation(rotate);
+	model_->SetWorldMatrix(transform.worldMatrix);
 }

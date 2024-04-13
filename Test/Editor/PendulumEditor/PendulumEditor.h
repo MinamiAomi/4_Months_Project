@@ -20,7 +20,7 @@ public:
 	void SaveFile(uint32_t stageName);
 	void LoadFile(uint32_t stageName);
 	void Clear();
-	// 突貫
+	
 	void SetPlayer(const Player* player) { player_ = player; }
 private:
 	static const std::string kModelName;
