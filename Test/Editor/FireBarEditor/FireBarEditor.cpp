@@ -34,8 +34,6 @@ void FireBarEditor::Initialize() {
 
 void FireBarEditor::Update() {
 #ifdef _DEBUG
-
-
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
 		for (uint32_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
@@ -79,7 +77,7 @@ void FireBarEditor::Update() {
 				ImGui::DragFloat("length:", &desc_.barDesc.length, 0.1f);
 				ImGui::DragFloat("barRotateVelocity:", &desc_.barDesc.rotateVelocity, 0.01f);
 				desc_.barDesc.barInitialAngle *= Math::ToDegree;
-				ImGui::DragFloat("InitialAngle:", &desc_.barDesc.barInitialAngle.y, 0.01f);
+				ImGui::DragFloat("InitialAngle:", &desc_.barDesc.barInitialAngle.y, 1.0f);
 				desc_.barDesc.barInitialAngle *= Math::ToRadian;
 				ImGui::TreePop();
 			}
@@ -90,6 +88,8 @@ void FireBarEditor::Update() {
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
+			fireBar_->Update();
+			UpdateTransform();
 		}
 		else {
 			fireBar_->SetIsActive(false);
@@ -102,9 +102,8 @@ void FireBarEditor::Update() {
 		isCreate_ = false;
 	}
 	ImGui::End();
+	
 #endif // _DEBUG
-	fireBar_->Update();
-	UpdateTransform();
 }
 
 void FireBarEditor::SaveFile(uint32_t stageName) {
