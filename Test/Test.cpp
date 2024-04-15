@@ -17,19 +17,18 @@ void Test::OnInitialize() {
 	ResourceManager* resourceManager = ResourceManager::GetInstance();
 	resourceManager->AddTexture("circle", Texture::Load("Resources/whiteCircle.png"));
 	resourceManager->AddTexture("white2x2", Texture::Load("Resources/white2x2.png"));
-	resourceManager->AddTexture("hp", Texture::Load("Resources/playerHP.png"));
-	//resourceManager->AddModel("Title", Model::Load("Resources/title.obj"));
-	//resourceManager->AddModel("Player", Model::Load("Resources/Player/Player.obj"));
-	//resourceManager->AddModel("Floor", Model::Load("Resources/Floor/Floor.obj"));
-	//resourceManager->AddModel("teapot", Model::Load("Resources/Teapot/teapot.obj"));
-	//resourceManager->AddModel("bunny",  Model::Load("Resources/Bunny/bunny.obj"));
-	//resourceManager->AddModel("box",  Model::Load("Resources/box.obj"));
-	//resourceManager->AddModel("sphere",    Model::Load("Resources/sphere.obj"));
-	resourceManager->AddModel("boss",   Model::Load("Resources/Boss/boss.gltf"));
+	
+	resourceManager->AddTexture("HPBar_Gauge", Texture::Load("Resources/Player/PlayerUI/HPBar_Gauge.png"));
+	resourceManager->AddTexture("HPBar_Flame", Texture::Load("Resources/Player/PlayerUI/HPBar_Flame.png"));
+	resourceManager->AddTexture("RevengeBar_RevengeGauge", Texture::Load("Resources/Player/PlayerUI/RevengeBar_RevengeGauge.png"));
+	resourceManager->AddTexture("RevengeBar_Flame", Texture::Load("Resources/Player/PlayerUI/RevengeBar_Flame.png"));
+	resourceManager->AddTexture("RevengeBar_WeaponGauge", Texture::Load("Resources/Player/PlayerUI/RevengeBar_WeaponGauge.png"));
+
+	resourceManager->AddModel("bossBody", Model::Load("Resources/Boss/Body/boss.gltf"));
+	resourceManager->AddModel("bossRightArm", Model::Load("Resources/Boss/RightArm/rightArm.gltf"));
+	resourceManager->AddModel("bossLeftArm", Model::Load("Resources/Boss/LeftArm/leftArm.gltf"));
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
-	resourceManager->AddModel("player", Model::Load("Resources/Player/player.obj"));
-	resourceManager->AddModel("pbr", Model::Load("Resources/pbr/pbr.gltf"));
-	resourceManager->AddModel("box", Model::Load("Resources/Box.obj"));
+	resourceManager->AddModel("player", Model::Load("Resources/Player/player.gltf"));
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
 	resourceManager->AddModel("skydome", Model::Load("Resources/Skydome/skydome.gltf"));
 	resourceManager->AddModel("lightline", Model::Load("Resources/LightLine/lightline.gltf"));
@@ -37,7 +36,8 @@ void Test::OnInitialize() {
 	//resourceManager->AddModel("Sponza", Model::Load("Resources/Sponza/sponza.obj"));
 
 	//auto model = Model::Load("Resources/CornellBox/CornellBox-Original.obj");
+	resourceManager->AddModel("fireBarBar", Model::Load("Resources/FireBar/Bar/bar.gltf"));
+	resourceManager->AddModel("fireBarCenter", Model::Load("Resources/FireBar/Center/center.gltf"));
 }
 
-void Test::OnFinalize() {
-}
+void Test::OnFinalize() {}

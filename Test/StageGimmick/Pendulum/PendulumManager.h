@@ -12,10 +12,7 @@ public:
 	void Update();
 	void Reset(uint32_t stageIndex);
 
-	void Create(
-		const Vector3& scale, const Vector3& rotate,
-		const Vector3& ballScale, const Vector3& ballRotate,
-		const Vector3& pos, float length, float speed, float angle);
+	void Create(Pendulum::Desc desc);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 

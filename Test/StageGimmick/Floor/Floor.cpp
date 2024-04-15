@@ -15,7 +15,6 @@ void Floor::Initialize(const Desc& desc) {
 	transform.rotate = Quaternion::MakeFromEulerAngle(desc.rotate);
 	transform.scale = desc.scale;
 
-
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -32,6 +31,16 @@ void Floor::Initialize(const Desc& desc) {
 }
 
 void Floor::Update() {
+	// 雑カリング
+	// こいつだけいっぱいのバス
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+	}
+	else {
+		model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
 	UpdateTransform();
 }
 

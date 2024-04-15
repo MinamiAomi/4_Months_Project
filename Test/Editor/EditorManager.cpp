@@ -17,8 +17,10 @@ void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBa
 	pendulumEditor_->SetPendulumManager(pendulumManager);
 
 	blockEditor_->Initialize();
+	fireBarEditor_->SetPlayer(player_);
 	fireBarEditor_->Initialize();
 	floorEditor_->Initialize();
+	pendulumEditor_->SetPlayer(player_);
 	pendulumEditor_->Initialize();
 
 	stageIndex_ = 0;
@@ -26,7 +28,10 @@ void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBa
 
 void EditorManager::Update() {
 	static const uint32_t kCount = 10;
-	ImGui::Begin("StageEditor");
+#ifdef _DEBUG
+
+
+	ImGui::Begin("StageEditorSave");
 	if (ImGui::TreeNode("SaveFile")) {
 		std::list<std::string> stageList;
 		for (uint32_t i = 0; i < kCount; i++) {
@@ -65,7 +70,7 @@ void EditorManager::Update() {
 		if (ImGui::Combo("Stage", &stageIndex_, stageArray.data(), static_cast<int>(stageArray.size()))) {
 
 		}
-		if (ImGui::Button("Load") ) {
+		if (ImGui::Button("Load")) {
 			blockEditor_->Clear();
 			fireBarEditor_->Clear();
 			blockEditor_->LoadFile(stageIndex_);
@@ -76,8 +81,9 @@ void EditorManager::Update() {
 		ImGui::TreePop();
 	}
 	ImGui::End();
+#endif // _DEBUG
+	pendulumEditor_->Update();
 	blockEditor_->Update();
 	fireBarEditor_->Update();
 	floorEditor_->Update();
-	pendulumEditor_->Update();
 }

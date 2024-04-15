@@ -12,10 +12,7 @@ public:
 	void Update();
 	void Reset(uint32_t stageIndex);
 
-	void Create(
-		const Vector3& pos,
-		const Vector3& centerScale, const Vector3& centerRotate,
-		const Vector3& barScale, const Vector3& barRotate, float barRotateVelocity);
+	void Create(const FireBar::Desc& desc);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
@@ -27,5 +24,6 @@ public:
 	void Clear();
 private:
 	const Player* player_;
+
 	std::list<std::unique_ptr<FireBar>> fireBars_;
 };

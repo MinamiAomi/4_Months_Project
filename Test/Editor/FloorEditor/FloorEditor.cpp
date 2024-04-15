@@ -28,7 +28,11 @@ void FloorEditor::Initialize() {
 	transform.translate = { 0.0f,-3.0f,0.0f };
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	model_->SetIsActive(true);
+#ifdef _DEBUG
+	model_->SetIsActive(true); 
+#else
+	model_->SetIsActive(false); 
+#endif // _DEBUG
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -41,12 +45,20 @@ void FloorEditor::Initialize() {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
 	collider_->SetCollisionMask(~CollisionAttribute::Floor);
+	
+#ifdef _DEBUG
 	collider_->SetIsActive(true);
+#else
+	collider_->SetIsActive(false);
+#endif // _DEBUG
+	
 #pragma endregion
 
 }
 
 void FloorEditor::Update() {
+#ifdef _DEBUG
+
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FloorEditor")) {
 		static bool isCollision = false;
@@ -101,6 +113,7 @@ void FloorEditor::Update() {
 		ImGui::TreePop();
 	}
 	ImGui::End();
+#endif // _DEBUG
 	UpdateTransform();
 }
 
@@ -162,7 +175,7 @@ void FloorEditor::LoadFile(uint32_t stageName) {
 	nlohmann::json::iterator itGroup = root.find(fileName_);
 	//未登録チェック
 	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 	}
 	// アイテム
 	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
@@ -174,7 +187,7 @@ void FloorEditor::LoadFile(uint32_t stageName) {
 
 		//未登録チェック
 		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+			//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 		}
 
 		//保険
@@ -194,7 +207,7 @@ void FloorEditor::LoadFile(uint32_t stageName) {
 
 				//未登録チェック
 				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+					//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 				}
 
 				//保険

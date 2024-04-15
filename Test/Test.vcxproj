@@ -21,6 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boss\Boss.cpp" />
+    <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
+    <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />
@@ -60,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss\Boss.h" />
+    <ClInclude Include="Boss\BossModelManager\BossModelManager.h" />
+    <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CharacterState.h" />

@@ -4,7 +4,7 @@
         "defaultSpeed_": 0.0,
         "gravity_": -0.019999999552965164,
         "horizontalSpeed_": 0.30000001192092896,
-        "jumpPower_": 0.6499999761581421,
+        "jumpPower_": 0.5,
         "knockBack_": 5.0,
         "maxInvincibleTime_": 15,
         "offset_": [
@@ -12,7 +12,7 @@
             0.0,
             0.0
         ],
-        "runAwayLimitLine_": 85.0,
+        "runAwayLimitLine_": 66.0,
         "verticalSpeed_": 0.5
     }
 }

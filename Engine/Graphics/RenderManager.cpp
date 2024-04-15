@@ -51,6 +51,9 @@ void RenderManager::Initialize() {
 
     timer_.Initialize();
 
+    skyRenderer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat(), geometryRenderingPass_.GetDepth().GetFormat());
+
+
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetRTVFormat());
     imguiManager->NewFrame();
@@ -72,12 +75,21 @@ void RenderManager::Render() {
     auto camera = camera_.lock();
 
     commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
-
     if (camera) {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
+    
+        if (useSky_) {
+            auto& rt = lightingRenderingPass_.GetResult();
+            auto& ds = geometryRenderingPass_.GetDepth();
+            commandContext_.TransitionResource(rt, D3D12_RESOURCE_STATE_RENDER_TARGET);
+            commandContext_.TransitionResource(ds, D3D12_RESOURCE_STATE_DEPTH_READ);
+            commandContext_.SetRenderTarget(rt.GetRTV(), ds.GetDSV());
+            commandContext_.SetViewportAndScissorRect(0, 0, rt.GetWidth(), rt.GetHeight());
+            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ 250.0f, 250.0f, 250.0f}, Quaternion::identity, camera->GetPosition()));
+        }
     }
 
     bloom_.Render(commandContext_);
@@ -108,14 +120,17 @@ void RenderManager::Render() {
         ImGui::DragFloat("threshold",&threshold,0.01f,0.0f,1.0f);
         bloom_.SetKnee(knee);
         bloom_.SetThreshold(threshold);
+        
         ImGui::TreePop();
     }
+    
     ImGui::End();
 #endif // ENABLE_IMGUI
 
     // ImGuiを描画
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Render(commandContext_);
+
 
     commandContext_.TransitionResource(swapChainBuffer, D3D12_RESOURCE_STATE_PRESENT);
 

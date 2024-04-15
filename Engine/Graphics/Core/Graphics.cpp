@@ -18,7 +18,7 @@ using namespace Microsoft::WRL;
 
 #define DEBUG_DIRECTX
 #define ENABLED_DEBUG_LAYER 1
-#define ENABLED_GPU_BASED_DEBUGGER 1
+#define ENABLED_GPU_BASED_DEBUGGER 0
 
 #ifdef DEBUG_DIRECTX
 
@@ -84,7 +84,7 @@ void Graphics::Initialize() {
     }
 
     SamplerManager::Initialize();
-    CreateDynamicResourcesRootSignature();
+    //CreateDynamicResourcesRootSignature();
 }
 
 void Graphics::Finalize() {
@@ -193,7 +193,7 @@ void Graphics::CreateDevice() {
 }
 
 void Graphics::CreateDynamicResourcesRootSignature() {
-    D3D12_ROOT_SIGNATURE_DESC dynamicResourcesRootSignatureDesc{};
+   /* D3D12_ROOT_SIGNATURE_DESC dynamicResourcesRootSignatureDesc{};
     dynamicResourcesRootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_NONE;
     dynamicResourcesRootSignatureDesc.Flags |= D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
     dynamicResourcesRootSignatureDesc.Flags |= D3D12_ROOT_SIGNATURE_FLAG_CBV_SRV_UAV_HEAP_DIRECTLY_INDEXED;
@@ -203,5 +203,5 @@ void Graphics::CreateDynamicResourcesRootSignature() {
     rootParameters[0].InitAsConstantBufferView(0);
     dynamicResourcesRootSignatureDesc.pParameters = rootParameters;
     dynamicResourcesRootSignatureDesc.NumParameters = _countof(rootParameters);
-    dynamicResourcesRootSignature_.Create(L"RootSignature DynamicResources", dynamicResourcesRootSignatureDesc);
+    dynamicResourcesRootSignature_.Create(L"RootSignature DynamicResources", dynamicResourcesRootSignatureDesc);*/
 }

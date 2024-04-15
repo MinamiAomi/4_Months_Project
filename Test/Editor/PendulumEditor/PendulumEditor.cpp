@@ -18,92 +18,54 @@ const std::string PendulumEditor::kModelName = "block";
 void PendulumEditor::Initialize() {
 	fileName_ = "Pendulum";
 
-	stick_ = std::make_unique<ModelInstance>();
-	ball_ = std::make_unique<ModelInstance>();
-
-	pendulum_.anchor = { 0.0f,1.0f,0.0f };
-	pendulum_.length = 0.8f;
-	pendulum_.angle = 0.7f;
-	pendulum_.gravity = 0.002f;
-	pendulum_.angularVelocity = 0.0f;
-	pendulum_.angularAcceleration = 0.0f;
-
-	speed_ = 0.01f;
-	angle_ = 15.0f;
-	length_ = 5.0f;
-	pos_ = { 0.0f,15.0f,0.0f };
-	rotate_ = Vector3::zero;
-	ballRotate_ = Vector3::zero;
-
-	transform.scale = { 5.0f,1.0f,1.0f };
-	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3{ 0.0f, 270.0f * Math::ToRadian, 0.0f });
-	transform.translate = transform.rotate.GetForward() * transform.scale.z * 0.5f;
-	ballTransform_.scale = { 3.0f,3.0f,3.0f };
-	ballTransform_.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
-	ballTransform_.translate = transform.rotate.GetForward() * (transform.scale.z + ballTransform_.scale.z);
-
-	stick_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	ball_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	stick_->SetIsActive(true);
-	ball_->SetIsActive(true);
-
-#pragma region コライダー
-	collider_ = std::make_unique<BoxCollider>();
-	collider_->SetGameObject(this);
-	collider_->SetName("PendulumBall");
-	collider_->SetCenter(ballTransform_.translate);
-	collider_->SetOrientation(ballTransform_.rotate);
-	collider_->SetSize(ballTransform_.scale);
-	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::PendulumBall);
-	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
-	collider_->SetIsActive(true);
-#pragma endregion
+	pendulum_ = std::make_unique<Pendulum>();
+	Pendulum::Desc desc{};
+	desc.ballDesc.length = 15.0f;
+	desc.pos = { 0.0f,desc.ballDesc.length,0.0f };
+	desc.ballDesc.scale = { 3.0f,3.0f,3.0f };
+	desc.ballDesc.gravity = { 0.002f };
+	desc.ballDesc.angle = 10.0f * Math::ToRadian;
+	desc.stickDesc.scale = { 1.0f,desc.ballDesc.length,1.0f };
+	pendulum_->SetPlayer(player_);
+	pendulum_->Initialize(desc);
+#
+	// 一回だけ実行
+	pendulum_->Update();
+	pendulum_->SetIsActive(false);
 }
 
 void PendulumEditor::Update() {
+#ifdef _DEBUG
+
+
+	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("PendulumEditor")) {
-		stick_->SetIsActive(true);
-		ball_->SetIsActive(true);
-		static bool isCollision = true;
-		if (ImGui::Checkbox("isCollision", &isCollision)) {
-			collider_->SetIsActive(isCollision);
-		}
-		Vector3 pos{}, stickRotate{}, stickScale{}, ballRotate{}, ballScale{};
-		float speed, angle;
 		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
 			if (pendulum.get() == nullptr) {
 				continue;
 			}
 			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
-				pos = pendulum->GetPosition();
-				stickRotate = pendulum->GetStickRotate();
-				stickScale = pendulum->GetStickScale();
-				ballRotate = pendulum->GetBallRotate();
-				ballScale = pendulum->GetBallScale();
-				angle = pendulum->GetAngle();
-				speed = pendulum->GetSpeed();
-				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &pos.x, 1.0f);
-				ImGui::DragFloat(("speed:" + std::to_string(i)).c_str(), &speed, 0.1f);
-				ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &angle, 1.0f);
+				auto desc = pendulum->GetDesc();
+				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
 				if (ImGui::TreeNode("Stick")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &stickScale.x, 0.1f);
-					ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &stickRotate.x, 0.01f);
+					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.stickDesc.scale.x, 0.1f);
+					desc.stickDesc.scale.z = desc.stickDesc.scale.x;
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Ball")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &ballScale.x, 0.1f);
-					ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &ballRotate.x, 0.01f);
+					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.ballDesc.scale.x, 0.1f);
+					desc.ballDesc.scale.z = desc.ballDesc.scale.x;
+					desc.ballDesc.scale.y = desc.ballDesc.scale.x;
+					desc.ballDesc.angle *= Math::ToDegree;
+					ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.ballDesc.angle, 0.1f);
+					desc.ballDesc.angle *= Math::ToRadian;
+					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.ballDesc.length, 0.01f);
+					ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.ballDesc.gravity, 0.001f);
+					desc.stickDesc.scale.z = desc.ballDesc.length;
 					ImGui::TreePop();
 				}
-				pendulum->SetStickScale(stickScale);
-				pendulum->SetStickRotate(stickRotate);
-				pendulum->SetBallScale(ballScale);
-				pendulum->SetBallRotate(ballRotate);
-				pendulum->SetSpeed(speed);
-				pendulum->SetAngle(angle);
-				pendulum->SetPosition(pos);
+				pendulum->SetDesc(desc);
 				if (ImGui::Button("Delete")) {
 					pendulumManager_->DeletePendulum(pendulum.get());
 					ImGui::TreePop();
@@ -114,57 +76,57 @@ void PendulumEditor::Update() {
 			}
 			i++;
 		}
-		if (ImGui::TreeNode("CreateBlock")) {
-			ImGui::DragFloat3("position", &pos_.x, 0.25f);
-			ImGui::DragFloat("speed", &speed_, 0.01f);
-			ImGui::DragFloat("angle", &angle_, 1.0f);
+		if (ImGui::TreeNode("CreatePendulum")) {
+			pendulum_->SetIsActive(true);
+			auto desc = pendulum_->GetDesc();
+			ImGui::DragFloat3("position", &desc.pos.x, 0.1f);
 			if (ImGui::TreeNode("Stick")) {
-				ImGui::DragFloat3("scale", &transform.scale.x, 0.25f);
-				ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
+				ImGui::DragFloat("scale", &desc.stickDesc.scale.x, 0.1f);
+				desc.stickDesc.scale.z = desc.stickDesc.scale.x;
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Ball")) {
-				ImGui::DragFloat3("scale", &ballTransform_.scale.x, 0.1f);
-				ImGui::DragFloat3("rotate", &ballRotate_.x, 0.01f);
+				ImGui::DragFloat("scale", &desc.ballDesc.scale.x, 0.1f);
+				desc.ballDesc.scale.y = desc.ballDesc.scale.x;
+				desc.ballDesc.scale.z = desc.ballDesc.scale.x;
+				desc.ballDesc.angle *= Math::ToDegree;
+				ImGui::DragFloat("angle:", &desc.ballDesc.angle, 0.1f);
+				desc.ballDesc.angle *= Math::ToRadian;
+				ImGui::DragFloat("length", &desc.ballDesc.length, 0.1f);
+				desc.stickDesc.scale.y = desc.ballDesc.length;
+				ImGui::DragFloat("gravity", &desc.ballDesc.gravity, 0.001f);
 				ImGui::TreePop();
 			}
+			if (!isPlay) {
+				pendulum_->SetDesc(desc);
+			}
+
+			if (ImGui::Button("Play")) {
+				isPlay ^= true;
+				if (isPlay) {
+					pendulum_->GetBall()->SetAngle(desc.ballDesc.angle);
+				}
+			}
 			if (ImGui::Button("Create")) {
-				pendulumManager_->Create(transform.scale, rotate_, ballTransform_.scale, ballRotate_, pos_, length_, speed_, angle_);
+				pendulumManager_->Create(pendulum_->GetDesc());
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
 		}
 		else {
+			pendulum_->SetIsActive(false);
 			isCreate_ = false;
 		}
 		ImGui::TreePop();
 	}
 	else {
-		stick_->SetIsActive(false);
-		ball_->SetIsActive(false);
-		collider_->SetIsActive(false);
+		pendulum_->SetIsActive(false);
 	}
 	ImGui::End();
-	static bool  clockwise = true;
-	if (clockwise) {
-		rotate_.z += speed_;
+	if (isPlay) {
+		pendulum_->Update();
 	}
-	else {
-		rotate_.z -= speed_;
-	}
-	if (std::fabs(rotate_.z) >= angle_ * Math::ToRadian) {
-		clockwise ^= true;
-	}
-	ImGui::Begin("pendulum");
-	ImGui::DragFloat3("anchor",&pendulum_.anchor.x,0.1f);
-	ImGui::DragFloat("length",&pendulum_.length,0.1f);
-	ImGui::DragFloat("angle",&pendulum_.angle,0.1f);
-	ImGui::DragFloat("gravity",&pendulum_.gravity,0.001f);
-	ImGui::DragFloat("angularVelocity",&pendulum_.angularVelocity,0.1f);
-	ImGui::DragFloat("angularAcceleration",&pendulum_.angularAcceleration,0.1f);
-	ImGui::End();
-	pendulum_.Update();
-	UpdateTransform();
+#endif // _DEBUG
 }
 
 void PendulumEditor::SaveFile(uint32_t stageName) {
@@ -175,13 +137,13 @@ void PendulumEditor::SaveFile(uint32_t stageName) {
 	root[fileName_] = nlohmann::json::object();
 
 	for (size_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ pendulum->GetPosition().x, pendulum->GetPosition().y, pendulum->GetPosition().z });
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["stickScale"] = nlohmann::json::array({ pendulum->GetStickScale().x, pendulum->GetStickScale().y, pendulum->GetStickScale().z });
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["stickRotate"] = nlohmann::json::array({ pendulum->GetStickRotate().x, pendulum->GetStickRotate().y, pendulum->GetStickRotate().z });
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["ballScale"] = nlohmann::json::array({ pendulum->GetBallScale().x, pendulum->GetBallScale().y, pendulum->GetBallScale().z });
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["ballRotate"] = nlohmann::json::array({ pendulum->GetBallRotate().x, pendulum->GetBallRotate().y, pendulum->GetBallRotate().z });
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["speed"] = pendulum->GetSpeed();
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["angle"] = pendulum->GetAngle();
+		auto desc = pendulum->GetDesc();
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ desc.pos.x, desc.pos.y, desc.pos.z });
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["ballDesc:scale"] = nlohmann::json::array({ desc.ballDesc.scale.x, desc.ballDesc.scale.y, desc.ballDesc.scale.z });
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["stickDesc:scale"] = nlohmann::json::array({ desc.stickDesc.scale.x, desc.stickDesc.scale.y, desc.stickDesc.scale.z });
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["length"] = desc.ballDesc.length;
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["gravity"] = desc.ballDesc.gravity;
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["angle"] = desc.ballDesc.angle;
 		i++;
 	}
 
@@ -266,10 +228,8 @@ void PendulumEditor::LoadFile(uint32_t stageName) {
 				//保険
 				assert(itData != itObject->end());
 
-				std::vector<Vector3> pos{}, stickRotate{}, stickScale{}, ballRotate{}, ballScale{};
-				std::vector<float> speed, angle;
+				Pendulum::Desc desc{};
 				for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
-
 					//アイテム名を取得
 					const std::string& itemNameObject = itItemObject.key();
 
@@ -279,44 +239,29 @@ void PendulumEditor::LoadFile(uint32_t stageName) {
 						//名前がpositionだった場合、positionを登録
 						if (itemNameObject == "position") {
 							//float型のjson配列登録
-							pos.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+							desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 						//名前がrotationだった場合、rotationを登録
-						else if (itemNameObject == "stickRotate") {
+						else if (itemNameObject == "stickDesc:scale") {
 							//float型のjson配列登録
-							stickRotate.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+							desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 						//名前がscaleだった場合、scaleを登録
-						else if (itemNameObject == "stickScale") {
+						else if (itemNameObject == "ballDesc:scale") {
 							//float型のjson配列登録
-							stickScale.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-						else if (itemNameObject == "ballRotate") {
-							//float型のjson配列登録
-							ballRotate.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-						//名前がscaleだった場合、scaleを登録
-						else if (itemNameObject == "ballScale") {
-							//float型のjson配列登録
-							ballScale.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+							desc.ballDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 					}
 					else {
-						if (itemNameObject == "speed") {
-							float sp = itItemObject->get<float>();
-							speed.emplace_back(sp);
+						if (itemNameObject == "length") {
+							desc.ballDesc.length = itItemObject->get<float>();
 						}
-						else if (itemNameObject == "angle") {
-							float an = itItemObject->get<float>();
-							angle.emplace_back(an);
+						else if (itemNameObject == "gravity") {
+							desc.ballDesc.gravity = itItemObject->get<float>();
 						}
 					}
 				}
-
-				// 生成
-				for (size_t i = 0; i < pos.size(); i++) {
-					pendulumManager_->Create(stickScale.at(i), stickRotate.at(i), ballScale.at(i), ballRotate.at(i), pos.at(i), 0.0f, speed.at(i), angle.at(i));
-				}
+				pendulumManager_->Create(desc);
 			}
 		}
 	}
@@ -324,24 +269,6 @@ void PendulumEditor::LoadFile(uint32_t stageName) {
 
 void PendulumEditor::Clear() {
 	pendulumManager_->Clear();
-}
-
-void PendulumEditor::UpdateTransform() {
-	transform.translate = pendulum_.GetPosition();
-	transform.UpdateMatrix();
-	stick_->SetWorldMatrix(transform.worldMatrix);
-
-	ballTransform_.rotate = Quaternion::MakeFromEulerAngle(ballRotate_);
-	ballTransform_.translate = transform.rotate.GetForward() * (transform.scale.x + ballTransform_.scale.x);
-
-	ballTransform_.UpdateMatrix();
-	ball_->SetWorldMatrix(ballTransform_.worldMatrix);
-	Vector3 scale, translate;
-	Quaternion rotate;
-	ballTransform_.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
-	collider_->SetOrientation(rotate);
 }
 
 void PendulumEditor::OnCollision(const CollisionInfo& collisionInfo) {

@@ -47,7 +47,7 @@ void Player::Initialize() {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 
-
+	transform.UpdateMatrix();
 	canFirstJump_ = true;
 	canSecondJump_ = true;
 #pragma region コライダー
@@ -184,7 +184,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		//	transform.SetParent(&nextParent->transform);
 		//}
 	}
-	else if (collisionInfo.collider->GetName() == "FireBarBar") {
+	else if (collisionInfo.collider->GetName() == "FireBarBar"||
+		collisionInfo.collider->GetName() == "PendulumBall"||
+		collisionInfo.collider->GetName() == "bossLeftArm") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {
@@ -270,8 +272,6 @@ void Player::Jump() {
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		acceleration_.y += jumpPower_;
 		canFirstJump_ = false;
-
-		onGround_ = false;
 	}
 	else if (!canFirstJump_ &&
 		canSecondJump_ &&
@@ -311,7 +311,7 @@ void Player::DebugParam() {
 		int maxInvincibleTime = maxInvincibleTime_;
 		ImGui::DragInt("maxInvincibleTime_", &maxInvincibleTime);
 		maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
-		ImGui::Checkbox("onGround_", &onGround_);
+		ImGui::Checkbox("onGround_", &canFirstJump_);
 		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Player/Player.json");

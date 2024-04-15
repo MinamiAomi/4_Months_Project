@@ -61,6 +61,12 @@
     <Filter Include="File">
       <UniqueIdentifier>{6c955196-946b-4bf8-a2f2-23e9af3a8405}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\App">
+      <UniqueIdentifier>{a084a632-e12e-40ca-8ef6-ab0583858735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\App">
+      <UniqueIdentifier>{9ab68531-4875-4850-9f36-3a752af54ae3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -284,6 +290,12 @@
     </ClCompile>
     <ClCompile Include="File\JsonHelper.cpp">
       <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\App\Voronoi.cpp">
+      <Filter>Graphics\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\App\SkyRenderer.cpp">
+      <Filter>Graphics\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -566,6 +578,12 @@
     <ClInclude Include="File\JsonHelper.h">
       <Filter>File</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\App\SkyRenderer.h">
+      <Filter>Graphics\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\App\Voronoi.h">
+      <Filter>Graphics\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Lighting.hlsli">
@@ -666,6 +684,15 @@
     </None>
     <None Include="Graphics\Shader\TransitionCS.hlsl">
       <Filter>Graphics\Shader</Filter>
+    </None>
+    <None Include="Graphics\Shader\App\VoronoiCS.hlsl">
+      <Filter>Graphics\Shader\App</Filter>
+    </None>
+    <None Include="Graphics\Shader\App\SkyVS.hlsl">
+      <Filter>Graphics\Shader\App</Filter>
+    </None>
+    <None Include="Graphics\Shader\App\SkyPS.hlsl">
+      <Filter>Graphics\Shader\App</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

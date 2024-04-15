@@ -15,15 +15,16 @@ using namespace Microsoft::WRL;
 namespace {
 
     std::wstring profiles[ShaderManager::kNumTypes] = {
-        L"vs_6_6",
-        L"ps_6_6",
-        L"gs_6_6",
-        L"hs_6_6",
-        L"ds_6_6",
-        L"cs_6_6"
+        L"vs_6_0",
+        L"ps_6_0",
+        L"gs_6_0",
+        L"hs_6_0",
+        L"ds_6_0",
+        L"cs_6_0"
     };
 
     std::wstring GetProfile(ShaderType type, int majorVersion, int minorVersion) {
+        assert(minorVersion < 6);
         const wchar_t* kProfileTypes[] = {
             L"vs_",
             L"hs_",

@@ -23,10 +23,10 @@ void FireBarManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void FireBarManager::Create(const Vector3& pos, const Vector3& centerScale, const Vector3& centerRotate, const Vector3& barScale, const Vector3& barRotate, float barRotateVelocity) {
+void FireBarManager::Create(const FireBar::Desc& desc) {
 	FireBar* fireBar = new FireBar();
 	fireBar->SetPlayer(player_);
-	fireBar->Initialize(pos, centerScale, centerRotate, barScale, barRotate, barRotateVelocity);
+	fireBar->Initialize(desc);
 	fireBars_.emplace_back(std::move(fireBar));
 }
 
@@ -104,44 +104,38 @@ void FireBarManager::LoadJson(uint32_t stageIndex) {
 				//保険
 				assert(itData != itObject->end());
 				if (objectName.find("FireBar") != std::string::npos) {
-					Vector3 pos{}, centerRotate{}, centerScale{}, barRotate{}, barScale{};
-					float rotateRotateVelocity = 0.0f;
+					FireBar::Desc desc{};
 					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 						//アイテム名を取得
 						const std::string& itemNameObject = itItemObject.key();
 						//要素数3の配列であれば
 						if (itItemObject->is_array() && itItemObject->size() == 3) {
+
 							//名前がpositionだった場合、positionを登録
 							if (itemNameObject == "position") {
 								//float型のjson配列登録
-								pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "centerRotate") {
-								//float型のjson配列登録
-								centerRotate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.transform.translate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 							//名前がscaleだった場合、scaleを登録
-							else if (itemNameObject == "centerScale") {
+							else if (itemNameObject == "scale") {
 								//float型のjson配列登録
-								centerScale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.transform.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 							else if (itemNameObject == "barRotate") {
 								//float型のjson配列登録
-								barRotate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							else if (itemNameObject == "barScale") {
-								//float型のjson配列登録
-								barScale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.barDesc.barInitialAngle = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 						}
 						else {
-							if (itemNameObject == "berRotateVelocity") {
-								rotateRotateVelocity = itItemObject->get<float>();
+							if (itemNameObject == "rotateVelocity") {
+								desc.barDesc.rotateVelocity = itItemObject->get<float>();
+							}
+							else if (itemNameObject == "length") {
+								desc.barDesc.length = itItemObject->get<float>();
 							}
 						}
 					}
-					Create(pos, centerScale, centerRotate, barScale, barRotate, rotateRotateVelocity);
+					Create(desc);
 				}
 			}
 		}

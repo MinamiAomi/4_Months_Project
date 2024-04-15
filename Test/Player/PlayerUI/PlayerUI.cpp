@@ -9,18 +9,18 @@ void PlayerUI::Initialize() {
 	LoadJson();
 #pragma region HP
 	for (uint32_t i = 0; auto & sprite : hpSprit_) {
-		sprite = CreateSprite(hpSpriteData_.at(i), "hp");
+		sprite = CreateSprite(hpSpriteData_.at(i), "HPBar_Gauge");
 		i++;
 	}
 
-	hpBaseSprit_ = CreateSprite(hpBaseSpriteData_, "circle");
+	hpBaseSprit_ = CreateSprite(hpBaseSpriteData_, "HPBar_Flame");
 #pragma endregion
 #pragma region 復讐ゲージ
-	revengeBarGage_ = CreateSprite(revengeBarGageData_, "white2x2");
-	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "white2x2");
+	revengeBarGage_ = CreateSprite(revengeBarGageData_, "RevengeBar_RevengeGauge");
+	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "RevengeBar_Flame");
 
-	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "circle");
-	revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
+	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "RevengeBar_WeaponGauge");
+	//revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
 #pragma endregion
 }
 
@@ -36,7 +36,7 @@ void PlayerUI::Update() {
 			DrawImGui(revengeBarGageBaseData_, "revengeBarGageBaseData_", revengeBarGageBase_.get());
 
 			DrawImGui(revengeCircleGageData_, "revengeCircleGageData_", revengeCircleGage_.get());
-			DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
+			//DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
 
 			DrawImGui(hpBaseSpriteData_, "hpBaseSpriteData_", hpBaseSprit_.get());
 
@@ -129,9 +129,9 @@ void PlayerUI::LoadJson() {
 	JSON_OBJECT("revengeCircleGageData_");
 	revengeCircleGageData_.Load();
 	JSON_ROOT();
-	JSON_OBJECT("revengeCircleGageBaseData_");
+	/*JSON_OBJECT("revengeCircleGageBaseData_");
 	revengeCircleGageBaseData_.Load();
-	JSON_ROOT();
+	JSON_ROOT();*/
 #pragma endregion
 	JSON_CLOSE();
 
@@ -164,9 +164,9 @@ void PlayerUI::SaveJson() {
 	revengeCircleGageData_.Save();
 	JSON_ROOT();
 	// 円
-	JSON_OBJECT("revengeCircleGageBaseData_");
+	/*JSON_OBJECT("revengeCircleGageBaseData_");
 	revengeCircleGageBaseData_.Save();
-	JSON_ROOT();
+	JSON_ROOT();*/
 #pragma endregion
 	JSON_CLOSE();
 }
@@ -186,6 +186,11 @@ std::unique_ptr<Sprite> PlayerUI::CreateSprite(const SpriteData& spriteData, std
 }
 
 void PlayerUI::DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite) {
+	sprite;
+	spriteData;
+#ifdef _DEBUG
+
+
 	if (ImGui::TreeNode(string.c_str())) {
 		ImGui::DragFloat2((string.c_str() + std::string(":scale")).c_str(), &spriteData.scale.x);
 		ImGui::DragFloat((string.c_str() + std::string(":rotate")).c_str(), &spriteData.rotate, 0.1f);
@@ -206,6 +211,7 @@ void PlayerUI::DrawImGui(SpriteData& spriteData, std::string string, Sprite* spr
 
 		ImGui::TreePop();
 	}
+#endif // _DEBUG
 }
 
 void PlayerUI::SpriteData::Load() {
