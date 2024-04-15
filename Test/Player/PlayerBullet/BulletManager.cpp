@@ -50,7 +50,7 @@ void BulletManager::Update(const Vector3& pos) {
 		if (ImGui::TreeNode("PlayerBulletManager")) {
 			ImGui::DragFloat3("velocity_", &velocity_.x, 0.1f);
 			int i = interval_;
-			ImGui::DragInt("velocity_", &i);
+			ImGui::DragInt("interval", &i);
 			interval_ = i;
 			ImGui::Checkbox("canCreateBullet_", &canCreateBullet_);
 			ImGui::Checkbox("isCreateBullet_", &isCreateBullet_);
