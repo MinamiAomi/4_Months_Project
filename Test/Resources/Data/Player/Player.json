@@ -1,6 +1,6 @@
 {
     "Player": {
-        "chaseLimitLine_": 100.0,
+        "chaseLimitLine_": 80.0,
         "defaultSpeed_": 0.0,
         "gravity_": -0.019999999552965164,
         "horizontalSpeed_": 0.30000001192092896,
