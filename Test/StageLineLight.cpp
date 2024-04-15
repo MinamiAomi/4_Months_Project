@@ -28,13 +28,14 @@ void StageLineLight::Initialize() {
 void StageLineLight::Update() {
 	UpdateTransform();
 	ImGui::Begin("StageLineLight");
-	ImGui::DragFloat3("Color", &lineLight_->color.x, 0.01f, 0.0f);
-	ImGui::DragFloat("intensity", &lineLight_->intensity, 0.01f, 0.0f,1.0f);
+	ImGui::DragFloat3("Color", &lineLight_->color.x, 0.01f, 0.0f,1.0f);
+	ImGui::DragFloat("intensity", &lineLight_->intensity, 0.01f, 0.1f);
 	ImGui::DragFloat("decay", &lineLight_->decay, 0.01f, 0.0f);
 	ImGui::DragFloat("range", &lineLight_->range, 0.01f, 0.0f);
 	ImGui::DragFloat3("StageLineLightTranslate", &transform.translate.x, 0.1f, 0.0f);
 	ImGui::DragFloat3("StageLineLightScale", &transform.scale.x, 0.1f, 0.0f);
 	ImGui::DragFloat3("StageLineLightRotate", &transform.rotate.x, 0.1f, 0.0f);
+	ImGui::DragFloat3("LineLightTranslate", &originTransform_.translate.x, 0.1f, 0.0f);
 	ImGui::End();
 
 	lightManager_->Add(lineLight_);
@@ -50,7 +51,5 @@ void StageLineLight::UpdateTransform() {
 	model_->SetWorldMatrix(transform.worldMatrix);
 	lineLight_->origin = originTransform_.worldMatrix.GetTranslate();
 	lineLight_->diff.z = diffTransform_.worldMatrix.GetTranslate().z;
-
-
 }
 

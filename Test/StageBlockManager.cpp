@@ -13,6 +13,11 @@ void StageBlockManager::Update() {
 	UpdateTransform();
 }
 
+void StageBlockManager::Appear()
+{
+
+}
+
 void StageBlockManager::UpdateTransform() {
 	transform.UpdateMatrix();
 }
