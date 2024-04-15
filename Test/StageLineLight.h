@@ -14,7 +14,7 @@
 class StageLineLight :
 	public GameObject {
 public:
-	void Initialize();
+	void Initialize(bool isLeft);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
