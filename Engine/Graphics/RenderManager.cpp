@@ -5,6 +5,11 @@
 #include "GameWindow.h"
 #include "ImGuiManager.h"
 
+#ifdef ENABLE_IMGUI
+static bool useBloom = true;
+#endif // ENABLE_IMGUI
+
+
 RenderManager* RenderManager::GetInstance() {
     static RenderManager instance;
     return &instance;
@@ -91,8 +96,15 @@ void RenderManager::Render() {
             skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ 250.0f, 250.0f, 250.0f}, Quaternion::identity, camera->GetPosition()));
         }
     }
+    
+#ifdef ENABLE_IMGUI
+    if (useBloom) {
+#endif // ENABLE_IMGUI
+        bloom_.Render(commandContext_);
+#ifdef ENABLE_IMGUI
+    }
+#endif // ENABLE_IMGUI
 
-    bloom_.Render(commandContext_);
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
 
@@ -116,6 +128,7 @@ void RenderManager::Render() {
     if (ImGui::TreeNode("Bloom")) {
         float knee = bloom_.GetKnee();
         float threshold = bloom_.GetThreshold();
+        ImGui::Checkbox("Active", &useBloom);
         ImGui::DragFloat("knee",&knee,0.01f,0.0f,1.0f);
         ImGui::DragFloat("threshold",&threshold,0.01f,0.0f,1.0f);
         bloom_.SetKnee(knee);

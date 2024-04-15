@@ -149,7 +149,7 @@ float3 ShadePointLight(PointLight light) {
     float attenuation = GetDistanceAttenuation(diff, light.decay, light.range);
     float intensity = light.intensity * PI;
     float3 ambient = Albedo * light.color * 0.1f;
-    return BRDF * NdotL * light.color * attenuation * intensity + ambient;
+    return (BRDF * NdotL * light.color + ambient) * attenuation * intensity;
 }
 
 float GetAngleAttenuation(float3 unNormalizedLightVector, float3 lightDirection, float lightAngleScale, float lightAngleOffset) {
@@ -201,7 +201,7 @@ float3 ShadeLineLight(LineLight light) {
     float attenuation = GetDistanceAttenuation(diff, light.decay, light.range);
     float3 ambient = Albedo * light.color * 0.1f;
     float intensity = light.intensity * PI;
-    return BRDF * NdotL * light.color * attenuation * intensity + ambient;
+    return (BRDF * NdotL * light.color + ambient) * attenuation * intensity;
 }
 
 PSOutput main(PSInput input) {
