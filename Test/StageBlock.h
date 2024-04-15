@@ -31,7 +31,7 @@ private:
 	const Boss* boss_;
 
 	std::unique_ptr<ModelInstance> model_;
-	Quaternion direction_;
+	Vector3 direction_;
 
 	int appearFrame_ = kAppearFrame;
 	bool isDead_ = false;

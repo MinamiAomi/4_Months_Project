@@ -25,13 +25,22 @@ void StageBlockManager::Update() {
 	UpdateTransform();
 }
 
+void StageBlockManager::Reset()
+{
+	stageBlocks_.clear();
+}
+
 void StageBlockManager::Appear()
 {
-	if (boss_) {
+	if (boss_ && isMove_) {
 		std::unique_ptr<StageBlock> leftStageBlock = std::make_unique<StageBlock>();
 		std::unique_ptr<StageBlock> rightStageBlock = std::make_unique<StageBlock>();
-		leftStageBlock->Initialize({ -32.0f,-30.0f, boss_->transform.worldMatrix.GetTranslate().z  - 30.0f}, {0.0f,1.0f,0.0f});
-		rightStageBlock->Initialize({ 32.0f,-30.0f, boss_->transform.worldMatrix.GetTranslate().z - 30.0f }, { 0.0f,1.0f,0.0f });
+		
+		Vector3 direction = Vector3{ rng_.NextFloatRange(-0.2f, 0.2f), rng_.NextFloatRange(0.8f, 1.0f),0.0f }.Normalize();
+		leftStageBlock->Initialize({ -32.0f,-30.0f, boss_->transform.worldMatrix.GetTranslate().z  - 30.0f}, direction);
+		rightStageBlock->Initialize({ 32.0f,-30.0f, boss_->transform.worldMatrix.GetTranslate().z - 30.0f }, direction);
+		leftStageBlock->SetBoss(boss_);
+		rightStageBlock->SetBoss(boss_);
 		stageBlocks_.push_back(std::move(leftStageBlock));
 		stageBlocks_.push_back(std::move(rightStageBlock));
 	}
