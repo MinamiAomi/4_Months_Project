@@ -43,15 +43,24 @@ void GameScene::OnInitialize() {
 
 	boss_->Initialize();
 
-	stageLineLight = std::make_unique<StageLineLight>();
-	stageLineLight->Initialize();
-	stageLineLight->SetPlayer(player_.get());
+	stageRightLight = std::make_unique<StageLineLight>();
+	stageRightLight->Initialize(false);
+	stageRightLight->SetPlayer(player_.get());
+
+	stageLeftLight = std::make_unique<StageLineLight>();
+	stageLeftLight->Initialize(true);
+	stageLeftLight->SetPlayer(player_.get());
+
+	stageBlockManager_ = std::make_unique<StageBlockManager>();
+	stageBlockManager_->SetBoss(boss_.get());
+	stageBlockManager_->Initialize();
 }
 
 void GameScene::OnUpdate() {
 	directionalLight_->DrawImGui("directionalLight");
 
 	blockManager_->Update();
+	stageBlockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();
@@ -59,7 +68,8 @@ void GameScene::OnUpdate() {
 
 
 	player_->Update();
-	stageLineLight->Update();
+	stageRightLight->Update();
+	stageLeftLight->Update();
 	boss_->Update();
 
 	// 当たり判定を取る

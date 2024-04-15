@@ -15,13 +15,18 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u632f\u308a\u5b50\u30d0\u30fc"
+			"name":"playerBullet",
+			"translation":[
+				0,
+				0,
+				-3.3528294563293457
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"\u632f\u308a\u5b50",
+			"name":"\u30d7\u30ec\u30a4\u30e4\u30fc\u5f3e",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -33,7 +38,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u30c8\u30fc\u30e9\u30b9",
+			"name":"\u7acb\u65b9\u4f53.016",
 			"primitives":[
 				{
 					"attributes":{
@@ -57,81 +62,81 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"Pendulum",
-			"uri":"Pendulum.png"
+			"name":"playerbullet",
+			"uri":"playerbullet.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":16128,
+			"count":384,
 			"max":[
-				0.6500337719917297,
-				1.026793122291565,
-				0.6500338315963745
+				1,
+				1,
+				1.7510420083999634
 			],
 			"min":[
-				-0.6500340700149536,
-				-7.8110032081604,
-				-0.6500338315963745
+				-1,
+				-1,
+				-1.57025146484375
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":16128,
+			"count":384,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":16128,
+			"count":384,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":16128,
+			"count":384,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":24192,
+			"count":528,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":193536,
+			"byteLength":4608,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":193536,
-			"byteOffset":193536,
+			"byteLength":4608,
+			"byteOffset":4608,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":129024,
-			"byteOffset":387072,
+			"byteLength":3072,
+			"byteOffset":9216,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":258048,
-			"byteOffset":516096,
+			"byteLength":6144,
+			"byteOffset":12288,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":48384,
-			"byteOffset":774144,
+			"byteLength":1056,
+			"byteOffset":18432,
 			"target":34963
 		}
 	],
@@ -143,8 +148,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":822528,
-			"uri":"stick.bin"
+			"byteLength":19488,
+			"uri":"bullet.bin"
 		}
 	]
 }
