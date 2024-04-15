@@ -61,16 +61,6 @@ void GameScene::OnUpdate() {
 
 	cameraManager_->Update();
 #ifdef _DEBUG
-	/*if (Input::GetInstance()->IsKeyTrigger(DIK_TAB)) {
-		if (isMove_) {
-			cameraManager_->SetState(CameraManager::State::kDebugCamera);
-			isMove_ = false;
-		}
-		else {
-			cameraManager_->SetState(CameraManager::State::kStageCamera);
-			isMove_ = true;
-		}
-	}*/
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);
 		boss_->SetIsMove(isMove_);
