@@ -17,6 +17,9 @@ public:
 private:
 	std::array<std::unique_ptr<PlayerBullet>, kMaxBullet> bullets_;
 	Vector3 velocity_;
+	bool isCreateBullet_;
+	uint32_t interval_;
 	uint32_t time_;
-	uint32_t coolTime_;
+	uint32_t bulletCount_;
+	bool canCreateBullet_;
 };

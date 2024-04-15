@@ -27,7 +27,8 @@ void Boss::Initialize() {
 	collider_->SetName("Boss");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	collider_->SetSize(transform.scale);
+	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう）
+	collider_->SetSize({ transform.scale.x*10.0f,transform.scale.y,transform.scale.z});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -76,7 +77,6 @@ void Boss::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize({ transform.scale.x * 2.0f,transform.scale.y,transform.scale.z });
 	collider_->SetOrientation(rotate);
 }
 
