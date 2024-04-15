@@ -83,12 +83,33 @@ void PlayerUI::UpdateHP() {
 void PlayerUI::UpdateRevengeGage() {
 	float barT = playerRevengeGage_->GetCurrentRevengeBarGage() / PlayerRevengeGage::kMaxRevengeBar;
 	float circleT = playerRevengeGage_->GetCurrentRevengeCircleGage() / PlayerRevengeGage::kMaxRevengeCircle;
+#pragma region Bar
+	revengeBarGage_->SetPosition(
+		{
+		revengeBarGageData_.position.x,
+		std::lerp(revengeBarGageData_.position.y - revengeBarGageData_.scale.y * 0.5f, revengeBarGageData_.position.y,barT)
+		}
+	);
 	revengeBarGage_->SetScale(
 		{
 		revengeBarGageData_.scale.x,
 		std::lerp(0.0f, revengeBarGageData_.scale.y,barT)
 		}
 	);
+	revengeBarGage_->SetTexcoordSize(
+		{
+			revengeBarGageData_.textureSize.x,
+			std::lerp(0.0f, revengeBarGageData_.textureSize.y,barT)
+		}
+	);
+	revengeBarGage_->SetTexcoordBase(
+		{
+			revengeBarGageData_.textureSize.x,
+			std::lerp(0.0f, -revengeBarGageData_.textureSize.y,barT)
+		}
+	);
+#pragma endregion
+
 	revengeCircleGage_->SetScale(
 		{
 		std::lerp(0.0f, revengeCircleGageData_.scale.x,circleT),
