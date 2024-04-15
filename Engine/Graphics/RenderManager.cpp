@@ -138,18 +138,13 @@ void RenderManager::Render() {
         ImGui::TreePop();
     }
     if (ImGui::TreeNode("Sky")) {
-        Vector3 rgb;
         Vector3 topColorHsv = skyRenderer_.GetTopColor();
-        ImGui::ColorConvertHSVtoRGB(topColorHsv.x, topColorHsv.y, topColorHsv.z, rgb.x, rgb.y, rgb.z);
-        ImGui::ColorEdit3("TopColor", &rgb.x);
-        ImGui::ColorConvertRGBtoHSV(rgb.x, rgb.y, rgb.z, topColorHsv.x, topColorHsv.y, topColorHsv.z);
+        ImGui::DragFloat3("TopColor", &topColorHsv.x, 0.001f, 0.0f, 1.0f);
         skyRenderer_.SetTopColor(topColorHsv);
 
         
         Vector3 bottomColorHsv = skyRenderer_.GetBottomColor();
-        ImGui::ColorConvertHSVtoRGB(bottomColorHsv.x, bottomColorHsv.y, bottomColorHsv.z, rgb.x, rgb.y, rgb.z);
-        ImGui::ColorEdit3("BottomColor", &rgb.x);
-        ImGui::ColorConvertRGBtoHSV(rgb.x, rgb.y, rgb.z, bottomColorHsv.x, bottomColorHsv.y, bottomColorHsv.z);
+        ImGui::DragFloat3("BottomColor", &bottomColorHsv.x, 0.001f, 0.0f, 1.0f);
         skyRenderer_.SetBottomColor(bottomColorHsv);
         ImGui::TreePop();
     }
