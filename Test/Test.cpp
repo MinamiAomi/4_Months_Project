@@ -32,10 +32,6 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
 	resourceManager->AddModel("skydome", Model::Load("Resources/Skydome/skydome.gltf"));
 	resourceManager->AddModel("lightline", Model::Load("Resources/LightLine/lightline.gltf"));
-
-	//resourceManager->AddModel("Sponza", Model::Load("Resources/Sponza/sponza.obj"));
-
-	//auto model = Model::Load("Resources/CornellBox/CornellBox-Original.obj");
 	resourceManager->AddModel("fireBarBar", Model::Load("Resources/FireBar/Bar/bar.gltf"));
 	resourceManager->AddModel("fireBarCenter", Model::Load("Resources/FireBar/Center/center.gltf"));
 }
