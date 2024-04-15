@@ -27,6 +27,7 @@ void GameScene::OnInitialize() {
 	blockManager_->SetPlayer(player_.get());
 	fireBarManager_->SetPlayer(player_.get());
 	floorManager_->SetPlayer(player_.get());
+	pendulumManager_->SetPlayer(player_.get());
 
 	editorManager_->SetPlayer(player_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get());

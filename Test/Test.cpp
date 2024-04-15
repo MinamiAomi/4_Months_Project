@@ -34,6 +34,8 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("lightline", Model::Load("Resources/LightLine/lightline.gltf"));
 	resourceManager->AddModel("fireBarBar", Model::Load("Resources/FireBar/Bar/bar.gltf"));
 	resourceManager->AddModel("fireBarCenter", Model::Load("Resources/FireBar/Center/center.gltf"));
+	resourceManager->AddModel("ball", Model::Load("Resources/Pendulum/Ball/ball.gltf"));
+	resourceManager->AddModel("stick", Model::Load("Resources/Pendulum/Stick/stick.gltf"));
 }
 
 void Test::OnFinalize() {}

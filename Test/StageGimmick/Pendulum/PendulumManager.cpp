@@ -108,30 +108,33 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 						//アイテム名を取得
 						const std::string& itemNameObject = itItemObject.key();
+
 						//要素数3の配列であれば
 						if (itItemObject->is_array() && itItemObject->size() == 3) {
+
 							//名前がpositionだった場合、positionを登録
-							if (itemNameObject == "ballDesc:scale") {
+							if (itemNameObject == "position") {
 								//float型のjson配列登録
-								desc.ballDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "stickDesc:scale") {
+							else if (itemNameObject == "scale") {
 								//float型のjson配列登録
-								desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "position") {
-								//float型のjson配列登録
-								desc.stickDesc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+								desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 							}
 						}
 						else {
 							if (itemNameObject == "length") {
-								desc.ballDesc.length = itItemObject->get<float>();
+								desc.length = itItemObject->get<float>();
 							}
 							else if (itemNameObject == "gravity") {
-								desc.ballDesc.gravity = itItemObject->get<float>();
+								desc.gravity = itItemObject->get<float>();
+							}
+							else if (itemNameObject == "ballScale") {
+								desc.ballScale = itItemObject->get<float>();
+							}
+							else if (itemNameObject == "stickScale") {
+								desc.stickScale = itItemObject->get<float>();
 							}
 						}
 					}
