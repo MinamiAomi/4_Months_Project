@@ -48,7 +48,7 @@ PSOutput main(PSInput input) {
         output.color.rgb = HSVToRGB(hsv.xyz);
     }
 
-    output.color.rgb += g_Texture.Sample(g_Sampler, input.texcoord * 5.0f).rgb;
+    output.color.rgb += g_Texture.Sample(g_Sampler, input.texcoord * 6.5f).rgb;
     
     return output;
 }
