@@ -53,7 +53,7 @@ void Boss::Update() {
 	ImGui::End();
 #endif // _DEBUG
 	time_ -= 1.0f;
-	if (time_<=0.0f) {
+	if (time_ <= 0.0f) {
 		state_->ChangeState<BossStateAttack>();
 		time_ = interval_;
 	}
@@ -76,7 +76,7 @@ void Boss::UpdateTransform() {
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
-	collider_->SetSize(transform.scale);
+	collider_->SetSize({ transform.scale.x * 2.0f,transform.scale.y,transform.scale.z });
 	collider_->SetOrientation(rotate);
 }
 

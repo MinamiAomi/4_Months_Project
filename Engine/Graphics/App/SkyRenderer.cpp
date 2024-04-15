@@ -64,7 +64,7 @@ void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
     pipelineStateDesc.SampleDesc.Count = 1;
     pipelineState_.Create(L"SkyRenderer PipelineState", pipelineStateDesc);
 
-    voronoi_.Initialize(1024, 1024, 10000);
+    voronoi_.Initialize(1024, 1024, 6000);
 }
 
 void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, Matrix4x4 worldMatrix) {

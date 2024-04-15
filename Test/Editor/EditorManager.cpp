@@ -5,7 +5,7 @@
 #include "StageGimmick/Floor/FloorManager.h"
 #include "Externals/ImGui/imgui.h"
 
-void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager, const Player* player) {
+void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager) {
 	blockEditor_ = std::make_unique<BlockEditor>();
 	fireBarEditor_ = std::make_unique<FireBarEditor>();
 	floorEditor_ = std::make_unique<FloorEditor>();
@@ -17,9 +17,10 @@ void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBa
 	pendulumEditor_->SetPendulumManager(pendulumManager);
 
 	blockEditor_->Initialize();
+	fireBarEditor_->SetPlayer(player_);
 	fireBarEditor_->Initialize();
 	floorEditor_->Initialize();
-	pendulumEditor_->SetPlayer(player);
+	pendulumEditor_->SetPlayer(player_);
 	pendulumEditor_->Initialize();
 
 	stageIndex_ = 0;
@@ -30,7 +31,7 @@ void EditorManager::Update() {
 #ifdef _DEBUG
 
 
-	ImGui::Begin("StageEditor");
+	ImGui::Begin("StageEditorSave");
 	if (ImGui::TreeNode("SaveFile")) {
 		std::list<std::string> stageList;
 		for (uint32_t i = 0; i < kCount; i++) {

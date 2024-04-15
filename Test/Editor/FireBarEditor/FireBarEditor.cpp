@@ -14,98 +14,47 @@
 #include "Graphics/ResourceManager.h"
 #include "Externals/ImGui/imgui.h"
 
-const std::string FireBarEditor::kModelName = "block";
-
 void FireBarEditor::Initialize() {
 	fileName_ = "FireBar";
-
-	center_ = std::make_unique<ModelInstance>();
-	bar_ = std::make_unique<ModelInstance>();
-
-	centerRotate_ = Vector3::zero;
-	barRotate_ = Vector3::zero;
-
-	barRotateVelocity_ = 0.01f;
 
 	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
 	transform.translate = Vector3::zero;
-	barTransform_.scale = transform.scale;
-	barTransform_.scale.z *= 2.0f;
-	barTransform_.rotate = Quaternion::MakeFromEulerAngle(Vector3::zero);
-	barTransform_.translate = transform.translate;
 
-	center_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
-	bar_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+	desc_.transform = transform;
+	desc_.barDesc.barInitialAngle.y = 90.0f * Math::ToRadian;
+	desc_.barDesc.length = 1.0f;
+	desc_.barDesc.rotateVelocity = 0.01f;
 
-#ifdef _DEBUG
-	center_->SetIsActive(true);
-	bar_->SetIsActive(true);
-#else
-	center_->SetIsActive(false);
-	bar_->SetIsActive(false);
-
-#endif // _DEBUG
-
-
-
-#pragma region コライダー
-	collider_ = std::make_unique<BoxCollider>();
-	collider_->SetGameObject(this);
-	collider_->SetName("FireBarCenter");
-	collider_->SetCenter(transform.translate);
-	collider_->SetOrientation(transform.rotate);
-	Vector3 modelSize = (center_->GetModel()->GetMeshes().at(0).maxVertex - center_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
-	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
-	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
-#ifdef _DEBUG
-	collider_->SetIsActive(true);
-#else
-	collider_->SetIsActive(false);
-
-#endif // _DEBUG
-#pragma endregion
+	fireBar_ = std::make_unique<FireBar>();
+	fireBar_->SetPlayer(player_);
+	fireBar_->Initialize(desc_);
+	fireBar_->SetIsActive(false);
 }
 
 void FireBarEditor::Update() {
 #ifdef _DEBUG
-
-
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
-		Vector3 pos{}, centerRotate{}, centerScale{}, barRotate{}, barScale{};
-		float barRotateVelocity;
 		for (uint32_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
 			if (fireBar.get() == nullptr) {
 				continue;
 			}
 			if (ImGui::TreeNode(("FireBar:" + std::to_string(i)).c_str())) {
-				pos = fireBar->GetPosition();
-				centerRotate = fireBar->GetCenter()->GetRotate();
-				centerScale = fireBar->GetCenter()->GetScale();
-				barRotate = fireBar->GetBar()->GetRotate();
-				barScale = fireBar->GetBar()->GetScale();
-				barRotateVelocity = fireBar->GetBar()->GetRotateVelocity();
-				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &pos.x, 1.0f);
+				auto& desc = fireBar->GetDesc();
+				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &fireBar->transform.translate.x, 1.0f);
 				if (ImGui::TreeNode("Center")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &centerScale.x, 0.1f);
-					ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &centerRotate.x, 0.01f);
+					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &fireBar->transform.scale.x, 0.1f);
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Bar")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &barScale.x, 0.1f);
-					ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &barRotate.x, 0.01f);
-					ImGui::DragFloat(("barRotateVelocity:" + std::to_string(i)).c_str(), &barRotateVelocity, 0.01f);
+					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.barDesc.length, 0.1f);
+					ImGui::DragFloat(("barRotateVelocity:" + std::to_string(i)).c_str(), &desc.barDesc.rotateVelocity, 0.01f);
+					desc.barDesc.barInitialAngle *= Math::ToDegree;
+					ImGui::DragFloat(("InitialAngle:" + std::to_string(i)).c_str(), &desc.barDesc.barInitialAngle.y, 0.01f);
+					desc.barDesc.barInitialAngle *= Math::ToRadian;
 					ImGui::TreePop();
 				}
-				fireBar->GetCenter()->SetScale(centerScale);
-				fireBar->GetCenter()->SetRotate(centerRotate);
-				fireBar->GetBar()->SetScale(barScale);
-				fireBar->GetBar()->SetRotate(barRotate);
-				fireBar->GetBar()->SetRotateVelocity(barRotateVelocity);
-				fireBar->SetPosition(pos);
 				if (ImGui::Button("Delete")) {
 					fireBarManager_->DeleteFireBar(fireBar.get());
 					ImGui::TreePop();
@@ -117,49 +66,44 @@ void FireBarEditor::Update() {
 			i++;
 		}
 		if (ImGui::TreeNode("CreateFireBar")) {
-			center_->SetIsActive(true);
-			bar_->SetIsActive(true);
-			collider_->SetIsActive(true);
+			fireBar_->SetIsActive(true);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
 
 			if (ImGui::TreeNode("Center")) {
-				ImGui::DragFloat2("scale", &transform.scale.x, 0.25f);
-				ImGui::DragFloat3("rotate", &centerRotate_.x, 0.01f);
+				ImGui::DragFloat3("scale", &transform.scale.x, 0.25f);
 				ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Bar")) {
-				ImGui::DragFloat("length", &barTransform_.scale.z, 0.1f);
-				ImGui::DragFloat3("rotate", &barRotate_.x, 0.01f);
-				ImGui::DragFloat("barRotateVelocity", &barRotateVelocity_, 0.01f);
+				ImGui::DragFloat("length:", &desc_.barDesc.length, 0.1f);
+				ImGui::DragFloat("barRotateVelocity:", &desc_.barDesc.rotateVelocity, 0.01f);
+				desc_.barDesc.barInitialAngle *= Math::ToDegree;
+				ImGui::DragFloat("InitialAngle:", &desc_.barDesc.barInitialAngle.y, 1.0f);
+				desc_.barDesc.barInitialAngle *= Math::ToRadian;
 				ImGui::TreePop();
 			}
+			desc_.transform = transform;
+			fireBar_->SetDesc(desc_);
 			if (ImGui::Button("Create")) {
-				fireBarManager_->Create(transform.translate, transform.scale, centerRotate_, barTransform_.scale, barRotate_, barRotateVelocity_);
+				fireBarManager_->Create(desc_);
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
+			fireBar_->Update();
+			UpdateTransform();
 		}
 		else {
-			center_->SetIsActive(false);
-			bar_->SetIsActive(false);
-			collider_->SetIsActive(false);
+			fireBar_->SetIsActive(false);
 			isCreate_ = false;
 		}
 		ImGui::TreePop();
 	}
 	else {
-		center_->SetIsActive(false);
-		bar_->SetIsActive(false);
-		collider_->SetIsActive(false);
+		fireBar_->SetIsActive(false);
 		isCreate_ = false;
 	}
 	ImGui::End();
+	
 #endif // _DEBUG
-	barTransform_.translate = transform.translate;
-	transform.scale.z = transform.scale.x;
-	barTransform_.scale.x = transform.scale.z;
-	barTransform_.scale.y = transform.scale.y * 0.8f;
-	UpdateTransform();
 }
 
 void FireBarEditor::SaveFile(uint32_t stageName) {
@@ -170,12 +114,11 @@ void FireBarEditor::SaveFile(uint32_t stageName) {
 	root[fileName_] = nlohmann::json::object();
 
 	for (size_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
-		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ fireBar->GetPosition().x, fireBar->GetPosition().y, fireBar->GetPosition().z });
-		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["centerScale"] = nlohmann::json::array({ fireBar->GetCenter()->GetScale().x, fireBar->GetCenter()->GetScale().y, fireBar->GetCenter()->GetScale().z });
-		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["centerRotate"] = nlohmann::json::array({ fireBar->GetCenter()->GetRotate().x, fireBar->GetCenter()->GetRotate().y, fireBar->GetCenter()->GetRotate().z });
-		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["barScale"] = nlohmann::json::array({ fireBar->GetBar()->GetScale().x, fireBar->GetBar()->GetScale().y, fireBar->GetBar()->GetScale().z });
-		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["barRotate"] = nlohmann::json::array({ fireBar->GetBar()->GetRotate().x, fireBar->GetBar()->GetRotate().y, fireBar->GetBar()->GetRotate().z });
-		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["berRotateVelocity"] = fireBar->GetBar()->GetRotateVelocity();
+		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ fireBar->transform.translate.x, fireBar->transform.translate.y, fireBar->transform.translate.z });
+		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["scale"] = nlohmann::json::array({ fireBar->transform.scale.x, fireBar->transform.scale.y, fireBar->transform.scale.z });
+		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["length"] = fireBar->GetDesc().barDesc.length;
+		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["rotateVelocity"] = fireBar->GetDesc().barDesc.rotateVelocity;
+		root[fileName_]["objectData"][("FireBar:" + std::to_string(i)).c_str()]["barRotate"] = nlohmann::json::array({ fireBar->GetDesc().barDesc.barInitialAngle.x, fireBar->GetDesc().barDesc.barInitialAngle.y, fireBar->GetDesc().barDesc.barInitialAngle.z });
 		i++;
 	}
 
@@ -260,8 +203,7 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 				//保険
 				assert(itData != itObject->end());
 
-				std::vector<Vector3> pos{}, centerRotate{}, centerScale{}, barRotate{}, barScale{};
-				std::vector<float> rotateRotateVelocity;
+				FireBar::Desc desc{};
 				for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 
 					//アイテム名を取得
@@ -273,40 +215,28 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 						//名前がpositionだった場合、positionを登録
 						if (itemNameObject == "position") {
 							//float型のjson配列登録
-							pos.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-						//名前がrotationだった場合、rotationを登録
-						else if (itemNameObject == "centerRotate") {
-							//float型のjson配列登録
-							centerRotate.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+							desc.transform.translate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 						//名前がscaleだった場合、scaleを登録
-						else if (itemNameObject == "centerScale") {
+						else if (itemNameObject == "scale") {
 							//float型のjson配列登録
-							centerScale.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+							desc.transform.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 						else if (itemNameObject == "barRotate") {
 							//float型のjson配列登録
-							barRotate.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-						//名前がscaleだった場合、scaleを登録
-						else if (itemNameObject == "barScale") {
-							//float型のjson配列登録
-							barScale.emplace_back(Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+							desc.barDesc.barInitialAngle = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 					}
 					else {
-						if (itemNameObject == "berRotateVelocity") {
-							float speed = itItemObject->get<float>();
-							rotateRotateVelocity.emplace_back(speed);
+						if (itemNameObject == "rotateVelocity") {
+							desc.barDesc.rotateVelocity= itItemObject->get<float>();
+						}
+						else if (itemNameObject == "length") {
+							desc.barDesc.length= itItemObject->get<float>();
 						}
 					}
 				}
-
-				// 生成
-				for (size_t i = 0; i < pos.size(); i++) {
-					fireBarManager_->Create(pos.at(i), centerScale.at(i), centerRotate.at(i), barScale.at(i), barRotate.at(i), rotateRotateVelocity.at(i));
-				}
+				fireBarManager_->Create(desc);
 			}
 		}
 	}
@@ -317,22 +247,7 @@ void FireBarEditor::Clear() {
 }
 
 void FireBarEditor::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(centerRotate_);
 	transform.UpdateMatrix();
-	Vector3 scale, translate;
-	Quaternion rotate;
-	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-	collider_->SetOrientation(rotate);
-	center_->SetWorldMatrix(transform.worldMatrix);
-
-	barRotate_.y += barRotateVelocity_;
-	barRotate_.y = std::fmod(barRotate_.y, Math::Pi * 2.0f);
-	Vector3 forward = barTransform_.rotate.GetForward();
-	barTransform_.translate = transform.translate + (forward * barTransform_.scale.z * 0.5f);
-	barTransform_.rotate = Quaternion::MakeFromEulerAngle(barRotate_);
-	barTransform_.UpdateMatrix();
-	bar_->SetWorldMatrix(barTransform_.worldMatrix);
 }
 
 void FireBarEditor::OnCollision(const CollisionInfo& collisionInfo) {

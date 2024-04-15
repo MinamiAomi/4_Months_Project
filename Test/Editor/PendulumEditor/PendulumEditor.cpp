@@ -29,9 +29,9 @@ void PendulumEditor::Initialize() {
 	pendulum_->SetPlayer(player_);
 	pendulum_->Initialize(desc);
 #
-	pendulum_->SetIsActive(false);
 	// 一回だけ実行
 	pendulum_->Update();
+	pendulum_->SetIsActive(false);
 }
 
 void PendulumEditor::Update() {
