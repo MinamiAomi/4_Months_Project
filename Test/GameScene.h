@@ -20,6 +20,7 @@
 #include "Editor/EditorManager.h"
 #include "Player/Player.h"
 #include "Skydome.h"
+#include "StageLineLight.h"
 
 class GameScene :
 	public BaseScene {
@@ -48,5 +49,6 @@ private:
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<StageLineLight> stageLineLight;
 #pragma endregion
 };

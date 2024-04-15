@@ -76,6 +76,9 @@
     <Filter Include="Game\Object\Skydome">
       <UniqueIdentifier>{c65d2f12-a84e-4867-b73b-d36608a5f8d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageBlock">
+      <UniqueIdentifier>{80dcf1f5-0d17-4c3a-8b94-e8c8d6557534}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -175,6 +178,18 @@
     <ClCompile Include="Skydome.cpp">
       <Filter>Game\Object\Skydome</Filter>
     </ClCompile>
+    <ClCompile Include="DecorationModel.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLineLight.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBlock.cpp">
+      <Filter>Game\Object\StageBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBlocks.cpp">
+      <Filter>Game\Object\StageBlock</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -272,6 +287,19 @@
     </ClInclude>
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h" />
+    <ClInclude Include="DecorationModel.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLineLight.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBlocks.h">
+      <Filter>Game\Object\StageBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBlock.h">
+      <Filter>Game\Object\StageBlock</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

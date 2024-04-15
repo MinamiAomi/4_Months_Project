@@ -32,6 +32,7 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("box", Model::Load("Resources/Box.obj"));
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
 	resourceManager->AddModel("skydome", Model::Load("Resources/Skydome/skydome.gltf"));
+	resourceManager->AddModel("lightline", Model::Load("Resources/LightLine/lightline.gltf"));
 
 	//resourceManager->AddModel("Sponza", Model::Load("Resources/Sponza/sponza.obj"));
 

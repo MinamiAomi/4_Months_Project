@@ -25,6 +25,7 @@
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="DecorationModel.cpp" />
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
     <ClCompile Include="Editor\EditorManager.cpp" />
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
@@ -39,6 +40,8 @@
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
+    <ClCompile Include="StageBlock.cpp" />
+    <ClCompile Include="StageBlocks.cpp" />
     <ClCompile Include="StageGimmick\Block\Block.cpp" />
     <ClCompile Include="StageGimmick\Block\BlockManager.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBar.cpp" />
@@ -48,6 +51,7 @@
     <ClCompile Include="StageGimmick\Pendulum\Pendulum.cpp" />
     <ClCompile Include="StageGimmick\Pendulum\PendulumManager.cpp" />
     <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="StageLineLight.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
@@ -61,6 +65,7 @@
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="CollisionAttribute.h" />
     <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="DecorationModel.h" />
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
     <ClInclude Include="Editor\EditorManager.h" />
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
@@ -75,6 +80,8 @@
     <ClInclude Include="Player\PlayerHP\PlayerHP.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
+    <ClInclude Include="StageBlock.h" />
+    <ClInclude Include="StageBlocks.h" />
     <ClInclude Include="StageGimmick\Block\Block.h" />
     <ClInclude Include="StageGimmick\Block\BlockManager.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBar.h" />
@@ -84,6 +91,7 @@
     <ClInclude Include="StageGimmick\Pendulum\Pendulum.h" />
     <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h" />
     <ClInclude Include="Skydome.h" />
+    <ClInclude Include="StageLineLight.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />

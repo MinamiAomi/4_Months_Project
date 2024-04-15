@@ -35,12 +35,15 @@ void GameScene::OnInitialize() {
 	pendulumManager_->SetPlayer(player_.get());
 	pendulumManager_->Initialize(0);
 
-
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
 	boss_->Initialize();
+
+	stageLineLight = std::make_unique<StageLineLight>();
+	stageLineLight->Initialize();
+	stageLineLight->SetPlayer(player_.get());
 }
 
 void GameScene::OnUpdate() {
@@ -52,7 +55,9 @@ void GameScene::OnUpdate() {
 	pendulumManager_->Update();
 	editorManager_->Update();
 
+
 	player_->Update();
+	stageLineLight->Update();
 	boss_->Update();
 
 	// 当たり判定を取る
