@@ -6,8 +6,6 @@
 namespace {
     const wchar_t kVertexShader[] = L"App/SkyVS.hlsl";
     const wchar_t kPixelShader[] = L"App/SkyPS.hlsl";
-    const Vector3 kTopColor = { 0.790f,1.0f,0.06f };
-    const Vector3 kBottomColor = { 0.220f,1.0f,0.06f };
 }
 
 void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
@@ -64,7 +62,7 @@ void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
     pipelineStateDesc.SampleDesc.Count = 1;
     pipelineState_.Create(L"SkyRenderer PipelineState", pipelineStateDesc);
 
-    voronoi_.Initialize(1024, 1024, 6000);
+    voronoi_.Initialize(1024, 1024, 60000);
 }
 
 void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, Matrix4x4 worldMatrix) {
@@ -93,8 +91,8 @@ void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, M
     scene.projectionMatrix = camera.GetProjectionMatrix();
     scene.worldMatrix = worldMatrix;
     scene.worldInverseTransposeMatrix = worldMatrix.Inverse().Transpose();
-    scene.topColor = kTopColor;
-    scene.bottomColor = kBottomColor;
+    scene.topColor = topColor_;
+    scene.bottomColor = bottomColor_;
 
     commandContext.SetDynamicConstantBufferView(0, sizeof(scene), &scene);
     commandContext.SetDescriptorTable(1, voronoi_.Get().GetSRV());
