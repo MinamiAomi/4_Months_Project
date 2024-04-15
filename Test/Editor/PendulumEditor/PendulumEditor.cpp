@@ -21,11 +21,11 @@ void PendulumEditor::Initialize() {
 	pendulum_ = std::make_unique<Pendulum>();
 	Pendulum::Desc desc{};
 	desc.length = 15.0f;
-	desc.pos = Vector3::zero;
+	desc.pos = {0.0f,desc.length ,0.0f};
 	desc.scale = { 3.0f,3.0f,3.0f };
 	desc.gravity = { 0.002f };
-	desc.angle = 10.0f * Math::ToRadian;
-	desc.initializeAngle = 10.0f * Math::ToRadian;
+	desc.angle = 0.0f * Math::ToRadian;
+	desc.initializeAngle = desc.angle;
 	desc.ballScale = 1.0f;
 	desc.stickScale = 1.0f;
 	pendulum_->SetPlayer(player_);
@@ -55,6 +55,9 @@ void PendulumEditor::Update() {
 				desc.angle *= Math::ToDegree;
 				ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.angle, 0.1f);
 				desc.angle *= Math::ToRadian;
+				desc.initializeAngle *= Math::ToDegree;
+				ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
+				desc.initializeAngle *= Math::ToRadian;
 				if (ImGui::TreeNode("Stick")) {
 					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.stickScale, 0.1f);
 					ImGui::TreePop();
@@ -97,13 +100,7 @@ void PendulumEditor::Update() {
 			if (!isPlay) {
 				pendulum_->SetDesc(desc);
 			}
-
-			if (ImGui::Button("Play")) {
-				isPlay ^= true;
-				if (isPlay) {
-					//pendulum_->GetBall()->SetAngle(desc.ballDesc.angle);
-				}
-			}
+			ImGui::Checkbox("Play", &isPlay);
 			if (ImGui::Button("Create")) {
 				pendulumManager_->Create(pendulum_->GetDesc());
 			}

@@ -13,9 +13,9 @@ class Stick :
 	public GameObject {
 public:
 	
-	void Initialize(const Transform* transform, float length);
+	void Initialize(const Transform* transform, float length, float scale);
 	void Update();
-	void SetDesc(float length);
+	void SetDesc(float length, float scale);
 	void SetIsActive(bool flag) {
 		model_->SetIsActive(flag);
 		collider_->SetIsActive(flag);
@@ -33,9 +33,9 @@ private:
 class Ball :
 	public GameObject {
 public:
-	void Initialize(const Transform* transform, float length);
+	void Initialize(const Transform* transform, float length, float scale);
 	void Update();
-	void SetDesc(float length);
+	void SetDesc(float length, float scale);
 	void SetIsActive(bool flag) {
 		model_->SetIsActive(flag);
 		collider_->SetIsActive(flag);
