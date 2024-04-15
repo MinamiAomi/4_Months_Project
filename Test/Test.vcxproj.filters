@@ -187,7 +187,7 @@
     <ClCompile Include="StageBlock.cpp">
       <Filter>Game\Object\StageBlock</Filter>
     </ClCompile>
-    <ClCompile Include="StageBlocks.cpp">
+    <ClCompile Include="StageBlockManager.cpp">
       <Filter>Game\Object\StageBlock</Filter>
     </ClCompile>
   </ItemGroup>
@@ -295,7 +295,7 @@
     <ClInclude Include="StageLineLight.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
-    <ClInclude Include="StageBlocks.h">
+    <ClInclude Include="StageBlockManager.h">
       <Filter>Game\Object\StageBlock</Filter>
     </ClInclude>
     <ClInclude Include="StageBlock.h">

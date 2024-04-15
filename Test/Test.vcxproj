@@ -41,7 +41,7 @@
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
     <ClCompile Include="StageBlock.cpp" />
-    <ClCompile Include="StageBlocks.cpp" />
+    <ClCompile Include="StageBlockManager.cpp" />
     <ClCompile Include="StageGimmick\Block\Block.cpp" />
     <ClCompile Include="StageGimmick\Block\BlockManager.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBar.cpp" />
@@ -81,7 +81,7 @@
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
     <ClInclude Include="StageBlock.h" />
-    <ClInclude Include="StageBlocks.h" />
+    <ClInclude Include="StageBlockManager.h" />
     <ClInclude Include="StageGimmick\Block\Block.h" />
     <ClInclude Include="StageGimmick\Block\BlockManager.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBar.h" />
