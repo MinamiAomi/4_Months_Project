@@ -81,10 +81,13 @@ void GameScene::OnUpdate() {
 		player_->SetIsMove(isMove_);
 		boss_->SetIsMove(isMove_);
 		cameraManager_->SetIsMove(isMove_);
+		stageBlockManager_->SetIsMove(isMove_);
 	}
 	player_->SetIsMove(isMove_);
 	boss_->SetIsMove(isMove_);
 	cameraManager_->SetIsMove(isMove_);
+	stageBlockManager_->SetIsMove(isMove_);
+
 	if (ImGui::BeginMenu("CharacterState")) {
 		const char* items[] = { "Chase", "RunAway" };
 		static int selectedItem = static_cast<int>(characterState_);
@@ -108,11 +111,13 @@ void GameScene::OnUpdate() {
 	if (ImGui::Button("Reset")) {
 		player_->Reset();
 		cameraManager_->Reset();
+		stageBlockManager_->Reset();
 		boss_->Reset();
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
 		pendulumManager_->Reset(0);
+
 	}
 #endif // _DEBUG
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
