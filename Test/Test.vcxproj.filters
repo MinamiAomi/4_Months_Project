@@ -82,6 +82,9 @@
     <Filter Include="Game\Object\Boss\BossStateManager">
       <UniqueIdentifier>{b8406276-c75d-4c3d-9952-f9470efcc620}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageBlock">
+      <UniqueIdentifier>{80dcf1f5-0d17-4c3a-8b94-e8c8d6557534}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -180,6 +183,18 @@
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>Game\Object\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="DecorationModel.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLineLight.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBlock.cpp">
+      <Filter>Game\Object\StageBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="StageBlockManager.cpp">
+      <Filter>Game\Object\StageBlock</Filter>
     </ClCompile>
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp">
       <Filter>Game\Object\Boss\BossModelManager</Filter>
@@ -293,6 +308,19 @@
     </ClInclude>
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h">
       <Filter>Game\Object\Boss\BossStateManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h" />
+    <ClInclude Include="DecorationModel.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLineLight.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBlockManager.h">
+      <Filter>Game\Object\StageBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="StageBlock.h">
+      <Filter>Game\Object\StageBlock</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
