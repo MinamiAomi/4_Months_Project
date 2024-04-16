@@ -211,8 +211,12 @@
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp">
       <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
     </ClCompile>
-    <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp" />
-    <ClCompile Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.cpp" />
+    <ClCompile Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.cpp">
+      <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp">
+      <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">

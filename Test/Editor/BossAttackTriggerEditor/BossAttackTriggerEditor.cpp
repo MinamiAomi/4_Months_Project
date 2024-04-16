@@ -23,76 +23,73 @@ void BossAttackTriggerEditor::Initialize() {
 	desc.state = BossStateManager::State::kAttack;
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
+#ifdef _DEBUG
+	bossAttackTrigger_->SetIsColliderAlive(false);
+#elif
+	bossAttackTrigger_->SetIsAlive(false);
+#endif // _DEBUG
 
 }
 
 void BossAttackTriggerEditor::Update() {
 #ifdef _DEBUG
-
-
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
-	if (ImGui::TreeNode("PendulumEditor")) {
-		if (ImGui::TreeNode("CreatePendulum")) {
-			pendulum_->SetIsActive(true);
-			auto desc = pendulum_->GetDesc();
-			ImGui::DragFloat3("position", &desc.pos.x, 0.1f);
-			ImGui::DragFloat("length", &desc.length, 0.1f);
-			ImGui::DragFloat("gravity", &desc.gravity, 0.001f);
-			desc.angle *= Math::ToDegree;
-			ImGui::DragFloat("angle:", &desc.angle, 0.1f);
-			desc.angle *= Math::ToRadian;
-			desc.initializeAngle *= Math::ToDegree;
-			ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
-			desc.initializeAngle *= Math::ToRadian;
-			if (ImGui::TreeNode("Stick")) {
-				ImGui::DragFloat("scale", &desc.stickScale, 0.1f);
-				ImGui::TreePop();
+	if (ImGui::TreeNode("BossAttackEditor")) {
+		if (ImGui::TreeNode("CreateBossAttackTrigger")) {
+			auto& desc = bossAttackTrigger_->GetDesc();
+			ImGui::DragFloat("position", &desc.pos, 0.1f);
+			const char* items[] = { "Root", "Attack" };
+			static int selectedItem = static_cast<int>(desc.state);
+			if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+				desc.state = static_cast<BossStateManager::State>(selectedItem);
+				switch (desc.state) {
+				case BossStateManager::State::kRoot:
+				{
+					desc.state = BossStateManager::State::kRoot;
+				}
+				break;
+				case BossStateManager::State::kAttack:
+				{
+					desc.state = BossStateManager::State::kAttack;
+				}
+				break;
+				}
 			}
-			if (ImGui::TreeNode("Ball")) {
-				ImGui::DragFloat("scale", &desc.ballScale, 0.1f);
-				ImGui::TreePop();
-			}
-			if (!isPlay) {
-				pendulum_->SetDesc(desc);
-			}
-			ImGui::Checkbox("Play", &isPlay);
+			bossAttackTrigger_->SetDesc(desc);
 			if (ImGui::Button("Create")) {
-				pendulumManager_->Create(pendulum_->GetDesc());
+				bossAttackTriggerManager_->Create(desc);
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
 		}
-		else {
-			pendulum_->SetIsActive(false);
-			isCreate_ = false;
-		}
-		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
-			if (pendulum.get() == nullptr) {
+		for (uint32_t i = 0; auto & bossAtackTrigger : bossAttackTriggerManager_->GetBossAttackTriggers()) {
+			if (bossAtackTrigger.get() == nullptr) {
 				continue;
 			}
-			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
-				auto desc = pendulum->GetDesc();
-				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
-				ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.length, 0.01f);
-				ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.gravity, 0.001f);
-				desc.angle *= Math::ToDegree;
-				ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.angle, 0.1f);
-				desc.angle *= Math::ToRadian;
-				desc.initializeAngle *= Math::ToDegree;
-				ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
-				desc.initializeAngle *= Math::ToRadian;
-				if (ImGui::TreeNode("Stick")) {
-					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.stickScale, 0.1f);
-					ImGui::TreePop();
+			if (ImGui::TreeNode(("BossState:" + std::to_string(i)).c_str())) {
+				auto& desc = bossAtackTrigger->GetDesc();
+				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.pos, 1.0f);
+				const char* items[] = { "Root", "Attack" };
+				static int selectedItem = static_cast<int>(desc.state);
+				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+					desc.state = static_cast<BossStateManager::State>(selectedItem);
+					switch (desc.state) {
+					case BossStateManager::State::kRoot:
+					{
+						desc.state = BossStateManager::State::kRoot;
+					}
+					break;
+					case BossStateManager::State::kAttack:
+					{
+						desc.state = BossStateManager::State::kAttack;
+					}
+					break;
+					}
 				}
-				if (ImGui::TreeNode("Ball")) {
-					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.ballScale, 0.1f);
-					ImGui::TreePop();
-				}
-				pendulum->SetDesc(desc);
+				bossAtackTrigger->SetDesc(desc);
 				if (ImGui::Button("Delete")) {
-					pendulumManager_->DeletePendulum(pendulum.get());
+					bossAttackTriggerManager_->Delete(bossAtackTrigger.get());
 					ImGui::TreePop();
 					break;
 				}
@@ -103,13 +100,8 @@ void BossAttackTriggerEditor::Update() {
 		}
 		ImGui::TreePop();
 	}
-	else {
-		pendulum_->SetIsActive(false);
-	}
 	ImGui::End();
-	if (isPlay) {
-		pendulum_->Update();
-	}
+	bossAttackTrigger_->Update();
 #endif // _DEBUG
 }
 
@@ -120,14 +112,10 @@ void BossAttackTriggerEditor::SaveFile(uint32_t stageName) {
 
 	root[fileName_] = nlohmann::json::object();
 
-	for (size_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
-		auto desc = pendulum->GetDesc();
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ desc.pos.x, desc.pos.y, desc.pos.z });
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["ballScale"] = desc.ballScale;
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["stickScale"] = desc.stickScale;
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["length"] = desc.length;
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["gravity"] = desc.gravity;
-		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["angle"] = desc.angle;
+	for (size_t i = 0; auto & bossAttackTrigger : bossAttackTriggerManager_->GetBossAttackTriggers()) {
+		auto desc = bossAttackTrigger->GetDesc();
+		root[fileName_]["objectData"][("BossAttackTrigger:" + std::to_string(i)).c_str()]["position"] = desc.pos;
+		root[fileName_]["objectData"][("BossAttackTrigger:" + std::to_string(i)).c_str()]["state"] = static_cast<int>(desc.state);
 		i++;
 	}
 
@@ -212,46 +200,24 @@ void BossAttackTriggerEditor::LoadFile(uint32_t stageName) {
 				//保険
 				assert(itData != itObject->end());
 
-				Pendulum::Desc desc{};
+				BossAttackTrigger::Desc desc{};
 				for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 					//アイテム名を取得
 					const std::string& itemNameObject = itItemObject.key();
-
-					//要素数3の配列であれば
-					if (itItemObject->is_array() && itItemObject->size() == 3) {
-
-						//名前がpositionだった場合、positionを登録
-						if (itemNameObject == "position") {
-							//float型のjson配列登録
-							desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-						//名前がrotationだった場合、rotationを登録
-						else if (itemNameObject == "scale") {
-							//float型のjson配列登録
-							desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
+					if (itemNameObject == "position") {
+						desc.pos = itItemObject->get<float>();
 					}
-					else {
-						if (itemNameObject == "length") {
-							desc.length = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "gravity") {
-							desc.gravity = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "ballScale") {
-							desc.ballScale = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "stickScale") {
-							desc.stickScale = itItemObject->get<float>();
-						}
+					else if (itemNameObject == "state") {
+						desc.state = static_cast<BossStateManager::State>(itItemObject->get<int>());
 					}
+
 				}
-				pendulumManager_->Create(desc);
+				bossAttackTriggerManager_->Create(desc);
 			}
 		}
 	}
 }
 
 void BossAttackTriggerEditor::Clear() {
-	pendulumManager_->Clear();
+	bossAttackTriggerManager_->Clear();
 }

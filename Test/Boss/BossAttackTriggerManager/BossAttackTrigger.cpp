@@ -1,5 +1,6 @@
 #include "BossAttackTrigger.h"
 
+#include "Boss/Boss.h"
 #include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Graphics/ImGuiManager.h"
@@ -15,7 +16,13 @@ void BossAttackTrigger::Initialize(const Desc desc) {
 	desc_ = desc;
 
 	transform.translate.z = desc_.pos;
-	transform.scale = { 10.0f,1.0f,1.0f };
+	transform.scale = { 20.0f,20.0f,1.0f };
+
+#ifdef _DEBUG
+	model_->SetIsActive(true);
+#elif
+	model_->SetIsActive(false);
+#endif // _DEBUG
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -43,6 +50,18 @@ void BossAttackTrigger::Update() {
 
 void BossAttackTrigger::Reset() {
 	isCollision_ = false;
+}
+
+void BossAttackTrigger::SetDesc(const Desc& desc) {
+	desc_ = desc;
+
+	transform.translate.z = desc_.pos;
+	transform.UpdateMatrix();
+}
+
+void BossAttackTrigger::SetIsAlive(bool flag) {
+	collider_->SetIsActive(flag);
+	model_->SetIsActive(flag);
 }
 
 void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {

@@ -49,7 +49,7 @@ void BossModel::Initialize(uint32_t index) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName(name_);
-	collider_->SetCenter(transform.translate);
+	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
@@ -83,12 +83,13 @@ void BossModel::DrawImGui() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
 		if (ImGui::TreeNode(name_.c_str())) {
-			ImGui::DragFloat3(":scale", &transform.scale.x, 0.1f);
+			ImGui::DragFloat3("scale", &transform.scale.x, 0.1f);
 			rotate_ *= Math::ToDegree;
 			ImGui::DragFloat3("rotate", &rotate_.x, 0.1f);
 			rotate_ *= Math::ToRadian;
 			ImGui::DragFloat3("pos", &transform.translate.x, 0.1f);
 			ImGui::DragFloat3("offset", &offset_.x, 0.1f);
+			ImGui::Text("worldPos x:%f,y:%f,z:%f", transform.worldMatrix.GetTranslate().x, transform.worldMatrix.GetTranslate().y, transform.worldMatrix.GetTranslate().z, 0.1f);
 			if (ImGui::Button("Save")) {
 				JSON_OPEN("Resources/Data/Boss/Boss.json");
 				JSON_OBJECT(name_);

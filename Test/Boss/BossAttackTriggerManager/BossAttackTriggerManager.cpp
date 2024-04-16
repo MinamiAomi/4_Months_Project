@@ -16,6 +16,7 @@ void BossAttackTriggerManager::Update() {
 
 void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc) {
 	BossAttackTrigger* bossAttackTrigger = new BossAttackTrigger();
+	bossAttackTrigger->SetBoss(boss_);
 	bossAttackTrigger->Initialize(desc);
 	bossAttackTriggers_.emplace_back(std::move(bossAttackTrigger));
 }
@@ -30,6 +31,10 @@ void BossAttackTriggerManager::Delete(BossAttackTrigger* bossAttackTrigger) {
 	if (it != bossAttackTriggers_.end()) {
 		bossAttackTriggers_.erase(it);
 	}
+}
+
+void BossAttackTriggerManager::Clear() {
+	bossAttackTriggers_.clear();
 }
 
 void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {

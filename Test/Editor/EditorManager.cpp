@@ -5,16 +5,24 @@
 #include "StageGimmick/Floor/FloorManager.h"
 #include "Externals/ImGui/imgui.h"
 
-void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBarEditor, FloorManager* floorEditor, PendulumManager* pendulumManager) {
+void EditorManager::Initialize(
+	BlockManager* blockEditor, 
+	FireBarManager* fireBarEditor, 
+	FloorManager* floorEditor, 
+	PendulumManager* pendulumManager,
+	BossAttackTriggerManager* bossAttackTriggerManager) {
+
 	blockEditor_ = std::make_unique<BlockEditor>();
 	fireBarEditor_ = std::make_unique<FireBarEditor>();
 	floorEditor_ = std::make_unique<FloorEditor>();
 	pendulumEditor_ = std::make_unique<PendulumEditor>();
+	bossAttackTriggerEditor_ = std::make_unique<BossAttackTriggerEditor>();
 
 	blockEditor_->SetBlockManager(blockEditor);
 	fireBarEditor_->SetFireManager(fireBarEditor);
 	floorEditor_->SetFloorManager(floorEditor);
 	pendulumEditor_->SetPendulumManager(pendulumManager);
+	bossAttackTriggerEditor_->SetBossAttackTriggerManager(bossAttackTriggerManager);
 
 	blockEditor_->Initialize();
 	fireBarEditor_->SetPlayer(player_);
@@ -22,7 +30,8 @@ void EditorManager::Initialize(BlockManager* blockEditor, FireBarManager* fireBa
 	floorEditor_->Initialize();
 	pendulumEditor_->SetPlayer(player_);
 	pendulumEditor_->Initialize();
-
+	bossAttackTriggerEditor_->SetBoss(boss_);
+	bossAttackTriggerEditor_->Initialize();
 	stageIndex_ = 0;
 }
 
@@ -51,6 +60,7 @@ void EditorManager::Update() {
 			fireBarEditor_->SaveFile(stageIndex_);
 			floorEditor_->SaveFile(stageIndex_);
 			pendulumEditor_->SaveFile(stageIndex_);
+			bossAttackTriggerEditor_->SaveFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
@@ -77,6 +87,7 @@ void EditorManager::Update() {
 			fireBarEditor_->LoadFile(stageIndex_);
 			floorEditor_->LoadFile(stageIndex_);
 			pendulumEditor_->LoadFile(stageIndex_);
+			bossAttackTriggerEditor_->LoadFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
@@ -86,4 +97,5 @@ void EditorManager::Update() {
 	blockEditor_->Update();
 	fireBarEditor_->Update();
 	floorEditor_->Update();
+	bossAttackTriggerEditor_->Update();
 }

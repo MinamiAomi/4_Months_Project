@@ -12,12 +12,13 @@ public:
 	void Initialize();
 	void Update();
 
-	void SetPendulumManager(BossAttackTriggerManager* bossAttackTriggerManager) { bossAttackTriggerManager_ = bossAttackTriggerManager; }
+	void SetBossAttackTriggerManager(BossAttackTriggerManager* bossAttackTriggerManager) { bossAttackTriggerManager_ = bossAttackTriggerManager; }
 	void SaveFile(uint32_t stageName);
 	void LoadFile(uint32_t stageName);
 	void Clear();
 
 	void SetBoss(const Boss* boss) { boss_= boss; }
+
 private:
 	const Boss* boss_;
 
