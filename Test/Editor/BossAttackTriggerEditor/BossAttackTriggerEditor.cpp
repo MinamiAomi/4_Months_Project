@@ -1,4 +1,4 @@
-#include "PendulumEditor.h"
+#include "BossAttackTriggerEditor.h"
 
 #include <Windows.h>
 
@@ -9,34 +9,24 @@
 #include <list>
 #include <vector>
 
-#include "CollisionAttribute.h"
 #include "Externals/nlohmann/json.hpp"
 #include "Graphics/ResourceManager.h"
 #include "Externals/ImGui/imgui.h"
 
-const std::string PendulumEditor::kModelName = "block";
-void PendulumEditor::Initialize() {
-	fileName_ = "Pendulum";
+void BossAttackTriggerEditor::Initialize() {
 
-	pendulum_ = std::make_unique<Pendulum>();
-	Pendulum::Desc desc{};
-	desc.length = 15.0f;
-	desc.pos = { 0.0f,desc.length ,0.0f };
-	desc.scale = { 3.0f,3.0f,3.0f };
-	desc.gravity = { 0.002f };
-	desc.angle = 0.0f * Math::ToRadian;
-	desc.initializeAngle = desc.angle;
-	desc.ballScale = 1.0f;
-	desc.stickScale = 1.0f;
-	pendulum_->SetPlayer(player_);
-	pendulum_->Initialize(desc);
-#
-	// 一回だけ実行
-	pendulum_->Update();
-	pendulum_->SetIsActive(false);
+	fileName_ = "BossAttackTrigger";
+
+	bossAttackTrigger_ = std::make_unique<BossAttackTrigger>();
+	BossAttackTrigger::Desc desc{};
+	desc.pos = -50.0f;
+	desc.state = BossStateManager::State::kAttack;
+	bossAttackTrigger_->SetBoss(boss_);
+	bossAttackTrigger_->Initialize(desc);
+
 }
 
-void PendulumEditor::Update() {
+void BossAttackTriggerEditor::Update() {
 #ifdef _DEBUG
 
 
@@ -123,7 +113,7 @@ void PendulumEditor::Update() {
 #endif // _DEBUG
 }
 
-void PendulumEditor::SaveFile(uint32_t stageName) {
+void BossAttackTriggerEditor::SaveFile(uint32_t stageName) {
 	nlohmann::json root;
 
 	root = nlohmann::json::object();
@@ -160,7 +150,7 @@ void PendulumEditor::SaveFile(uint32_t stageName) {
 	file.close();
 }
 
-void PendulumEditor::LoadFile(uint32_t stageName) {
+void BossAttackTriggerEditor::LoadFile(uint32_t stageName) {
 	const std::filesystem::path kDirectoryPath = "Resources/Data/" + fileName_ + "/" + std::to_string(stageName);
 	//読み込むJSONファイルのフルパスを合成する
 	std::string filePath = kDirectoryPath.string() + ".json";
@@ -262,11 +252,6 @@ void PendulumEditor::LoadFile(uint32_t stageName) {
 	}
 }
 
-void PendulumEditor::Clear() {
+void BossAttackTriggerEditor::Clear() {
 	pendulumManager_->Clear();
 }
-
-void PendulumEditor::OnCollision(const CollisionInfo& collisionInfo) {
-	collisionInfo;
-}
-

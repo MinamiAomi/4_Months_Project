@@ -79,6 +79,8 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo);
 	void DrawImGui();
 
+	const State GetState()const { return state_; }
+
 	const JsonData& GetData() { return jsonData_; }
 	template<class T>
 	void ChangeState() {

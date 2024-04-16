@@ -21,6 +21,7 @@ public:
 	bool GetIsMove() { return isMove_; }
 
 	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
+	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
