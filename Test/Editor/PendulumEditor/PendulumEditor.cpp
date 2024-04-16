@@ -47,6 +47,40 @@ void PendulumEditor::Update() {
 			if (pendulum.get() == nullptr) {
 				continue;
 			}
+			if (ImGui::TreeNode("CreatePendulum")) {
+				pendulum_->SetIsActive(true);
+				auto desc = pendulum_->GetDesc();
+				ImGui::DragFloat3("position", &desc.pos.x, 0.1f);
+				ImGui::DragFloat("length", &desc.length, 0.1f);
+				ImGui::DragFloat("gravity", &desc.gravity, 0.001f);
+				desc.angle *= Math::ToDegree;
+				ImGui::DragFloat("angle:", &desc.angle, 0.1f);
+				desc.angle *= Math::ToRadian;
+				desc.initializeAngle *= Math::ToDegree;
+				ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
+				desc.initializeAngle *= Math::ToRadian;
+				if (ImGui::TreeNode("Stick")) {
+					ImGui::DragFloat("scale", &desc.stickScale, 0.1f);
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Ball")) {
+					ImGui::DragFloat("scale", &desc.ballScale, 0.1f);
+					ImGui::TreePop();
+				}
+				if (!isPlay) {
+					pendulum_->SetDesc(desc);
+				}
+				ImGui::Checkbox("Play", &isPlay);
+				if (ImGui::Button("Create")) {
+					pendulumManager_->Create(pendulum_->GetDesc());
+				}
+				ImGui::TreePop();
+				isCreate_ = true;
+			}
+			else {
+				pendulum_->SetIsActive(false);
+				isCreate_ = false;
+			}
 			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
 				auto desc = pendulum->GetDesc();
 				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
@@ -76,40 +110,6 @@ void PendulumEditor::Update() {
 				ImGui::TreePop();
 			}
 			i++;
-		}
-		if (ImGui::TreeNode("CreatePendulum")) {
-			pendulum_->SetIsActive(true);
-			auto desc = pendulum_->GetDesc();
-			ImGui::DragFloat3("position", &desc.pos.x, 0.1f);
-			ImGui::DragFloat("length", &desc.length, 0.1f);
-			ImGui::DragFloat("gravity", &desc.gravity, 0.001f);
-			desc.angle *= Math::ToDegree;
-			ImGui::DragFloat("angle:", &desc.angle, 0.1f);
-			desc.angle *= Math::ToRadian;
-			desc.initializeAngle *= Math::ToDegree;
-			ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
-			desc.initializeAngle *= Math::ToRadian;
-			if (ImGui::TreeNode("Stick")) {
-				ImGui::DragFloat("scale", &desc.stickScale, 0.1f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Ball")) {
-				ImGui::DragFloat("scale", &desc.ballScale, 0.1f);
-				ImGui::TreePop();
-			}
-			if (!isPlay) {
-				pendulum_->SetDesc(desc);
-			}
-			ImGui::Checkbox("Play", &isPlay);
-			if (ImGui::Button("Create")) {
-				pendulumManager_->Create(pendulum_->GetDesc());
-			}
-			ImGui::TreePop();
-			isCreate_ = true;
-		}
-		else {
-			pendulum_->SetIsActive(false);
-			isCreate_ = false;
 		}
 		ImGui::TreePop();
 	}

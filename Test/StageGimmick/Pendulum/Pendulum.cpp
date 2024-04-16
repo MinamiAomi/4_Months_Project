@@ -151,7 +151,14 @@ void Pendulum::Update() {
 }
 
 void Pendulum::SetDesc(const Desc& desc) {
-	desc_ = desc;
+	if (desc_.gravity!=0.0f) {
+		desc_ = desc;
+	}
+	else {
+		float gravity = desc_.gravity;
+		desc_ = desc;
+		desc_.gravity = gravity;
+	}
 	transform.translate = desc_.pos;
 	transform.rotate.z = desc_.initializeAngle;
 	angularAcceleration_ = 0.0f;
