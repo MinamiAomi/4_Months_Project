@@ -45,7 +45,7 @@ void PlayerRevengeGage::Update() {
 		}
 
 		if ((currentRevengeBarGage_ >= kMaxRevengeBar) &&
-			(Input::GetInstance()->IsKeyTrigger(DIK_LSHIFT) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
+			(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
 			characterState_ = Character::State::kChase;
 
 		}
