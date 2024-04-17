@@ -15,7 +15,8 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.attackData.endPosition);
 	JSON_LOAD(jsonData_.attackData.startRotate);
 	JSON_LOAD(jsonData_.attackData.endRotate);
-	JSON_LOAD(jsonData_.attackData.easingTime);
+	JSON_LOAD(jsonData_.attackData.chargeEasingTime);
+	JSON_LOAD(jsonData_.attackData.attackEasingTime);
 	JSON_ROOT();
 	JSON_CLOSE();
 	jsonData_.attackData.velocity = jsonData_.rootData.velocity;
@@ -57,10 +58,10 @@ void BossStateManager::DrawImGui() {
 				ChangeState<BossStateRoot>();
 			}
 			break;
-			case State::kAttack:
+			case State::kHook:
 			{
-				state_ = State::kAttack;
-				ChangeState<BossStateAttack>();
+				state_ = State::kHook;
+				ChangeState<BossStateHook>();
 			}
 			break;
 			}
@@ -78,7 +79,8 @@ void BossStateManager::DrawImGui() {
 			rotate = jsonData_.attackData.endRotate * Math::ToDegree;
 			ImGui::DragFloat3("endRotate", &rotate.x, 0.1f);
 			jsonData_.attackData.endRotate = rotate * Math::ToRadian;
-			ImGui::DragFloat("easingTime", &jsonData_.attackData.easingTime, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.attackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.attackData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
 		activeState_->SetDesc();
@@ -92,7 +94,8 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.attackData.endPosition);
 			JSON_SAVE(jsonData_.attackData.startRotate);
 			JSON_SAVE(jsonData_.attackData.endRotate);
-			JSON_SAVE(jsonData_.attackData.easingTime);
+			JSON_SAVE(jsonData_.attackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.attackData.attackEasingTime);
 			JSON_ROOT();
 			JSON_CLOSE();
 		}
@@ -142,18 +145,78 @@ void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
-void BossStateAttack::Initialize() {
+void BossStateHook::Initialize() {
 	SetDesc();
+	initialPosition_ = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform.translate;
+	initialRotate_ = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->GetRotate();
+	attackState_ = kChage;
 	time_ = 0.0f;
 }
 
-void BossStateAttack::SetDesc() {
+void BossStateHook::SetDesc() {
 	data_ = manager_.jsonData_.attackData;
 }
 
-void BossStateAttack::Update() {
+void BossStateHook::Update() {
+	switch (attackState_) {
+	case BossState::kChage:
+	{
+		ChargeUpdate();
+	}
+	break;
+	case BossState::kAttack:
+	{
+		AttackUpdate();
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void BossStateHook::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void BossStateHook::ChargeUpdate() {
 	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
-	float t = time_ / data_.easingTime;
+	float t = time_ / data_.chargeEasingTime;
+	time_ += 1.0f;
+	leftArmTransform.translate.x = std::lerp(initialPosition_.x, data_.startPosition.x, t);
+	leftArmTransform.translate.y = std::lerp(initialPosition_.y, data_.startPosition.y, t);
+	leftArmTransform.translate.z = std::lerp(initialPosition_.z, data_.startPosition.z, t);
+	Vector3 rotate{};
+	rotate.x = std::lerp(initialRotate_.x, data_.startRotate.x, t);
+	rotate.y = std::lerp(initialRotate_.y, data_.startRotate.y, t);
+	rotate.z = std::lerp(initialRotate_.z, data_.startRotate.z, t);
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
+
+	auto& transform = manager_.boss.transform;
+	if (manager_.boss.GetIsMove()) {
+		switch (characterState_) {
+		case Character::State::kChase:
+		{
+			transform.translate.z += data_.velocity;
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			transform.translate.z -= data_.velocity;
+		}
+		break;
+		default:
+			break;
+		}
+	}
+
+	if (t >= 1.0f) {
+		attackState_ = kAttack;
+		time_ = 0.0f;
+	}
+}
+void BossStateHook::AttackUpdate() {
+	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
+	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
 	leftArmTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
 	leftArmTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
@@ -187,6 +250,13 @@ void BossStateAttack::Update() {
 	}
 }
 
-void BossStateAttack::OnCollision(const CollisionInfo& collisionInfo) {
+
+void BossStateRainOfArrow::Initialize() {}
+
+void BossStateRainOfArrow::SetDesc() {}
+
+void BossStateRainOfArrow::Update() {}
+
+void BossStateRainOfArrow::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }

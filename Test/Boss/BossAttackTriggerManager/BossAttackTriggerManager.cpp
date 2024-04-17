@@ -112,7 +112,7 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 								desc.state = BossStateManager::kRoot;
 								break;
 							case 1:
-								desc.state = BossStateManager::kAttack;
+								desc.state = BossStateManager::kHook;
 								break;
 							default:
 								break;

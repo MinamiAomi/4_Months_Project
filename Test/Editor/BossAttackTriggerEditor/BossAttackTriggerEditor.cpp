@@ -20,7 +20,7 @@ void BossAttackTriggerEditor::Initialize() {
 	bossAttackTrigger_ = std::make_unique<BossAttackTrigger>();
 	BossAttackTrigger::Desc desc{};
 	desc.pos = -50.0f;
-	desc.state = BossStateManager::State::kAttack;
+	desc.state = BossStateManager::State::kHook;
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
 #ifdef _DEBUG
@@ -49,9 +49,9 @@ void BossAttackTriggerEditor::Update() {
 					desc.state = BossStateManager::State::kRoot;
 				}
 				break;
-				case BossStateManager::State::kAttack:
+				case BossStateManager::State::kHook:
 				{
-					desc.state = BossStateManager::State::kAttack;
+					desc.state = BossStateManager::State::kHook;
 				}
 				break;
 				}
@@ -80,9 +80,9 @@ void BossAttackTriggerEditor::Update() {
 						desc.state = BossStateManager::State::kRoot;
 					}
 					break;
-					case BossStateManager::State::kAttack:
+					case BossStateManager::State::kHook:
 					{
-						desc.state = BossStateManager::State::kAttack;
+						desc.state = BossStateManager::State::kHook;
 					}
 					break;
 					}

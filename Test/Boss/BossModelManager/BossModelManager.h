@@ -26,6 +26,7 @@ public:
 	void Update();
 
 	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
+	const Vector3& GetRotate() const { return rotate_; }
 	const Vector3& GetOffset()const { return offset_; }
 private:
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;

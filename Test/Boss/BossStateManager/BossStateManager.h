@@ -12,6 +12,10 @@ class BossStateManager;
 
 class BossState {
 public:
+	enum AttackState {
+		kChage,
+		kAttack,
+	};
 	BossState(BossStateManager& manager) : manager_(manager) {}
 	virtual ~BossState() {}
 	virtual void Initialize() = 0;
@@ -21,6 +25,7 @@ public:
 	BossStateManager& GetManager() { return manager_; }
 protected:
 	BossStateManager& manager_;
+	AttackState attackState_;
 };
 
 class BossStateRoot :
@@ -39,7 +44,57 @@ private:
 	float velocity_;
 };
 
-class BossStateAttack :
+class BossStateHook :
+	public BossState {
+public:
+	struct JsonData {
+		Vector3 startPosition;
+		Vector3 endPosition;
+		Vector3 startRotate;
+		Vector3 endRotate;
+		float attackEasingTime;
+		float chargeEasingTime;
+		float velocity;
+	};
+	using BossState::BossState;
+	void Initialize() override;
+	void SetDesc() override;
+	void Update() override;
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+private:
+	void ChargeUpdate();
+	void AttackUpdate();
+	JsonData data_;
+	float time_;
+	// このstateに入った時の位置->アタックが始まる位置
+	Vector3 initialPosition_;
+	Vector3 initialRotate_;
+};
+
+class BossStateRainOfArrow :
+	public BossState {
+public:
+	struct JsonData {
+		Vector3 startPosition;
+		Vector3 endPosition;
+		Vector3 startRotate;
+		Vector3 endRotate;
+		float easingTime;
+		float velocity;
+	};
+	using BossState::BossState;
+	void Initialize() override;
+	void SetDesc() override;
+	void Update() override;
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+
+private:
+	JsonData data_;
+	
+	float time_;
+};
+
+class BossStateArmHammer :
 	public BossState {
 public:
 	struct JsonData {
@@ -62,16 +117,20 @@ private:
 };
 
 
+
 class BossStateManager {
 public:
 	enum State {
 		kRoot,
-		kAttack,
+		kHook,
+		kRainOfArrow,
+		kArmHammer,
+
 	};
 
 	struct JsonData {
 		BossStateRoot::JsonData rootData;
-		BossStateAttack::JsonData attackData;
+		BossStateHook::JsonData attackData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();

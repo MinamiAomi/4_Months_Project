@@ -73,8 +73,8 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 		case BossStateManager::kRoot:
 			boss_->GetStateManager()->ChangeState<BossStateRoot>();
 			break;
-		case BossStateManager::kAttack:
-			boss_->GetStateManager()->ChangeState<BossStateAttack>();
+		case BossStateManager::kHook:
+			boss_->GetStateManager()->ChangeState<BossStateHook>();
 			break;
 		default:
 			break;
