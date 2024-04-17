@@ -15,6 +15,8 @@ void Boss::Initialize() {
 	JSON_CLOSE();
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform);
+	// 隠す
+	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
 	isMove_ = true;
 
 	state_ = std::make_unique<BossStateManager>(*this);

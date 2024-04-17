@@ -12,6 +12,7 @@ namespace BossParts {
 		"bossBody",
 		"bossRightArm",
 		"bossLeftArm",
+		"bossFloorAll",
 	};
 }
 
@@ -19,6 +20,7 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	models_.at(BossParts::Parts::kBody) = std::make_unique<Body>();
 	models_.at(BossParts::Parts::kRightArm) = std::make_unique<RightArm>();
 	models_.at(BossParts::Parts::kLeftArm) = std::make_unique<LeftArm>();
+	models_.at(BossParts::Parts::kFloorAll) = std::make_unique<FloorAll>();
 
 	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
@@ -113,5 +115,9 @@ void RightArm::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void LeftArm::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void FloorAll::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }

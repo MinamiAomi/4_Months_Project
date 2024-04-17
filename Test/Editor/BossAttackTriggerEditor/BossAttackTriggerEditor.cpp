@@ -54,6 +54,10 @@ void BossAttackTriggerEditor::Update() {
 					desc.state = BossStateManager::State::kHook;
 				}
 				break;
+				case BossStateManager::State::kFloorAll:
+				{
+					desc.state = BossStateManager::State::kFloorAll;
+				}
 				}
 			}
 			bossAttackTrigger_->SetDesc(desc);
@@ -70,7 +74,7 @@ void BossAttackTriggerEditor::Update() {
 			if (ImGui::TreeNode(("BossState:" + std::to_string(i)).c_str())) {
 				auto& desc = bossAtackTrigger->GetDesc();
 				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.pos, 1.0f);
-				const char* items[] = { "Root", "Attack" };
+				const char* items[] = { "Root", "Hook" };
 				static int selectedItem = static_cast<int>(desc.state);
 				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 					desc.state = static_cast<BossStateManager::State>(selectedItem);
@@ -83,6 +87,11 @@ void BossAttackTriggerEditor::Update() {
 					case BossStateManager::State::kHook:
 					{
 						desc.state = BossStateManager::State::kHook;
+					}
+					break;
+					case BossStateManager::State::kFloorAll:
+					{
+						desc.state = BossStateManager::State::kFloorAll;
 					}
 					break;
 					}

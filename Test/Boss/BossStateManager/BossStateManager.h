@@ -1,4 +1,5 @@
 #pragma once
+#include "Collision/Collider.h"
 
 #include <memory>
 #include <array>
@@ -71,6 +72,29 @@ private:
 	Vector3 initialRotate_;
 };
 
+class BossStateFloorAll :
+	public BossState {
+public:
+	struct JsonData {
+		Vector3 startPosition;
+		Vector3 endPosition;
+		Vector3 scale;
+		float attackEasingTime;
+		float chargeEasingTime;
+		float velocity;
+	};
+	using BossState::BossState;
+	void Initialize() override;
+	void SetDesc() override;
+	void Update() override;
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+private:
+	void ChargeUpdate();
+	void AttackUpdate();
+	JsonData data_;
+	float time_;
+};
+
 class BossStateRainOfArrow :
 	public BossState {
 public:
@@ -123,6 +147,7 @@ public:
 	enum State {
 		kRoot,
 		kHook,
+		kFloorAll,
 		kRainOfArrow,
 		kArmHammer,
 
@@ -131,6 +156,7 @@ public:
 	struct JsonData {
 		BossStateRoot::JsonData rootData;
 		BossStateHook::JsonData attackData;
+		BossStateFloorAll::JsonData floorAllData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();

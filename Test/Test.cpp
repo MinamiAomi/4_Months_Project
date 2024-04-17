@@ -27,6 +27,8 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("bossBody", Model::Load("Resources/Boss/Body/boss.gltf"));
 	resourceManager->AddModel("bossRightArm", Model::Load("Resources/Boss/RightArm/rightArm.gltf"));
 	resourceManager->AddModel("bossLeftArm", Model::Load("Resources/Boss/LeftArm/leftArm.gltf"));
+	resourceManager->AddModel("bossFloorAll", Model::Load("Resources/Boss/FloorAll/floorAll.obj"));
+
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
 	resourceManager->AddModel("player", Model::Load("Resources/Player/player.gltf"));
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
