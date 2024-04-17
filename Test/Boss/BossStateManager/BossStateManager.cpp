@@ -25,9 +25,17 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.floorAllData.chargeEasingTime);
 	JSON_LOAD(jsonData_.floorAllData.attackEasingTime);
 	JSON_ROOT();
+	JSON_OBJECT("StateLongDistanceAttack");
+	JSON_LOAD(jsonData_.longDistanceAttackData.startPosition);
+	JSON_LOAD(jsonData_.longDistanceAttackData.endPosition);
+	JSON_LOAD(jsonData_.longDistanceAttackData.scale);
+	JSON_LOAD(jsonData_.longDistanceAttackData.chargeEasingTime);
+	JSON_LOAD(jsonData_.longDistanceAttackData.attackEasingTime);
+	JSON_ROOT();
 	JSON_CLOSE();
 	jsonData_.attackData.velocity = jsonData_.rootData.velocity;
 	jsonData_.floorAllData.velocity = jsonData_.rootData.velocity;
+	jsonData_.longDistanceAttackData.velocity = jsonData_.rootData.velocity;
 	state_ = State::kRoot;
 }
 
@@ -55,7 +63,7 @@ void BossStateManager::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
-		const char* items[] = { "Root", "Hook" ,"FloorAll" };
+		const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack"};
 		static int selectedItem = static_cast<int>(state_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 			state_ = static_cast<State>(selectedItem);
@@ -76,6 +84,12 @@ void BossStateManager::DrawImGui() {
 			{
 				state_ = State::kFloorAll;
 				ChangeState<BossStateFloorAll>();
+			}
+			break;
+			case State::kLongDistanceAttack:
+			{
+				state_ = State::kLongDistanceAttack;
+				ChangeState<BossStateLongDistanceAttack>();
 			}
 			break;
 			}
@@ -105,6 +119,14 @@ void BossStateManager::DrawImGui() {
 			ImGui::DragFloat("attackEasingTime", &jsonData_.floorAllData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
+		if (ImGui::TreeNode("LongDistanceAttack")) {
+			ImGui::DragFloat3("startPosition", &jsonData_.longDistanceAttackData.startPosition.x, 0.1f);
+			ImGui::DragFloat3("endPosition", &jsonData_.longDistanceAttackData.endPosition.x, 0.1f);
+			ImGui::DragFloat3("scale", &jsonData_.longDistanceAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.longDistanceAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.longDistanceAttackData.attackEasingTime, 0.1f);
+			ImGui::TreePop();
+		}
 		activeState_->SetDesc();
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
@@ -126,6 +148,13 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.floorAllData.chargeEasingTime);
 			JSON_SAVE(jsonData_.floorAllData.attackEasingTime);
 			JSON_ROOT();
+			JSON_OBJECT("StateLongDistanceAttack");
+			JSON_SAVE(jsonData_.longDistanceAttackData.startPosition);
+			JSON_SAVE(jsonData_.longDistanceAttackData.endPosition);
+			JSON_SAVE(jsonData_.longDistanceAttackData.scale);
+			JSON_SAVE(jsonData_.longDistanceAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.longDistanceAttackData.attackEasingTime);
+			JSON_ROOT();
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
@@ -144,6 +173,8 @@ void BossStateRoot::Initialize() {
 	rightArmTransform.translate = manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->GetOffset();
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->SetRotate(Vector3::zero);
 	rightArmTransform.rotate = Quaternion::identity;
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
 void BossStateRoot::SetDesc() {
@@ -365,4 +396,91 @@ void BossStateFloorAll::AttackUpdate() {
 		manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 		manager_.ChangeState<BossStateRoot>();
 	}
+}
+
+void BossStateLongDistanceAttack::Initialize() {
+	SetDesc();
+	attackState_ = kChage;
+	time_ = 0.0f;
+}
+
+void BossStateLongDistanceAttack::SetDesc() {
+	data_ = manager_.jsonData_.longDistanceAttackData;
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.scale = data_.scale;
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetModelIsAlive(true);
+}
+
+void BossStateLongDistanceAttack::Update() {
+	switch (attackState_) {
+	case BossState::kChage:
+	{
+		ChargeUpdate();
+	}
+	break;
+	case BossState::kAttack:
+	{
+		AttackUpdate();
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void BossStateLongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void BossStateLongDistanceAttack::ChargeUpdate() {
+	auto& longDistanceAttackTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform;
+	float t = time_ / data_.chargeEasingTime;
+	time_ += 1.0f;
+	longDistanceAttackTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
+	longDistanceAttackTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
+	longDistanceAttackTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
+
+	auto& transform = manager_.boss.transform;
+	if (manager_.boss.GetIsMove()) {
+		switch (characterState_) {
+		case Character::State::kChase:
+		{
+			transform.translate.z += data_.velocity;
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			transform.translate.z -= data_.velocity;
+		}
+		break;
+		default:
+			break;
+		}
+	}
+
+	if (t >= 1.0f) {
+		attackState_ = kAttack;
+		time_ = 0.0f;
+		manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetColliderIsAlive(true);
+	}
+}
+
+void BossStateLongDistanceAttack::AttackUpdate() {
+	float t = time_ / data_.chargeEasingTime;
+	time_ += 1.0f;
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	if (t >= 1.0f) {
+		manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
+		manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
+		manager_.ChangeState<BossStateRoot>();
+	}
+}
+
+void BossStateArmHammer::Initialize() {}
+
+void BossStateArmHammer::SetDesc() {}
+
+void BossStateArmHammer::Update() {}
+
+void BossStateArmHammer::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
 }

@@ -14,6 +14,7 @@ namespace BossParts {
 		kRightArm,
 		kLeftArm,
 		kFloorAll,
+		kLongDistanceAttack,
 
 		kCount,
 	};
@@ -64,6 +65,11 @@ private:
 };
 
 class FloorAll :public BossModel {
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+};
+
+class LongDistanceAttack :public BossModel {
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };

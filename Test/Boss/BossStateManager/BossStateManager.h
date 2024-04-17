@@ -95,6 +95,29 @@ private:
 	float time_;
 };
 
+class BossStateLongDistanceAttack :
+	public BossState {
+public:
+	struct JsonData {
+		Vector3 startPosition;
+		Vector3 endPosition;
+		Vector3 scale;
+		float attackEasingTime;
+		float chargeEasingTime;
+		float velocity;
+	};
+	using BossState::BossState;
+	void Initialize() override;
+	void SetDesc() override;
+	void Update() override;
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+private:
+	void ChargeUpdate();
+	void AttackUpdate();
+	JsonData data_;
+	float time_;
+};
+
 class BossStateRainOfArrow :
 	public BossState {
 public:
@@ -148,6 +171,7 @@ public:
 		kRoot,
 		kHook,
 		kFloorAll,
+		kLongDistanceAttack,
 		kRainOfArrow,
 		kArmHammer,
 
@@ -157,6 +181,7 @@ public:
 		BossStateRoot::JsonData rootData;
 		BossStateHook::JsonData attackData;
 		BossStateFloorAll::JsonData floorAllData;
+		BossStateLongDistanceAttack::JsonData longDistanceAttackData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();

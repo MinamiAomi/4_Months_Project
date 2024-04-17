@@ -90,9 +90,29 @@
             0.0
         ]
     },
+    "StateLongDistanceAttack": {
+        "jsonData_.longDistanceAttackData.attackEasingTime": 60.0,
+        "jsonData_.longDistanceAttackData.chargeEasingTime": 90.0,
+        "jsonData_.longDistanceAttackData.endPosition": [
+            0.0,
+            0.0,
+            -10.0
+        ],
+        "jsonData_.longDistanceAttackData.scale": [
+            5.0,
+            2.0,
+            5.0
+        ],
+        "jsonData_.longDistanceAttackData.startPosition": [
+            0.0,
+            2.0,
+            -10.0
+        ]
+    },
     "StateRoot": {
         "jsonData_.rootData.velocity": 0.25
     },
+    "bollLongDistanceAttack": {},
     "bossBody": {},
     "bossFloorAll": {},
     "bossLeftArm": {
@@ -102,6 +122,7 @@
             0.0
         ]
     },
+    "bossLongDistanceAttack": {},
     "bossRightArm": {
         "offset_": [
             -1.5,

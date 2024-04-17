@@ -13,6 +13,7 @@ namespace BossParts {
 		"bossRightArm",
 		"bossLeftArm",
 		"bossFloorAll",
+		"bossLongDistanceAttack",
 	};
 }
 
@@ -21,6 +22,7 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	models_.at(BossParts::Parts::kRightArm) = std::make_unique<RightArm>();
 	models_.at(BossParts::Parts::kLeftArm) = std::make_unique<LeftArm>();
 	models_.at(BossParts::Parts::kFloorAll) = std::make_unique<FloorAll>();
+	models_.at(BossParts::Parts::kLongDistanceAttack) = std::make_unique<LongDistanceAttack>();
 
 	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
@@ -119,5 +121,9 @@ void LeftArm::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void FloorAll::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void LongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }

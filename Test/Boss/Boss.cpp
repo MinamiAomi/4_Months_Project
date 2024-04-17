@@ -17,6 +17,7 @@ void Boss::Initialize() {
 	bossModelManager_->Initialize(&transform);
 	// 隠す
 	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
+	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
 	isMove_ = true;
 
 	state_ = std::make_unique<BossStateManager>(*this);
