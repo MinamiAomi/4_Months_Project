@@ -12,7 +12,7 @@ public:
 	void Update();
 	void Reset(uint32_t stageIndex);
 
-	void Create(const Vector3& scale, const Vector3& rotate, const Vector3& position);
+	void Create(const StageGimmick::Desc& desc);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
