@@ -63,7 +63,7 @@ void Block::UpdateTransform() {
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
 	collider_->SetCenter(colliderDesc_.center);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
+	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));	
 	collider_->SetSize(colliderDesc_.size);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }

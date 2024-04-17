@@ -5,8 +5,9 @@
 #include <string>
 
 #include "Collision/Collider.h"
-#include "Math/MathUtils.h"
 #include "Graphics/Model.h"
+#include "Math/MathUtils.h"
+#include "StageGimmick/StageGimmick.h"
 #include "Player/Player.h"
 
 class Floor :
@@ -17,7 +18,7 @@ public:
 		Vector3 rotate;
 		Vector3	scale;
 	};
-	void Initialize(const Desc& desc);
+	void Initialize(const StageGimmick::Desc& desc);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
@@ -36,5 +37,9 @@ private:
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
 
+	StageGimmick::Collider colliderDesc_;
+
 	Vector3 rotate_;
+
+	StageGimmick::Desc desc_;
 };

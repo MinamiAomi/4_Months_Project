@@ -70,7 +70,7 @@ void FloorEditor::Update() {
 			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
 			if (ImGui::Button("Create")) {
-				floorManager_->Create(transform.scale, rotate_, transform.translate);
+				//floorManager_->Create(transform.scale, rotate_, transform.translate);
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
@@ -243,7 +243,7 @@ void FloorEditor::LoadFile(uint32_t stageName) {
 
 				// 生成
 				for (size_t i = 0; i < pos.size(); i++) {
-					floorManager_->Create(scale.at(i), rotate.at(i), pos.at(i));
+					//floorManager_->Create(scale.at(i), rotate.at(i), pos.at(i));
 				}
 			}
 		}

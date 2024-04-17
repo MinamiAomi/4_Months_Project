@@ -3,51 +3,11 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Cube",
-            "transform": {
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            }
-        },
-        {
-            "type": "MESH",
             "name": "立方体",
             "transform": {
                 "translate": [
-                    -11.140000343322754,
                     0.0,
+                    -1.0,
                     0.0
                 ],
                 "rotate": [
@@ -56,12 +16,12 @@
                     0.0
                 ],
                 "scale": [
+                    5.0,
                     1.0,
-                    1.0,
-                    1.0
+                    2.0
                 ]
             },
-            "file_name": "block",
+            "file_name": "floor",
             "collider": {
                 "type": "BOX",
                 "center": [
