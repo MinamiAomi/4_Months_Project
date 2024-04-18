@@ -10,7 +10,7 @@
 #include "Player/Player.h"
 
 #include "StageGimmick/StageGimmick.h"
-
+#include "Math/Camera.h"
 class Block :
 	public GameObject {
 public:
@@ -24,11 +24,14 @@ public:
 	const Vector3& GetScale() { return transform.scale; }
 	const Vector3& GetRotate() { return rotate_; }
 	const Vector3& GetPosition() { return transform.translate; }
+
+	void GetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Player* player_;
+	const Camera* camera_;
 
 	std::unique_ptr<ModelInstance> model_;
 

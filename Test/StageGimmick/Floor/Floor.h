@@ -28,11 +28,14 @@ public:
 	const Vector3& GetScale() { return transform.scale; }
 	const Vector3& GetRotate() { return rotate_; }
 	const Vector3& GetPosition() { return transform.translate; }
+
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Player* player_;
+	const Camera* camera_;
 
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;

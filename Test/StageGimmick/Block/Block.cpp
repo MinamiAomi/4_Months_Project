@@ -27,8 +27,8 @@ void Block::Initialize(const StageGimmick::Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Block");
-	collider_->SetCenter(colliderDesc_.center);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
+	collider_->SetCenter(colliderDesc_.center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
 	collider_->SetSize(colliderDesc_.size);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
@@ -42,12 +42,10 @@ void Block::Update() {
 	if (!onPlayer_ &&
 		onceOnPlayer_) {
 		transform.translate.y -= 0.05f;
-		colliderDesc_.center.y -= 0.05f;
 	}
 	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
-	colliderDesc_.center.y = (std::max)(colliderDesc_.center.y, (-colliderDesc_.size.y * 0.5f) - 3.0f);
 	// 雑カリング
-	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+	if (std::fabs((camera_->GetPosition()- transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 	}

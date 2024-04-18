@@ -24,9 +24,13 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
+	blockManager_->SetCamara(cameraManager_->GetCamera().get());
 	blockManager_->SetPlayer(player_.get());
+	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
 	fireBarManager_->SetPlayer(player_.get());
+	floorManager_->SetCamera(cameraManager_->GetCamera().get());
 	floorManager_->SetPlayer(player_.get());
+	pendulumManager_->SetCamera(cameraManager_->GetCamera().get());
 	pendulumManager_->SetPlayer(player_.get());
 
 	blockManager_->Initialize(0);
@@ -52,6 +56,7 @@ void GameScene::OnInitialize() {
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
 
+	editorManager_->SetCamera(cameraManager_->GetCamera().get());
 	editorManager_->SetPlayer(player_.get());
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());

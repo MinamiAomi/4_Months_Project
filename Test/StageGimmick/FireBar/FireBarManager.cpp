@@ -25,6 +25,7 @@ void FireBarManager::Reset(uint32_t stageIndex) {
 
 void FireBarManager::Create(const FireBar::Desc& desc) {
 	FireBar* fireBar = new FireBar();
+	fireBar->SetCamera(camera_);
 	fireBar->SetPlayer(player_);
 	fireBar->Initialize(desc);
 	fireBars_.emplace_back(std::move(fireBar));

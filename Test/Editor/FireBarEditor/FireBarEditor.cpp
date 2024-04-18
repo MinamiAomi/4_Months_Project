@@ -27,6 +27,7 @@ void FireBarEditor::Initialize() {
 	desc_.barDesc.rotateVelocity = 0.01f;
 
 	fireBar_ = std::make_unique<FireBar>();
+	fireBar_->SetCamera(camera_);
 	fireBar_->SetPlayer(player_);
 	fireBar_->Initialize(desc_);
 	fireBar_->SetIsActive(false);

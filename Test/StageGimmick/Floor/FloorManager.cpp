@@ -25,6 +25,7 @@ void FloorManager::Reset(uint32_t stageIndex) {
 
 void FloorManager::Create(const StageGimmick::Desc& desc) {
 	Floor* floor = new Floor();
+	floor->SetCamera(camera_);
 	floor->SetPlayer(player_);
 	floor->Initialize(desc);
 	floors_.emplace_back(std::move(floor));

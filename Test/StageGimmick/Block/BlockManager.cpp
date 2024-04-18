@@ -25,6 +25,7 @@ void BlockManager::Reset(uint32_t stageIndex) {
 
 void BlockManager::Create(const StageGimmick::Desc& desc) {
 	Block* block = new Block();
+	block->GetCamera(camera_);
 	block->SetPlayer(player_);
 	block->Initialize(desc);
 	blocks_.emplace_back(std::move(block));
