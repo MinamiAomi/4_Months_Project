@@ -61,9 +61,25 @@ void BlockEditor::Update() {
 
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BlockEditor")) {
-		model_->SetIsActive(true);
-		collider_->SetIsActive(true);
 		static bool isCollision = true;
+		if (ImGui::TreeNode("CreateBlock")) {
+			model_->SetIsActive(true);
+			collider_->SetIsActive(true);
+			ImGui::DragFloat3("scale", &transform.scale.x, 0.25f);
+			ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
+			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
+			if (ImGui::Button("Create")) {
+				blockManager_->Create(transform.scale, rotate_, transform.translate);
+			}
+			ImGui::TreePop();
+			isCreate_ = true;
+		}
+		else {
+			model_->SetIsActive(false);
+			collider_->SetIsActive(false);
+			isCreate_ = false;
+		}
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
 		}
@@ -94,20 +110,7 @@ void BlockEditor::Update() {
 			}
 			i++;
 		}
-		if (ImGui::TreeNode("CreateBlock")) {
-			ImGui::DragFloat3("scale", &transform.scale.x, 0.25f);
-			ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
-			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
-			if (ImGui::Button("Create")) {
-				blockManager_->Create(transform.scale, rotate_, transform.translate);
-			}
-			ImGui::TreePop();
-			isCreate_ = true;
-		}
-		else {
-			isCreate_ = false;
-		}
+
 		ImGui::TreePop();
 	}
 	else {

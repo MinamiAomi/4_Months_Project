@@ -21,7 +21,7 @@ void PendulumEditor::Initialize() {
 	pendulum_ = std::make_unique<Pendulum>();
 	Pendulum::Desc desc{};
 	desc.length = 15.0f;
-	desc.pos = {0.0f,desc.length ,0.0f};
+	desc.pos = { 0.0f,desc.length ,0.0f };
 	desc.scale = { 3.0f,3.0f,3.0f };
 	desc.gravity = { 0.002f };
 	desc.angle = 0.0f * Math::ToRadian;
@@ -43,40 +43,6 @@ void PendulumEditor::Update() {
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("PendulumEditor")) {
-		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
-			if (pendulum.get() == nullptr) {
-				continue;
-			}
-			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
-				auto desc = pendulum->GetDesc();
-				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
-				ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.length, 0.01f);
-				ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.gravity, 0.001f);
-				desc.angle *= Math::ToDegree;
-				ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.angle, 0.1f);
-				desc.angle *= Math::ToRadian;
-				desc.initializeAngle *= Math::ToDegree;
-				ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
-				desc.initializeAngle *= Math::ToRadian;
-				if (ImGui::TreeNode("Stick")) {
-					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.stickScale, 0.1f);
-					ImGui::TreePop();
-				}
-				if (ImGui::TreeNode("Ball")) {
-					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.ballScale, 0.1f);
-					ImGui::TreePop();
-				}
-				pendulum->SetDesc(desc);
-				if (ImGui::Button("Delete")) {
-					pendulumManager_->DeletePendulum(pendulum.get());
-					ImGui::TreePop();
-					break;
-				}
-
-				ImGui::TreePop();
-			}
-			i++;
-		}
 		if (ImGui::TreeNode("CreatePendulum")) {
 			pendulum_->SetIsActive(true);
 			auto desc = pendulum_->GetDesc();
@@ -110,6 +76,40 @@ void PendulumEditor::Update() {
 		else {
 			pendulum_->SetIsActive(false);
 			isCreate_ = false;
+		}
+		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
+			if (pendulum.get() == nullptr) {
+				continue;
+			}
+			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
+				auto desc = pendulum->GetDesc();
+				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
+				ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.length, 0.01f);
+				ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.gravity, 0.001f);
+				desc.angle *= Math::ToDegree;
+				ImGui::DragFloat(("angle:" + std::to_string(i)).c_str(), &desc.angle, 0.1f);
+				desc.angle *= Math::ToRadian;
+				desc.initializeAngle *= Math::ToDegree;
+				ImGui::DragFloat("initializeAngle:", &desc.initializeAngle, 0.1f);
+				desc.initializeAngle *= Math::ToRadian;
+				if (ImGui::TreeNode("Stick")) {
+					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.stickScale, 0.1f);
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Ball")) {
+					ImGui::DragFloat(("scale:" + std::to_string(i)).c_str(), &desc.ballScale, 0.1f);
+					ImGui::TreePop();
+				}
+				pendulum->SetDesc(desc);
+				if (ImGui::Button("Delete")) {
+					pendulumManager_->DeletePendulum(pendulum.get());
+					ImGui::TreePop();
+					break;
+				}
+
+				ImGui::TreePop();
+			}
+			i++;
 		}
 		ImGui::TreePop();
 	}

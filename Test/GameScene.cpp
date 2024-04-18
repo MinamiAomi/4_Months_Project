@@ -29,9 +29,6 @@ void GameScene::OnInitialize() {
 	floorManager_->SetPlayer(player_.get());
 	pendulumManager_->SetPlayer(player_.get());
 
-	editorManager_->SetPlayer(player_.get());
-	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get());
-	
 	blockManager_->Initialize(0);
 	fireBarManager_->Initialize(0);
 	floorManager_->Initialize(0);
@@ -54,6 +51,11 @@ void GameScene::OnInitialize() {
 	stageBlockManager_ = std::make_unique<StageBlockManager>();
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
+
+	editorManager_->SetPlayer(player_.get());
+	editorManager_->SetBoss(boss_.get());
+	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
+
 }
 
 void GameScene::OnUpdate() {

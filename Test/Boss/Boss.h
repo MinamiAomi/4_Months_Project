@@ -9,6 +9,7 @@
 #include "Graphics/Model.h"
 #include "BossModelManager/BossModelManager.h"
 #include "BossStateManager/BossStateManager.h"
+#include "BossAttackTriggerManager/BossAttackTriggerManager.h"
 
 class Boss :
 	public GameObject {
@@ -21,6 +22,8 @@ public:
 	bool GetIsMove() { return isMove_; }
 
 	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
+	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
+	const std::unique_ptr<BossAttackTriggerManager>& GetAttackTriggerManager()const { return bossAttackTriggerManager_; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
@@ -30,6 +33,8 @@ private:
 	std::unique_ptr<BossModelManager> bossModelManager_;
 
 	std::unique_ptr<BossStateManager> state_;
+
+	std::unique_ptr<BossAttackTriggerManager> bossAttackTriggerManager_;
 
 	Vector3 velocity_;
 	Vector3 offset_;

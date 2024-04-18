@@ -36,35 +36,6 @@ void FireBarEditor::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("FireBarEditor")) {
-		for (uint32_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
-			if (fireBar.get() == nullptr) {
-				continue;
-			}
-			if (ImGui::TreeNode(("FireBar:" + std::to_string(i)).c_str())) {
-				auto& desc = fireBar->GetDesc();
-				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &fireBar->transform.translate.x, 1.0f);
-				if (ImGui::TreeNode("Center")) {
-					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &fireBar->transform.scale.x, 0.1f);
-					ImGui::TreePop();
-				}
-				if (ImGui::TreeNode("Bar")) {
-					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.barDesc.length, 0.1f);
-					ImGui::DragFloat(("barRotateVelocity:" + std::to_string(i)).c_str(), &desc.barDesc.rotateVelocity, 0.01f);
-					desc.barDesc.barInitialAngle *= Math::ToDegree;
-					ImGui::DragFloat(("InitialAngle:" + std::to_string(i)).c_str(), &desc.barDesc.barInitialAngle.y, 0.01f);
-					desc.barDesc.barInitialAngle *= Math::ToRadian;
-					ImGui::TreePop();
-				}
-				if (ImGui::Button("Delete")) {
-					fireBarManager_->DeleteFireBar(fireBar.get());
-					ImGui::TreePop();
-					break;
-				}
-
-				ImGui::TreePop();
-			}
-			i++;
-		}
 		if (ImGui::TreeNode("CreateFireBar")) {
 			fireBar_->SetIsActive(true);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
@@ -95,6 +66,35 @@ void FireBarEditor::Update() {
 			fireBar_->SetIsActive(false);
 			isCreate_ = false;
 		}
+		for (uint32_t i = 0; auto & fireBar : fireBarManager_->GetFireBars()) {
+			if (fireBar.get() == nullptr) {
+				continue;
+			}
+			if (ImGui::TreeNode(("FireBar:" + std::to_string(i)).c_str())) {
+				auto& desc = fireBar->GetDesc();
+				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &fireBar->transform.translate.x, 1.0f);
+				if (ImGui::TreeNode("Center")) {
+					ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &fireBar->transform.scale.x, 0.1f);
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Bar")) {
+					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.barDesc.length, 0.1f);
+					ImGui::DragFloat(("barRotateVelocity:" + std::to_string(i)).c_str(), &desc.barDesc.rotateVelocity, 0.01f);
+					desc.barDesc.barInitialAngle *= Math::ToDegree;
+					ImGui::DragFloat(("InitialAngle:" + std::to_string(i)).c_str(), &desc.barDesc.barInitialAngle.y, 0.01f);
+					desc.barDesc.barInitialAngle *= Math::ToRadian;
+					ImGui::TreePop();
+				}
+				if (ImGui::Button("Delete")) {
+					fireBarManager_->DeleteFireBar(fireBar.get());
+					ImGui::TreePop();
+					break;
+				}
+
+				ImGui::TreePop();
+			}
+			i++;
+		}
 		ImGui::TreePop();
 	}
 	else {
@@ -102,7 +102,7 @@ void FireBarEditor::Update() {
 		isCreate_ = false;
 	}
 	ImGui::End();
-	
+
 #endif // _DEBUG
 }
 
@@ -229,10 +229,10 @@ void FireBarEditor::LoadFile(uint32_t stageName) {
 					}
 					else {
 						if (itemNameObject == "rotateVelocity") {
-							desc.barDesc.rotateVelocity= itItemObject->get<float>();
+							desc.barDesc.rotateVelocity = itItemObject->get<float>();
 						}
 						else if (itemNameObject == "length") {
-							desc.barDesc.length= itItemObject->get<float>();
+							desc.barDesc.length = itItemObject->get<float>();
 						}
 					}
 				}
