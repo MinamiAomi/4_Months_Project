@@ -30,7 +30,7 @@ private:
 
 	std::optional<StageGimmick::Collider> colliderDesc_;
 
-	Vector3 rotate_;
+	//Vector3 rotate_;
 
 	StageGimmick::Desc desc_;
 };

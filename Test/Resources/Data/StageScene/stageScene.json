@@ -3,12 +3,12 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Floor.001",
+            "name": "立方体",
             "transform": {
                 "translate": [
                     0.0,
                     0.0,
-                    -0.0
+                    -25.309999465942383
                 ],
                 "rotate": [
                     0.0,
@@ -22,7 +22,7 @@
                     1.0
                 ]
             },
-            "file_name": "floor",
+            "file_name": "firebar",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -31,9 +31,9 @@
                     -0.0
                 ],
                 "size": [
-                    30.0,
                     2.0,
-                    100.0
+                    2.0,
+                    2.0
                 ],
                 "rotate": [
                     0.0,
@@ -41,16 +41,20 @@
                     -0.0,
                     1.0
                 ]
+            },
+            "gimmick": {
+                "type": "FireBar",
+                "length": 3
             }
         },
         {
             "type": "MESH",
-            "name": "Floor.002",
+            "name": "立方体.001",
             "transform": {
                 "translate": [
                     0.0,
                     0.0,
-                    -239.79998779296875
+                    -0.0
                 ],
                 "rotate": [
                     0.0,
@@ -64,30 +68,30 @@
                     1.0
                 ]
             },
-            "file_name": "floor"
-        },
-        {
-            "type": "MESH",
-            "name": "Floor.003",
-            "transform": {
-                "translate": [
+            "file_name": "firebar",
+            "collider": {
+                "type": "BOX",
+                "center": [
                     0.0,
                     0.0,
-                    -129.38999938964844
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
                 ],
                 "rotate": [
                     0.0,
                     -0.0,
                     -0.0,
                     1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
                 ]
             },
-            "file_name": "floor"
+            "gimmick": {
+                "type": "FireBar",
+                "length": 3
+            }
         }
     ]
 }

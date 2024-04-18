@@ -19,12 +19,6 @@ public:
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
-	void SetScale(const Vector3& scale) { transform.scale = scale; }
-	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
-	void SetPosition(const Vector3& pos) { transform.translate = pos; }
-	const Vector3& GetScale() { return transform.scale; }
-	const Vector3& GetRotate() { return rotate_; }
-	const Vector3& GetPosition() { return transform.translate; }
 
 	void GetCamera(const Camera* camera) { camera_ = camera; }
 private:
@@ -40,7 +34,7 @@ private:
 
 	std::optional<StageGimmick::Collider> colliderDesc_;
 
-	Vector3 rotate_;
+	//Vector3 rotate_;
 
 	StageGimmick::Desc desc_;
 

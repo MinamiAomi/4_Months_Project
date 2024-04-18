@@ -21,8 +21,8 @@ void PendulumEditor::Initialize() {
 	pendulum_ = std::make_unique<Pendulum>();
 	Pendulum::Desc desc{};
 	desc.length = 15.0f;
-	desc.pos = { 0.0f,desc.length ,0.0f };
-	desc.scale = { 3.0f,3.0f,3.0f };
+	desc.desc.transform.translate = { 0.0f,desc.length ,0.0f };
+	desc.desc.transform.scale = { 3.0f,3.0f,3.0f };
 	desc.gravity = { 0.002f };
 	desc.angle = 0.0f * Math::ToRadian;
 	desc.initializeAngle = desc.angle;
@@ -47,7 +47,7 @@ void PendulumEditor::Update() {
 		if (ImGui::TreeNode("CreatePendulum")) {
 			pendulum_->SetIsActive(true);
 			auto desc = pendulum_->GetDesc();
-			ImGui::DragFloat3("position", &desc.pos.x, 0.1f);
+			ImGui::DragFloat3("position", &desc.desc.transform.translate.x, 0.1f);
 			ImGui::DragFloat("length", &desc.length, 0.1f);
 			ImGui::DragFloat("gravity", &desc.gravity, 0.001f);
 			desc.angle *= Math::ToDegree;
@@ -84,7 +84,7 @@ void PendulumEditor::Update() {
 			}
 			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
 				auto desc = pendulum->GetDesc();
-				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
+				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.desc.transform.translate.x, 1.0f);
 				ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.length, 0.01f);
 				ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.gravity, 0.001f);
 				desc.angle *= Math::ToDegree;
@@ -125,7 +125,8 @@ void PendulumEditor::Update() {
 }
 
 void PendulumEditor::SaveFile(uint32_t stageName) {
-	nlohmann::json root;
+	stageName;
+	/*nlohmann::json root;
 
 	root = nlohmann::json::object();
 
@@ -158,109 +159,110 @@ void PendulumEditor::SaveFile(uint32_t stageName) {
 
 	file << std::setw(4) << root << std::endl;
 
-	file.close();
+	file.close();*/
 }
 
 void PendulumEditor::LoadFile(uint32_t stageName) {
-	const std::filesystem::path kDirectoryPath = "Resources/Data/" + fileName_ + "/" + std::to_string(stageName);
-	//読み込むJSONファイルのフルパスを合成する
-	std::string filePath = kDirectoryPath.string() + ".json";
-	//読み込み用ファイルストリーム
-	std::ifstream ifs;
-	//ファイルを読み込み用に開く
-	ifs.open(filePath);
+	stageName;
+	//const std::filesystem::path kDirectoryPath = "Resources/Data/" + fileName_ + "/" + std::to_string(stageName);
+	////読み込むJSONファイルのフルパスを合成する
+	//std::string filePath = kDirectoryPath.string() + ".json";
+	////読み込み用ファイルストリーム
+	//std::ifstream ifs;
+	////ファイルを読み込み用に開く
+	//ifs.open(filePath);
 
-	//ファイルオープン失敗したら表示
-	if (ifs.fail()) {
-		//MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
-		return;
-	}
-	nlohmann::json root;
+	////ファイルオープン失敗したら表示
+	//if (ifs.fail()) {
+	//	//MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+	//	return;
+	//}
+	//nlohmann::json root;
 
-	//json文字列からjsonのデータ構造に展開
-	ifs >> root;
-	//ファイルを閉じる
-	ifs.close();
-	//グループを検索
-	nlohmann::json::iterator itGroup = root.find(fileName_);
-	//未登録チェック
-	if (itGroup == root.end()) {
-		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-	}
-	// アイテム
-	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
-		//アイテム名を取得
-		const std::string& itemName = itItem.key();
+	////json文字列からjsonのデータ構造に展開
+	//ifs >> root;
+	////ファイルを閉じる
+	//ifs.close();
+	////グループを検索
+	//nlohmann::json::iterator itGroup = root.find(fileName_);
+	////未登録チェック
+	//if (itGroup == root.end()) {
+	//	//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+	//}
+	//// アイテム
+	//for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
+	//	//アイテム名を取得
+	//	const std::string& itemName = itItem.key();
 
-		//グループを検索
-		nlohmann::json::iterator itObject = itGroup->find(itemName);
+	//	//グループを検索
+	//	nlohmann::json::iterator itObject = itGroup->find(itemName);
 
-		//未登録チェック
-		if (itObject == itGroup->end()) {
-			//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-		}
+	//	//未登録チェック
+	//	if (itObject == itGroup->end()) {
+	//		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+	//	}
 
-		//保険
-		assert(itObject != itGroup->end());//アイテム名がオブジェクトデータだった場合、登録
+	//	//保険
+	//	assert(itObject != itGroup->end());//アイテム名がオブジェクトデータだった場合、登録
 
 
-		if (itemName == "objectData") {
+	//	if (itemName == "objectData") {
 
-			//各オブジェクトについて
-			for (nlohmann::json::iterator itObjectData = itObject->begin(); itObjectData != itObject->end(); ++itObjectData) {
+	//		//各オブジェクトについて
+	//		for (nlohmann::json::iterator itObjectData = itObject->begin(); itObjectData != itObject->end(); ++itObjectData) {
 
-				//アイテム名を取得
-				const std::string& objectName = itObjectData.key();
+	//			//アイテム名を取得
+	//			const std::string& objectName = itObjectData.key();
 
-				//グループを検索
-				nlohmann::json::iterator itData = itObject->find(objectName);
+	//			//グループを検索
+	//			nlohmann::json::iterator itData = itObject->find(objectName);
 
-				//未登録チェック
-				if (itData == itObject->end()) {
-					//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-				}
+	//			//未登録チェック
+	//			if (itData == itObject->end()) {
+	//				//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+	//			}
 
-				//保険
-				assert(itData != itObject->end());
+	//			//保険
+	//			assert(itData != itObject->end());
 
-				Pendulum::Desc desc{};
-				for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
-					//アイテム名を取得
-					const std::string& itemNameObject = itItemObject.key();
+	//			Pendulum::Desc desc{};
+	//			for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
+	//				//アイテム名を取得
+	//				const std::string& itemNameObject = itItemObject.key();
 
-					//要素数3の配列であれば
-					if (itItemObject->is_array() && itItemObject->size() == 3) {
+	//				//要素数3の配列であれば
+	//				if (itItemObject->is_array() && itItemObject->size() == 3) {
 
-						//名前がpositionだった場合、positionを登録
-						if (itemNameObject == "position") {
-							//float型のjson配列登録
-							desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-						//名前がrotationだった場合、rotationを登録
-						else if (itemNameObject == "scale") {
-							//float型のjson配列登録
-							desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-						}
-					}
-					else {
-						if (itemNameObject == "length") {
-							desc.length = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "gravity") {
-							desc.gravity = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "ballScale") {
-							desc.ballScale = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "stickScale") {
-							desc.stickScale = itItemObject->get<float>();
-						}
-					}
-				}
-				pendulumManager_->Create(desc);
-			}
-		}
-	}
+	//					//名前がpositionだった場合、positionを登録
+	//					if (itemNameObject == "position") {
+	//						//float型のjson配列登録
+	//						desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+	//					}
+	//					//名前がrotationだった場合、rotationを登録
+	//					else if (itemNameObject == "scale") {
+	//						//float型のjson配列登録
+	//						desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+	//					}
+	//				}
+	//				else {
+	//					if (itemNameObject == "length") {
+	//						desc.length = itItemObject->get<float>();
+	//					}
+	//					else if (itemNameObject == "gravity") {
+	//						desc.gravity = itItemObject->get<float>();
+	//					}
+	//					else if (itemNameObject == "ballScale") {
+	//						desc.ballScale = itItemObject->get<float>();
+	//					}
+	//					else if (itemNameObject == "stickScale") {
+	//						desc.stickScale = itItemObject->get<float>();
+	//					}
+	//				}
+	//			}
+	//			pendulumManager_->Create(desc);
+	//		}
+	//	}
+	//}
 }
 
 void PendulumEditor::Clear() {

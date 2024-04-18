@@ -66,8 +66,6 @@ void FloorEditor::Update() {
 			model_->SetIsActive(true);
 			collider_->SetIsActive(true);
 			ImGui::DragFloat3("scale", &transform.scale.x, 0.25f);
-			ImGui::DragFloat3("rotate", &rotate_.x, 0.01f);
-			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
 			if (ImGui::Button("Create")) {
 				//floorManager_->Create(transform.scale, rotate_, transform.translate);
@@ -83,23 +81,15 @@ void FloorEditor::Update() {
 		if (ImGui::Checkbox("isCollision", &isCollision)) {
 			collider_->SetIsActive(isCollision);
 		}
-		Vector3 floorScale{}, floorRotate{}, floorPos{};
 		for (uint32_t i = 0; auto & floor : floorManager_->GetFloors()) {
 			if (floor.get() == nullptr) {
 				continue;
 			}
 			if (ImGui::TreeNode(("Floor:" + std::to_string(i)).c_str())) {
-				floorScale = floor->transform.scale;
-				floorRotate = floor->GetRotate();
-				floorPos = floor->GetPosition();
 
-				ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &floorScale.x, 0.1f);
-				ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &floorRotate.x, 0.01f);
-				ImGui::DragFloat3(("position:" + std::to_string(i)).c_str(), &floorPos.x, 1.0f);
+				ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &floor->transform.scale.x, 0.1f);
+				ImGui::DragFloat3(("position:" + std::to_string(i)).c_str(), &floor->transform.translate.x, 1.0f);
 
-				floor->SetScale(floorScale);
-				floor->SetRotate(floorRotate);
-				floor->SetPosition(floorPos);
 				if (ImGui::Button("Delete")) {
 					floorManager_->DeleteFloor(floor.get());
 					ImGui::TreePop();
@@ -118,7 +108,8 @@ void FloorEditor::Update() {
 }
 
 void FloorEditor::SaveFile(uint32_t stageName) {
-	nlohmann::json root;
+	stageName;
+	/*nlohmann::json root;
 
 	root = nlohmann::json::object();
 
@@ -148,7 +139,7 @@ void FloorEditor::SaveFile(uint32_t stageName) {
 
 	file << std::setw(4) << root << std::endl;
 
-	file.close();
+	file.close();*/
 }
 
 void FloorEditor::LoadFile(uint32_t stageName) {

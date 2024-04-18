@@ -15,8 +15,8 @@ void Bar::Initialize(const Desc& desc) {
 	transform.scale = Vector3::one;
 	transform.scale.x = desc.length;
 
-	rotate_ = desc.barInitialAngle;
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	angle_ = desc.barInitialAngle;
+	transform.rotate = Quaternion::MakeForYAxis(angle_);
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
@@ -38,8 +38,8 @@ void Bar::Initialize(const Desc& desc) {
 }
 
 void Bar::Update() {
-	rotate_.y += rotateVelocity_;
-	rotate_.y = std::fmod(rotate_.y, Math::Pi * 2.0f);
+	angle_ += rotateVelocity_;
+	angle_ = std::fmod(angle_, Math::Pi * 2.0f);
 	UpdateTransform();
 }
 
@@ -48,7 +48,7 @@ void Bar::SetDesc(const Desc& desc) {
 
 	transform.scale.x = desc.length;
 
-	rotate_ = desc.barInitialAngle;
+	angle_ = desc.barInitialAngle;
 }
 
 void Bar::SetIsActive(bool flag) {
@@ -57,7 +57,7 @@ void Bar::SetIsActive(bool flag) {
 }
 
 void Bar::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	transform.rotate = Quaternion::MakeForYAxis(angle_);
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;
@@ -78,7 +78,7 @@ void Bar::OnCollision(const CollisionInfo& collisionInfo) {
 void FireBar::Initialize(const Desc& desc) {
 	desc_ = desc;
 
-	transform = desc.transform;
+	StageGimmick::SetDesc(transform,colliderDesc_,desc_.desc);
 
 	model_ = std::make_unique<ModelInstance>();
 
@@ -148,7 +148,7 @@ void FireBar::Update() {
 
 void FireBar::SetDesc(const Desc& desc) {
 	desc_ = desc;
-	transform = desc.transform;
+	StageGimmick::SetDesc(transform, colliderDesc_, desc_.desc);
 
 	bar_->SetDesc(desc.barDesc);
 }
@@ -171,7 +171,6 @@ void FireBar::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void FireBar::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;

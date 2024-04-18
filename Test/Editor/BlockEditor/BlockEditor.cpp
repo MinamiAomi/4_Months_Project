@@ -89,17 +89,10 @@ void BlockEditor::Update() {
 				continue;
 			}
 			if (ImGui::TreeNode(("Block:" + std::to_string(i)).c_str())) {
-				blockScale = block->GetScale();
-				blockRotate = block->GetRotate();
-				blockPos = block->GetPosition();
+				ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &block->transform.scale.x, 0.1f);
+				//ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &block->transform.rotate.x, 0.01f);
+				ImGui::DragFloat3(("position:" + std::to_string(i)).c_str(), &block->transform.translate.x, 1.0f);
 
-				ImGui::DragFloat3(("scale:" + std::to_string(i)).c_str(), &blockScale.x, 0.1f);
-				ImGui::DragFloat3(("rotate:" + std::to_string(i)).c_str(), &blockRotate.x, 0.01f);
-				ImGui::DragFloat3(("position:" + std::to_string(i)).c_str(), &blockPos.x, 1.0f);
-
-				block->SetScale(blockScale);
-				block->SetRotate(blockRotate);
-				block->SetPosition(blockPos);
 				if (ImGui::Button("Delete")) {
 					blockManager_->DeleteBlock(block.get());
 					ImGui::TreePop();
@@ -123,7 +116,8 @@ void BlockEditor::Update() {
 }
 
 void BlockEditor::SaveFile(uint32_t stageName) {
-	nlohmann::json root;
+	stageName;
+	/*nlohmann::json root;
 
 	root = nlohmann::json::object();
 
@@ -153,7 +147,7 @@ void BlockEditor::SaveFile(uint32_t stageName) {
 
 	file << std::setw(4) << root << std::endl;
 
-	file.close();
+	file.close();*/
 }
 
 void BlockEditor::LoadFile(uint32_t stageName) {

@@ -110,19 +110,36 @@ void Ball::OnCollision(const CollisionInfo& collisionInfo) {
 
 void Pendulum::Initialize(const Desc& desc) {
 	desc_ = desc;
+	
 
-	transform.translate = desc_.pos;
+	transform.translate = desc_.desc.transform.translate;
+	transform.rotate = desc_.desc.transform.rotate;
+	transform.scale = desc_.desc.transform.scale;
+
+
 	transform.rotate = Quaternion::MakeForZAxis(desc_.initializeAngle);
 	stick_ = std::make_unique<Stick>();
 	ball_ = std::make_unique<Ball>();
 
 	angularAcceleration_ = 0.0f;
+	angularVelocity_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
-	while (std::fabsf(angle) >= 0.005f) {
-		angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
-		angularVelocity_ += angularAcceleration_;
-		angle += angularVelocity_;
+	if (angle != desc_.initializeAngle) {
+		if (angle > 0) {
+			while (angle >= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
+		else {
+			while (angle <= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
 	}
 	angle_ = desc_.initializeAngle;
 	UpdateTransform();
@@ -151,27 +168,34 @@ void Pendulum::Update() {
 }
 
 void Pendulum::SetDesc(const Desc& desc) {
-	if (desc_.gravity != 0.0f) {
-		desc_ = desc;
-	}
-	else {
-		float gravity = desc_.gravity;
-		desc_ = desc;
-		desc_.gravity = gravity;
-	}
-	transform.translate = desc_.pos;
-	transform.rotate.z = desc_.initializeAngle;
-	angularAcceleration_ = 0.0f;
-	angularVelocity_ = 0.0f;
-	float angle = desc_.angle;
-	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)) {
-		// 速度計算
-		while (std::fabsf(angle - desc_.initializeAngle) >= 0.005f) {
-			angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
-			angularVelocity_ += angularAcceleration_;
-			angle += angularVelocity_;
-		}
+	desc_ = desc;
+	desc_.gravity = 0.002f;
 
+	transform.translate = desc_.desc.transform.translate;
+	transform.rotate = desc_.desc.transform.rotate;
+	transform.scale = desc_.desc.transform.scale;
+
+
+	transform.rotate = Quaternion::MakeForZAxis(desc_.initializeAngle);
+
+	angularAcceleration_ = 0.0f;
+	float angle = desc_.angle;
+	// 速度計算
+	if (angle != desc_.initializeAngle) {
+		if (angle > 0) {
+			while (angle >= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
+		else {
+			while (angle <= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
 	}
 	angle_ = desc_.initializeAngle;
 
