@@ -52,6 +52,10 @@ void GameScene::OnInitialize() {
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
 
+	skyBlockManager_ = std::make_unique<SkyBlockManager>();
+	skyBlockManager_->SetBoss(boss_.get());
+	skyBlockManager_->Initialize();
+
 	editorManager_->SetPlayer(player_.get());
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
@@ -63,6 +67,7 @@ void GameScene::OnUpdate() {
 
 	blockManager_->Update();
 	stageBlockManager_->Update();
+	skyBlockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();
