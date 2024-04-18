@@ -39,7 +39,7 @@ void Stick::Update() {
 void Stick::SetDesc(float length, float scale) {
 	length;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	transform.scale = { scale , length/ modelSize.y,scale };
+	transform.scale = { scale , length / modelSize.y,scale };
 	UpdateTransform();
 }
 
@@ -140,7 +140,7 @@ void Pendulum::Update() {
 	ball_->Update();
 	stick_->Update();
 	// 雑カリング
-	if (std::fabs((camera_ ->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
 		ball_->SetIsActive(true);
 		stick_->SetIsActive(true);
 	}
@@ -151,7 +151,7 @@ void Pendulum::Update() {
 }
 
 void Pendulum::SetDesc(const Desc& desc) {
-	if (desc_.gravity!=0.0f) {
+	if (desc_.gravity != 0.0f) {
 		desc_ = desc;
 	}
 	else {
