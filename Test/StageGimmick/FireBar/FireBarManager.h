@@ -22,8 +22,11 @@ public:
 	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
+
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	const Player* player_;
+	const Camera* camera_;
 
 	std::list<std::unique_ptr<FireBar>> fireBars_;
 };

@@ -91,6 +91,9 @@
     <Filter Include="Game\Object\Editor\BossAttackTrigger">
       <UniqueIdentifier>{376e4724-e1d7-4558-8e5e-4b348e17e866}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\SkyBlock">
+      <UniqueIdentifier>{144f9b85-2cef-4e65-a723-91cd7de5a0e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -216,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>Game\Object\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBlock.cpp">
+      <Filter>Game\Object\SkyBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBlockManager.cpp">
+      <Filter>Game\Object\SkyBlock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -345,6 +354,15 @@
     </ClInclude>
     <ClInclude Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.h">
       <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\StageGimmick.h">
+      <Filter>Game\Object\StageGimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBlock.h">
+      <Filter>Game\Object\SkyBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBlockManager.h">
+      <Filter>Game\Object\SkyBlock</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
