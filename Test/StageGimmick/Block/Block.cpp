@@ -5,19 +5,17 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
+const std::string Block::kModelName = "block";
 
-void Block::Initialize(const StageGimmick::Desc& desc) {
+void Block::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = desc.transform.scale;
-	rotate_ = desc.transform.rotate;
-	transform.translate = desc.transform.translate;
-
-	colliderDesc_ = desc.collider;
-
+	transform.scale = desc.scale;
+	rotate_ = desc.rotate;
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
+	transform.translate = desc.translate;
 
-	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.name));
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
 
 	onPlayer_ = false;
@@ -27,9 +25,10 @@ void Block::Initialize(const StageGimmick::Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Block");
-	collider_->SetCenter(colliderDesc_.center * transform.worldMatrix);
-	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
-	collider_->SetSize(colliderDesc_.size);
+	collider_->SetCenter(transform.translate);
+	collider_->SetOrientation(transform.rotate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
@@ -45,7 +44,7 @@ void Block::Update() {
 	}
 	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
 	// 雑カリング
-	if (std::fabs((camera_->GetPosition()- transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 	}
@@ -60,9 +59,13 @@ void Block::Update() {
 void Block::UpdateTransform() {
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
-	collider_->SetCenter(colliderDesc_.center);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));	
-	collider_->SetSize(colliderDesc_.size);
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
