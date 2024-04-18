@@ -29,7 +29,7 @@ void FloorEditor::Initialize() {
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 #ifdef _DEBUG
-	model_->SetIsActive(true); 
+	model_->SetIsActive(false); 
 #else
 	model_->SetIsActive(false); 
 #endif // _DEBUG
@@ -47,7 +47,7 @@ void FloorEditor::Initialize() {
 	collider_->SetCollisionMask(~CollisionAttribute::Floor);
 	
 #ifdef _DEBUG
-	collider_->SetIsActive(true);
+	collider_->SetIsActive(false);
 #else
 	collider_->SetIsActive(false);
 #endif // _DEBUG

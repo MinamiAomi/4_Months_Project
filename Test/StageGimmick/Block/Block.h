@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <optional>
 
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
@@ -37,7 +38,7 @@ private:
 
 	std::unique_ptr<BoxCollider> collider_;
 
-	StageGimmick::Collider colliderDesc_;
+	std::optional<StageGimmick::Collider> colliderDesc_;
 
 	Vector3 rotate_;
 

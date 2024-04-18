@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <optional>
 
 #include "Engine/Math/MathUtils.h"
+
+#include "Externals/nlohmann/json.hpp"
 
 namespace StageGimmick {
 	struct Collider {
@@ -17,10 +20,12 @@ namespace StageGimmick {
 	};
 
 	struct Desc {
-		Collider collider;
+		std::optional<Collider> collider;
 		Transform transform;
 		std::string name;
 	};
 
 	static const std::string stageScenePath_ = "Resources/Data/StageScene/stageScene.json";
+
+	Desc GetDesc(const nlohmann::json& json);
 }

@@ -18,6 +18,7 @@ void GameScene::OnInitialize() {
 	fireBarManager_ = std::make_unique<FireBarManager>();
 	floorManager_ = std::make_unique<FloorManager>();
 	pendulumManager_ = std::make_unique<PendulumManager>();
+	stageObjectManager_ = std::make_unique<StageObjectManager>();
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
@@ -32,11 +33,14 @@ void GameScene::OnInitialize() {
 	floorManager_->SetPlayer(player_.get());
 	pendulumManager_->SetCamera(cameraManager_->GetCamera().get());
 	pendulumManager_->SetPlayer(player_.get());
+	stageObjectManager_->SetCamara(cameraManager_->GetCamera().get());
+	stageObjectManager_->SetPlayer(player_.get());
 
 	blockManager_->Initialize(0);
 	fireBarManager_->Initialize(0);
 	floorManager_->Initialize(0);
 	pendulumManager_->Initialize(0);
+	stageObjectManager_->Initialize(0);
 
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
@@ -71,6 +75,7 @@ void GameScene::OnUpdate() {
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();
+	stageObjectManager_->Update();
 	editorManager_->Update();
 
 

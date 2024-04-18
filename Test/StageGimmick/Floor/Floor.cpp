@@ -22,14 +22,12 @@ void Floor::Initialize(const StageGimmick::Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Floor");
-	collider_->SetCenter(colliderDesc_.center);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
-	//Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	//collider_->SetSize({ modelSize.x * (colliderDesc_.size.x * 0.5f) ,modelSize.y * (colliderDesc_.size.y * 0.5f) ,modelSize.z * (colliderDesc_.size.z * 0.5f) });
-	collider_->SetSize(colliderDesc_.size);
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_->rotate));
+	collider_->SetSize(colliderDesc_->size);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::Block);
-	collider_->SetCollisionMask(~CollisionAttribute::Block);
+	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
+	collider_->SetCollisionMask(~CollisionAttribute::Floor);
 	collider_->SetIsActive(true);
 #pragma endregion
 }
@@ -51,9 +49,9 @@ void Floor::Update() {
 void Floor::UpdateTransform() {
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
-	collider_->SetCenter(colliderDesc_.center);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
-	collider_->SetSize(colliderDesc_.size); 
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_->rotate));
+	collider_->SetSize(colliderDesc_->size);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 

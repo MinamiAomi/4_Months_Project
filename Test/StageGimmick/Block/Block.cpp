@@ -27,9 +27,9 @@ void Block::Initialize(const StageGimmick::Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Block");
-	collider_->SetCenter(colliderDesc_.center * transform.worldMatrix);
-	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
-	collider_->SetSize(colliderDesc_.size);
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_->rotate));
+	collider_->SetSize(colliderDesc_->size);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
@@ -60,9 +60,9 @@ void Block::Update() {
 void Block::UpdateTransform() {
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
-	collider_->SetCenter(colliderDesc_.center);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
-	collider_->SetSize(colliderDesc_.size);
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * Quaternion::MakeFromEulerAngle(colliderDesc_->rotate));
+	collider_->SetSize(colliderDesc_->size);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
