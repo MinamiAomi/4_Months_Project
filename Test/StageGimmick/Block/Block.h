@@ -21,6 +21,7 @@ public:
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetScale(const Vector3& scale) { transform.scale = scale; }
 	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
 	void SetPosition(const Vector3& pos) { transform.translate = pos; }
@@ -34,6 +35,7 @@ private:
 	static const std::string kModelName;
 
 	const Player* player_;
+	const Camera* camera_;
 
 	std::unique_ptr<ModelInstance> model_;
 

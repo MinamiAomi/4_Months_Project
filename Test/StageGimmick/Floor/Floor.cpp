@@ -37,7 +37,7 @@ void Floor::Initialize(const StageGimmick::Desc& desc) {
 void Floor::Update() {
 	// 雑カリング
 	// こいつだけいっぱいのバス
-	if (std::fabs((camera_ ->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 	}

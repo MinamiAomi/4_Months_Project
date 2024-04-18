@@ -24,7 +24,7 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
-	//blockManager_->SetCamara(cameraManager_->GetCamera().get());
+	blockManager_->SetCamera(cameraManager_->GetCamera().get());
 	blockManager_->SetPlayer(player_.get());
 	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
 	fireBarManager_->SetPlayer(player_.get());
