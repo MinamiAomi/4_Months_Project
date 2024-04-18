@@ -85,6 +85,12 @@
     <Filter Include="Game\Object\StageBlock">
       <UniqueIdentifier>{80dcf1f5-0d17-4c3a-8b94-e8c8d6557534}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\BossAttackTriggerManager">
+      <UniqueIdentifier>{cd5d9808-5672-4165-a254-8da543bd62f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Editor\BossAttackTrigger">
+      <UniqueIdentifier>{376e4724-e1d7-4558-8e5e-4b348e17e866}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -198,6 +204,15 @@
     </ClCompile>
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp">
       <Filter>Game\Object\Boss\BossStateManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp">
+      <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.cpp">
+      <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp">
+      <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>Game\Object\Skydome</Filter>
@@ -321,6 +336,15 @@
     </ClInclude>
     <ClInclude Include="StageBlock.h">
       <Filter>Game\Object\StageBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.h">
+      <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTrigger.h">
+      <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.h">
+      <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

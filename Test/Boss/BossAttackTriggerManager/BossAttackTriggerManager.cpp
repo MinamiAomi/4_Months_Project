@@ -1,49 +1,44 @@
-#include "PendulumManager.h"
+#include "BossAttackTriggerManager.h"
 
-#include <cassert>
-#include <filesystem>
 #include <fstream>
-
 
 #include "Externals/nlohmann/json.hpp"
 
-void PendulumManager::Initialize(uint32_t stageIndex) {
-	Clear();
-	LoadJson(stageIndex);
+void BossAttackTriggerManager::Initialize() {
+	bossAttackTriggers_.clear();
 }
 
-void PendulumManager::Update() {
-	for (auto& pendulum : pendulums_) {
-		pendulum->Update();
+void BossAttackTriggerManager::Update() {
+	for (auto& trigger : bossAttackTriggers_) {
+		trigger->Update();
 	}
 }
 
-void PendulumManager::Reset(uint32_t stageIndex) {
-	Clear();
-	LoadJson(stageIndex);
+void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc) {
+	BossAttackTrigger* bossAttackTrigger = new BossAttackTrigger();
+	bossAttackTrigger->SetBoss(boss_);
+	bossAttackTrigger->Initialize(desc);
+	bossAttackTriggers_.emplace_back(std::move(bossAttackTrigger));
 }
 
-void PendulumManager::Create(Pendulum::Desc desc) {
-	Pendulum* pendulum = new Pendulum();
-	pendulum->SetPlayer(player_);
-	pendulum->Initialize(desc);
-	pendulums_.emplace_back(std::move(pendulum));
-}
-
-void PendulumManager::DeletePendulum(Pendulum* block) {
-	// block がリスト内に存在するかを確認し、存在する場合はそのイテレータを取得する
-	auto it = std::find_if(pendulums_.begin(), pendulums_.end(), [block](const auto& ptr) {
-		return ptr.get() == block;
+void BossAttackTriggerManager::Delete(BossAttackTrigger* bossAttackTrigger) {
+	// bossAttackTriggers_ がリスト内に存在するかを確認し、存在する場合はそのイテレータを取得する
+	auto it = std::find_if(bossAttackTriggers_.begin(), bossAttackTriggers_.end(), [bossAttackTrigger](const auto& ptr) {
+		return ptr.get() == bossAttackTrigger;
 		});
 
 	// block が見つかった場合は削除する
-	if (it != pendulums_.end()) {
-		pendulums_.erase(it);
+	if (it != bossAttackTriggers_.end()) {
+		bossAttackTriggers_.erase(it);
 	}
 }
 
-void PendulumManager::LoadJson(uint32_t stageIndex) {
-	const std::filesystem::path kDirectoryPath = "Resources/Data/Pendulum/" + std::to_string(stageIndex);
+void BossAttackTriggerManager::Clear() {
+	bossAttackTriggers_.clear();
+}
+
+void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
+	const std::filesystem::path kDirectoryPath = "Resources/Data/Boss/BossTrigger/" + std::to_string(stageIndex);
 	//読み込むJSONファイルのフルパスを合成する
 	std::string filePath = kDirectoryPath.string() + ".json";
 	//読み込み用ファイルストリーム
@@ -103,48 +98,30 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 
 				//保険
 				assert(itData != itObject->end());
-				if (objectName.find("Pendulum") != std::string::npos) {
-					Pendulum::Desc desc{};
+				if (objectName.find("Trigger") != std::string::npos) {
+					BossAttackTrigger::Desc desc{};
 					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 						//アイテム名を取得
 						const std::string& itemNameObject = itItemObject.key();
-
-						//要素数3の配列であれば
-						if (itItemObject->is_array() && itItemObject->size() == 3) {
-
-							//名前がpositionだった場合、positionを登録
-							if (itemNameObject == "position") {
-								//float型のjson配列登録
-								desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "scale") {
-								//float型のjson配列登録
-								desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
+						if (itemNameObject == "pos") {
+							desc.pos = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "state") {
+							switch (itItemObject->get<int>()) {
+							case 0:
+								desc.state = BossStateManager::kRoot;
+								break;
+							case 1:
+								desc.state = BossStateManager::kHook;
+								break;
+							default:
+								break;
 							}
 						}
-						else {
-							if (itemNameObject == "length") {
-								desc.length = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "gravity") {
-								desc.gravity = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "ballScale") {
-								desc.ballScale = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "stickScale") {
-								desc.stickScale = itItemObject->get<float>();
-							}
-						}
+						Create(desc);
 					}
-					Create(desc);
 				}
 			}
 		}
 	}
-}
-
-void PendulumManager::Clear() {
-	pendulums_.clear();
 }

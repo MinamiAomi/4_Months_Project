@@ -24,7 +24,7 @@ void BulletManager::Initialize() {
 void BulletManager::Update(const Vector3& pos) {
 	if (characterState_==Character::State::kChase &&
 		canCreateBullet_ &&
-		(Input::GetInstance()->IsKeyPressed(DIK_LSHIFT) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
+		(Input::GetInstance()->IsKeyPressed(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
 		isCreateBullet_ = true;
 		canCreateBullet_ = false;
 		bulletCount_ = 0;

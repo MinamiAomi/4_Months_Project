@@ -27,6 +27,9 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("bossBody", Model::Load("Resources/Boss/Body/boss.gltf"));
 	resourceManager->AddModel("bossRightArm", Model::Load("Resources/Boss/RightArm/rightArm.gltf"));
 	resourceManager->AddModel("bossLeftArm", Model::Load("Resources/Boss/LeftArm/leftArm.gltf"));
+	resourceManager->AddModel("bossFloorAll", Model::Load("Resources/Boss/FloorAll/floorAll.obj"));
+	resourceManager->AddModel("bossLongDistanceAttack", Model::Load("Resources/Boss/LongDistanceAttack/longDistanceAttack.obj"));
+
 	resourceManager->AddModel("floor", Model::Load("Resources/Floor/floor.gltf"));
 	resourceManager->AddModel("player", Model::Load("Resources/Player/player.gltf"));
 	resourceManager->AddModel("block", Model::Load("Resources/Block/Block.gltf"));
@@ -34,6 +37,8 @@ void Test::OnInitialize() {
 	resourceManager->AddModel("lightline", Model::Load("Resources/LightLine/lightline.gltf"));
 	resourceManager->AddModel("fireBarBar", Model::Load("Resources/FireBar/Bar/bar.gltf"));
 	resourceManager->AddModel("fireBarCenter", Model::Load("Resources/FireBar/Center/center.gltf"));
+	resourceManager->AddModel("ball", Model::Load("Resources/Pendulum/Ball/ball.gltf"));
+	resourceManager->AddModel("stick", Model::Load("Resources/Pendulum/Stick/stick.gltf"));
 	resourceManager->AddModel("box", Model::Load("Resources/Box/box1x1.obj"));
 }
 

@@ -15,11 +15,19 @@ void Boss::Initialize() {
 	JSON_CLOSE();
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform);
+	// 隠す
+	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
+	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
 	isMove_ = true;
 
 	state_ = std::make_unique<BossStateManager>(*this);
 	state_->Initialize();
 	state_->ChangeState<BossStateRoot>();
+
+	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
+	bossAttackTriggerManager_->SetBoss(this);
+	bossAttackTriggerManager_->Initialize();
+
 	Reset();
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -53,14 +61,15 @@ void Boss::Update() {
 	}
 	ImGui::End();
 #endif // _DEBUG
-	time_ -= 1.0f;
+	/*time_ -= 1.0f;
 	if (time_ <= 0.0f) {
 		state_->ChangeState<BossStateAttack>();
 		time_ = interval_;
-	}
+	}*/
 	state_->Update();
 	UpdateTransform();
 	bossModelManager_->Update();
+	bossAttackTriggerManager_->Update();
 }
 
 void Boss::Reset() {

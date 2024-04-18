@@ -21,6 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boss\Boss.cpp" />
+    <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp" />
+    <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp" />
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
@@ -29,6 +31,7 @@
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DecorationModel.cpp" />
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
+    <ClCompile Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.cpp" />
     <ClCompile Include="Editor\EditorManager.cpp" />
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
     <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp" />
@@ -62,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss\Boss.h" />
+    <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTrigger.h" />
+    <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.h" />
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
@@ -71,6 +76,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DecorationModel.h" />
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />
+    <ClInclude Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.h" />
     <ClInclude Include="Editor\EditorManager.h" />
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
     <ClInclude Include="Editor\FloorEditor\FloorEditor.h" />

@@ -13,6 +13,8 @@ namespace BossParts {
 		kBody,
 		kRightArm,
 		kLeftArm,
+		kFloorAll,
+		kLongDistanceAttack,
 
 		kCount,
 	};
@@ -26,7 +28,15 @@ public:
 	void Update();
 
 	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
+	const Vector3& GetRotate() const { return rotate_; }
 	const Vector3& GetOffset()const { return offset_; }
+	void SetColliderIsAlive(bool flag) { collider_->SetIsActive(flag); }
+	void SetModelIsAlive(bool flag) { model_->SetIsActive(flag); }
+	void SetIsAlive(bool flag) { 
+		SetColliderIsAlive(flag);
+		SetModelIsAlive(flag);
+	}
+	const std::unique_ptr<ModelInstance>& GetModel()const { return model_; }
 private:
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
 	void UpdateTransform();
@@ -50,6 +60,16 @@ private:
 };
 
 class LeftArm :public BossModel {
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+};
+
+class FloorAll :public BossModel {
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+};
+
+class LongDistanceAttack :public BossModel {
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
