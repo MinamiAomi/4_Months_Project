@@ -1,3 +1,4 @@
+#define USE_INSTANCING
 #include "GeometryPass.hlsli"
 
 struct VSInput {
@@ -57,7 +58,7 @@ VSOutput main(VSInput input) {
     Instance instance = g_Instance;
 #else
     Instance instance = g_Instances[input.instanceId + g_InstanceOffset.offset];
-    output.instanceId = instanceId;
+    output.instanceId = input.instanceId;
 #endif
     
     float4 worldPosition = mul(localPosition, instance.worldMatrix);

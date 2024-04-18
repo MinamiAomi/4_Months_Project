@@ -694,6 +694,12 @@
     <None Include="Graphics\Shader\App\SkyPS.hlsl">
       <Filter>Graphics\Shader\App</Filter>
     </None>
+    <None Include="Graphics\Shader\Standard\GeometryPassInstancingVS.hlsl">
+      <Filter>Graphics\Shader\Standard</Filter>
+    </None>
+    <None Include="Graphics\Shader\Standard\GeometryPassInstancingPS.hlsl">
+      <Filter>Graphics\Shader\Standard</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
