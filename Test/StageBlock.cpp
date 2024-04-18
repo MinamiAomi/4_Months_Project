@@ -30,8 +30,15 @@ void StageBlock::Initialize(const Vector3& pos, const Vector3& direction) {
 void StageBlock::Update() {
 	appearFrame_--;
 	if (appearFrame_ >= 0) {
-	//	transform.rotate = Quaternion::MakeForYAxis( 6.0f * Math::ToRadian) * transform.rotate;
-		transform.translate += transform.rotate * Vector3{0.0f,1.0f,0.0f} * 0.4f ;
+		if (static_cast<int>(transform.translate.z) % 2 == 0) {
+			transform.rotate = Quaternion::MakeFromAngleAxis(5.0f * Math::ToRadian, direction_) * transform.rotate;
+			transform.translate += direction_ * 0.6f;
+		}
+		else {
+			transform.rotate = Quaternion::MakeFromAngleAxis(-4.0f * Math::ToRadian, direction_) * transform.rotate;
+			transform.translate += direction_ * 0.6f;
+		}
+
 	}
 	if (boss_) {
 		float distance = (boss_->transform.worldMatrix.GetTranslate() - transform.translate).Length();

@@ -2,14 +2,23 @@
 
 #include "../Core/Helper.h"
 #include "../Core/ShaderManager.h"
-
+#include "File/JsonHelper.h"
+#include "Graphics/ImGuiManager.h"
 namespace {
     const wchar_t kVertexShader[] = L"App/SkyVS.hlsl";
     const wchar_t kPixelShader[] = L"App/SkyPS.hlsl";
 }
 
 void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
-
+#pragma region パラメーター
+    JSON_OPEN("Resources/Data/Sky/Sky.json");
+    JSON_OBJECT("Sky");
+    JSON_LOAD(topColor_);
+    JSON_LOAD(bottomColor_);
+    JSON_LOAD(oppositionTopColor_);
+    JSON_LOAD(oppositionBottomColor_);
+    JSON_CLOSE();
+#pragma endregion
     CD3DX12_DESCRIPTOR_RANGE range{};
     range.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
@@ -63,9 +72,12 @@ void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
     pipelineState_.Create(L"SkyRenderer PipelineState", pipelineStateDesc);
 
     voronoi_.Initialize(1024, 1024, 60000);
+    saveState_ = characterState_;
 }
 
 void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, Matrix4x4 worldMatrix) {
+
+    DebugParam();
 
     struct Scene {
         Matrix4x4 viewMatrix;
@@ -91,8 +103,28 @@ void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, M
     scene.projectionMatrix = camera.GetProjectionMatrix();
     scene.worldMatrix = worldMatrix;
     scene.worldInverseTransposeMatrix = worldMatrix.Inverse().Transpose();
-    scene.topColor = topColor_;
-    scene.bottomColor = bottomColor_;
+    //遷移
+    if (saveState_ != characterState_) {
+        if (characterState_ == Character::kChase) {
+            //反撃になったら
+            t_ += speed_;
+            t_ = std::clamp(t_, 0.0f, 1.0f);
+            if (t_ >= 1.0f) {
+                saveState_ = characterState_;
+            }
+        }
+        else {
+            //逃げる側になったら
+            t_ -= speed_;
+            t_ = std::clamp(t_, 0.0f, 1.0f);
+            if (t_ <= 0.0f) {
+                saveState_ = characterState_;
+            }
+        }
+    }
+
+    scene.topColor = Vector3::Lerp(t_, topColor_, oppositionTopColor_);
+    scene.bottomColor = Vector3::Lerp(t_, bottomColor_, oppositionBottomColor_);
 
     commandContext.SetDynamicConstantBufferView(0, sizeof(scene), &scene);
     commandContext.SetDescriptorTable(1, voronoi_.Get().GetSRV());
@@ -162,4 +194,27 @@ void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, M
 
     commandContext.SetDynamicVertexBuffer(0, vertices.size(), sizeof(Vertex), vertices.data());
     commandContext.Draw((UINT)vertices.size());
+}
+
+void SkyRenderer::DebugParam()
+{
+    ImGui::Begin("Editor");
+    if (ImGui::BeginMenu("Sky")) {
+        ImGui::DragFloat3("topColor", &topColor_.x,0.01f,0.0f,1.0f);
+        ImGui::DragFloat3("bottomColor", &bottomColor_.x, 0.01f, 0.0f, 1.0f);
+        ImGui::DragFloat3("oppositionTopColor_", &oppositionTopColor_.x, 0.01f, 0.0f, 1.0f);
+        ImGui::DragFloat3("oppositionBottomColor_", &oppositionBottomColor_.x, 0.01f, 0.0f, 1.0f);
+       
+        if (ImGui::Button("Save")) {
+            JSON_OPEN("Resources/Data/Sky/Sky.json");
+            JSON_OBJECT("Sky");
+            JSON_SAVE(topColor_);
+            JSON_SAVE(bottomColor_);
+            JSON_SAVE(oppositionTopColor_);
+            JSON_SAVE(oppositionBottomColor_);
+            JSON_CLOSE();
+        }
+        ImGui::EndMenu();
+    }
+    ImGui::End();
 }
