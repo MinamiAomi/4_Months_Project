@@ -8,6 +8,7 @@
 #include "Graphics/Model.h"
 #include "Engine/Math/MathUtils.h"
 #include "Player/Player.h"
+#include "Math/Camera.h"
 
 // バーとブロックで分けた
 class Bar :
@@ -66,9 +67,13 @@ public:
 
 	const Vector3& GetRotate() const { return rotate_; }
 	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
+
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 	void UpdateTransform();
+
+	const Camera* camera_;
 	const Player* player_;
 
 	std::unique_ptr<ModelInstance> model_;

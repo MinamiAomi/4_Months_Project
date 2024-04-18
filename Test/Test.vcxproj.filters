@@ -355,6 +355,9 @@
     <ClInclude Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.h">
       <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
     </ClInclude>
+    <ClInclude Include="StageGimmick\StageGimmick.h">
+      <Filter>Game\Object\StageGimmick</Filter>
+    </ClInclude>
     <ClInclude Include="SkyBlock.h">
       <Filter>Game\Object\SkyBlock</Filter>
     </ClInclude>

@@ -23,7 +23,9 @@ public:
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetCamera(const Camera* camera) { camera_= camera; }
 private:
+	const Camera* camera_;
 	const Player* player_;
 	const Boss* boss_;
 

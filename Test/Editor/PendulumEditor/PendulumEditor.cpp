@@ -28,6 +28,7 @@ void PendulumEditor::Initialize() {
 	desc.initializeAngle = desc.angle;
 	desc.ballScale = 1.0f;
 	desc.stickScale = 1.0f;
+	pendulum_->SetCamera(camera_);
 	pendulum_->SetPlayer(player_);
 	pendulum_->Initialize(desc);
 #

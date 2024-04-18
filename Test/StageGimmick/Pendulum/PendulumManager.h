@@ -22,7 +22,10 @@ public:
 	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
+
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
+	const Camera* camera_;
 	const Player* player_;
 	std::list<std::unique_ptr<Pendulum>> pendulums_;
 };

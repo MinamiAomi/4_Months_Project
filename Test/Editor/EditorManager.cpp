@@ -25,9 +25,11 @@ void EditorManager::Initialize(
 	bossAttackTriggerEditor_->SetBossAttackTriggerManager(bossAttackTriggerManager);
 
 	blockEditor_->Initialize();
+	fireBarEditor_->SetCamera(camera_);
 	fireBarEditor_->SetPlayer(player_);
 	fireBarEditor_->Initialize();
 	floorEditor_->Initialize();
+	pendulumEditor_->SetCamera(camera_);
 	pendulumEditor_->SetPlayer(player_);
 	pendulumEditor_->Initialize();
 	bossAttackTriggerEditor_->SetBoss(boss_);
