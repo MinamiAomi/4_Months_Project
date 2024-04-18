@@ -1,5 +1,8 @@
 #include "GeometryRenderingPass.h"
 
+#include <unordered_map>
+#include <span>
+
 #include "Core/Helper.h"
 #include "Core/Graphics.h"
 #include "Core/ShaderManager.h"
@@ -11,7 +14,9 @@
 
 namespace {
     const wchar_t kVertexShader[] = L"Standard/GeometryPassVS.hlsl";
+    const wchar_t kInstancingVertexShader[] = L"Standard/GeometryPassInstancingVS.hlsl";
     const wchar_t kPixelShader[] = L"Standard/GeometryPassPS.hlsl";
+    const wchar_t kInstancingPixelShader[] = L"Standard/GeometryPassInstancingPS.hlsl";
 }
 
 void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
@@ -31,11 +36,15 @@ void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
     {
         CD3DX12_DESCRIPTOR_RANGE srvRange{};
         srvRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, BINDLESS_RESOURCE_MAX, 0, 1);
+        CD3DX12_DESCRIPTOR_RANGE instancingSRVRange{};
+        instancingSRVRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
 
         CD3DX12_ROOT_PARAMETER rootParameters[RootIndex::NumRootParameters]{};
         rootParameters[RootIndex::Scene].InitAsConstantBufferView(0);
         rootParameters[RootIndex::Instance].InitAsConstantBufferView(1);
-        rootParameters[RootIndex::Material].InitAsConstantBufferView(2);
+        rootParameters[RootIndex::Instances].InitAsDescriptorTable(1, &instancingSRVRange);
+        rootParameters[RootIndex::InstanceOffset].InitAsConstants(1, 2);
+        rootParameters[RootIndex::Material].InitAsConstantBufferView(3);
         rootParameters[RootIndex::BindlessTexture].InitAsDescriptorTable(1, &srvRange);
 
         CD3DX12_STATIC_SAMPLER_DESC staticSamplerDesc[1]{};
@@ -83,6 +92,12 @@ void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
         pipelineStateDesc.SampleDesc.Count = 1;
 
         pipelineState_.Create(L"GeometryRenderingPass PipelineState", pipelineStateDesc);
+
+        vs = shaderManager->Compile(kInstancingVertexShader, ShaderManager::kVertex);
+        ps = shaderManager->Compile(kInstancingPixelShader, ShaderManager::kPixel);
+        pipelineStateDesc.VS = CD3DX12_SHADER_BYTECODE(vs->GetBufferPointer(), vs->GetBufferSize());
+        pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(ps->GetBufferPointer(), ps->GetBufferSize());
+        instancingPipelineState_.Create(L"GeometryRenderingPass InstancingPipelineState", pipelineStateDesc);
     }
 
 }
@@ -125,6 +140,43 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         return materialData;
     };
 
+
+    // インスタンスをモデルごとに分けてインスタンシング用のバッファに送る
+    auto& instanceList = ModelInstance::GetInstanceList();
+
+    std::unordered_map<Model*, std::vector<ModelInstance*>> drawMap;
+    uint32_t drawCount = 0;
+    // モデルごとに分ける
+    for (const auto& instance : instanceList) {
+        // アクティブかつモデルありのみ描画
+        if (!instance->IsActive() || !instance->GetModel()) { continue; }
+        auto model = instance->GetModel().get();
+        drawMap[model].emplace_back(instance);
+        ++drawCount;
+    }
+    // Uploadバッファを割り当てる
+    size_t allocateBufferSize = sizeof(InstanceData) * drawCount;
+    auto alloc = commandContext.AllocateDynamicBuffer(LinearAllocatorType::Upload, allocateBufferSize);
+    std::span<InstanceData> instancesData = { static_cast<InstanceData*>(alloc.cpu), drawCount };
+    drawCount = 0;
+    // Uploadバッファを埋める
+    for (auto& [model, instances] : drawMap) {
+        for (auto instance : instances) {
+            instancesData[drawCount].worldMatrix = instance->GetWorldMatrix();
+            instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix.Inverse().Transpose();
+            instancesData[drawCount].useLighting = instance->UseLighting();
+            ++drawCount;
+        }
+    }
+
+    // 現状のインスタンシングのバッファじゃ足りないので再生成
+    if (allocateBufferSize > instancingBuffer_.GetBufferSize()) {
+        instancingBuffer_.Create(L"GeoemtryPass InstancingBuffer", drawCount, sizeof(InstanceData));
+    }
+    // Uploadバッファからコピー
+    commandContext.CopyBufferRegion(instancingBuffer_, 0, alloc.resource, alloc.offset, allocateBufferSize);
+    commandContext.TransitionResource(instancingBuffer_, D3D12_RESOURCE_STATE_GENERIC_READ);
+
     commandContext.TransitionResource(albedo_, D3D12_RESOURCE_STATE_RENDER_TARGET);
     commandContext.TransitionResource(metallicRoughness_, D3D12_RESOURCE_STATE_RENDER_TARGET);
     commandContext.TransitionResource(normal_, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -143,7 +195,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     commandContext.SetRenderTargets(_countof(rtvs), rtvs, depth_.GetDSV());
     commandContext.SetViewportAndScissorRect(0, 0, albedo_.GetWidth(), albedo_.GetHeight());
     commandContext.SetRootSignature(rootSignature_);
-    commandContext.SetPipelineState(pipelineState_);
+    commandContext.SetPipelineState(instancingPipelineState_);
     commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     SceneData sceneData;
@@ -153,19 +205,14 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     commandContext.SetDynamicConstantBufferView(RootIndex::Scene, sizeof(sceneData), &sceneData);
 
     commandContext.SetBindlessResource(RootIndex::BindlessTexture);
+    commandContext.SetDescriptorTable(RootIndex::Instances, instancingBuffer_.GetSRV());
 
-    auto& instances = ModelInstance::GetInstanceList();
-    for (auto const instance : instances) {
-        // アクティブかつモデルありのみ描画
-        if (!instance->IsActive() || !instance->GetModel()) { continue; }
+    uint32_t instanceOffset = 0;
+    for (auto& [model, instances] : drawMap) {
 
-        InstanceData instanceData;
-        instanceData.worldMatrix = instance->GetWorldMatrix();
-        instanceData.worldInverseTransposeMatrix = instance->GetWorldMatrix().Inverse().Transpose();
-        instanceData.useLighting = instance->UseLighting() ? 1 : 0;
-        commandContext.SetDynamicConstantBufferView(RootIndex::Instance, sizeof(instanceData), &instanceData);
+        commandContext.SetConstants(RootIndex::InstanceOffset, instanceOffset);
 
-        for (auto& mesh : instance->GetModel()->GetMeshes()) {
+        for (auto& mesh : model->GetMeshes()) {
             MaterialData materialData = ErrorMaterial();
             if (mesh.material) {
                 materialData.albedo = mesh.material->albedo;
@@ -179,7 +226,38 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
 
             commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView());
             commandContext.SetIndexBuffer(mesh.indexBuffer.GetIndexBufferView());
-            commandContext.DrawIndexed((UINT)mesh.indices.size());
+            commandContext.DrawIndexedInstanced((UINT)mesh.indices.size(), (UINT)instances.size());
         }
+
+        instanceOffset += static_cast<uint32_t>(instances.size());
     }
+
+
+    //for (auto const instance : instances) {
+    //    // アクティブかつモデルありのみ描画
+    //    if (!instance->IsActive() || !instance->GetModel()) { continue; }
+
+    //    InstanceData instanceData;
+    //    instanceData.worldMatrix = instance->GetWorldMatrix();
+    //    instanceData.worldInverseTransposeMatrix = instance->GetWorldMatrix().Inverse().Transpose();
+    //    instanceData.useLighting = instance->UseLighting() ? 1 : 0;
+    //    commandContext.SetDynamicConstantBufferView(RootIndex::Instance, sizeof(instanceData), &instanceData);
+
+    //    for (auto& mesh : instance->GetModel()->GetMeshes()) {
+    //        MaterialData materialData = ErrorMaterial();
+    //        if (mesh.material) {
+    //            materialData.albedo = mesh.material->albedo;
+    //            materialData.metallic = mesh.material->metallic;
+    //            materialData.roughness = mesh.material->roughness;
+    //            if (mesh.material->albedoMap) { materialData.albedoMapIndex = mesh.material->albedoMap->GetSRV().GetIndex(); }
+    //            if (mesh.material->metallicRoughnessMap) { materialData.metallicRoughnessMapIndex = mesh.material->metallicRoughnessMap->GetSRV().GetIndex(); }
+    //            if (mesh.material->normalMap) { materialData.normalMapIndex = mesh.material->normalMap->GetSRV().GetIndex(); }
+    //        }
+    //        commandContext.SetDynamicConstantBufferView(RootIndex::Material, sizeof(materialData), &materialData);
+
+    //        commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView());
+    //        commandContext.SetIndexBuffer(mesh.indexBuffer.GetIndexBufferView());
+    //        commandContext.DrawIndexed((UINT)mesh.indices.size());
+    //    }
+    //}
 }

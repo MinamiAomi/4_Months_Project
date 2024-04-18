@@ -70,7 +70,7 @@ void BlockEditor::Update() {
 			transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 			ImGui::DragFloat3("position", &transform.translate.x, 0.25f);
 			if (ImGui::Button("Create")) {
-				//blockManager_->Create(transform.scale, rotate_, transform.translate);
+				blockManager_->Create(transform.scale, rotate_, transform.translate);
 			}
 			ImGui::TreePop();
 			isCreate_ = true;
@@ -248,7 +248,7 @@ void BlockEditor::LoadFile(uint32_t stageName) {
 
 				// 生成
 				for (size_t i = 0; i < pos.size(); i++) {
-					//blockManager_->Create(scale.at(i), rotate.at(i), pos.at(i));
+					blockManager_->Create(scale.at(i), rotate.at(i), pos.at(i));
 				}
 			}
 		}

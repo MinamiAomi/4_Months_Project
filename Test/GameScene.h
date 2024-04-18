@@ -23,6 +23,8 @@
 #include "StageLineLight.h"
 #include "StageBlockManager.h"
 #include "StageBlock.h"
+#include "SkyBlockManager.h"
+#include "SkyBlock.h"
 
 class GameScene :
 	public BaseScene {
@@ -54,5 +56,6 @@ private:
 	std::unique_ptr<StageLineLight> stageRightLight;
 	std::unique_ptr<StageLineLight> stageLeftLight;
 	std::unique_ptr<StageBlockManager> stageBlockManager_;
+	std::unique_ptr<SkyBlockManager> skyBlockManager_;
 #pragma endregion
 };
