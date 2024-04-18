@@ -12,7 +12,7 @@ public:
 	void Update();
 	void Reset(uint32_t stageIndex);
 
-	void Create(const Vector3& scale, const Vector3& rotate, const Vector3& position);
+	void Create(const StageGimmick::Desc& desc);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
@@ -22,7 +22,10 @@ public:
 	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
+
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	const Player* player_;
+	const Camera* camera_;
 	std::list<std::unique_ptr<Floor>> floors_;
 };

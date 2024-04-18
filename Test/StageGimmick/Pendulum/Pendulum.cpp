@@ -140,7 +140,7 @@ void Pendulum::Update() {
 	ball_->Update();
 	stick_->Update();
 	// 雑カリング
-	if (std::fabs((player_->transform.worldMatrix.GetTranslate() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+	if (std::fabs((camera_ ->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
 		ball_->SetIsActive(true);
 		stick_->SetIsActive(true);
 	}

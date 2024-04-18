@@ -21,11 +21,13 @@ public:
 	void Clear();
 
 	void SetPlayer(const Player* player) { player_ = player; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Player* player_;
+	const Camera* camera_;
 
 	FireBarManager* fireBarManager_;
 

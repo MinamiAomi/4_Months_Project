@@ -63,20 +63,21 @@ void CameraManager::SetIsMove(bool flag) {
 	stageCamera_->SetIsMove(flag);
 }
 
-//const std::shared_ptr<Camera>& CameraManager::GetCamera() const {
-//    switch (state_) {
-//    case CameraManager::kStageCamera:
-//    {
-//        return stageCamera_->GetCamera();
-//    }
-//    break;
-//    case CameraManager::kDebugCamera:
-//    {
-//        return debugCamera_->GetCamera();
-//    }
-//    break;
-//    }
-//    // すべてのケースを網羅した後、デフォルトのnullポインタを返す
-//    static std::shared_ptr<Camera> nullCamera;
-//    return nullCamera;
-//}
+
+const std::shared_ptr<Camera>& CameraManager::GetCamera() const {
+    switch (state_) {
+    case CameraManager::kStageCamera:
+    {
+        return stageCamera_->GetCamera();
+    }
+    break;
+    case CameraManager::kDebugCamera:
+    {
+        return debugCamera_->GetCamera();
+    }
+    break;
+    }
+    // すべてのケースを網羅した後、デフォルトのnullポインタを返す
+    static std::shared_ptr<Camera> nullCamera;
+    return nullCamera;
+}

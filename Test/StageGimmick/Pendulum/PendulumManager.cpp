@@ -25,6 +25,7 @@ void PendulumManager::Reset(uint32_t stageIndex) {
 
 void PendulumManager::Create(Pendulum::Desc desc) {
 	Pendulum* pendulum = new Pendulum();
+	pendulum->SetCamera(camera_);
 	pendulum->SetPlayer(player_);
 	pendulum->Initialize(desc);
 	pendulums_.emplace_back(std::move(pendulum));

@@ -101,6 +101,7 @@
     <ClInclude Include="StageGimmick\Pendulum\Pendulum.h" />
     <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h" />
     <ClInclude Include="Skydome.h" />
+    <ClInclude Include="StageGimmick\StageGimmick.h" />
     <ClInclude Include="StageLineLight.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />

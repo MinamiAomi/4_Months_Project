@@ -23,13 +23,10 @@ void FloorManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void FloorManager::Create(const Vector3& scale, const Vector3& rotate, const Vector3& position) {
+void FloorManager::Create(const StageGimmick::Desc& desc) {
 	Floor* floor = new Floor();
+	floor->SetCamera(camera_);
 	floor->SetPlayer(player_);
-	Floor::Desc desc{};
-	desc.scale = scale;
-	desc.rotate = rotate;
-	desc.translate = position;
 	floor->Initialize(desc);
 	floors_.emplace_back(std::move(floor));
 }
@@ -47,93 +44,35 @@ void FloorManager::DeleteFloor(Floor* block) {
 }
 
 void FloorManager::LoadJson(uint32_t stageIndex) {
-	const std::filesystem::path kDirectoryPath = "Resources/Data/Floor/" + std::to_string(stageIndex);
-	//読み込むJSONファイルのフルパスを合成する
-	std::string filePath = kDirectoryPath.string() + ".json";
-	//読み込み用ファイルストリーム
-	std::ifstream ifs;
-	//ファイルを読み込み用に開く
-	ifs.open(filePath);
-
-	//ファイルオープン失敗したら表示
-	if (ifs.fail()) {
-		MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+	stageIndex;
+	std::ifstream ifs(StageGimmick::stageScenePath_);
+	if (!ifs.is_open()) {
 		return;
 	}
+
+	// JSONをパースしてルートオブジェクトを取得
 	nlohmann::json root;
-
-	//json文字列からjsonのデータ構造に展開
 	ifs >> root;
-	//ファイルを閉じる
 	ifs.close();
-	//グループを検索
-	nlohmann::json::iterator itGroup = root.find("Floor");
-	//未登録チェック
-	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-	}
-	// アイテム
-	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
-		//アイテム名を取得
-		const std::string& itemName = itItem.key();
 
-		//グループを検索
-		nlohmann::json::iterator itObject = itGroup->find(itemName);
+	// "objects"配列から"Block"オブジェクトを処理
+	for (const auto& obj : root["objects"]) {
+		if (obj["type"] == "MESH") {
+			StageGimmick::Desc desc{};
+			desc.name = obj["file_name"];
 
-		//未登録チェック
-		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-		}
+			const auto& transform = obj["transform"];
+			desc.transform.scale = { transform["scale"][0], transform["scale"][1], transform["scale"][2] };
+			desc.transform.rotate = { transform["rotate"][0], transform["rotate"][1], transform["rotate"][2] };
+			desc.transform.translate = { transform["translate"][0], transform["translate"][1], transform["translate"][2] };
+			desc.collider.center = desc.transform.translate;
 
-		//保険
-		assert(itObject != itGroup->end());//アイテム名がオブジェクトデータだった場合、登録
+			const auto& collider = obj["collider"];
+			desc.collider.center += { collider["center"][0], collider["center"][1], collider["center"][2] };
+			desc.collider.rotate = { collider["rotate"][0], collider["rotate"][1], collider["rotate"][2] };
+			desc.collider.size = { collider["size"][0], collider["size"][1], collider["size"][2] };
 
-
-		if (itemName == "objectData") {
-
-			//各オブジェクトについて
-			for (nlohmann::json::iterator itObjectData = itObject->begin(); itObjectData != itObject->end(); ++itObjectData) {
-
-				//アイテム名を取得
-				const std::string& objectName = itObjectData.key();
-
-				//グループを検索
-				nlohmann::json::iterator itData = itObject->find(objectName);
-
-				//未登録チェック
-				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-				}
-
-				//保険
-				assert(itData != itObject->end());
-				if (objectName.find("Floor") != std::string::npos) {
-					Vector3 pos{}, rotate{}, scale{};
-					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
-						//アイテム名を取得
-						const std::string& itemNameObject = itItemObject.key();
-						//要素数3の配列であれば
-						if (itItemObject->is_array() && itItemObject->size() == 3) {
-							//名前がpositionだった場合、positionを登録
-							if (itemNameObject == "position") {
-								//float型のjson配列登録
-								pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "rotate") {
-								//float型のjson配列登録
-								rotate = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がscaleだった場合、scaleを登録
-							else if (itemNameObject == "scale") {
-								//float型のjson配列登録
-								scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-						}
-					}
-					Create(scale, rotate, pos);
-				}
-			}
+			Create(desc);
 		}
 	}
 }
