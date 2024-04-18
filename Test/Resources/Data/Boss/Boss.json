@@ -42,8 +42,8 @@
         ]
     },
     "StateFloorAll": {
-        "jsonData_.floorAllData.attackEasingTime": 60.0,
-        "jsonData_.floorAllData.chargeEasingTime": 120.0,
+        "jsonData_.floorAllData.attackEasingTime": 20.0,
+        "jsonData_.floorAllData.chargeEasingTime": 60.0,
         "jsonData_.floorAllData.endPosition": [
             0.0,
             -0.800000011920929,
@@ -51,7 +51,7 @@
         ],
         "jsonData_.floorAllData.scale": [
             5.0,
-            1.0,
+            0.6000000238418579,
             10.0
         ],
         "jsonData_.floorAllData.startPosition": [
@@ -61,13 +61,13 @@
         ]
     },
     "StateHook": {
-        "jsonData_.attackData.attackEasingTime": 30.0,
+        "jsonData_.attackData.attackEasingTime": 45.0,
         "jsonData_.attackData.chargeEasingTime": 45.0,
         "jsonData_.attackData.easingTime": 30.0,
         "jsonData_.attackData.endPosition": [
             1.5,
             -0.30000001192092896,
-            0.0
+            -5.0
         ],
         "jsonData_.attackData.endRotate": [
             1.5707963705062866,
@@ -82,7 +82,7 @@
         "jsonData_.attackData.startPosition": [
             1.5,
             -0.30000001192092896,
-            0.0
+            -5.0
         ],
         "jsonData_.attackData.startRotate": [
             1.5707963705062866,
