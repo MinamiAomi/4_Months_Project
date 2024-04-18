@@ -24,7 +24,7 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
-	//blockManager_->SetCamara(cameraManager_->GetCamera().get());
+	blockManager_->SetCamera(cameraManager_->GetCamera().get());
 	blockManager_->SetPlayer(player_.get());
 	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
 	fireBarManager_->SetPlayer(player_.get());
@@ -57,6 +57,10 @@ void GameScene::OnInitialize() {
 	stageBlockManager_->Initialize();
 
 	editorManager_->SetCamera(cameraManager_->GetCamera().get());
+	skyBlockManager_ = std::make_unique<SkyBlockManager>();
+	skyBlockManager_->SetBoss(boss_.get());
+	skyBlockManager_->Initialize();
+
 	editorManager_->SetPlayer(player_.get());
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
@@ -68,6 +72,7 @@ void GameScene::OnUpdate() {
 
 	blockManager_->Update();
 	stageBlockManager_->Update();
+	skyBlockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();

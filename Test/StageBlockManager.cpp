@@ -22,7 +22,6 @@ void StageBlockManager::Update() {
 		stageBlock->Update();
 	}
 	DeadCheck();
-	UpdateTransform();
 }
 
 void StageBlockManager::Reset()
