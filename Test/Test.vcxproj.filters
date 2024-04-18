@@ -181,9 +181,6 @@
     <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClCompile>
-    <ClCompile Include="Skydome.cpp">
-      <Filter>Game\Object\Skydome</Filter>
-    </ClCompile>
     <ClCompile Include="DecorationModel.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
@@ -201,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp">
       <Filter>Game\Object\Boss\BossStateManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>Game\Object\Skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

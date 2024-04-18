@@ -137,17 +137,6 @@ void RenderManager::Render() {
         
         ImGui::TreePop();
     }
-    if (ImGui::TreeNode("Sky")) {
-        Vector3 topColorHsv = skyRenderer_.GetTopColor();
-        ImGui::DragFloat3("TopColor", &topColorHsv.x, 0.001f, 0.0f, 1.0f);
-        skyRenderer_.SetTopColor(topColorHsv);
-
-        
-        Vector3 bottomColorHsv = skyRenderer_.GetBottomColor();
-        ImGui::DragFloat3("BottomColor", &bottomColorHsv.x, 0.001f, 0.0f, 1.0f);
-        skyRenderer_.SetBottomColor(bottomColorHsv);
-        ImGui::TreePop();
-    }
     
     ImGui::End();
 #endif // ENABLE_IMGUI
