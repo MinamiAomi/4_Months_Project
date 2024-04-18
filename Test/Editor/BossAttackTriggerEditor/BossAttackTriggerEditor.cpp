@@ -37,9 +37,10 @@ void BossAttackTriggerEditor::Update() {
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BossAttackEditor")) {
 		if (ImGui::TreeNode("CreateBossAttackTrigger")) {
+			bossAttackTrigger_->SetIsAlive(true);
 			auto& desc = bossAttackTrigger_->GetDesc();
 			ImGui::DragFloat("position", &desc.pos, 0.1f);
-			const char* items[] = { "Root", "Hook","FloorAll","LongDistanceAttack"};
+			const char* items[] = { "Root", "Hook","FloorAll","LongDistanceAttack" };
 			static int selectedItem = static_cast<int>(desc.state);
 			if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 				desc.state = static_cast<BossStateManager::State>(selectedItem);
@@ -58,18 +59,24 @@ void BossAttackTriggerEditor::Update() {
 				{
 					desc.state = BossStateManager::State::kFloorAll;
 				}
+				break;
 				case BossStateManager::State::kLongDistanceAttack:
 				{
 					desc.state = BossStateManager::State::kLongDistanceAttack;
 				}
+				break;
 				}
 			}
 			bossAttackTrigger_->SetDesc(desc);
 			if (ImGui::Button("Create")) {
 				bossAttackTriggerManager_->Create(desc);
 			}
+			
 			ImGui::TreePop();
 			isCreate_ = true;
+		}
+		else {
+			bossAttackTrigger_->SetIsAlive(false);
 		}
 		for (uint32_t i = 0; auto & bossAtackTrigger : bossAttackTriggerManager_->GetBossAttackTriggers()) {
 			if (bossAtackTrigger.get() == nullptr) {
@@ -78,7 +85,7 @@ void BossAttackTriggerEditor::Update() {
 			if (ImGui::TreeNode(("BossState:" + std::to_string(i)).c_str())) {
 				auto& desc = bossAtackTrigger->GetDesc();
 				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.pos, 1.0f);
-				const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack"};
+				const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack" };
 				static int selectedItem = static_cast<int>(desc.state);
 				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 					desc.state = static_cast<BossStateManager::State>(selectedItem);
@@ -116,6 +123,9 @@ void BossAttackTriggerEditor::Update() {
 			i++;
 		}
 		ImGui::TreePop();
+	}
+	else {
+		bossAttackTrigger_->SetIsAlive(false);
 	}
 	ImGui::End();
 	bossAttackTrigger_->Update();
