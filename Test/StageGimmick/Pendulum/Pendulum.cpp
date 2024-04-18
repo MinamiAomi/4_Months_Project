@@ -39,6 +39,7 @@ void Stick::Update() {
 void Stick::SetDesc(float length, float scale) {
 	length;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	transform.translate = Vector3::zero;
 	transform.scale = { scale , length/ modelSize.y,scale };
 	UpdateTransform();
 }
@@ -65,6 +66,7 @@ void Ball::Initialize(const Transform* Transform, float length, float scale) {
 	model_->SetIsActive(true);
 
 	transform.SetParent(Transform);
+	transform.translate = Vector3::zero;
 	transform.translate.y = -length;
 	transform.scale = { scale,scale,scale };
 #pragma region コライダー
@@ -87,6 +89,7 @@ void Ball::Update() {
 }
 
 void Ball::SetDesc(float length, float scale) {
+	transform.translate = Vector3::zero;
 	transform.translate.y = -length;
 	transform.scale = { scale,scale,scale };
 	UpdateTransform();

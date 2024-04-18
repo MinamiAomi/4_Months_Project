@@ -14,6 +14,7 @@ void Bar::Initialize(const Desc& desc) {
 
 	transform.scale = Vector3::one;
 	transform.scale.x = desc.length;
+	transform.translate = Vector3::zero;
 
 	rotate_ = desc.barInitialAngle;
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
