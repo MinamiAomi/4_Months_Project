@@ -73,9 +73,10 @@ void BossAttackTrigger::SetIsAlive(bool flag) {
 }
 
 void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Boss"
-		&& characterState_ == Character::kRunAway
-		&& !isCollision_) {
+	if (collisionInfo.collider->GetName() == "Boss" &&
+		boss_->GetStateManager()->GetState() == BossStateManager::State::kRoot &&
+		characterState_ == Character::kRunAway &&
+		!isCollision_) {
 		isCollision_ = true;
 		switch (desc_.state) {
 		case BossStateManager::kRoot:
@@ -83,6 +84,12 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		case BossStateManager::kHook:
 			boss_->GetStateManager()->ChangeState<BossStateHook>();
+			break;
+		case BossStateManager::kFloorAll:
+			boss_->GetStateManager()->ChangeState<BossStateFloorAll>();
+			break;
+		case BossStateManager::kLongDistanceAttack:
+			boss_->GetStateManager()->ChangeState<BossStateLongDistanceAttack>();
 			break;
 		default:
 			break;
