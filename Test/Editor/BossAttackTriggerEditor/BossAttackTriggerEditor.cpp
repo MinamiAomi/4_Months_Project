@@ -91,8 +91,8 @@ void BossAttackTriggerEditor::Update() {
 				auto& desc = bossAtackTrigger->GetDesc();
 				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.pos, 1.0f);
 				const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack" };
-				static int selectedItem = static_cast<int>(desc.state);
-				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+				int selectedItem = static_cast<int>(desc.state);
+				if (ImGui::Combo(("State:" + std::to_string(i)).c_str(), &selectedItem, items, IM_ARRAYSIZE(items))) {
 					desc.state = static_cast<BossStateManager::State>(selectedItem);
 					switch (desc.state) {
 					case BossStateManager::State::kRoot:

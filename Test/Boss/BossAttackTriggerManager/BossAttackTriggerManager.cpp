@@ -120,16 +120,7 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 							desc.pos = itItemObject->get<float>();
 						}
 						else if (itemNameObject == "state") {
-							switch (itItemObject->get<int>()) {
-							case 0:
-								desc.state = BossStateManager::kRoot;
-								break;
-							case 1:
-								desc.state = BossStateManager::kHook;
-								break;
-							default:
-								break;
-							}
+							desc.state = static_cast<BossStateManager::State>(itItemObject->get<int>());
 						}
 					}
 					Create(desc);
