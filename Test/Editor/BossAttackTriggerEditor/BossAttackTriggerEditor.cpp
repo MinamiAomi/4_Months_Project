@@ -27,7 +27,7 @@ void BossAttackTriggerEditor::Initialize() {
 	isAlive_ = true;
 #ifdef _DEBUG
 	bossAttackTrigger_->SetIsColliderAlive(false);
-#elif
+#else
 	bossAttackTrigger_->SetIsAlive(false);
 #endif // _DEBUG
 

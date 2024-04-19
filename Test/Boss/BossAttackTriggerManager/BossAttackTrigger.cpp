@@ -20,7 +20,7 @@ void BossAttackTrigger::Initialize(const Desc desc) {
 
 #ifdef _DEBUG
 	model_->SetIsActive(true);
-#elif
+#else
 	model_->SetIsActive(false);
 #endif // _DEBUG
 
