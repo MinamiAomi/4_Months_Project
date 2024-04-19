@@ -83,7 +83,7 @@ void PendulumEditor::Update() {
 				continue;
 			}
 			if (ImGui::TreeNode(("Pendulum:" + std::to_string(i)).c_str())) {
-				auto desc = pendulum->GetDesc();
+				auto& desc = pendulum->GetDesc();
 				ImGui::DragFloat3(("pos:" + std::to_string(i)).c_str(), &desc.pos.x, 1.0f);
 				ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.length, 0.01f);
 				ImGui::DragFloat(("gravity:" + std::to_string(i)).c_str(), &desc.gravity, 0.001f);

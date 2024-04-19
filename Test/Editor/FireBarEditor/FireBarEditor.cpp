@@ -91,7 +91,7 @@ void FireBarEditor::Update() {
 					ImGui::TreePop();
 					break;
 				}
-
+				fireBar->SetDesc(desc);
 				ImGui::TreePop();
 			}
 			i++;

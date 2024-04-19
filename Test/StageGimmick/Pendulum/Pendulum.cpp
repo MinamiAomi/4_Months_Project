@@ -14,6 +14,7 @@ void Stick::Initialize(const Transform* Transform, float length, float scale) {
 	model_->SetIsActive(true);
 	length;
 	transform.SetParent(Transform);
+	transform.rotate = Quaternion::identity;
 	transform.translate = Vector3::zero;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	transform.scale = { scale , length / modelSize.y,scale };
@@ -37,7 +38,7 @@ void Stick::Update() {
 }
 
 void Stick::SetDesc(float length, float scale) {
-	length;
+	transform.rotate = Quaternion::identity;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	transform.translate = Vector3::zero;
 	transform.scale = { scale , length/ modelSize.y,scale };
@@ -66,6 +67,7 @@ void Ball::Initialize(const Transform* Transform, float length, float scale) {
 	model_->SetIsActive(true);
 
 	transform.SetParent(Transform);
+	transform.rotate = Quaternion::identity;
 	transform.translate = Vector3::zero;
 	transform.translate.y = -length;
 	transform.scale = { scale,scale,scale };
@@ -89,6 +91,7 @@ void Ball::Update() {
 }
 
 void Ball::SetDesc(float length, float scale) {
+	transform.rotate = Quaternion::identity;
 	transform.translate = Vector3::zero;
 	transform.translate.y = -length;
 	transform.scale = { scale,scale,scale };
@@ -166,21 +169,17 @@ void Pendulum::Update() {
 }
 
 void Pendulum::SetDesc(const Desc& desc) {
-	if (desc_.gravity!=0.0f) {
-		desc_ = desc;
-	}
-	else {
-		float gravity = desc_.gravity;
-		desc_ = desc;
-		desc_.gravity = gravity;
-	}
+	
+	desc_ = desc;
+	
 	transform.translate = desc_.pos;
-	transform.rotate.z = desc_.initializeAngle;
+	transform.rotate =  Quaternion::MakeForZAxis(desc_.initializeAngle);
 	angularAcceleration_ = 0.0f;
 	angularVelocity_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
-	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)) {
+	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)&&
+		desc_.gravity!=0.0f) {
 		if (angle > 0) {
 			while (angle >= desc_.initializeAngle) {
 				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
