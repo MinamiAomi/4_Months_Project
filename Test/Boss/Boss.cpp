@@ -25,8 +25,9 @@ void Boss::Initialize() {
 	state_->ChangeState<BossStateRoot>();
 
 	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
+	bossAttackTriggerManager_->SetCamera(camera_);
 	bossAttackTriggerManager_->SetBoss(this);
-	bossAttackTriggerManager_->Initialize();
+	bossAttackTriggerManager_->Initialize(0);
 
 	Reset();
 #pragma region コライダー

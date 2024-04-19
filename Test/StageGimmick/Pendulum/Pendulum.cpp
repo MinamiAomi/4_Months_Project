@@ -119,13 +119,25 @@ void Pendulum::Initialize(const Desc& desc) {
 	stick_ = std::make_unique<Stick>();
 	ball_ = std::make_unique<Ball>();
 
+	angularVelocity_ = 0.0f;
 	angularAcceleration_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
-	while (std::fabsf(angle) >= 0.005f) {
-		angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
-		angularVelocity_ += angularAcceleration_;
-		angle += angularVelocity_;
+	if (angle != desc_.initializeAngle) {
+		if (angle > 0) {
+			while (angle >= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
+		else {
+			while (angle <= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
 	}
 	angle_ = desc_.initializeAngle;
 	UpdateTransform();
@@ -167,14 +179,22 @@ void Pendulum::SetDesc(const Desc& desc) {
 	angularAcceleration_ = 0.0f;
 	angularVelocity_ = 0.0f;
 	float angle = desc_.angle;
+	// 速度計算
 	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)) {
-		// 速度計算
-		while (std::fabsf(angle - desc_.initializeAngle) >= 0.005f) {
-			angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
-			angularVelocity_ += angularAcceleration_;
-			angle += angularVelocity_;
+		if (angle > 0) {
+			while (angle >= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
 		}
-
+		else {
+			while (angle <= desc_.initializeAngle) {
+				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);
+				angularVelocity_ += angularAcceleration_;
+				angle += angularVelocity_;
+			}
+		}
 	}
 	angle_ = desc_.initializeAngle;
 

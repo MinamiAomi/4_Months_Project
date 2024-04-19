@@ -21,6 +21,7 @@ void BossAttackTriggerEditor::Initialize() {
 	BossAttackTrigger::Desc desc{};
 	desc.pos = -50.0f;
 	desc.state = BossStateManager::State::kHook;
+	bossAttackTrigger_->SetCamera(camera_);
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
 #ifdef _DEBUG

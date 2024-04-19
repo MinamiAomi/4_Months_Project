@@ -38,6 +38,14 @@ void BossAttackTrigger::Initialize(const Desc desc) {
 }
 
 void BossAttackTrigger::Update() {
+	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		//model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+	}
+	else {
+		//model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;

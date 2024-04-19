@@ -42,6 +42,7 @@ void GameScene::OnInitialize() {
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
+	boss_->SetCamera(cameraManager_->GetCamera().get());
 	boss_->Initialize();
 
 	stageRightLight = std::make_unique<StageLineLight>();
