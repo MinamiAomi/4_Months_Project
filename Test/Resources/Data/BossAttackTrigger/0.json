@@ -10,92 +10,116 @@
                 "state": 1
             },
             "BossAttackTrigger:10": {
-                "position": -1365.4000244140625,
-                "state": 1
-            },
-            "BossAttackTrigger:11": {
-                "position": -1494.0999755859375,
-                "state": 0
-            },
-            "BossAttackTrigger:12": {
-                "position": -262.70001220703125,
-                "state": 1
-            },
-            "BossAttackTrigger:13": {
-                "position": -1579.699951171875,
-                "state": 0
-            },
-            "BossAttackTrigger:14": {
-                "position": -1637.0,
-                "state": 1
-            },
-            "BossAttackTrigger:15": {
-                "position": -1734.199951171875,
-                "state": 1
-            },
-            "BossAttackTrigger:16": {
-                "position": -1805.9000244140625,
-                "state": 1
-            },
-            "BossAttackTrigger:17": {
-                "position": -312.6000061035156,
-                "state": 0
-            },
-            "BossAttackTrigger:18": {
                 "position": -360.70001220703125,
                 "state": 0
             },
-            "BossAttackTrigger:19": {
+            "BossAttackTrigger:11": {
                 "position": -405.5,
                 "state": 1
             },
-            "BossAttackTrigger:2": {
+            "BossAttackTrigger:12": {
                 "position": -743.7999877929688,
                 "state": 1
             },
-            "BossAttackTrigger:20": {
+            "BossAttackTrigger:13": {
                 "position": -546.0999755859375,
                 "state": 1
             },
-            "BossAttackTrigger:21": {
+            "BossAttackTrigger:14": {
                 "position": -576.7000122070313,
                 "state": 1
             },
-            "BossAttackTrigger:22": {
+            "BossAttackTrigger:15": {
                 "position": -642.7000122070313,
                 "state": 0
             },
-            "BossAttackTrigger:23": {
+            "BossAttackTrigger:16": {
                 "position": -679.0999755859375,
                 "state": 0
             },
-            "BossAttackTrigger:3": {
+            "BossAttackTrigger:17": {
                 "position": -813.7999877929688,
                 "state": 1
             },
-            "BossAttackTrigger:4": {
+            "BossAttackTrigger:18": {
                 "position": -833.2999877929688,
                 "state": 0
             },
-            "BossAttackTrigger:5": {
+            "BossAttackTrigger:19": {
                 "position": -842.5999755859375,
                 "state": 0
             },
-            "BossAttackTrigger:6": {
+            "BossAttackTrigger:2": {
+                "position": -1365.4000244140625,
+                "state": 1
+            },
+            "BossAttackTrigger:20": {
                 "position": -853.2999877929688,
                 "state": 0
             },
-            "BossAttackTrigger:7": {
+            "BossAttackTrigger:21": {
                 "position": -860.2000122070313,
                 "state": 0
             },
-            "BossAttackTrigger:8": {
+            "BossAttackTrigger:22": {
                 "position": -925.0999755859375,
                 "state": 1
             },
-            "BossAttackTrigger:9": {
+            "BossAttackTrigger:23": {
                 "position": -1286.9000244140625,
                 "state": 1
+            },
+            "BossAttackTrigger:24": {
+                "position": -1917.9000244140625,
+                "state": 1
+            },
+            "BossAttackTrigger:25": {
+                "position": -1976.9000244140625,
+                "state": 1
+            },
+            "BossAttackTrigger:26": {
+                "position": -2038.4000244140625,
+                "state": 1
+            },
+            "BossAttackTrigger:27": {
+                "position": -2095.39990234375,
+                "state": 1
+            },
+            "BossAttackTrigger:28": {
+                "position": -2133.800048828125,
+                "state": 1
+            },
+            "BossAttackTrigger:29": {
+                "position": -2187.5,
+                "state": 1
+            },
+            "BossAttackTrigger:3": {
+                "position": -1494.0999755859375,
+                "state": 0
+            },
+            "BossAttackTrigger:4": {
+                "position": -262.70001220703125,
+                "state": 1
+            },
+            "BossAttackTrigger:5": {
+                "position": -1579.699951171875,
+                "state": 0
+            },
+            "BossAttackTrigger:6": {
+                "position": -1637.0,
+                "state": 1
+            },
+            "BossAttackTrigger:7": {
+                "position": -1734.199951171875,
+                "state": 1
+            },
+            "BossAttackTrigger:8": {
+                "position": -1805.9000244140625,
+                "state": 1
+            },
+            "BossAttackTrigger:9": {
+                "position": -312.6000061035156,
+                "state": 0
             }
         }
     }
