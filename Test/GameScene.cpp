@@ -6,6 +6,7 @@
 #include "Graphics/RenderManager.h"
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
+#include "GameSpeed.h"
 
 void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
@@ -66,6 +67,7 @@ void GameScene::OnInitialize() {
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
+	GameSpeed::LoadJson();
 }
 
 void GameScene::OnUpdate() {
@@ -89,6 +91,7 @@ void GameScene::OnUpdate() {
 	CollisionManager::GetInstance()->CheckCollision();
 
 	cameraManager_->Update();
+	GameSpeed::Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);

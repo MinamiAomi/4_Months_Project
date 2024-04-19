@@ -30,4 +30,6 @@ private:
 	std::unique_ptr<StageCamera> stageCamera_;
 
 	State state_;
+	bool isMove_;
+	float distance_;
 };
