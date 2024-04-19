@@ -33,4 +33,5 @@ private:
 	int stageIndex_;
 
 	bool isCreate_;
+	bool isAlive_;
 };

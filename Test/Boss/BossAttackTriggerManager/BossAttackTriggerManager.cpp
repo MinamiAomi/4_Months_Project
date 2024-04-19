@@ -35,8 +35,19 @@ void BossAttackTriggerManager::Delete(BossAttackTrigger* bossAttackTrigger) {
 	}
 }
 
+void BossAttackTriggerManager::Reset(uint32_t stageIndex) {
+	Clear();
+	LoadJson(stageIndex);
+}
+
 void BossAttackTriggerManager::Clear() {
 	bossAttackTriggers_.clear();
+}
+
+void BossAttackTriggerManager::SetModelIsAlive(bool flag) {
+	for (auto& trigger : bossAttackTriggers_) {
+		trigger->SetIsModelAlive(flag);
+	}
 }
 
 void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {

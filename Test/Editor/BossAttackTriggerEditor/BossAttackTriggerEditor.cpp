@@ -24,6 +24,7 @@ void BossAttackTriggerEditor::Initialize() {
 	bossAttackTrigger_->SetCamera(camera_);
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
+	isAlive_ = true;
 #ifdef _DEBUG
 	bossAttackTrigger_->SetIsColliderAlive(false);
 #elif
@@ -37,6 +38,9 @@ void BossAttackTriggerEditor::Update() {
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BossAttackEditor")) {
+		if (ImGui::Checkbox("ModelIsAlize", &isAlive_)) {
+			bossAttackTriggerManager_->SetModelIsAlive(isAlive_);
+		}
 		if (ImGui::TreeNode("CreateBossAttackTrigger")) {
 			bossAttackTrigger_->SetIsAlive(true);
 			auto& desc = bossAttackTrigger_->GetDesc();
@@ -72,7 +76,7 @@ void BossAttackTriggerEditor::Update() {
 			if (ImGui::Button("Create")) {
 				bossAttackTriggerManager_->Create(desc);
 			}
-			
+
 			ImGui::TreePop();
 			isCreate_ = true;
 		}

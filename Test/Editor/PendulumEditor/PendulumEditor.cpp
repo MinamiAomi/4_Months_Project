@@ -134,11 +134,13 @@ void PendulumEditor::SaveFile(uint32_t stageName) {
 	for (size_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
 		auto desc = pendulum->GetDesc();
 		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["position"] = nlohmann::json::array({ desc.pos.x, desc.pos.y, desc.pos.z });
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["scale"] = nlohmann::json::array({ desc.scale.x, desc.scale.y, desc.scale.z });
 		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["ballScale"] = desc.ballScale;
 		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["stickScale"] = desc.stickScale;
 		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["length"] = desc.length;
 		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["gravity"] = desc.gravity;
 		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["angle"] = desc.angle;
+		root[fileName_]["objectData"][("Pendulum:" + std::to_string(i)).c_str()]["initializeAngle"] = desc.initializeAngle;
 		i++;
 	}
 
@@ -254,6 +256,12 @@ void PendulumEditor::LoadFile(uint32_t stageName) {
 						}
 						else if (itemNameObject == "stickScale") {
 							desc.stickScale = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "initializeAngle") {
+							desc.initializeAngle = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "angle") {
+							desc.angle = itItemObject->get<float>();
 						}
 					}
 				}

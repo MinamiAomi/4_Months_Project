@@ -128,11 +128,12 @@ void GameScene::OnUpdate() {
 		player_->Reset();
 		cameraManager_->Reset();
 		stageBlockManager_->Reset();
-		boss_->Reset();
+		boss_->Reset(0);
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
 		pendulumManager_->Reset(0);
+		
 
 	}
 #endif // _DEBUG

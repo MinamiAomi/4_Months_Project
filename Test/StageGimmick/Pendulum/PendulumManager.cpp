@@ -54,7 +54,7 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 
 	//ファイルオープン失敗したら表示
 	if (ifs.fail()) {
-		MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
 		return;
 	}
 	nlohmann::json root;
@@ -67,7 +67,7 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 	nlohmann::json::iterator itGroup = root.find("Pendulum");
 	//未登録チェック
 	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+		//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 	}
 	// アイテム
 	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
@@ -79,7 +79,7 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 
 		//未登録チェック
 		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+			//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 		}
 
 		//保険
@@ -99,48 +99,53 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 
 				//未登録チェック
 				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
+					//MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
 				}
 
 				//保険
 				assert(itData != itObject->end());
-				if (objectName.find("Pendulum") != std::string::npos) {
-					Pendulum::Desc desc{};
-					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
-						//アイテム名を取得
-						const std::string& itemNameObject = itItemObject.key();
 
-						//要素数3の配列であれば
-						if (itItemObject->is_array() && itItemObject->size() == 3) {
+				Pendulum::Desc desc{};
+				for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
+					//アイテム名を取得
+					const std::string& itemNameObject = itItemObject.key();
 
-							//名前がpositionだった場合、positionを登録
-							if (itemNameObject == "position") {
-								//float型のjson配列登録
-								desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
-							//名前がrotationだった場合、rotationを登録
-							else if (itemNameObject == "scale") {
-								//float型のjson配列登録
-								desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
-							}
+					//要素数3の配列であれば
+					if (itItemObject->is_array() && itItemObject->size() == 3) {
+
+						//名前がpositionだった場合、positionを登録
+						if (itemNameObject == "position") {
+							//float型のjson配列登録
+							desc.pos = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
-						else {
-							if (itemNameObject == "length") {
-								desc.length = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "gravity") {
-								desc.gravity = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "ballScale") {
-								desc.ballScale = itItemObject->get<float>();
-							}
-							else if (itemNameObject == "stickScale") {
-								desc.stickScale = itItemObject->get<float>();
-							}
+						//名前がrotationだった場合、rotationを登録
+						else if (itemNameObject == "scale") {
+							//float型のjson配列登録
+							desc.scale = (Vector3({ itItemObject->at(0), itItemObject->at(1), itItemObject->at(2) }));
 						}
 					}
-					Create(desc);
+					else {
+						if (itemNameObject == "length") {
+							desc.length = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "gravity") {
+							desc.gravity = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "ballScale") {
+							desc.ballScale = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "stickScale") {
+							desc.stickScale = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "initializeAngle") {
+							desc.initializeAngle = itItemObject->get<float>();
+						}
+						else if (itemNameObject == "angle") {
+							desc.angle = itItemObject->get<float>();
+						}
+					}
 				}
+				Create(desc);
 			}
 		}
 	}
