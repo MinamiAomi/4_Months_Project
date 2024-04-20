@@ -17,10 +17,12 @@ public:
 	void LoadFile(uint32_t stageName);
 	void Clear();
 
-	void SetBoss(const Boss* boss) { boss_= boss; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 
 private:
 	const Boss* boss_;
+	const Camera* camera_;
 
 	BossAttackTriggerManager* bossAttackTriggerManager_;
 
@@ -31,4 +33,5 @@ private:
 	int stageIndex_;
 
 	bool isCreate_;
+	bool isAlive_;
 };

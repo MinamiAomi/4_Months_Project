@@ -1,3 +1,4 @@
+#define USE_INSTANCING
 #include "GeometryPass.hlsli"
 
 struct PSInput {

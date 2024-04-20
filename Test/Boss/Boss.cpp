@@ -25,10 +25,11 @@ void Boss::Initialize() {
 	state_->ChangeState<BossStateRoot>();
 
 	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
+	bossAttackTriggerManager_->SetCamera(camera_);
 	bossAttackTriggerManager_->SetBoss(this);
-	bossAttackTriggerManager_->Initialize();
+	bossAttackTriggerManager_->Initialize(0);
 
-	Reset();
+	Reset(0);
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -72,12 +73,13 @@ void Boss::Update() {
 	bossAttackTriggerManager_->Update();
 }
 
-void Boss::Reset() {
+void Boss::Reset(uint32_t stageIndex) {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = { 7.0f,7.0f,7.0f };
 	state_->ChangeState<BossStateRoot>();
 	time_ = interval_;
+	bossAttackTriggerManager_->Reset(stageIndex);
 }
 
 void Boss::UpdateTransform() {

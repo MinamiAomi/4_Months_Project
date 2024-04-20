@@ -6,6 +6,7 @@
 #include "Graphics/RenderManager.h"
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
+#include "GameSpeed.h"
 
 void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
@@ -46,6 +47,7 @@ void GameScene::OnInitialize() {
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
+	boss_->SetCamera(cameraManager_->GetCamera().get());
 	boss_->Initialize();
 
 	stageRightLight = std::make_unique<StageLineLight>();
@@ -61,10 +63,15 @@ void GameScene::OnInitialize() {
 	stageBlockManager_->Initialize();
 
 	editorManager_->SetCamera(cameraManager_->GetCamera().get());
+	skyBlockManager_ = std::make_unique<SkyBlockManager>();
+	skyBlockManager_->SetBoss(boss_.get());
+	skyBlockManager_->Initialize();
+
 	editorManager_->SetPlayer(player_.get());
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
+	GameSpeed::LoadJson();
 }
 
 void GameScene::OnUpdate() {
@@ -72,6 +79,7 @@ void GameScene::OnUpdate() {
 
 	blockManager_->Update();
 	stageBlockManager_->Update();
+	skyBlockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();
@@ -88,6 +96,7 @@ void GameScene::OnUpdate() {
 	CollisionManager::GetInstance()->CheckCollision();
 
 	cameraManager_->Update();
+	GameSpeed::Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);
@@ -120,18 +129,32 @@ void GameScene::OnUpdate() {
 		}
 		ImGui::EndMenu();
 	}
-	if (ImGui::Button("Reset")) {
+	if (ImGui::Button("Reset")||
+		Input::GetInstance()->IsKeyTrigger(DIK_R)) {
 		player_->Reset();
 		cameraManager_->Reset();
 		stageBlockManager_->Reset();
-		boss_->Reset();
+		boss_->Reset(0);
+		blockManager_->Reset(0);
+		fireBarManager_->Reset(0);
+		floorManager_->Reset(0);
+		pendulumManager_->Reset(0);
+		
+
+	}
+#endif // _DEBUG
+	if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+		player_->Reset();
+		cameraManager_->Reset();
+		stageBlockManager_->Reset();
+		boss_->Reset(0);
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
 		pendulumManager_->Reset(0);
 
+
 	}
-#endif // _DEBUG
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();

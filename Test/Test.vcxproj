@@ -36,6 +36,7 @@
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
     <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp" />
     <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp" />
+    <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
@@ -45,6 +46,8 @@
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
+    <ClCompile Include="SkyBlock.cpp" />
+    <ClCompile Include="SkyBlockManager.cpp" />
     <ClCompile Include="StageBlock.cpp" />
     <ClCompile Include="StageBlockManager.cpp" />
     <ClCompile Include="StageGimmick\Block\Block.cpp" />
@@ -84,6 +87,7 @@
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
     <ClInclude Include="Editor\FloorEditor\FloorEditor.h" />
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h" />
+    <ClInclude Include="GameSpeed.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="PlayerModel.h" />
@@ -93,6 +97,8 @@
     <ClInclude Include="Player\PlayerHP\PlayerHP.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
+    <ClInclude Include="SkyBlock.h" />
+    <ClInclude Include="SkyBlockManager.h" />
     <ClInclude Include="StageBlock.h" />
     <ClInclude Include="StageBlockManager.h" />
     <ClInclude Include="StageGimmick\Block\Block.h" />

@@ -13,7 +13,17 @@ struct Instance {
     float4x4 worldInverseTransposeMatrix;
     uint useLighting;
 };
+struct InstanceOffset {
+    uint offset;
+};
+#ifndef USE_INSTANCING
+// GeometryPassVSで使用
 ConstantBuffer<Instance> g_Instance : register(b1);
+#else
+// GeometryPassInstancingVSで使用
+StructuredBuffer<Instance> g_Instances : register(t1);
+ConstantBuffer<InstanceOffset> g_InstanceOffset : register(b2);
+#endif
 
 struct Material {
     float3 albedo;
@@ -23,7 +33,7 @@ struct Material {
     uint metallicRoughnessMapIndex;
     uint normalMapIndex;
 };
-ConstantBuffer<Material> g_Material : register(b2);
+ConstantBuffer<Material> g_Material : register(b3);
 
 #ifdef ENABLE_SKINNING
 struct Bone {

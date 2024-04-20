@@ -6,6 +6,7 @@
 #include "Math/MathUtils.h"
 #include "Input/Input.h"
 #include "Player/Player.h"
+#include "GameSpeed.h"
 
 void StageCamera::Initialize() {
 	camera_ = std::make_shared<Camera>();
@@ -31,7 +32,8 @@ void StageCamera::Update() {
 	case Character::State::kChase:
 	{
 		if (isMove_) {
-			transform.translate += cameraParam_.at(Character::State::kChase).cameraVelocity;
+			//transform.translate += cameraParam_.at(Character::State::kChase).cameraVelocity;
+			transform.translate.z += GameSpeed::speed;
 		}
 		camera_->SetPosition(
 			{
@@ -45,7 +47,8 @@ void StageCamera::Update() {
 	case Character::State::kRunAway:
 	{
 		if (isMove_) {
-			transform.translate -= cameraParam_.at(Character::State::kRunAway).cameraVelocity;
+			//transform.translate -= cameraParam_.at(Character::State::kRunAway).cameraVelocity;
+			transform.translate.z -= GameSpeed::speed;
 		}
 		camera_->SetPosition(
 			{

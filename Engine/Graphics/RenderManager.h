@@ -60,14 +60,13 @@ private:
     GeometryRenderingPass geometryRenderingPass_;
     LightingRenderingPass lightingRenderingPass_;
 
-    RaytracingRenderer raytracingRenderer_;
+    //RaytracingRenderer raytracingRenderer_;
     //RaymarchingRenderer raymarchingRenderer_;
     //ModelRenderer modelRenderer;
     Transition transition_;
     Bloom bloom_;
     FXAA fxaa_;
     PostEffect postEffect_;
-    ComputeShaderTester computeShaderTester_;
 
     SkyRenderer skyRenderer_;
     Matrix4x4 skyTransform_;

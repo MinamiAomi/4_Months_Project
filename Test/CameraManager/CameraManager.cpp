@@ -1,6 +1,8 @@
 #include "CameraManager.h"
 
 #include "Externals/ImGui/imgui.h"
+#include "CharacterState.h"
+#include "GameSpeed.h"
 
 void CameraManager::Initialize(Player* player) {
 	player;
@@ -11,6 +13,8 @@ void CameraManager::Initialize(Player* player) {
 	stageCamera_->Initialize();
 
 	state_ = State::kStageCamera;
+
+	isMove_ = true;
 }
 
 void CameraManager::Update() {
@@ -24,6 +28,7 @@ void CameraManager::Update() {
 			case CameraManager::kStageCamera:
 			{
 				stageCamera_->SetRenderManager();
+				stageCamera_->transform.translate.z += distance_;
 			}
 			break;
 			case CameraManager::kDebugCamera:
@@ -43,6 +48,7 @@ void CameraManager::Update() {
 		// 毎回するな
 		stageCamera_->SetRenderManager();
 		stageCamera_->Update();
+		distance_ = 0.0f;
 	}
 	break;
 	case CameraManager::kDebugCamera:
@@ -50,6 +56,14 @@ void CameraManager::Update() {
 		// 毎回するな
 		debugCamera_->SetRenderManager();
 		debugCamera_->Update();
+		if (isMove_) {
+			if (characterState_ == Character::kRunAway) {
+				distance_ -= GameSpeed::speed;
+			}
+			else {
+				distance_ += GameSpeed::speed;
+			}
+		}
 	}
 	break;
 	}
@@ -65,19 +79,19 @@ void CameraManager::SetIsMove(bool flag) {
 
 
 const std::shared_ptr<Camera>& CameraManager::GetCamera() const {
-    switch (state_) {
-    case CameraManager::kStageCamera:
-    {
-        return stageCamera_->GetCamera();
-    }
-    break;
-    case CameraManager::kDebugCamera:
-    {
-        return debugCamera_->GetCamera();
-    }
-    break;
-    }
-    // すべてのケースを網羅した後、デフォルトのnullポインタを返す
-    static std::shared_ptr<Camera> nullCamera;
-    return nullCamera;
+	switch (state_) {
+	case CameraManager::kStageCamera:
+	{
+		return stageCamera_->GetCamera();
+	}
+	break;
+	case CameraManager::kDebugCamera:
+	{
+		return debugCamera_->GetCamera();
+	}
+	break;
+	}
+	// すべてのケースを網羅した後、デフォルトのnullポインタを返す
+	static std::shared_ptr<Camera> nullCamera;
+	return nullCamera;
 }

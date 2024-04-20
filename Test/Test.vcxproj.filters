@@ -94,6 +94,9 @@
     <Filter Include="Game\Object\StageGimmick\StageObject">
       <UniqueIdentifier>{f89ba708-1b5b-43b6-9d19-4cded027730c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\SkyBlock">
+      <UniqueIdentifier>{144f9b85-2cef-4e65-a723-91cd7de5a0e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -190,9 +193,6 @@
     <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClCompile>
-    <ClCompile Include="Skydome.cpp">
-      <Filter>Game\Object\Skydome</Filter>
-    </ClCompile>
     <ClCompile Include="DecorationModel.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
@@ -229,6 +229,16 @@
     <ClCompile Include="StageGimmick\StageObject\StageObjectManager.cpp">
       <Filter>Game\Object\StageGimmick\StageObject</Filter>
     </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>Game\Object\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBlock.cpp">
+      <Filter>Game\Object\SkyBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBlockManager.cpp">
+      <Filter>Game\Object\SkyBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpeed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -366,6 +376,15 @@
     </ClInclude>
     <ClInclude Include="StageGimmick\StageObject\StageObjectManager.h">
       <Filter>Game\Object\StageGimmick\StageObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBlock.h">
+      <Filter>Game\Object\SkyBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBlockManager.h">
+      <Filter>Game\Object\SkyBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpeed.h">
+      <Filter>Game\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

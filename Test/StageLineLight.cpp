@@ -28,7 +28,7 @@ void StageLineLight::Initialize(bool isLeft) {
 	transform.translate.y = -23.0f;
 	transform.scale.z = 300.0f;
 
-	lineLight_->color = { 0.9f,0.0f,0.60f};
+	lineLight_->color = { 0.9f,0.0f,0.60f };
 	lineLight_->intensity = 1.5f;
 	lineLight_->decay = 0.85f;
 	lineLight_->range = 15.0f;
@@ -37,8 +37,9 @@ void StageLineLight::Initialize(bool isLeft) {
 
 void StageLineLight::Update() {
 	UpdateTransform();
+#ifdef _DEBUG
 	ImGui::Begin("StageLineLight");
-	ImGui::DragFloat3("Color", &lineLight_->color.x, 0.01f, 0.0f,1.0f);
+	ImGui::DragFloat3("Color", &lineLight_->color.x, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("intensity", &lineLight_->intensity, 0.01f, 0.1f);
 	ImGui::DragFloat("decay", &lineLight_->decay, 0.01f, 0.0f);
 	ImGui::DragFloat("range", &lineLight_->range, 0.01f, 0.0f);
@@ -47,6 +48,7 @@ void StageLineLight::Update() {
 	ImGui::DragFloat3("StageLineLightRotate", &transform.rotate.x, 0.1f, 0.0f);
 	ImGui::DragFloat3("LineLightTranslate", &originTransform_.translate.x, 0.1f, 0.0f);
 	ImGui::End();
+#endif // _DEBUG
 
 	lightManager_->Add(lineLight_);
 }

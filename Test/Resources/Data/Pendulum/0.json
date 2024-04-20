@@ -1,3 +1,132 @@
 {
-    "Pendulum": {}
+    "Pendulum": {
+        "objectData": {
+            "Pendulum:0": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1721.9000244140625
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            },
+            "Pendulum:1": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1746.699951171875
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            },
+            "Pendulum:2": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1798.800048828125
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            },
+            "Pendulum:3": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1839.9000244140625
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            },
+            "Pendulum:4": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1893.300048828125
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            },
+            "Pendulum:5": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1932.0999755859375
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            },
+            "Pendulum:6": {
+                "angle": 0.5235987901687622,
+                "ballScale": 1.0,
+                "gravity": 0.007000000216066837,
+                "initializeAngle": 0.0,
+                "length": 15.0,
+                "position": [
+                    0.0,
+                    14.0,
+                    -1975.0999755859375
+                ],
+                "scale": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "stickScale": 1.0
+            }
+        }
+    }
 }

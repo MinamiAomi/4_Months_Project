@@ -14,6 +14,7 @@ void Stick::Initialize(const Transform* Transform, float length, float scale) {
 	model_->SetIsActive(true);
 	length;
 	transform.SetParent(Transform);
+	transform.rotate = Quaternion::identity;
 	transform.translate = Vector3::zero;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	transform.scale = { scale , length / modelSize.y,scale };
@@ -37,9 +38,10 @@ void Stick::Update() {
 }
 
 void Stick::SetDesc(float length, float scale) {
-	length;
+	transform.rotate = Quaternion::identity;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	transform.scale = { scale , length / modelSize.y,scale };
+	transform.translate = Vector3::zero;
+	transform.scale = { scale , length/ modelSize.y,scale };
 	UpdateTransform();
 }
 
@@ -65,6 +67,8 @@ void Ball::Initialize(const Transform* Transform, float length, float scale) {
 	model_->SetIsActive(true);
 
 	transform.SetParent(Transform);
+	transform.rotate = Quaternion::identity;
+	transform.translate = Vector3::zero;
 	transform.translate.y = -length;
 	transform.scale = { scale,scale,scale };
 #pragma region コライダー
@@ -87,6 +91,8 @@ void Ball::Update() {
 }
 
 void Ball::SetDesc(float length, float scale) {
+	transform.rotate = Quaternion::identity;
+	transform.translate = Vector3::zero;
 	transform.translate.y = -length;
 	transform.scale = { scale,scale,scale };
 	UpdateTransform();
@@ -121,6 +127,7 @@ void Pendulum::Initialize(const Desc& desc) {
 	stick_ = std::make_unique<Stick>();
 	ball_ = std::make_unique<Ball>();
 
+	angularVelocity_ = 0.0f;
 	angularAcceleration_ = 0.0f;
 	angularVelocity_ = 0.0f;
 	float angle = desc_.angle;
@@ -181,7 +188,8 @@ void Pendulum::SetDesc(const Desc& desc) {
 	angularAcceleration_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
-	if (angle != desc_.initializeAngle) {
+	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)&&
+		desc_.gravity!=0.0f) {
 		if (angle > 0) {
 			while (angle >= desc_.initializeAngle) {
 				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);

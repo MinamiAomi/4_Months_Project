@@ -3,9 +3,11 @@
 #include <fstream>
 
 #include "Externals/nlohmann/json.hpp"
+#include "StageGimmick/StageGimmick.h"
 
-void BossAttackTriggerManager::Initialize() {
+void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
 	bossAttackTriggers_.clear();
+	LoadJson(stageIndex);
 }
 
 void BossAttackTriggerManager::Update() {
@@ -16,6 +18,7 @@ void BossAttackTriggerManager::Update() {
 
 void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc) {
 	BossAttackTrigger* bossAttackTrigger = new BossAttackTrigger();
+	bossAttackTrigger->SetCamera(camera_);
 	bossAttackTrigger->SetBoss(boss_);
 	bossAttackTrigger->Initialize(desc);
 	bossAttackTriggers_.emplace_back(std::move(bossAttackTrigger));
@@ -33,95 +36,42 @@ void BossAttackTriggerManager::Delete(BossAttackTrigger* bossAttackTrigger) {
 	}
 }
 
+void BossAttackTriggerManager::Reset(uint32_t stageIndex) {
+	Clear();
+	LoadJson(stageIndex);
+}
+
 void BossAttackTriggerManager::Clear() {
 	bossAttackTriggers_.clear();
 }
 
-void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
-	const std::filesystem::path kDirectoryPath = "Resources/Data/Boss/BossTrigger/" + std::to_string(stageIndex);
-	//読み込むJSONファイルのフルパスを合成する
-	std::string filePath = kDirectoryPath.string() + ".json";
-	//読み込み用ファイルストリーム
-	std::ifstream ifs;
-	//ファイルを読み込み用に開く
-	ifs.open(filePath);
+void BossAttackTriggerManager::SetModelIsAlive(bool flag) {
+	for (auto& trigger : bossAttackTriggers_) {
+		trigger->SetIsModelAlive(flag);
+	}
+}
 
-	//ファイルオープン失敗したら表示
-	if (ifs.fail()) {
-		MessageBox(nullptr, L"指定したファイルは存在しません。", L"Map Editor - Load", 0);
+void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
+	stageIndex;
+	std::ifstream ifs(StageGimmick::stageScenePath_);
+	if (!ifs.is_open()) {
 		return;
 	}
+
+	// JSONをパースしてルートオブジェクトを取得
 	nlohmann::json root;
-
-	//json文字列からjsonのデータ構造に展開
 	ifs >> root;
-	//ファイルを閉じる
 	ifs.close();
-	//グループを検索
-	nlohmann::json::iterator itGroup = root.find("Pendulum");
-	//未登録チェック
-	if (itGroup == root.end()) {
-		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-	}
-	// アイテム
-	for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
-		//アイテム名を取得
-		const std::string& itemName = itItem.key();
 
-		//グループを検索
-		nlohmann::json::iterator itObject = itGroup->find(itemName);
-
-		//未登録チェック
-		if (itObject == itGroup->end()) {
-			MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-		}
-
-		//保険
-		assert(itObject != itGroup->end());//アイテム名がオブジェクトデータだった場合、登録
-
-
-		if (itemName == "objectData") {
-
-			//各オブジェクトについて
-			for (nlohmann::json::iterator itObjectData = itObject->begin(); itObjectData != itObject->end(); ++itObjectData) {
-
-				//アイテム名を取得
-				const std::string& objectName = itObjectData.key();
-
-				//グループを検索
-				nlohmann::json::iterator itData = itObject->find(objectName);
-
-				//未登録チェック
-				if (itData == itObject->end()) {
-					MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
-				}
-
-				//保険
-				assert(itData != itObject->end());
-				if (objectName.find("Trigger") != std::string::npos) {
-					BossAttackTrigger::Desc desc{};
-					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
-						//アイテム名を取得
-						const std::string& itemNameObject = itItemObject.key();
-						if (itemNameObject == "pos") {
-							desc.pos = itItemObject->get<float>();
-						}
-						else if (itemNameObject == "state") {
-							switch (itItemObject->get<int>()) {
-							case 0:
-								desc.state = BossStateManager::kRoot;
-								break;
-							case 1:
-								desc.state = BossStateManager::kHook;
-								break;
-							default:
-								break;
-							}
-						}
-						Create(desc);
-					}
-				}
-			}
+	// "objects"配列から"Block"オブジェクトを処理
+	for (const auto& obj : root["objects"]) {
+		if (obj.contains("gimmick") &&
+			obj["gimmick"]["type"] == "BossAttackTrigger") {
+			BossAttackTrigger::Desc desc{};
+			const auto& gimmick = obj["gimmick"];
+			desc.pos = gimmick["position"];
+			desc.state = static_cast<BossStateManager::State>(gimmick["state"]);
+			Create(desc);
 		}
 	}
 }
