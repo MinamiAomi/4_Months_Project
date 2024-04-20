@@ -124,7 +124,8 @@ void GameScene::OnUpdate() {
 		}
 		ImGui::EndMenu();
 	}
-	if (ImGui::Button("Reset")) {
+	if (ImGui::Button("Reset")||
+		Input::GetInstance()->IsKeyTrigger(DIK_R)) {
 		player_->Reset();
 		cameraManager_->Reset();
 		stageBlockManager_->Reset();
@@ -137,6 +138,18 @@ void GameScene::OnUpdate() {
 
 	}
 #endif // _DEBUG
+	if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+		player_->Reset();
+		cameraManager_->Reset();
+		stageBlockManager_->Reset();
+		boss_->Reset(0);
+		blockManager_->Reset(0);
+		fireBarManager_->Reset(0);
+		floorManager_->Reset(0);
+		pendulumManager_->Reset(0);
+
+
+	}
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
