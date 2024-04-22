@@ -69,6 +69,11 @@ void Player::Initialize() {
 }
 
 void Player::Update() {
+
+	//false
+	isGround_ = false;
+	isMove_ = false;
+
 	// 移動
 	Move();
 
@@ -176,6 +181,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			//velocity_.y = 0.0f;
 			canFirstJump_ = true;
 			canSecondJump_ = true;
+			isGround_ = true;
 		}
 
 		UpdateTransform();
@@ -225,6 +231,7 @@ void Player::Move() {
 	}
 
 	if (move != Vector3::zero) {
+		isMove_ = true;
 		move = move.Normalized();
 		// 地面に水平なカメラの回転
 		/*if (followCamera) {

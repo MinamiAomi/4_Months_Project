@@ -65,6 +65,10 @@ void GameScene::OnInitialize() {
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
+	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
+	playerDustParticle_->SetPlayer(player_.get());
+	playerDustParticle_->Initialize();
+
 }
 
 void GameScene::OnUpdate() {
@@ -88,6 +92,9 @@ void GameScene::OnUpdate() {
 	CollisionManager::GetInstance()->CheckCollision();
 
 	cameraManager_->Update();
+
+	//playerが地面にいるかの確認をするためコリジョンの下
+	playerDustParticle_->Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);

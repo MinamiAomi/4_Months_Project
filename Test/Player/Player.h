@@ -27,6 +27,9 @@ public:
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 	const Vector3& GetVelocity() const { return velocity_; }
+	const Vector3& GetMinModelSize()const { return model_->GetModel()->GetMeshes()[0].minVertex; }
+	const bool GetIsMove() const { return isMove_; }
+	const bool GetIsGround() const { return isGround_; }
 
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
@@ -56,6 +59,8 @@ private:
 	Vector3 velocity_;
 	bool canFirstJump_;
 	bool canSecondJump_;
+	bool isMove_;
+	bool isGround_;
 	uint32_t invincibleTime_;
 #pragma region パラメーター
 	float verticalSpeed_;

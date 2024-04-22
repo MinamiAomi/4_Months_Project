@@ -18,7 +18,7 @@ public:
 
 	SkyBlock();
 	~SkyBlock();
-	void Initialize(const Vector3& pos, const Vector3& scale);
+	void Initialize(const Vector3& pos,const Vector3& rotate, const Vector3& scale);
 	void Update(float apperLength);
 
 	void SetBoss(const Boss* boss) { boss_ = boss; }

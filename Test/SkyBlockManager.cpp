@@ -30,10 +30,10 @@ void SkyBlockManager::Initialize() {
 			skyblock->SetBoss(boss_);
 			
 			if (i % 2 == 0) {
-				skyblock->Initialize({ x,y,z }, { scale ,scale ,scale });
+				skyblock->Initialize({ x,y,z }, { x,y,z }, { scale ,scale ,scale });
 			}
 			else {
-				skyblock->Initialize({ -x,y,z }, { scale ,scale ,scale });
+				skyblock->Initialize({ -x,y,z }, { x,y,z },{ scale ,scale ,scale });
 			}
 			i++;
 		}
@@ -67,12 +67,12 @@ void SkyBlockManager::Appear(SkyBlock& skyBlock)
 		float y = 3.0f + rng_.NextFloatRange(0.0f, 7.0f);
 
 		if (characterState_ && Character::kRunAway) {
-			skyBlock.Initialize({ x,y ,boss_->transform.worldMatrix.GetTranslate().z - appearLength}
+			skyBlock.Initialize({ x,y ,boss_->transform.worldMatrix.GetTranslate().z - appearLength}, { x,y ,boss_->transform.worldMatrix.GetTranslate().z - appearLength }
 			, { scale ,scale ,scale });
 			
 		}
 		else {			
-			skyBlock.Initialize({ x, y ,boss_->transform.worldMatrix.GetTranslate().z + appearLength }
+			skyBlock.Initialize({ x, y ,boss_->transform.worldMatrix.GetTranslate().z + appearLength }, { x,y ,boss_->transform.worldMatrix.GetTranslate().z - appearLength }
 			, { scale ,scale ,scale });
 			
 		}

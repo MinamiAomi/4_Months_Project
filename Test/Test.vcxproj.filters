@@ -94,6 +94,9 @@
     <Filter Include="Game\Object\SkyBlock">
       <UniqueIdentifier>{144f9b85-2cef-4e65-a723-91cd7de5a0e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerParticle">
+      <UniqueIdentifier>{c1ac3b80-f5ed-47b8-a98b-8338d0fdeb32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -225,6 +228,9 @@
     </ClCompile>
     <ClCompile Include="SkyBlockManager.cpp">
       <Filter>Game\Object\SkyBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp">
+      <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -363,6 +369,9 @@
     </ClInclude>
     <ClInclude Include="SkyBlockManager.h">
       <Filter>Game\Object\SkyBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h">
+      <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

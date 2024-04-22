@@ -19,6 +19,7 @@
 #include "DebugCamera.h"
 #include "Editor/EditorManager.h"
 #include "Player/Player.h"
+#include "Player/PlayerParticle/PlayerDustParticle.h"
 #include "Skydome.h"
 #include "StageLineLight.h"
 #include "StageBlockManager.h"
@@ -51,6 +52,7 @@ private:
 
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;
+	std::unique_ptr<PlayerDustParticle> playerDustParticle_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<StageLineLight> stageRightLight;
