@@ -564,6 +564,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -605,6 +606,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -646,6 +648,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -687,6 +690,7 @@
                     1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -728,6 +732,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -769,6 +774,7 @@
                     -1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -894,6 +900,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -935,6 +942,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -976,6 +984,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1059,6 +1068,7 @@
                     1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1100,6 +1110,7 @@
                     -1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1267,7 +1278,7 @@
                     26.55672264099121
                 ]
             },
-            "file_name": "fireBar",
+            "file_name": "block",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1434,25 +1445,6 @@
                     1.0,
                     1.0
                 ]
-            },
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    10.920000076293945,
-                    2.380000114440918,
-                    16.610000610351562
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
             }
         },
         {
@@ -1476,6 +1468,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1559,6 +1552,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1600,6 +1594,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1641,6 +1636,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1682,6 +1678,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1723,6 +1720,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1764,6 +1762,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1805,6 +1804,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1846,6 +1846,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1887,6 +1888,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1928,6 +1930,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -1969,6 +1972,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2010,6 +2014,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2345,6 +2350,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2386,6 +2392,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2427,6 +2434,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2468,6 +2476,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2509,6 +2518,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2550,6 +2560,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2591,6 +2602,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2632,6 +2644,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2841,6 +2854,7 @@
                     -1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2882,6 +2896,7 @@
                     -1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2923,6 +2938,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -2964,6 +2980,7 @@
                     1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3047,6 +3064,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3088,6 +3106,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3129,6 +3148,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3170,6 +3190,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3211,6 +3232,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3252,6 +3274,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3293,6 +3316,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3334,6 +3358,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3375,6 +3400,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3416,6 +3442,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3457,6 +3484,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3498,6 +3526,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3539,6 +3568,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3580,6 +3610,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3621,6 +3652,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3662,6 +3694,7 @@
                     -2.67901349067688
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3703,6 +3736,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3744,6 +3778,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3797,9 +3832,9 @@
                 ],
                 "rotate": [
                     0.0,
-                    -0.7071067690849304,
                     -0.0,
-                    0.7071067690849304
+                    -0.0,
+                    1.0
                 ],
                 "scale": [
                     1.0,
@@ -3807,6 +3842,7 @@
                     1.0
                 ]
             },
+            "file_name": "building",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3815,9 +3851,9 @@
                     -0.0
                 ],
                 "size": [
-                    102.66000366210938,
-                    4.880000114440918,
-                    21.489999771118164
+                    23.81000328063965,
+                    52.54999923706055,
+                    102.43999481201172
                 ],
                 "rotate": [
                     0.0,
@@ -3892,6 +3928,7 @@
                     1.0
                 ]
             },
+            "file_name": "building2",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3933,6 +3970,7 @@
                     1.0
                 ]
             },
+            "file_name": "building3",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -3974,6 +4012,7 @@
                     1.0
                 ]
             },
+            "file_name": "bridge",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -4010,31 +4049,12 @@
                     1.0
                 ],
                 "scale": [
-                    5.0,
-                    5.0,
-                    5.0
-                ]
-            },
-            "file_name": "block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
                     1.0,
                     1.0,
                     1.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
                 ]
             },
+            "file_name": "stones",
             "collider": {
                 "type": "BOX",
                 "center": [

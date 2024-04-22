@@ -23,6 +23,11 @@
         "fireBarCenter": "FireBar/Center/center.gltf",
         "ball": "Pendulum/Ball/ball.gltf",
         "stick": "Pendulum/Stick/stick.gltf",
-        "box": "Box/box1x1.obj"
+        "box": "Box/box1x1.obj",
+        "building": "Building/building.gltf",
+        "building2": "Building2/building2.gltf",
+        "building3": "Building3/building3.gltf",
+        "bridge": "Bridge/bridge.gltf",
+        "stones": "Stones/stones.gltf"
     }
 }
