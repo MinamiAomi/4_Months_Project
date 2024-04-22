@@ -44,7 +44,7 @@ void PendulumEditor::Update() {
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("PendulumEditor")) {
-		if (ImGui::TreeNode("CreatePendulum")) {
+		/*if (ImGui::TreeNode("CreatePendulum")) {
 			pendulum_->SetIsActive(true);
 			auto desc = pendulum_->GetDesc();
 			ImGui::DragFloat3("position", &desc.desc.transform.translate.x, 0.1f);
@@ -77,7 +77,7 @@ void PendulumEditor::Update() {
 		else {
 			pendulum_->SetIsActive(false);
 			isCreate_ = false;
-		}
+		}*/
 		for (uint32_t i = 0; auto & pendulum : pendulumManager_->GetPendulums()) {
 			if (pendulum.get() == nullptr) {
 				continue;

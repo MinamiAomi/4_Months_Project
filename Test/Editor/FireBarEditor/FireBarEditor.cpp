@@ -14,6 +14,7 @@
 #include "Graphics/ResourceManager.h"
 #include "Externals/ImGui/imgui.h"
 
+
 void FireBarEditor::Initialize() {
 	fileName_ = "FireBar";
 
