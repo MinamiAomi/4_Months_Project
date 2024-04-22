@@ -75,6 +75,7 @@ void CameraManager::Reset() {
 
 void CameraManager::SetIsMove(bool flag) {
 	stageCamera_->SetIsMove(flag);
+	isMove_ = flag;
 }
 
 

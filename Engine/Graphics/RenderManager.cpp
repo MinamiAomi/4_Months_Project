@@ -98,6 +98,8 @@ void RenderManager::Render() {
         }
     }
     
+
+
 #ifdef ENABLE_IMGUI
     if (useBloom) {
 #endif // ENABLE_IMGUI

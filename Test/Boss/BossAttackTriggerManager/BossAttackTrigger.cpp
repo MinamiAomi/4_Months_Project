@@ -5,7 +5,7 @@
 #include "CollisionAttribute.h"
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 
 void BossAttackTrigger::Initialize(const Desc desc) {
 	Reset();
