@@ -23,7 +23,7 @@ void StageObject::Initialize(const StageGimmick::Desc& desc) {
 		collider_->SetName("StageObject");
 		collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
 		collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-		collider_->SetSize(colliderDesc_->size);
+		collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 		//collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 		collider_->SetCollisionAttribute(CollisionAttribute::StageObject);
 		collider_->SetCollisionMask(~CollisionAttribute::StageObject);
@@ -41,7 +41,7 @@ void StageObject::UpdateTransform() {
 	if (colliderDesc_) {
 		collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
 		collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-		collider_->SetSize(colliderDesc_->size);
+		collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 	}
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
