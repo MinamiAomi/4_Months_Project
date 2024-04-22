@@ -113,6 +113,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     struct InstanceData {
         Matrix4x4 worldMatrix;
         Matrix4x4 worldInverseTransposeMatrix;
+        Vector3 color;
         uint32_t useLighting;
     };
 
@@ -164,6 +165,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         for (auto instance : instances) {
             instancesData[drawCount].worldMatrix = instance->GetWorldMatrix();
             instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix.Inverse().Transpose();
+            instancesData[drawCount].color = instance->GetColor();
             instancesData[drawCount].useLighting = instance->UseLighting();
             ++drawCount;
         }
