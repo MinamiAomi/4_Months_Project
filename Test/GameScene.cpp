@@ -87,7 +87,6 @@ void GameScene::OnUpdate() {
 
 	blockManager_->Update();
 	stageBlockManager_->Update();
-	skyBlockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();
@@ -100,6 +99,8 @@ void GameScene::OnUpdate() {
 	stageUpRightLight->Update();
 	stageUpLeftLight->Update();
 	boss_->Update();
+
+	skyBlockManager_->Update();
 
 	// 当たり判定を取る
 	CollisionManager::GetInstance()->CheckCollision();
@@ -144,8 +145,9 @@ void GameScene::OnUpdate() {
 	if (ImGui::Button("Reset")) {
 		player_->Reset();
 		cameraManager_->Reset();
-		stageBlockManager_->Reset();
 		boss_->Reset(0);
+		stageBlockManager_->Reset();
+		skyBlockManager_->Reset();
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
