@@ -8,27 +8,24 @@ void Floor::Initialize(const StageGimmick::Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
 	transform.scale = desc.transform.scale;
-	rotate_ = desc.transform.rotate;
+	transform.rotate = desc.transform.rotate;
 	transform.translate = desc.transform.translate;
 
 	colliderDesc_ = desc.collider;
 
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-
-	model_->SetModel(ResourceManager::GetInstance()->FindModel("floor"));
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.name));
 	model_->SetIsActive(true);
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Floor");
-	collider_->SetCenter(transform.translate);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(rotate_));
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
+	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::Block);
-	collider_->SetCollisionMask(~CollisionAttribute::Block);
+	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
+	collider_->SetCollisionMask(~CollisionAttribute::Floor);
 	collider_->SetIsActive(true);
 #pragma endregion
 }
@@ -48,12 +45,10 @@ void Floor::Update() {
 }
 
 void Floor::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
-	collider_->SetCenter(transform.translate);
-	collider_->SetOrientation(Quaternion::MakeFromEulerAngle(colliderDesc_.rotate));
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
+	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 

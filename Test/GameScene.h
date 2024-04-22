@@ -14,6 +14,7 @@
 #include "StageGimmick/Floor/FloorManager.h"
 #include "StageGimmick/FireBar/FireBarManager.h"
 #include "StageGimmick/Pendulum/PendulumManager.h"
+#include "StageGimmick/StageObject/StageObjectManager.h"
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
@@ -48,6 +49,7 @@ private:
 	std::unique_ptr<FireBarManager> fireBarManager_;
 	std::unique_ptr<FloorManager> floorManager_;
 	std::unique_ptr<PendulumManager> pendulumManager_;
+	std::unique_ptr<StageObjectManager> stageObjectManager_;
 #pragma endregion
 
 #pragma region ゲーム
