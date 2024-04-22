@@ -11,7 +11,7 @@
 
 #include "CollisionAttribute.h"
 #include "Externals/nlohmann/json.hpp"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
 const std::string FloorEditor::kModelName = "floor";

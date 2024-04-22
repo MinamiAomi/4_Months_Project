@@ -192,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="File\JsonHelper.cpp" />
     <ClCompile Include="Framework\Engine.cpp" />
+    <ClCompile Include="Framework\ResourceManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Graphics\Animation.cpp" />
     <ClCompile Include="Graphics\App\SkyRenderer.cpp" />
     <ClCompile Include="Graphics\App\Voronoi.cpp" />
@@ -243,7 +246,6 @@
     <ClCompile Include="Graphics\Raytracing\StateObject.cpp" />
     <ClCompile Include="Graphics\Raytracing\TLAS.cpp" />
     <ClCompile Include="Graphics\RenderManager.cpp" />
-    <ClCompile Include="Graphics\ResourceManager.cpp" />
     <ClCompile Include="Graphics\Sprite.cpp" />
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\Timer.cpp" />
@@ -310,6 +312,9 @@
     <ClInclude Include="File\JsonHelper.h" />
     <ClInclude Include="Framework\Engine.h" />
     <ClInclude Include="Framework\Game.h" />
+    <ClInclude Include="Framework\ResourceManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Graphics\Animation.h" />
     <ClInclude Include="Graphics\App\SkyRenderer.h" />
     <ClInclude Include="Graphics\App\Voronoi.h" />
@@ -362,7 +367,6 @@
     <ClInclude Include="Graphics\Raytracing\StateObject.h" />
     <ClInclude Include="Graphics\Raytracing\TLAS.h" />
     <ClInclude Include="Graphics\RenderManager.h" />
-    <ClInclude Include="Graphics\ResourceManager.h" />
     <ClInclude Include="Graphics\SphereMapConverter.h" />
     <ClInclude Include="Graphics\Sprite.h" />
     <ClInclude Include="Graphics\SpriteRenderer.h" />

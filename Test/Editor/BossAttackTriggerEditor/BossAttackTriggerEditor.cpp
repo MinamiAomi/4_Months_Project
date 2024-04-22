@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "Externals/nlohmann/json.hpp"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Externals/ImGui/imgui.h"
 
 void BossAttackTriggerEditor::Initialize() {
