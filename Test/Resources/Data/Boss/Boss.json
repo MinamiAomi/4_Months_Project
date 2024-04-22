@@ -46,17 +46,17 @@
         "jsonData_.floorAllData.chargeEasingTime": 60.0,
         "jsonData_.floorAllData.endPosition": [
             0.0,
-            -0.800000011920929,
+            0.0,
             -10.0
         ],
         "jsonData_.floorAllData.scale": [
             5.0,
-            0.6000000238418579,
+            0.30000001192092896,
             10.0
         ],
         "jsonData_.floorAllData.startPosition": [
             0.0,
-            -1.5,
+            -0.800000011920929,
             -10.0
         ]
     },
