@@ -21,11 +21,13 @@ void BossAttackTriggerEditor::Initialize() {
 	BossAttackTrigger::Desc desc{};
 	desc.pos = -50.0f;
 	desc.state = BossStateManager::State::kHook;
+	bossAttackTrigger_->SetCamera(camera_);
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
+	isAlive_ = true;
 #ifdef _DEBUG
 	bossAttackTrigger_->SetIsColliderAlive(false);
-#elif
+#else
 	bossAttackTrigger_->SetIsAlive(false);
 #endif // _DEBUG
 
@@ -36,6 +38,9 @@ void BossAttackTriggerEditor::Update() {
 	static bool isPlay = false;
 	ImGui::Begin("StageEditor");
 	if (ImGui::TreeNode("BossAttackEditor")) {
+		if (ImGui::Checkbox("ModelIsAlize", &isAlive_)) {
+			bossAttackTriggerManager_->SetModelIsAlive(isAlive_);
+		}
 		if (ImGui::TreeNode("CreateBossAttackTrigger")) {
 			bossAttackTrigger_->SetIsAlive(true);
 			auto& desc = bossAttackTrigger_->GetDesc();
@@ -71,7 +76,7 @@ void BossAttackTriggerEditor::Update() {
 			if (ImGui::Button("Create")) {
 				bossAttackTriggerManager_->Create(desc);
 			}
-			
+
 			ImGui::TreePop();
 			isCreate_ = true;
 		}
@@ -86,8 +91,8 @@ void BossAttackTriggerEditor::Update() {
 				auto& desc = bossAtackTrigger->GetDesc();
 				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.pos, 1.0f);
 				const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack" };
-				static int selectedItem = static_cast<int>(desc.state);
-				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+				int selectedItem = static_cast<int>(desc.state);
+				if (ImGui::Combo(("State:" + std::to_string(i)).c_str(), &selectedItem, items, IM_ARRAYSIZE(items))) {
 					desc.state = static_cast<BossStateManager::State>(selectedItem);
 					switch (desc.state) {
 					case BossStateManager::State::kRoot:

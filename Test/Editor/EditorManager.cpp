@@ -6,9 +6,9 @@
 #include "Externals/ImGui/imgui.h"
 
 void EditorManager::Initialize(
-	BlockManager* blockEditor, 
-	FireBarManager* fireBarEditor, 
-	FloorManager* floorEditor, 
+	BlockManager* blockEditor,
+	FireBarManager* fireBarEditor,
+	FloorManager* floorEditor,
 	PendulumManager* pendulumManager,
 	BossAttackTriggerManager* bossAttackTriggerManager) {
 
@@ -32,6 +32,7 @@ void EditorManager::Initialize(
 	pendulumEditor_->SetCamera(camera_);
 	pendulumEditor_->SetPlayer(player_);
 	pendulumEditor_->Initialize();
+	bossAttackTriggerEditor_->SetCamera(camera_);
 	bossAttackTriggerEditor_->SetBoss(boss_);
 	bossAttackTriggerEditor_->Initialize();
 	stageIndex_ = 0;

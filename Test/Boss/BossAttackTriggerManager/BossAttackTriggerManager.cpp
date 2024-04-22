@@ -4,8 +4,9 @@
 
 #include "Externals/nlohmann/json.hpp"
 
-void BossAttackTriggerManager::Initialize() {
+void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
 	bossAttackTriggers_.clear();
+	LoadJson(stageIndex);
 }
 
 void BossAttackTriggerManager::Update() {
@@ -16,6 +17,7 @@ void BossAttackTriggerManager::Update() {
 
 void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc) {
 	BossAttackTrigger* bossAttackTrigger = new BossAttackTrigger();
+	bossAttackTrigger->SetCamera(camera_);
 	bossAttackTrigger->SetBoss(boss_);
 	bossAttackTrigger->Initialize(desc);
 	bossAttackTriggers_.emplace_back(std::move(bossAttackTrigger));
@@ -33,12 +35,23 @@ void BossAttackTriggerManager::Delete(BossAttackTrigger* bossAttackTrigger) {
 	}
 }
 
+void BossAttackTriggerManager::Reset(uint32_t stageIndex) {
+	Clear();
+	LoadJson(stageIndex);
+}
+
 void BossAttackTriggerManager::Clear() {
 	bossAttackTriggers_.clear();
 }
 
+void BossAttackTriggerManager::SetModelIsAlive(bool flag) {
+	for (auto& trigger : bossAttackTriggers_) {
+		trigger->SetIsModelAlive(flag);
+	}
+}
+
 void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
-	const std::filesystem::path kDirectoryPath = "Resources/Data/Boss/BossTrigger/" + std::to_string(stageIndex);
+	const std::filesystem::path kDirectoryPath = "Resources/Data/BossAttackTrigger/" + std::to_string(stageIndex);
 	//読み込むJSONファイルのフルパスを合成する
 	std::string filePath = kDirectoryPath.string() + ".json";
 	//読み込み用ファイルストリーム
@@ -58,7 +71,7 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 	//ファイルを閉じる
 	ifs.close();
 	//グループを検索
-	nlohmann::json::iterator itGroup = root.find("Pendulum");
+	nlohmann::json::iterator itGroup = root.find("BossAttackTrigger");
 	//未登録チェック
 	if (itGroup == root.end()) {
 		MessageBox(nullptr, L"ファイルの構造が正しくありません。", L"Map Editor - Load", 0);
@@ -98,28 +111,19 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 
 				//保険
 				assert(itData != itObject->end());
-				if (objectName.find("Trigger") != std::string::npos) {
+				if (objectName.find("BossAttackTrigger") != std::string::npos) {
 					BossAttackTrigger::Desc desc{};
 					for (nlohmann::json::iterator itItemObject = itData->begin(); itItemObject != itData->end(); ++itItemObject) {
 						//アイテム名を取得
 						const std::string& itemNameObject = itItemObject.key();
-						if (itemNameObject == "pos") {
+						if (itemNameObject == "position") {
 							desc.pos = itItemObject->get<float>();
 						}
 						else if (itemNameObject == "state") {
-							switch (itItemObject->get<int>()) {
-							case 0:
-								desc.state = BossStateManager::kRoot;
-								break;
-							case 1:
-								desc.state = BossStateManager::kHook;
-								break;
-							default:
-								break;
-							}
+							desc.state = static_cast<BossStateManager::State>(itItemObject->get<int>());
 						}
-						Create(desc);
 					}
+					Create(desc);
 				}
 			}
 		}

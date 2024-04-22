@@ -6,6 +6,7 @@
 #include "Graphics/RenderManager.h"
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
+#include "GameSpeed.h"
 
 void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
@@ -24,7 +25,7 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get());
 
-	//blockManager_->SetCamara(cameraManager_->GetCamera().get());
+	blockManager_->SetCamera(cameraManager_->GetCamera().get());
 	blockManager_->SetPlayer(player_.get());
 	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
 	fireBarManager_->SetPlayer(player_.get());
@@ -42,6 +43,7 @@ void GameScene::OnInitialize() {
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
 
+	boss_->SetCamera(cameraManager_->GetCamera().get());
 	boss_->Initialize();
 
 	stageRightLight = std::make_unique<StageLineLight>();
@@ -65,6 +67,7 @@ void GameScene::OnInitialize() {
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
+	GameSpeed::LoadJson();
 	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
 	playerDustParticle_->SetPlayer(player_.get());
 	playerDustParticle_->Initialize();
@@ -92,6 +95,7 @@ void GameScene::OnUpdate() {
 	CollisionManager::GetInstance()->CheckCollision();
 
 	cameraManager_->Update();
+	GameSpeed::Update();
 
 	//playerが地面にいるかの確認をするためコリジョンの下
 	playerDustParticle_->Update();
@@ -131,11 +135,12 @@ void GameScene::OnUpdate() {
 		player_->Reset();
 		cameraManager_->Reset();
 		stageBlockManager_->Reset();
-		boss_->Reset();
+		boss_->Reset(0);
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
 		pendulumManager_->Reset(0);
+		
 
 	}
 #endif // _DEBUG

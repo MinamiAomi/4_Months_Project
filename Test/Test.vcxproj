@@ -36,6 +36,7 @@
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
     <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp" />
     <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp" />
+    <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
     <ClInclude Include="Editor\FloorEditor\FloorEditor.h" />
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h" />
+    <ClInclude Include="GameSpeed.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="PlayerModel.h" />

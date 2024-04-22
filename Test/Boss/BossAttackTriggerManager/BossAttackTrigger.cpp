@@ -20,7 +20,7 @@ void BossAttackTrigger::Initialize(const Desc desc) {
 
 #ifdef _DEBUG
 	model_->SetIsActive(true);
-#elif
+#else
 	model_->SetIsActive(false);
 #endif // _DEBUG
 
@@ -38,6 +38,14 @@ void BossAttackTrigger::Initialize(const Desc desc) {
 }
 
 void BossAttackTrigger::Update() {
+	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		//model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+	}
+	else {
+		//model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;
@@ -65,9 +73,10 @@ void BossAttackTrigger::SetIsAlive(bool flag) {
 }
 
 void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Boss"
-		&& characterState_ == Character::kRunAway
-		&& !isCollision_) {
+	if (collisionInfo.collider->GetName() == "Boss" &&
+		boss_->GetStateManager()->GetState() == BossStateManager::State::kRoot &&
+		characterState_ == Character::kRunAway &&
+		!isCollision_) {
 		isCollision_ = true;
 		switch (desc_.state) {
 		case BossStateManager::kRoot:
@@ -75,6 +84,12 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		case BossStateManager::kHook:
 			boss_->GetStateManager()->ChangeState<BossStateHook>();
+			break;
+		case BossStateManager::kFloorAll:
+			boss_->GetStateManager()->ChangeState<BossStateFloorAll>();
+			break;
+		case BossStateManager::kLongDistanceAttack:
+			boss_->GetStateManager()->ChangeState<BossStateLongDistanceAttack>();
 			break;
 		default:
 			break;

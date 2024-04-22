@@ -5,6 +5,7 @@
 #include "Core/DepthBuffer.h"
 #include "Core/RootSignature.h"
 #include "Core/PipelineState.h"
+#include "Core/GPUBuffer.h"
 #include "Math/Camera.h"
 
 class CommandContext;
@@ -15,6 +16,8 @@ public:
         enum Parameters {
             Scene,
             Instance,
+            Instances,
+            InstanceOffset,
             Material,
             BindlessTexture,
 
@@ -38,4 +41,6 @@ private:
 
     RootSignature rootSignature_;
     PipelineState pipelineState_;
+    PipelineState instancingPipelineState_;
+    StructuredBuffer instancingBuffer_;
 };

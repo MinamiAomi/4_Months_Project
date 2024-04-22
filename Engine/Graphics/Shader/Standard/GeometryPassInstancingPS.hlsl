@@ -1,3 +1,4 @@
+#define USE_INSTANCING
 #include "GeometryPass.hlsli"
 
 struct PSInput {
@@ -42,7 +43,7 @@ PSOutput main(PSInput input) {
     
     float3 albedo = g_BindlessTextures[g_Material.albedoMapIndex].Sample(g_Sampler, input.texcoord).xyz;
     albedo *= g_Material.albedo;
-    output.albedo.xyz = albedo;
+    output.albedo.xyz = albedo * instance.color;
     output.albedo.w = instance.useLighting;
     
     float2 metallicRoughness = g_BindlessTextures[g_Material.metallicRoughnessMapIndex].Sample(g_Sampler, input.texcoord).zy;

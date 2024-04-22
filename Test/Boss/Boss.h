@@ -17,9 +17,11 @@ public:
 	void Initialize();
 	void Update();
 
-	void Reset();
+	void Reset(uint32_t stageIndex);
 	void SetIsMove(bool flag) { isMove_ = flag; }
 	bool GetIsMove() { return isMove_; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
+
 
 	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
@@ -27,6 +29,8 @@ public:
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
+
+	const Camera* camera_;
 
 	std::unique_ptr<BoxCollider> collider_;
 

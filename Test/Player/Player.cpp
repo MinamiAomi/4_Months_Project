@@ -305,6 +305,7 @@ void Player::DebugParam() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat4("rotate", &transform.rotate.x);
 		ImGui::DragFloat3("offset_", &offset_.x);
 		ImGui::DragFloat3("velocity_", &velocity_.x);
 		ImGui::DragFloat3("acceleration_", &acceleration_.x);

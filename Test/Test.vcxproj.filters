@@ -229,6 +229,7 @@
     <ClCompile Include="SkyBlockManager.cpp">
       <Filter>Game\Object\SkyBlock</Filter>
     </ClCompile>
+    <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp">
       <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClCompile>
@@ -369,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="SkyBlockManager.h">
       <Filter>Game\Object\SkyBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpeed.h">
+      <Filter>Game\Object</Filter>
     </ClInclude>
     <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h">
       <Filter>Game\Object\Player\PlayerParticle</Filter>

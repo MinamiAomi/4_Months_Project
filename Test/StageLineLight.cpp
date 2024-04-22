@@ -38,8 +38,9 @@ void StageLineLight::Initialize(bool isLeft) {
 
 void StageLineLight::Update() {
 	UpdateTransform();
+#ifdef _DEBUG
 	ImGui::Begin("StageLineLight");
-	ImGui::DragFloat3("Color", &lineLight_->color.x, 0.01f, 0.0f,1.0f);
+	ImGui::DragFloat3("Color", &lineLight_->color.x, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("intensity", &lineLight_->intensity, 0.01f, 0.1f);
 	ImGui::DragFloat("decay", &lineLight_->decay, 0.01f, 0.0f);
 	ImGui::DragFloat("range", &lineLight_->range, 0.01f, 0.0f);
@@ -48,11 +49,12 @@ void StageLineLight::Update() {
 	ImGui::DragFloat3("StageLineLightRotate", &transform.rotate.x, 0.1f, 0.0f);
 	ImGui::DragFloat3("LineLightTranslate", &originTransform_.translate.x, 0.1f, 0.0f);
 	ImGui::End();
+#endif // _DEBUG
 
-	//遷移
+	//�J��
 	if (saveState_ != characterState_) {
 		if (characterState_ == Character::kChase) {
-			//反撃になったら
+			//�����ɂȂ�����
 			t_ += speed_;
 			t_ = std::clamp(t_, 0.0f, 1.0f);
 			if (t_ >= 1.0f) {
@@ -60,7 +62,7 @@ void StageLineLight::Update() {
 			}
 		}
 		else {
-			//逃げる側になったら
+			//�����鑤�ɂȂ�����
 			t_ -= speed_;
 			t_ = std::clamp(t_, 0.0f, 1.0f);
 			if (t_ <= 0.0f) {

@@ -4,6 +4,7 @@
 #include "Boss/Boss.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
+#include "GameSpeed.h"
 
 void BossStateManager::Initialize() {
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
@@ -187,12 +188,14 @@ void BossStateRoot::Update() {
 		switch (characterState_) {
 		case Character::State::kChase:
 		{
-			transform.translate.z += velocity_;
+			//transform.translate.z += velocity_;
+			transform.translate.z += GameSpeed::speed;
 		}
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate.z -= velocity_;
+			//transform.translate.z -= velocity_;
+			transform.translate.z -= GameSpeed::speed;
 		}
 		break;
 		default:
@@ -256,12 +259,14 @@ void BossStateHook::ChargeUpdate() {
 		switch (characterState_) {
 		case Character::State::kChase:
 		{
-			transform.translate.z += data_.velocity;
+			//transform.translate.z += velocity_;
+			transform.translate.z += GameSpeed::speed;
 		}
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate.z -= data_.velocity;
+			//transform.translate.z -= velocity_;
+			transform.translate.z -= GameSpeed::speed;
 		}
 		break;
 		default:
@@ -292,12 +297,14 @@ void BossStateHook::AttackUpdate() {
 		switch (characterState_) {
 		case Character::State::kChase:
 		{
-			transform.translate.z += data_.velocity;
+			//transform.translate.z += velocity_;
+			transform.translate.z += GameSpeed::speed;
 		}
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate.z -= data_.velocity;
+			//transform.translate.z -= velocity_;
+			transform.translate.z -= GameSpeed::speed;
 		}
 		break;
 		default:
@@ -367,12 +374,14 @@ void BossStateFloorAll::ChargeUpdate() {
 		switch (characterState_) {
 		case Character::State::kChase:
 		{
-			transform.translate.z += data_.velocity;
+			//transform.translate.z += velocity_;
+			transform.translate.z += GameSpeed::speed;
 		}
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate.z -= data_.velocity;
+			//transform.translate.z -= velocity_;
+			transform.translate.z -= GameSpeed::speed;
 		}
 		break;
 		default:
@@ -444,12 +453,14 @@ void BossStateLongDistanceAttack::ChargeUpdate() {
 		switch (characterState_) {
 		case Character::State::kChase:
 		{
-			transform.translate.z += data_.velocity;
+			//transform.translate.z += velocity_;
+			transform.translate.z += GameSpeed::speed;
 		}
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate.z -= data_.velocity;
+			//transform.translate.z -= velocity_;
+			transform.translate.z -= GameSpeed::speed;
 		}
 		break;
 		default:

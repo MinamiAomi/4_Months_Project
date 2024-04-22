@@ -297,6 +297,15 @@
     <ClCompile Include="Graphics\App\SkyRenderer.cpp">
       <Filter>Graphics\App</Filter>
     </ClCompile>
+    <ClCompile Include="Audio\AudioDevice.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\AudioSource.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Sound.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -584,6 +593,15 @@
     <ClInclude Include="Graphics\App\Voronoi.h">
       <Filter>Graphics\App</Filter>
     </ClInclude>
+    <ClInclude Include="Audio\AudioDevice.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\AudioSource.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Sound.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Lighting.hlsli">
@@ -693,6 +711,12 @@
     </None>
     <None Include="Graphics\Shader\App\SkyPS.hlsl">
       <Filter>Graphics\Shader\App</Filter>
+    </None>
+    <None Include="Graphics\Shader\Standard\GeometryPassInstancingVS.hlsl">
+      <Filter>Graphics\Shader\Standard</Filter>
+    </None>
+    <None Include="Graphics\Shader\Standard\GeometryPassInstancingPS.hlsl">
+      <Filter>Graphics\Shader\Standard</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
