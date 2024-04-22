@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v4.0.44",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,13 +15,18 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Floor"
+			"name":"Floor",
+			"translation":[
+				0,
+				-2.7427167892456055,
+				0
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"\u30de\u30c6\u30ea\u30a2\u30eb.005",
+			"name":"Floor",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -65,35 +70,35 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1830,
+			"count":1834,
 			"max":[
-				18.947481155395508,
+				50.14963150024414,
 				2.540358304977417,
-				50.35710144042969
+				18.94748306274414
 			],
 			"min":[
-				-17.895427703857422,
+				-50.35709762573242,
 				-0.8400859236717224,
-				-50.149635314941406
+				-17.895429611206055
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1830,
+			"count":1834,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1830,
+			"count":1834,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":1830,
+			"count":1834,
 			"type":"VEC4"
 		},
 		{
@@ -106,32 +111,32 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":21960,
+			"byteLength":22008,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":21960,
-			"byteOffset":21960,
+			"byteLength":22008,
+			"byteOffset":22008,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":14640,
-			"byteOffset":43920,
+			"byteLength":14672,
+			"byteOffset":44016,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":29280,
-			"byteOffset":58560,
+			"byteLength":29344,
+			"byteOffset":58688,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":8736,
-			"byteOffset":87840,
+			"byteOffset":88032,
 			"target":34963
 		}
 	],
@@ -143,7 +148,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":96576,
+			"byteLength":96768,
 			"uri":"floor.bin"
 		}
 	]
