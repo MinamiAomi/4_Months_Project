@@ -5,10 +5,10 @@
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
 
-void StageLineLight::Initialize(bool isLeft) {
+void StageLineLight::Initialize(bool isLeft,bool isUp) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("lightline"));
-	model_->SetIsActive(true);
+	model_->SetIsActive(false);
 	lightManager_ = &RenderManager::GetInstance()->GetLightManager();
 
 	originTransform_.SetParent(&transform);
@@ -25,14 +25,24 @@ void StageLineLight::Initialize(bool isLeft) {
 	else {
 		transform.translate.x = 32.0f;
 	}
-	transform.translate.y = -23.0f;
+
+	if (isUp) {
+		transform.translate.y = 6.4f;
+		lineLight_->range = 10.5f;
+	}
+	else {
+		transform.translate.y = -23.0f;
+		lineLight_->range = 15.0f;
+	}
+
 	transform.scale.z = 300.0f;
 
-	lineLight_->color = { 0.9f,0.0f,0.60f };
+	lineLight_->color = runAwayColor_;
 	lineLight_->intensity = 1.5f;
 	lineLight_->decay = 0.85f;
-	lineLight_->range = 15.0f;
+	
 
+	saveState_ = characterState_;
 }
 
 void StageLineLight::Update() {
@@ -49,6 +59,28 @@ void StageLineLight::Update() {
 	ImGui::DragFloat3("LineLightTranslate", &originTransform_.translate.x, 0.1f, 0.0f);
 	ImGui::End();
 #endif // _DEBUG
+
+	//�J��
+	if (saveState_ != characterState_) {
+		if (characterState_ == Character::kChase) {
+			//�����ɂȂ�����
+			t_ += speed_;
+			t_ = std::clamp(t_, 0.0f, 1.0f);
+			if (t_ >= 1.0f) {
+				saveState_ = characterState_;
+			}
+		}
+		else {
+			//�����鑤�ɂȂ�����
+			t_ -= speed_;
+			t_ = std::clamp(t_, 0.0f, 1.0f);
+			if (t_ <= 0.0f) {
+				saveState_ = characterState_;
+			}
+		}
+	}
+
+	lineLight_->color = Vector3::Lerp(t_, runAwayColor_, ChaseColor_);
 
 	lightManager_->Add(lineLight_);
 }

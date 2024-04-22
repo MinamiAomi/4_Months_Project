@@ -17,8 +17,9 @@ SkyBlock::~SkyBlock()
 {
 }
 
-void SkyBlock::Initialize(const Vector3& pos, const Vector3& scale) {
+void SkyBlock::Initialize(const Vector3& pos, const Vector3& rotate, const Vector3& scale) {
 	transform.translate = pos;
+	transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
 	transform.scale = scale;
 	isDead_ = false;
 }

@@ -11,10 +11,12 @@
 
 #include "Graphics/LightManager.h"
 
+#include "../Test/CharacterState.h"
+
 class StageLineLight :
 	public GameObject {
 public:
-	void Initialize(bool isLeft);
+	void Initialize(bool isLeft,bool isUp);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
@@ -29,4 +31,11 @@ private:
 	std::shared_ptr<LineLight> lineLight_;
 	Transform originTransform_;
 	Transform diffTransform_;
+
+	Character::State saveState_;
+	float t_ = 0.0f;
+	float speed_ = 0.01f;
+
+	Vector3 runAwayColor_ = { 0.9f,0.0f,0.60f };
+	Vector3 ChaseColor_ = { 2.5f,0.0f,0.00f };
 };

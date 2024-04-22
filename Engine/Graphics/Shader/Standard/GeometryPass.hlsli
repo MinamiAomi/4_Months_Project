@@ -11,6 +11,7 @@ ConstantBuffer<Scene> g_Scene : register(b0);
 struct Instance {
     float4x4 worldMatrix;
     float4x4 worldInverseTransposeMatrix;
+    float3 color;
     uint useLighting;
 };
 struct InstanceOffset {

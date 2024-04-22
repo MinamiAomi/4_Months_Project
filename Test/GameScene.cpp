@@ -47,16 +47,24 @@ void GameScene::OnInitialize() {
 	boss_->Initialize();
 
 	stageRightLight = std::make_unique<StageLineLight>();
-	stageRightLight->Initialize(false);
+	stageRightLight->Initialize(false,false);
 	stageRightLight->SetPlayer(player_.get());
 
 	stageLeftLight = std::make_unique<StageLineLight>();
-	stageLeftLight->Initialize(true);
+	stageLeftLight->Initialize(true,false);
 	stageLeftLight->SetPlayer(player_.get());
 
 	stageBlockManager_ = std::make_unique<StageBlockManager>();
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
+
+	stageUpLeftLight = std::make_unique<StageLineLight>();
+	stageUpLeftLight->Initialize(true, true);
+	stageUpLeftLight->SetPlayer(player_.get());
+
+	stageUpRightLight = std::make_unique<StageLineLight>();
+	stageUpRightLight->Initialize(false, true);
+	stageUpRightLight->SetPlayer(player_.get());
 
 	editorManager_->SetCamera(cameraManager_->GetCamera().get());
 	skyBlockManager_ = std::make_unique<SkyBlockManager>();
@@ -68,6 +76,10 @@ void GameScene::OnInitialize() {
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
 	GameSpeed::LoadJson();
+	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
+	playerDustParticle_->SetPlayer(player_.get());
+	playerDustParticle_->Initialize();
+
 }
 
 void GameScene::OnUpdate() {
@@ -85,6 +97,8 @@ void GameScene::OnUpdate() {
 	player_->Update();
 	stageRightLight->Update();
 	stageLeftLight->Update();
+	stageUpRightLight->Update();
+	stageUpLeftLight->Update();
 	boss_->Update();
 
 	// 当たり判定を取る
@@ -92,6 +106,9 @@ void GameScene::OnUpdate() {
 
 	cameraManager_->Update();
 	GameSpeed::Update();
+
+	//playerが地面にいるかの確認をするためコリジョンの下
+	playerDustParticle_->Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);

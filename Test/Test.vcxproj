@@ -44,6 +44,7 @@
     <ClCompile Include="Player\PlayerBullet\BulletManager.cpp" />
     <ClCompile Include="Player\PlayerBullet\PlayerBullet.cpp" />
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
+    <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
     <ClCompile Include="SkyBlock.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="Player\PlayerBullet\BulletManager.h" />
     <ClInclude Include="Player\PlayerBullet\PlayerBullet.h" />
     <ClInclude Include="Player\PlayerHP\PlayerHP.h" />
+    <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
     <ClInclude Include="SkyBlock.h" />
