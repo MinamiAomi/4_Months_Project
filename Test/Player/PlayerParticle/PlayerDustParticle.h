@@ -35,9 +35,9 @@ private:
 	Player* player_;
 	Transform emitTransform_;
 	std::array<DustParticle, kParticleNum> particles_;
-	float speed_ = 0.3f;
-	float scaleSpeed_ = 0.06f;
-	Vector3 initialScale = {1.0f,1.0f,1.0f};
+	float speed_ = 0.1f;
+	float scaleSpeed_ = 0.03f;
+	Vector3 initialScale = {0.5f,0.5f,0.5f};
 	bool isEmit_ = false;
 	uint32_t emitNum_ = 1;
 	Vector3 minDirection_;

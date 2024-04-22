@@ -7,7 +7,7 @@ void PlayerDustParticle::Initialize() {
 	maxDirection_ = { 0.5f,1.0f,0.5f };
 	emitTransform_.SetParent(&player_->transform);
 	Vector3 modelMinSize = player_->GetMinModelSize();
-	emitTransform_.translate.y = modelMinSize.y - 2.0f;
+	//emitTransform_.translate.y = modelMinSize.y - 2.0f;
 	emitTransform_.translate.z = modelMinSize.z;
 	for (DustParticle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
