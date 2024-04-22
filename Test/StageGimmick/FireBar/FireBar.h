@@ -9,13 +9,14 @@
 #include "Engine/Math/MathUtils.h"
 #include "Player/Player.h"
 #include "Math/Camera.h"
+#include "StageGimmick/StageGimmick.h"
 
 // バーとブロックで分けた
 class Bar :
 	public GameObject {
 public:
 	struct Desc {
-		Vector3 barInitialAngle;
+		float barInitialAngle;
 		float rotateVelocity;
 		float length;
 	};
@@ -23,9 +24,7 @@ public:
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
-	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
 	void SetRotateVelocity(float rotateVelocity) { rotateVelocity_ = rotateVelocity; }
-	const Vector3& GetRotate() { return rotate_; }
 	float GetRotateVelocity() { return rotateVelocity_; }
 	void SetDesc(const Desc& desc);
 	void SetIsActive(bool flag);
@@ -40,7 +39,7 @@ private:
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
 
-	Vector3 rotate_;
+	float angle_;
 
 	float rotateVelocity_;
 };
@@ -49,7 +48,7 @@ class FireBar :
 	public GameObject {
 public:
 	struct Desc {
-		Transform transform;
+		StageGimmick::Desc desc;
 		Bar::Desc barDesc;
 	};
 
@@ -65,8 +64,8 @@ public:
 	void SetDesc(const Desc& desc);
 	void SetIsActive(bool flag);
 
-	const Vector3& GetRotate() const { return rotate_; }
-	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
+	/*const Vector3& GetRotate() const { return rotate_; }
+	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }*/
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
@@ -79,7 +78,9 @@ private:
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
 
-	Vector3 rotate_;
+	std::optional<StageGimmick::Collider> colliderDesc_;
+
+	//Vector3 rotate_;
 
 	bool onPlayer_;
 	bool onceOnPlayer_;

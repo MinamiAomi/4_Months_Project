@@ -60,6 +60,9 @@
     <ClCompile Include="StageGimmick\Pendulum\Pendulum.cpp" />
     <ClCompile Include="StageGimmick\Pendulum\PendulumManager.cpp" />
     <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="StageGimmick\StageGimmick.cpp" />
+    <ClCompile Include="StageGimmick\StageObject\StageObject.cpp" />
+    <ClCompile Include="StageGimmick\StageObject\StageObjectManager.cpp" />
     <ClCompile Include="StageLineLight.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
@@ -110,6 +113,8 @@
     <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h" />
     <ClInclude Include="Skydome.h" />
     <ClInclude Include="StageGimmick\StageGimmick.h" />
+    <ClInclude Include="StageGimmick\StageObject\StageObject.h" />
+    <ClInclude Include="StageGimmick\StageObject\StageObjectManager.h" />
     <ClInclude Include="StageLineLight.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />

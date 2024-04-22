@@ -54,7 +54,7 @@ void Boss::Update() {
 		if (ImGui::Button("OffsetSave")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
 			JSON_OBJECT("Boss");
-			JSON_LOAD(offset_);
+			JSON_SAVE(offset_);
 			JSON_ROOT();
 			JSON_CLOSE();
 		}

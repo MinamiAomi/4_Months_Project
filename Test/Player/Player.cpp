@@ -164,7 +164,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||
 		collisionInfo.collider->GetName() == "FireBarCenter"||
-		collisionInfo.collider->GetName() == "Floor") {
+		collisionInfo.collider->GetName() == "Floor"||
+		collisionInfo.collider->GetName() == "StageObject") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();

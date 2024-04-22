@@ -9,7 +9,7 @@
         "maxInvincibleTime_": 15,
         "offset_": [
             0.0,
-            0.0,
+            10.0,
             0.0
         ],
         "runAwayLimitLine_": 66.0,
