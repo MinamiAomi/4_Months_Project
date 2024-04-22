@@ -9,6 +9,7 @@
 #include "Engine/Math/MathUtils.h"
 #include "Player/Player.h"
 #include "Math/Camera.h"
+#include "StageGimmick/StageGimmick.h"
 
 class Stick :
 	public GameObject {
@@ -58,8 +59,7 @@ class Pendulum :
 	public GameObject {
 public:
 	struct Desc {
-		Vector3 pos;
-		Vector3 scale;
+		StageGimmick::Desc desc;
 
 		float length;
 		float gravity;

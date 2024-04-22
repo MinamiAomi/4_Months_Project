@@ -116,14 +116,20 @@ void Ball::OnCollision(const CollisionInfo& collisionInfo) {
 
 void Pendulum::Initialize(const Desc& desc) {
 	desc_ = desc;
+	
 
-	transform.translate = desc_.pos;
+	transform.translate = desc_.desc.transform.translate;
+	transform.rotate = desc_.desc.transform.rotate;
+	transform.scale = desc_.desc.transform.scale;
+
+
 	transform.rotate = Quaternion::MakeForZAxis(desc_.initializeAngle);
 	stick_ = std::make_unique<Stick>();
 	ball_ = std::make_unique<Ball>();
 
 	angularVelocity_ = 0.0f;
 	angularAcceleration_ = 0.0f;
+	angularVelocity_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
 	if (angle != desc_.initializeAngle) {
@@ -158,7 +164,7 @@ void Pendulum::Update() {
 	ball_->Update();
 	stick_->Update();
 	// 雑カリング
-	if (std::fabs((camera_ ->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
 		ball_->SetIsActive(true);
 		stick_->SetIsActive(true);
 	}
@@ -169,13 +175,17 @@ void Pendulum::Update() {
 }
 
 void Pendulum::SetDesc(const Desc& desc) {
-	
 	desc_ = desc;
-	
-	transform.translate = desc_.pos;
-	transform.rotate =  Quaternion::MakeForZAxis(desc_.initializeAngle);
+	desc_.gravity = 0.002f;
+
+	transform.translate = desc_.desc.transform.translate;
+	transform.rotate = desc_.desc.transform.rotate;
+	transform.scale = desc_.desc.transform.scale;
+
+
+	transform.rotate = Quaternion::MakeForZAxis(desc_.initializeAngle);
+
 	angularAcceleration_ = 0.0f;
-	angularVelocity_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
 	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)&&

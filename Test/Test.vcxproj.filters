@@ -91,6 +91,9 @@
     <Filter Include="Game\Object\Editor\BossAttackTrigger">
       <UniqueIdentifier>{376e4724-e1d7-4558-8e5e-4b348e17e866}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageGimmick\StageObject">
+      <UniqueIdentifier>{f89ba708-1b5b-43b6-9d19-4cded027730c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Object\SkyBlock">
       <UniqueIdentifier>{144f9b85-2cef-4e65-a723-91cd7de5a0e1}</UniqueIdentifier>
     </Filter>
@@ -219,6 +222,15 @@
     </ClCompile>
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp">
       <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\StageGimmick.cpp">
+      <Filter>Game\Object\StageGimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\StageObject\StageObject.cpp">
+      <Filter>Game\Object\StageGimmick\StageObject</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\StageObject\StageObjectManager.cpp">
+      <Filter>Game\Object\StageGimmick\StageObject</Filter>
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>Game\Object\Skydome</Filter>
@@ -364,6 +376,12 @@
     </ClInclude>
     <ClInclude Include="StageGimmick\StageGimmick.h">
       <Filter>Game\Object\StageGimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\StageObject\StageObject.h">
+      <Filter>Game\Object\StageGimmick\StageObject</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\StageObject\StageObjectManager.h">
+      <Filter>Game\Object\StageGimmick\StageObject</Filter>
     </ClInclude>
     <ClInclude Include="SkyBlock.h">
       <Filter>Game\Object\SkyBlock</Filter>

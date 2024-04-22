@@ -5,17 +5,17 @@
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string Block::kModelName = "block";
 
-void Block::Initialize(const Desc& desc) {
+void Block::Initialize(const StageGimmick::Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = desc.scale;
-	rotate_ = desc.rotate;
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-	transform.translate = desc.translate;
+	transform.scale = desc.transform.scale;
+	transform.rotate = desc.transform.rotate;
+	transform.translate = desc.transform.translate;
 
-	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
+	colliderDesc_ = desc.collider;
+
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.name));
 	model_->SetIsActive(true);
 
 	onPlayer_ = false;
@@ -25,10 +25,9 @@ void Block::Initialize(const Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Block");
-	collider_->SetCenter(transform.translate);
-	collider_->SetOrientation(transform.rotate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
+	collider_->SetSize(colliderDesc_->size);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
@@ -57,15 +56,10 @@ void Block::Update() {
 }
 
 void Block::UpdateTransform() {
-	transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
 	transform.UpdateMatrix();
-	Vector3 scale, translate;
-	Quaternion rotate;
-	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
-	collider_->SetOrientation(rotate);
+	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
+	collider_->SetSize(colliderDesc_->size);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 

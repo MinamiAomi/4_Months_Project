@@ -7,29 +7,25 @@
 
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
-#include "Engine/Math/MathUtils.h"
+#include "Math/MathUtils.h"
+#include "StageGimmick/StageGimmick.h"
 #include "Player/Player.h"
 
-#include "StageGimmick/StageGimmick.h"
-#include "Math/Camera.h"
-class Block :
+class StageObject :
 	public GameObject {
 public:
 	void Initialize(const StageGimmick::Desc& desc);
 	void Update();
 
-	void SetPlayer(const Player* player) { player_ = player; }
-
-	void GetCamera(const Camera* camera) { camera_ = camera; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
-	void OnCollision(const CollisionInfo& collisionInfo);
+	//void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Player* player_;
 	const Camera* camera_;
 
 	std::unique_ptr<ModelInstance> model_;
-
 	std::unique_ptr<BoxCollider> collider_;
 
 	std::optional<StageGimmick::Collider> colliderDesc_;
@@ -37,7 +33,4 @@ private:
 	//Vector3 rotate_;
 
 	StageGimmick::Desc desc_;
-
-	bool onPlayer_;
-	bool onceOnPlayer_;
 };
