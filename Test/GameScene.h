@@ -14,11 +14,13 @@
 #include "StageGimmick/Floor/FloorManager.h"
 #include "StageGimmick/FireBar/FireBarManager.h"
 #include "StageGimmick/Pendulum/PendulumManager.h"
+#include "StageGimmick/StageObject/StageObjectManager.h"
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
 #include "Editor/EditorManager.h"
 #include "Player/Player.h"
+#include "Player/PlayerParticle/PlayerDustParticle.h"
 #include "Skydome.h"
 #include "StageLineLight.h"
 #include "StageBlockManager.h"
@@ -47,14 +49,20 @@ private:
 	std::unique_ptr<FireBarManager> fireBarManager_;
 	std::unique_ptr<FloorManager> floorManager_;
 	std::unique_ptr<PendulumManager> pendulumManager_;
+	std::unique_ptr<StageObjectManager> stageObjectManager_;
 #pragma endregion
 
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;
+	std::unique_ptr<PlayerDustParticle> playerDustParticle_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<StageLineLight> stageRightLight;
 	std::unique_ptr<StageLineLight> stageLeftLight;
+
+	std::unique_ptr<StageLineLight> stageUpRightLight;
+	std::unique_ptr<StageLineLight> stageUpLeftLight;
+
 	std::unique_ptr<StageBlockManager> stageBlockManager_;
 	std::unique_ptr<SkyBlockManager> skyBlockManager_;
 #pragma endregion

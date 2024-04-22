@@ -1267,7 +1267,7 @@
                     26.55672264099121
                 ]
             },
-            "file_name": "block",
+            "file_name": "fireBar",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -4010,8 +4010,28 @@
                     1.0
                 ],
                 "scale": [
+                    5.0,
+                    5.0,
+                    5.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
                     1.0,
                     1.0,
+                    1.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
                     1.0
                 ]
             },

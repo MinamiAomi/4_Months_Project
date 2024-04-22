@@ -5,7 +5,7 @@
 #include "Graphics/GameWindow.h"
 #include "Graphics/RenderManager.h"
 #include "Input/Input.h"
-#include "Audio/Audio.h"
+#include "Audio/AudioDevice.h"
 #include "Scene/SceneManager.h"
 
 void Engine::Run(Game* game) {
@@ -18,7 +18,7 @@ void Engine::Run(Game* game) {
     auto input = Input::GetInstance();
     input->Initialize(gameWindow->GetHWND());
 
-    auto audio = Audio::GetInstance();
+    auto audio = AudioDevice::GetInstance();
     audio->Initialize();
 
     auto renderManager = RenderManager::GetInstance();
@@ -30,14 +30,15 @@ void Engine::Run(Game* game) {
 
     while (gameWindow->ProcessMessage()) {
         input->Update();
-        audio->Update();
         sceneManager->Update();
 
         renderManager->Render();
     }
 
+    sceneManager->Finalize();
     game->OnFinalize();
 
+    audio->Finalize();
     renderManager->Finalize();
     graphics->Finalize();
     gameWindow->Shutdown();

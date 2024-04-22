@@ -19,13 +19,14 @@ void GameScene::OnInitialize() {
 	fireBarManager_ = std::make_unique<FireBarManager>();
 	floorManager_ = std::make_unique<FloorManager>();
 	pendulumManager_ = std::make_unique<PendulumManager>();
+	stageObjectManager_ = std::make_unique<StageObjectManager>();
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
 	cameraManager_->Initialize(player_.get());
 
-	blockManager_->SetCamera(cameraManager_->GetCamera().get());
+	blockManager_->SetCamara(cameraManager_->GetCamera().get());
 	blockManager_->SetPlayer(player_.get());
 	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
 	fireBarManager_->SetPlayer(player_.get());
@@ -33,11 +34,14 @@ void GameScene::OnInitialize() {
 	floorManager_->SetPlayer(player_.get());
 	pendulumManager_->SetCamera(cameraManager_->GetCamera().get());
 	pendulumManager_->SetPlayer(player_.get());
+	stageObjectManager_->SetCamara(cameraManager_->GetCamera().get());
+	stageObjectManager_->SetPlayer(player_.get());
 
 	blockManager_->Initialize(0);
 	fireBarManager_->Initialize(0);
 	floorManager_->Initialize(0);
 	pendulumManager_->Initialize(0);
+	stageObjectManager_->Initialize(0);
 
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
@@ -47,16 +51,24 @@ void GameScene::OnInitialize() {
 	boss_->Initialize();
 
 	stageRightLight = std::make_unique<StageLineLight>();
-	stageRightLight->Initialize(false);
+	stageRightLight->Initialize(false,false);
 	stageRightLight->SetPlayer(player_.get());
 
 	stageLeftLight = std::make_unique<StageLineLight>();
-	stageLeftLight->Initialize(true);
+	stageLeftLight->Initialize(true,false);
 	stageLeftLight->SetPlayer(player_.get());
 
 	stageBlockManager_ = std::make_unique<StageBlockManager>();
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
+
+	stageUpLeftLight = std::make_unique<StageLineLight>();
+	stageUpLeftLight->Initialize(true, true);
+	stageUpLeftLight->SetPlayer(player_.get());
+
+	stageUpRightLight = std::make_unique<StageLineLight>();
+	stageUpRightLight->Initialize(false, true);
+	stageUpRightLight->SetPlayer(player_.get());
 
 	editorManager_->SetCamera(cameraManager_->GetCamera().get());
 	skyBlockManager_ = std::make_unique<SkyBlockManager>();
@@ -68,6 +80,10 @@ void GameScene::OnInitialize() {
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
 	GameSpeed::LoadJson();
+	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
+	playerDustParticle_->SetPlayer(player_.get());
+	playerDustParticle_->Initialize();
+
 }
 
 void GameScene::OnUpdate() {
@@ -75,23 +91,30 @@ void GameScene::OnUpdate() {
 
 	blockManager_->Update();
 	stageBlockManager_->Update();
-	skyBlockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
 	pendulumManager_->Update();
+	stageObjectManager_->Update();
 	editorManager_->Update();
 
 
 	player_->Update();
 	stageRightLight->Update();
 	stageLeftLight->Update();
+	stageUpRightLight->Update();
+	stageUpLeftLight->Update();
 	boss_->Update();
+
+	skyBlockManager_->Update();
 
 	// 当たり判定を取る
 	CollisionManager::GetInstance()->CheckCollision();
 
 	cameraManager_->Update();
 	GameSpeed::Update();
+
+	//playerが地面にいるかの確認をするためコリジョンの下
+	playerDustParticle_->Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);
@@ -124,11 +147,13 @@ void GameScene::OnUpdate() {
 		}
 		ImGui::EndMenu();
 	}
-	if (ImGui::Button("Reset")) {
+	if (ImGui::Button("Reset")||
+		Input::GetInstance()->IsKeyTrigger(DIK_R)) {
 		player_->Reset();
 		cameraManager_->Reset();
-		stageBlockManager_->Reset();
 		boss_->Reset(0);
+		stageBlockManager_->Reset();
+		skyBlockManager_->Reset();
 		blockManager_->Reset(0);
 		fireBarManager_->Reset(0);
 		floorManager_->Reset(0);
@@ -137,6 +162,18 @@ void GameScene::OnUpdate() {
 
 	}
 #endif // _DEBUG
+	if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+		player_->Reset();
+		cameraManager_->Reset();
+		stageBlockManager_->Reset();
+		boss_->Reset(0);
+		blockManager_->Reset(0);
+		fireBarManager_->Reset(0);
+		floorManager_->Reset(0);
+		pendulumManager_->Reset(0);
+
+
+	}
 	//bool changeScene = Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A);
 	//if (changeScene && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 	//    SceneManager::GetInstance()->ChangeScene<TitleScene>();
