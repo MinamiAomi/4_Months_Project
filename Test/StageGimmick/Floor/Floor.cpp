@@ -1,7 +1,7 @@
 #include "floor.h"
 
 #include "CollisionAttribute.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
 void Floor::Initialize(const StageGimmick::Desc& desc) {

@@ -183,9 +183,6 @@
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\ResourceManager.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\Timer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -305,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="Audio\Sound.cpp">
       <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ResourceManager.cpp">
+      <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +470,6 @@
     <ClInclude Include="Externals\nlohmann\json_fwd.hpp">
       <Filter>Externals\nlohmann</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\ResourceManager.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Timer.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -601,6 +598,9 @@
     </ClInclude>
     <ClInclude Include="Audio\Sound.h">
       <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ResourceManager.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

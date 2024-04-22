@@ -1,7 +1,7 @@
 #include "DecorationModel.h"
 
 #include "CollisionAttribute.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
 void DecorationModel::Initialize(std::string modelName) {

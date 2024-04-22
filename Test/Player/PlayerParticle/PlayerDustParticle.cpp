@@ -1,6 +1,6 @@
 #include "PlayerDustParticle.h"
 #include "Player/Player.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 
 void PlayerDustParticle::Initialize() {
 	minDirection_ = { -0.5f,0.5f,-0.5f };
