@@ -5,7 +5,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
 
-void StageLineLight::Initialize(bool isLeft) {
+void StageLineLight::Initialize(bool isLeft,bool isUp) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("lightline"));
 	model_->SetIsActive(false);
@@ -25,13 +25,22 @@ void StageLineLight::Initialize(bool isLeft) {
 	else {
 		transform.translate.x = 32.0f;
 	}
-	transform.translate.y = -23.0f;
+
+	if (isUp) {
+		transform.translate.y = 6.4f;
+		lineLight_->range = 10.5f;
+	}
+	else {
+		transform.translate.y = -23.0f;
+		lineLight_->range = 15.0f;
+	}
+
 	transform.scale.z = 300.0f;
 
 	lineLight_->color = runAwayColor_;
 	lineLight_->intensity = 1.5f;
 	lineLight_->decay = 0.85f;
-	lineLight_->range = 15.0f;
+	
 
 	saveState_ = characterState_;
 }

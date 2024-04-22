@@ -57,6 +57,10 @@ private:
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<StageLineLight> stageRightLight;
 	std::unique_ptr<StageLineLight> stageLeftLight;
+
+	std::unique_ptr<StageLineLight> stageUpRightLight;
+	std::unique_ptr<StageLineLight> stageUpLeftLight;
+
 	std::unique_ptr<StageBlockManager> stageBlockManager_;
 	std::unique_ptr<SkyBlockManager> skyBlockManager_;
 #pragma endregion
