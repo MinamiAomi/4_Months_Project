@@ -23,6 +23,14 @@ public:
 	void Initialize(ColorBuffer* originalTexture);
 	void Render(CommandContext& commandContext, GeometryRenderingPass& geometryRenderingPass);
 
+	const Vector3& GetColor() {
+		return edgeColor_;
+	}
+
+	void SetColor(const Vector3& color)  {
+		edgeColor_ = color;
+	}
+
 	ColorBuffer& GetResult() { return edgeTexture_; }
 
 private:
