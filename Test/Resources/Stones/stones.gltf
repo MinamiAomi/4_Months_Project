@@ -15,24 +15,17 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u7acb\u65b9\u4f53",
-			"scale":[
-				5.451577186584473,
-				5.451577186584473,
-				5.451577186584473
-			],
-			"translation":[
-				1069.4273681640625,
-				6.277885437011719,
-				7.575836181640625
-			]
+			"name":"\u98db\u3073\u77f3"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"tatemono",
+			"name":"stones",
 			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -40,98 +33,104 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.020",
+			"name":"\u7acb\u65b9\u4f53.022",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/png",
+			"name":"aaaaaaaaa",
+			"uri":"aaaaaaaaa.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":24,
+			"count":1088,
 			"max":[
-				1,
-				1,
-				1
+				8.36694049835205,
+				1.4193410873413086,
+				5.759957790374756
 			],
 			"min":[
-				-1,
-				-1,
-				-1
+				-8.470416069030762,
+				-1.3687405586242676,
+				-5.469256401062012
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":24,
+			"count":1088,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":24,
+			"count":1088,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":24,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":36,
+			"count":1794,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":288,
+			"byteLength":13056,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
-			"byteOffset":288,
+			"byteLength":13056,
+			"byteOffset":13056,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":192,
-			"byteOffset":576,
+			"byteLength":8704,
+			"byteOffset":26112,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":384,
-			"byteOffset":768,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":72,
-			"byteOffset":1152,
+			"byteLength":3588,
+			"byteOffset":34816,
 			"target":34963
+		}
+	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":1224,
+			"byteLength":38404,
 			"uri":"stones.bin"
 		}
 	]

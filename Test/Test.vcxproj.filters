@@ -100,6 +100,9 @@
     <Filter Include="Game\Object\Player\PlayerParticle">
       <UniqueIdentifier>{c1ac3b80-f5ed-47b8-a98b-8338d0fdeb32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerAttack">
+      <UniqueIdentifier>{fa2b26b5-f188-4b3a-b166-882677f4d42f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -245,6 +248,7 @@
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp">
       <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClCompile>
+    <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -394,6 +398,9 @@
     </ClInclude>
     <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h">
       <Filter>Game\Object\Player\PlayerParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerAttack\PlayerAttackManager.h">
+      <Filter>Game\Object\Player\PlayerAttack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

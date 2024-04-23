@@ -33,7 +33,7 @@ void StageCamera::Update() {
 	{
 		if (isMove_) {
 			//transform.translate += cameraParam_.at(Character::State::kChase).cameraVelocity;
-			transform.translate.z += GameSpeed::speed;
+			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
 		camera_->SetPosition(
 			{
@@ -48,7 +48,7 @@ void StageCamera::Update() {
 	{
 		if (isMove_) {
 			//transform.translate -= cameraParam_.at(Character::State::kRunAway).cameraVelocity;
-			transform.translate.z -= GameSpeed::speed;
+			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
 		camera_->SetPosition(
 			{
