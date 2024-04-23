@@ -9,7 +9,8 @@ const wchar_t kPostEffectPixelShader[] = L"PostEffectPS.hlsl";
 const wchar_t kPostEffectOtherPixelShader[] = L"PostEffectOtherPS.hlsl";
 const wchar_t kPostEffectAddPixelShader[] = L"PostEffectAddPS.hlsl";
 
-void PostEffect::Initialize(const ColorBuffer& target) {
+void PostEffect::Initialize(ColorBuffer& target) {
+    targetTexture_ = &target;
     CD3DX12_DESCRIPTOR_RANGE srvRange[3]{};
     srvRange[0].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
     srvRange[1].Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
@@ -62,6 +63,9 @@ void PostEffect::Initialize(const ColorBuffer& target) {
 
     pipelineStateDesc.BlendState = Helper::BlendMultiply;
     pipelineStateMultiply_.Create(L"PostEffect PipelineState", pipelineStateDesc);
+
+    pipelineStateDesc.BlendState = Helper::BlendAlpha;
+    pipelineStateAlpha_.Create(L"PostEffect PipelineState", pipelineStateDesc);
 }
 
 void PostEffect::Render(CommandContext& commandContext, ColorBuffer& texture, ColorBuffer& shadow, ColorBuffer& reflection) {
@@ -105,6 +109,15 @@ void PostEffect::RenderMultiplyTexture(CommandContext& commandContext, ColorBuff
     commandContext.TransitionResource(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
     commandContext.SetRootSignature(rootSignature_);
     commandContext.SetPipelineState(pipelineStateMultiply_);
+    commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    commandContext.SetDescriptorTable(1, texture.GetSRV());
+    commandContext.Draw(3);
+}
+
+void PostEffect::RenderAlphaTexture(CommandContext& commandContext, ColorBuffer& texture) {
+    commandContext.TransitionResource(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandContext.SetRootSignature(rootSignature_);
+    commandContext.SetPipelineState(pipelineStateAlpha_);
     commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandContext.SetDescriptorTable(1, texture.GetSRV());
     commandContext.Draw(3);

@@ -306,6 +306,9 @@
     <ClCompile Include="Audio\Sound.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Edge.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -602,6 +605,9 @@
     <ClInclude Include="Audio\Sound.h">
       <Filter>Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\Edge.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Lighting.hlsli">
@@ -723,5 +729,13 @@
     <Text Include="Externals\ImGui\LICENSE.txt">
       <Filter>Externals\ImGui</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\Shader\EdgePS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\EdgeVS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
