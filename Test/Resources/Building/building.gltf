@@ -23,6 +23,9 @@
 			"doubleSided":true,
 			"name":"tatemono",
 			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -42,6 +45,19 @@
 					"material":0
 				}
 			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/png",
+			"name":"ssssss",
+			"uri":"ssssss.png"
 		}
 	],
 	"accessors":[
@@ -104,6 +120,12 @@
 			"byteLength":4356,
 			"byteOffset":37600,
 			"target":34963
+		}
+	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
 		}
 	],
 	"buffers":[
