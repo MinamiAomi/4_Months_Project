@@ -103,7 +103,7 @@ void Player::Update() {
 	playerUI_->Update();
 
 	// 切り替え
-	if (characterState_== Character::State::kRunAway &&
+	if (characterState_ == Character::State::kRunAway &&
 		(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
 		(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
 		characterState_ = Character::State::kChase;
@@ -115,6 +115,8 @@ void Player::Update() {
 		velocity_ = Vector3::zero;
 		acceleration_ = Vector3::zero;
 		revengeSE_->Play();
+
+
 	}
 
 	acceleration_.y += gravity_;
@@ -149,7 +151,7 @@ void Player::Update() {
 		break;
 	}
 	UpdateTransform();
-	
+
 
 	// 弾アップデート
 	//bulletManager_->Update(transform.worldMatrix.GetTranslate());
@@ -182,9 +184,9 @@ void Player::UpdateTransform() {
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
 	if (collisionInfo.collider->GetName() == "Boss") {
+		acceleration_.z -= knockBack_;
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
-			acceleration_.z -= knockBack_;
 			if (playerHP_->GetCurrentHP() > 0) {
 				playerHP_->AddHP(-1);
 			}
