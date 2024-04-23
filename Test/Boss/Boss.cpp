@@ -5,6 +5,8 @@
 #include "Framework/ResourceManager.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
+#include "GameSpeed.h"
+#include "Player/Player.h"
 
 void Boss::Initialize() {
 #pragma endregion
@@ -42,7 +44,7 @@ void Boss::Initialize() {
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	// ）
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x *2.0f,modelSize.y ,modelSize.z });
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -67,11 +69,33 @@ void Boss::Update() {
 	}
 	ImGui::End();
 #endif // _DEBUG
-	/*time_ -= 1.0f;
-	if (time_ <= 0.0f) {
-		state_->ChangeState<BossStateAttack>();
-		time_ = interval_;
-	}*/
+	if (Character::IsSceneChange()) {
+		easingStartPosition_ = transform.translate;
+	}
+	if (isMove_) {
+		switch (Character::currentCharacterState_) {
+		case Character::State::kChase:
+		{
+			transform.translate.z += GameSpeed::GetGameSpeed();
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			transform.translate.z -= GameSpeed::GetGameSpeed();
+		}
+		break;
+		case Character::State::kScneChange:
+		{
+			if (Character::nextCharacterState_ == Character::State::kChase) {
+				transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(),  Character::GetSceneChangeTime());
+			}
+		}
+		break;
+		default:
+			break;
+		}
+	}
+
 	state_->Update();
 	UpdateTransform();
 	bossModelManager_->Update();
@@ -83,7 +107,6 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 	state_->ChangeState<BossStateRoot>();
-	time_ = interval_;
 	bossAttackTriggerManager_->Reset(stageIndex);
 }
 

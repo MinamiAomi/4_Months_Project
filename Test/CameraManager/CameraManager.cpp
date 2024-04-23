@@ -3,12 +3,15 @@
 #include "Externals/ImGui/imgui.h"
 #include "CharacterState.h"
 #include "GameSpeed.h"
+#include "Boss/Boss.h"
+#include "Player/Player.h"
 
-void CameraManager::Initialize(Player* player) {
-	player;
+void CameraManager::Initialize(const Player* player,const Boss* boss) {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	stageCamera_ = std::make_unique<StageCamera>();
 
+	stageCamera_->SetPlayer(player);
+	stageCamera_->SetBoss(boss);
 	debugCamera_->Initialize();
 	stageCamera_->Initialize();
 
@@ -57,11 +60,15 @@ void CameraManager::Update() {
 		debugCamera_->SetRenderManager();
 		debugCamera_->Update();
 		if (isMove_) {
-			if (characterState_ == Character::kRunAway) {
-				distance_ -= GameSpeed::GetGameSpeed();
-			}
-			else {
+			switch (Character::currentCharacterState_) {
+			case Character::State::kChase:
 				distance_ += GameSpeed::GetGameSpeed();
+				break;
+			case Character::State::kRunAway:
+				distance_ -= GameSpeed::GetGameSpeed();
+				break;
+			default:
+				break;
 			}
 		}
 	}

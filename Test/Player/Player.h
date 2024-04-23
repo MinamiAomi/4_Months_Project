@@ -36,6 +36,7 @@ public:
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
+	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
 private:
 	void Move();
 	void Jump();

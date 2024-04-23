@@ -6,6 +6,7 @@
 #include "Math/MathUtils.h"
 #include "Input/Input.h"
 #include "Player/Player.h"
+#include "Boss/Boss.h"
 #include "GameSpeed.h"
 
 void StageCamera::Initialize() {
@@ -27,13 +28,16 @@ void StageCamera::Initialize() {
 }
 
 void StageCamera::Update() {
-
-	switch (characterState_) {
+	if (Character::IsSceneChange()) {
+		easingStartPosition_ = transform.translate;
+	}
+	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
 		if (isMove_) {
 			//transform.translate += cameraParam_.at(Character::State::kChase).cameraVelocity;
 			transform.translate.z += GameSpeed::GetGameSpeed();
+			transform.UpdateMatrix();
 		}
 		camera_->SetPosition(
 			{
@@ -49,6 +53,7 @@ void StageCamera::Update() {
 		if (isMove_) {
 			//transform.translate -= cameraParam_.at(Character::State::kRunAway).cameraVelocity;
 			transform.translate.z -= GameSpeed::GetGameSpeed();
+			transform.UpdateMatrix();
 		}
 		camera_->SetPosition(
 			{
@@ -59,6 +64,33 @@ void StageCamera::Update() {
 		camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kRunAway).eulerAngle * Math::ToRadian));
 	}
 	break;
+	case Character::State::kScneChange:
+	{
+		if (Character::nextCharacterState_ == Character::State::kChase) {
+			float t = Character::GetSceneChangeTime();
+			transform.translate.z = std::lerp(easingStartPosition_.z, boss_->transform.worldMatrix.GetTranslate().z - player_->GetChaseLimitLine() * 0.5f, t);
+			Vector3 offset = {
+			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.x, cameraParam_.at(Character::State::kChase).offset.x, t),
+			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.y, cameraParam_.at(Character::State::kChase).offset.y, t),
+			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.z, cameraParam_.at(Character::State::kChase).offset.z, t),
+			};
+			Vector3 rotate = {
+			std::lerp(cameraParam_.at(Character::State::kRunAway).eulerAngle.x, cameraParam_.at(Character::State::kChase).eulerAngle.x, t),
+			std::lerp(cameraParam_.at(Character::State::kRunAway).eulerAngle.y, cameraParam_.at(Character::State::kChase).eulerAngle.y, t),
+			std::lerp(cameraParam_.at(Character::State::kRunAway).eulerAngle.z, cameraParam_.at(Character::State::kChase).eulerAngle.z, t),
+			};
+			transform.UpdateMatrix();
+			camera_->SetPosition(
+				{
+				transform.translate.x + offset.x,
+				transform.translate.y + offset.y,
+				transform.translate.z + offset.z
+				});
+			camera_->SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
+		}
+		break;
+	}
+
 	default:
 		break;
 	}
@@ -66,14 +98,12 @@ void StageCamera::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("CameraManager")) {
-		ImGui::DragFloat3("Pos", &transform.translate.x, 0.1f);
-		switch (characterState_) {
+		ImGui::Text("Pos: x:%f,y:%f,z:%f", camera_->GetPosition().x, camera_->GetPosition().y, camera_->GetPosition().z, 0.1f);
+		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
 			ImGui::DragFloat3("cameraVelocity", &cameraParam_.at(Character::State::kChase).cameraVelocity.x, 0.1f);
-			Vector3 pos = transform.translate - cameraParam_.at(Character::State::kChase).offset;
 			ImGui::DragFloat3("offset", &cameraParam_.at(Character::State::kChase).offset.x, 0.1f);
-			transform.translate = pos + cameraParam_.at(Character::State::kChase).offset;
 			ImGui::DragFloat3("eulerAngle", &cameraParam_.at(Character::State::kChase).eulerAngle.x, 0.1f);
 
 		}
@@ -81,12 +111,11 @@ void StageCamera::Update() {
 		case Character::State::kRunAway:
 		{
 			ImGui::DragFloat3("cameraVelocity", &cameraParam_.at(Character::State::kRunAway).cameraVelocity.x, 0.1f);
-			Vector3 pos = transform.translate - cameraParam_.at(Character::State::kRunAway).offset;
 			ImGui::DragFloat3("offset", &cameraParam_.at(Character::State::kRunAway).offset.x, 0.1f);
-			transform.translate = pos + cameraParam_.at(Character::State::kRunAway).offset;
 			ImGui::DragFloat3("eulerAngle", &cameraParam_.at(Character::State::kRunAway).eulerAngle.x, 0.1f);
 		}
 		break;
+
 		default:
 			break;
 		}
@@ -111,7 +140,6 @@ void StageCamera::SetRenderManager() {
 
 void StageCamera::Reset() {
 	transform.translate = Vector3::zero;
-	isMove_ = true;
 }
 
 void StageCamera::CameraParameter::Load() {

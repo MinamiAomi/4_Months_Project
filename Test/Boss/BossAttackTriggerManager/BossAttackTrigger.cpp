@@ -75,7 +75,7 @@ void BossAttackTrigger::SetIsAlive(bool flag) {
 void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Boss" &&
 		boss_->GetStateManager()->GetState() == BossStateManager::State::kRoot &&
-		characterState_ == Character::kRunAway &&
+		Character::currentCharacterState_ == Character::kRunAway &&
 		!isCollision_) {
 		isCollision_ = true;
 		switch (desc_.state) {

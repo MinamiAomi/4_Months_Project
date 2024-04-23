@@ -183,25 +183,6 @@ void BossStateRoot::SetDesc() {
 }
 
 void BossStateRoot::Update() {
-	auto& transform = manager_.boss.transform;
-	if (manager_.boss.GetIsMove()) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::GetGameSpeed();
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::GetGameSpeed();
-		}
-		break;
-		default:
-			break;
-		}
-	}
 }
 
 void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
@@ -254,26 +235,6 @@ void BossStateHook::ChargeUpdate() {
 	rotate.z = std::lerp(initialRotate_.z, data_.startRotate.z, t);
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
 
-	auto& transform = manager_.boss.transform;
-	if (manager_.boss.GetIsMove()) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::GetGameSpeed();
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::GetGameSpeed();
-		}
-		break;
-		default:
-			break;
-		}
-	}
-
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
@@ -291,26 +252,6 @@ void BossStateHook::AttackUpdate() {
 	rotate.y = std::lerp(data_.startRotate.y, data_.endRotate.y, t);
 	rotate.z = std::lerp(data_.startRotate.z, data_.endRotate.z, t);
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
-
-	auto& transform = manager_.boss.transform;
-	if (manager_.boss.GetIsMove()) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::GetGameSpeed();
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::GetGameSpeed();
-		}
-		break;
-		default:
-			break;
-		}
-	}
 
 	if (t >= 1.0f) {
 		manager_.ChangeState<BossStateRoot>();
@@ -368,26 +309,6 @@ void BossStateFloorAll::ChargeUpdate() {
 	floorAllTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
 	floorAllTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
 	floorAllTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
-
-	auto& transform = manager_.boss.transform;
-	if (manager_.boss.GetIsMove()) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::GetGameSpeed();
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::GetGameSpeed();
-		}
-		break;
-		default:
-			break;
-		}
-	}
 
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
@@ -447,26 +368,6 @@ void BossStateLongDistanceAttack::ChargeUpdate() {
 	longDistanceAttackTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
 	longDistanceAttackTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
 	longDistanceAttackTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
-
-	auto& transform = manager_.boss.transform;
-	if (manager_.boss.GetIsMove()) {
-		switch (characterState_) {
-		case Character::State::kChase:
-		{
-			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::GetGameSpeed();
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::GetGameSpeed();
-		}
-		break;
-		default:
-			break;
-		}
-	}
 
 	if (t >= 1.0f) {
 		attackState_ = kAttack;

@@ -66,7 +66,7 @@ void SkyBlockManager::Appear(SkyBlock& skyBlock)
 		}
 		float y = 3.0f + rng_.NextFloatRange(0.0f, 7.0f);
 
-		if (characterState_ && Character::kRunAway) {
+		if (Character::currentCharacterState_ && Character::kRunAway) {
 			skyBlock.Initialize({ x,y ,boss_->transform.worldMatrix.GetTranslate().z - appearLength}, { x,y ,boss_->transform.worldMatrix.GetTranslate().z - appearLength }
 			, { scale ,scale ,scale });
 			

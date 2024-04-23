@@ -42,7 +42,7 @@ void StageLineLight::Initialize(bool isLeft,bool isUp) {
 	lineLight_->decay = 0.85f;
 	
 
-	saveState_ = characterState_;
+	saveState_ = Character::currentCharacterState_;
 }
 
 void StageLineLight::Update() {
@@ -61,13 +61,13 @@ void StageLineLight::Update() {
 #endif // _DEBUG
 
 	//�J��
-	if (saveState_ != characterState_) {
-		if (characterState_ == Character::kChase) {
+	if (saveState_ != Character::currentCharacterState_) {
+		if (Character::currentCharacterState_ == Character::kChase) {
 			//�����ɂȂ�����
 			t_ += speed_;
 			t_ = std::clamp(t_, 0.0f, 1.0f);
 			if (t_ >= 1.0f) {
-				saveState_ = characterState_;
+				saveState_ = Character::currentCharacterState_;
 			}
 		}
 		else {
@@ -75,7 +75,7 @@ void StageLineLight::Update() {
 			t_ -= speed_;
 			t_ = std::clamp(t_, 0.0f, 1.0f);
 			if (t_ <= 0.0f) {
-				saveState_ = characterState_;
+				saveState_ = Character::currentCharacterState_;
 			}
 		}
 	}

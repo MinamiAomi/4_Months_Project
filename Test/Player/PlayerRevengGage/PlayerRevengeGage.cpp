@@ -20,14 +20,13 @@ void PlayerRevengeGage::Initialize() {
 }
 
 void PlayerRevengeGage::Update() {
-	switch (characterState_) {
+	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
 		if (isMove_) {
 			currentRevengeBarGage_ -= subGageBar_;
 		}
 		if (currentRevengeBarGage_ <= 0) {
-			characterState_ = Character::State::kRunAway;
 			currentRevengeBarGage_ = 0.0f;
 			currentRevengeCircleGage_ = 0.0f;
 		}
@@ -86,5 +85,5 @@ void PlayerRevengeGage::Reset() {
 	isMove_ = true;
 	currentRevengeBarGage_ = 0.0f;
 	currentRevengeCircleGage_ = 0.0f;
-	characterState_ = Character::State::kRunAway;
+	Character::currentCharacterState_ = Character::State::kRunAway;
 }

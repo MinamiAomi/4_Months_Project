@@ -7,10 +7,15 @@
         "horizontalSpeed_": 0.30000001192092896,
         "jumpPower_": 0.5,
         "knockBack_": 5.0,
-        "maxInvincibleTime_": 15,
+        "maxInvincibleTime_": 30,
         "offset_": [
             0.0,
             10.0,
+            0.0
+        ],
+        "revengeStartOffset_": [
+            0.0,
+            0.0,
             0.0
         ],
         "runAwayLimitLine_": 66.0,

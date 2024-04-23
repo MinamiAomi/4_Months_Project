@@ -103,22 +103,23 @@ void Player::Update() {
 	playerUI_->Update();
 
 	// 切り替え
-	if (characterState_ == Character::State::kRunAway &&
+	if (Character::currentCharacterState_ == Character::State::kRunAway &&
 		(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
 		(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
-		characterState_ = Character::State::kChase;
-		transform.translate.x = 0.0f;
-		transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
+		Character::SetNextScene(Character::State::kChase);
+		//transform.translate.x = 0.0f;
+		//transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
 		transform.rotate = Quaternion::identity;
 		canFirstJump_ = true;
 		canSecondJump_ = true;
 		velocity_ = Vector3::zero;
 		acceleration_ = Vector3::zero;
 		revengeSE_->Play();
-
-
 	}
-
+	if (Character::currentCharacterState_ == Character::State::kChase &&
+		playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
+		Character::SetNextScene(Character::State::kRunAway);
+	}
 	acceleration_.y += gravity_;
 	acceleration_.z *= 0.9f;
 	velocity_ += acceleration_;
@@ -134,7 +135,7 @@ void Player::Update() {
 		canFirstJump_ = true;
 		canSecondJump_ = true;
 	}
-	switch (characterState_) {
+	switch (Character::currentCharacterState_) {
 	case Character::kChase:
 	{
 		transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - chaseLimitLine_, boss_->transform.translate.z);
