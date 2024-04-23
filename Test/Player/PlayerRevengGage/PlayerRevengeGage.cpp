@@ -35,19 +35,13 @@ void PlayerRevengeGage::Update() {
 	break;
 	case Character::State::kRunAway:
 	{
-		if (isMove_) {
+		if (isMove_ || isUpdate_) {
 			if (currentRevengeBarGage_ < kMaxRevengeBar) {
 				currentRevengeBarGage_ += addGageBar_;
 			}
 			else if (currentRevengeCircleGage_ < kMaxRevengeCircle) {
 				currentRevengeCircleGage_ += addGageBar_;
 			}
-		}
-
-		if ((currentRevengeBarGage_ >= kMaxRevengeBar) &&
-			(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
-			characterState_ = Character::State::kChase;
-
 		}
 	}
 	break;
@@ -62,6 +56,7 @@ void PlayerRevengeGage::Update() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
 		if (ImGui::TreeNode("PlayerRevengeGage")) {
+			ImGui::Checkbox("isUpdate", &isUpdate_);
 			ImGui::DragFloat("currentRevengeBarGage_", &currentRevengeBarGage_, 0.1f);
 			ImGui::DragFloat("currentRevengeCircleGage_", &currentRevengeCircleGage_, 0.1f);
 			ImGui::DragFloat("addGageBar_", &addGageBar_, 0.1f);
@@ -87,6 +82,7 @@ void PlayerRevengeGage::Update() {
 }
 
 void PlayerRevengeGage::Reset() {
+	isUpdate_ = true;
 	isMove_ = true;
 	currentRevengeBarGage_ = 0.0f;
 	currentRevengeCircleGage_ = 0.0f;

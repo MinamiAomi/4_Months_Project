@@ -37,7 +37,7 @@ void Boss::Initialize() {
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう）
-	collider_->SetSize({ transform.scale.x*10.0f,transform.scale.y,transform.scale.z});
+	collider_->SetSize({ transform.scale.x*10.0f,transform.scale.y*10.0f,transform.scale.z});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);

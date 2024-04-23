@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <fstream>
+#include <sstream>
 
 #include "Externals/nlohmann/json.hpp"
 
@@ -10,6 +11,7 @@
 #include "Graphics/Model.h"
 #include "Graphics/Sprite.h"
 #include "Audio/Sound.h"
+#include "Debug/Debug.h"
 
 #include "GameScene.h"
 
@@ -31,19 +33,48 @@ void Test::LoadResources() {
     file.open(ResourceAssociationFile);
     // 開けなかった
     assert(file.is_open());
-    
+
     nlohmann::json json;
     file >> json;
     file.close();
 
     ResourceManager* resourceManager = ResourceManager::GetInstance();
     for (auto& texture : json["Texture"].items()) {
-        resourceManager->AddTexture(texture.key(), Texture::Load("Resources/" + texture.value().get<std::string>()));
+#ifdef _DEBUG
+        auto duration = Debug::ElapsedTime([&]() {
+#endif
+            resourceManager->AddTexture(texture.key(), Texture::Load("Resources/" + texture.value().get<std::string>()));
+#ifdef _DEBUG
+            });
+        std::stringstream str;
+        str << "LoadTexture : " << texture.key() << " - " << duration << "\n";
+        OutputDebugStringA(str.str().c_str());
+#endif
     }
     for (auto& model : json["Model"].items()) {
-        resourceManager->AddModel(model.key(), Model::Load("Resources/" + model.value().get<std::string>()));
+#ifdef _DEBUG
+        auto duration = Debug::ElapsedTime([&]() {
+#endif
+            resourceManager->AddModel(model.key(), Model::Load("Resources/" + model.value().get<std::string>()));
+#ifdef _DEBUG
+            });
+        std::stringstream str;
+        str << "LoadModel : " << model.key() << " - " << duration << "\n";
+        OutputDebugStringA(str.str().c_str());
+#endif
     }
+
+
     for (auto& sound : json["Sound"].items()) {
-        resourceManager->AddSound(sound.key(), Sound::Load("Resources/" + sound.value().get<std::string>()));
+#ifdef _DEBUG
+        auto duration = Debug::ElapsedTime([&]() {
+#endif
+            resourceManager->AddSound(sound.key(), Sound::Load("Resources/" + sound.value().get<std::string>()));
+#ifdef _DEBUG
+            });
+        std::stringstream str;
+        str << "LoadSound : " << sound.key() << " - " << duration << "\n";
+        OutputDebugStringA(str.str().c_str());
+#endif
     }
 }
