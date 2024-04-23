@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.44",
+		"generator":"Khronos glTF Blender I/O v4.0.43",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -23,9 +23,6 @@
 			"doubleSided":true,
 			"name":"tatemono",
 			"pbrMetallicRoughness":{
-				"baseColorTexture":{
-					"index":0
-				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -39,33 +36,19 @@
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
-		}
-	],
-	"textures":[
-		{
-			"sampler":0,
-			"source":0
-		}
-	],
-	"images":[
-		{
-			"mimeType":"image/png",
-			"name":"aaaaaaaaa",
-			"uri":"aaaaaaaaa.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":3798,
+			"count":2042,
 			"max":[
 				6.580101013183594,
 				19.06678581237793,
@@ -81,69 +64,51 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":3798,
+			"count":2042,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":3798,
+			"count":2042,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":3798,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":10716,
+			"count":3720,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":45576,
+			"byteLength":24504,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":45576,
-			"byteOffset":45576,
+			"byteLength":24504,
+			"byteOffset":24504,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":30384,
-			"byteOffset":91152,
+			"byteLength":16336,
+			"byteOffset":49008,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":60768,
-			"byteOffset":121536,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":21432,
-			"byteOffset":182304,
+			"byteLength":7440,
+			"byteOffset":65344,
 			"target":34963
-		}
-	],
-	"samplers":[
-		{
-			"magFilter":9729,
-			"minFilter":9987
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":203736,
+			"byteLength":72784,
 			"uri":"building3.bin"
 		}
 	]
