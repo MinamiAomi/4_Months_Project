@@ -10,6 +10,8 @@
 #include "Core/TextureLoader.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Debug/Debug.h"
+#include <sstream>
 
 namespace {
 
