@@ -86,11 +86,6 @@ void Edge::Render(CommandContext& commandContext, GeometryRenderingPass& geometr
     commandContext.SetDescriptorTable(static_cast<UINT>(RootParameter::kNormalTexture), geometryRenderingPass.GetNormal().GetSRV());
     commandContext.SetDescriptorTable(static_cast<UINT>(RootParameter::kDepthTexture), geometryRenderingPass.GetDepth().GetSRV());
 
-#ifdef _DEBUG
-    ImGui::Begin("Edge");
-    ImGui::DragFloat3("EdgeColor", &edgeColor_.x, 0.01f, 0.0f, 1.0f);
-    ImGui::End();
-#endif
     commandContext.SetConstants(static_cast<UINT>(RootParameter::kEdgeColor), edgeColor_.x, edgeColor_.y, edgeColor_.z);
     commandContext.Draw(3);
 

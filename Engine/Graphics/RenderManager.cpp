@@ -6,8 +6,10 @@
 #include "ImGuiManager.h"
 #include "Math/Color.h"
 
+
 #ifdef ENABLE_IMGUI
 static bool useBloom = true;
+static bool useEdge = true;
 #endif // ENABLE_IMGUI
 
 
@@ -17,6 +19,7 @@ RenderManager* RenderManager::GetInstance() {
 }
 
 void RenderManager::Initialize() {
+
     graphics_ = Graphics::GetInstance();
 
     auto shaderManager = ShaderManager::GetInstance();
@@ -87,9 +90,22 @@ void RenderManager::Render() {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
-        edge_.Render(commandContext_, geometryRenderingPass_);
+#ifdef ENABLE_IMGUI
+        if (useEdge) {
+#endif // ENABLE_IMGUI
+            edge_.Render(commandContext_, geometryRenderingPass_);
+#ifdef ENABLE_IMGUI
+        }
+#endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-        edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
+#ifdef ENABLE_IMGUI
+        if (useEdge) {
+#endif // ENABLE_IMGUI
+            edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
+#ifdef ENABLE_IMGUI
+        }
+#endif // ENABLE_IMGUI
+       
      
 
         if (useSky_) {
@@ -112,6 +128,8 @@ void RenderManager::Render() {
 #ifdef ENABLE_IMGUI
     }
 #endif // ENABLE_IMGUI
+
+
 
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
@@ -142,6 +160,13 @@ void RenderManager::Render() {
         bloom_.SetKnee(knee);
         bloom_.SetThreshold(threshold);
         
+        ImGui::TreePop();
+    }
+    if (ImGui::TreeNode("Edge")) {
+        Vector3 color = edge_.GetColor();
+        ImGui::Checkbox("Active", &useEdge);
+        ImGui::DragFloat3("color", &color.x, 0.01f, 0.0f, 1.0f);
+        edge_.SetColor(color);
         ImGui::TreePop();
     }
     
