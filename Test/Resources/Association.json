@@ -1,8 +1,7 @@
 {
     "Sound": {
         "jump": "SE/jump.wav",
-        "revemge": "SE/revemge.wav",
-        "shot": "SE/shot.wav"
+        "revenge": "SE/revenge.wav"
     },
     "Texture": {
         "circle": "whiteCircle.png",

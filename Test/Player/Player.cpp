@@ -54,8 +54,10 @@ void Player::Initialize() {
 
 #pragma region SE
 	jumpSE_ = std::make_unique<AudioSource>();
+	revengeSE_ = std::make_unique<AudioSource>();
 
 	(*jumpSE_) = ResourceManager::GetInstance()->FindSound("jump");
+	(*revengeSE_) = ResourceManager::GetInstance()->FindSound("revenge");
 #pragma endregion
 
 #pragma region コライダー
@@ -112,6 +114,7 @@ void Player::Update() {
 		canSecondJump_ = true;
 		velocity_ = Vector3::zero;
 		acceleration_ = Vector3::zero;
+		revengeSE_->Play();
 	}
 
 	acceleration_.y += gravity_;
@@ -123,7 +126,7 @@ void Player::Update() {
 	transform.translate.y = std::max(transform.translate.y, -10.0f);
 	// 救済
 	if (transform.translate.y <= -10.0f) {
-		transform.translate.y = 5.0f;
+		transform.translate.y = 8.0f;
 		acceleration_.y = 0.0f;
 		// ジャンプ復活
 		canFirstJump_ = true;

@@ -13,12 +13,6 @@ void Boss::Initialize() {
 	JSON_LOAD(offset_);
 	JSON_ROOT();
 	JSON_CLOSE();
-	bossModelManager_ = std::make_unique<BossModelManager>();
-	bossModelManager_->Initialize(&transform);
-	// 隠す
-	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
-	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
-	isMove_ = true;
 
 	state_ = std::make_unique<BossStateManager>(*this);
 	state_->Initialize();
@@ -30,6 +24,15 @@ void Boss::Initialize() {
 	bossAttackTriggerManager_->Initialize(0);
 
 	Reset(0);
+
+	bossModelManager_ = std::make_unique<BossModelManager>();
+	bossModelManager_->Initialize(&transform);
+
+	// 隠す
+	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
+	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
+	isMove_ = true;
+
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -76,7 +79,7 @@ void Boss::Update() {
 void Boss::Reset(uint32_t stageIndex) {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
-	transform.scale = { 7.0f,7.0f,7.0f };
+	transform.scale = Vector3::one;
 	state_->ChangeState<BossStateRoot>();
 	time_ = interval_;
 	bossAttackTriggerManager_->Reset(stageIndex);
