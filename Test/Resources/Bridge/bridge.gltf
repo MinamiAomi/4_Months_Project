@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.44",
+		"generator":"Khronos glTF Blender I/O v4.0.43",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -21,7 +21,7 @@
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"tatemono",
+			"name":"breakbrige",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -39,10 +39,9 @@
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
@@ -65,7 +64,7 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1779,
+			"count":1306,
 			"max":[
 				16.230201721191406,
 				25.966426849365234,
@@ -81,57 +80,45 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1779,
+			"count":1306,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1779,
+			"count":1306,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":1779,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":3474,
+			"count":2472,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":21348,
+			"byteLength":15672,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":21348,
-			"byteOffset":21348,
+			"byteLength":15672,
+			"byteOffset":15672,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":14232,
-			"byteOffset":42696,
+			"byteLength":10448,
+			"byteOffset":31344,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":28464,
-			"byteOffset":56928,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":6948,
-			"byteOffset":85392,
+			"byteLength":4944,
+			"byteOffset":41792,
 			"target":34963
 		}
 	],
@@ -143,7 +130,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":92340,
+			"byteLength":46736,
 			"uri":"bridge.bin"
 		}
 	]
