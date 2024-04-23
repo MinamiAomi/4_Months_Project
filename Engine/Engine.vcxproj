@@ -267,6 +267,7 @@
     <ClInclude Include="Collision\Collider.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Collision\GameObject.h" />
+    <ClInclude Include="Debug\Debug.h" />
     <ClInclude Include="Externals\DirectXTex\Include\BC.h" />
     <ClInclude Include="Externals\DirectXTex\Include\BCDirectCompute.h" />
     <ClInclude Include="Externals\DirectXTex\Include\d3dx12.h" />

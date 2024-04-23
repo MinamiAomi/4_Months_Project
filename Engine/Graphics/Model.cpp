@@ -199,7 +199,6 @@ std::shared_ptr<Model> Model::Load(const std::filesystem::path& path) {
     // 左手座標系に変換
     flags |= aiProcess_FlipUVs;
     // 接空間を計算
-    flags |= aiProcess_GenNormals;
     flags |= aiProcess_CalcTangentSpace;
     const aiScene* scene = importer.ReadFile(path.string(), flags);
     // 読み込めた

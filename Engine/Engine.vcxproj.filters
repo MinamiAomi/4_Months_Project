@@ -67,6 +67,9 @@
     <Filter Include="Graphics\Shader\App">
       <UniqueIdentifier>{9ab68531-4875-4850-9f36-3a752af54ae3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{1c48dbfb-e22c-4dc5-bd21-57a58be416d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene\SceneManager.cpp">
@@ -601,6 +604,9 @@
     </ClInclude>
     <ClInclude Include="Framework\ResourceManager.h">
       <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug\Debug.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
