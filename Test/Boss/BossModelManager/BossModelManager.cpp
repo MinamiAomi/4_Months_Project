@@ -29,9 +29,6 @@ void BossModelManager::Initialize(const Transform* Transform) {
 		model->Initialize(i);
 		i++;
 	}
-	auto& model = models_.at(BossParts::Parts::kLeftArm);
-	Vector3 modelSize = (model->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - model->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	model->GetCollider()->SetSize({modelSize.x * model->transform.scale.x,modelSize.y * model->transform.scale.y * 2.0f ,modelSize.z * model->transform.scale.z});
 }
 
 void BossModelManager::Update() {
