@@ -26,4 +26,5 @@ private:
 
 	// Debug
 	bool isMove_;
+	bool isUpdate_;
 };

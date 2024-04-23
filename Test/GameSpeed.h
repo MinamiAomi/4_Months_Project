@@ -1,7 +1,10 @@
 #pragma once
 
 namespace GameSpeed {
-	extern float speed;
+	extern float chaseSpeed;
+	extern float runAwaySpeed;
+
+	float GetGameSpeed();
 	void LoadJson();
 	void SaveJson();
 	void Update();
