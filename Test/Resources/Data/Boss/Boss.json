@@ -117,7 +117,7 @@
     "bossFloorAll": {},
     "bossLeftArm": {
         "offset_": [
-            1.5,
+            20.0,
             0.0,
             0.0
         ]
@@ -125,7 +125,7 @@
     "bossLongDistanceAttack": {},
     "bossRightArm": {
         "offset_": [
-            -1.5,
+            -20.0,
             0.0,
             0.0
         ]

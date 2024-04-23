@@ -123,7 +123,7 @@ void Player::Update() {
 	transform.translate.y = std::max(transform.translate.y, -10.0f);
 	// 救済
 	if (transform.translate.y <= -10.0f) {
-		transform.translate.y = 5.0f;
+		transform.translate.y = 8.0f;
 		acceleration_.y = 0.0f;
 		// ジャンプ復活
 		canFirstJump_ = true;

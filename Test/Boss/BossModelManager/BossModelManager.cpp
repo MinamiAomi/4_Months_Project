@@ -29,6 +29,9 @@ void BossModelManager::Initialize(const Transform* Transform) {
 		model->Initialize(i);
 		i++;
 	}
+	auto& model = models_.at(BossParts::Parts::kLeftArm);
+	Vector3 modelSize = (model->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - model->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
+	model->GetCollider()->SetSize({modelSize.x * model->transform.scale.x,modelSize.y * model->transform.scale.y * 2.0f ,modelSize.z * model->transform.scale.z});
 }
 
 void BossModelManager::Update() {
@@ -77,7 +80,7 @@ void BossModel::UpdateTransform() {
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	//collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
