@@ -1,0 +1,33 @@
+{
+    "Texture": {
+        "circle": "whiteCircle.png",
+        "white2x2": "white2x2.png",
+        "HPBar_Gauge": "Player/PlayerUI/HPBar_Gauge.png",
+        "HPBar_Flame": "Player/PlayerUI/HPBar_Flame.png",
+        "RevengeBar_RevengeGauge": "Player/PlayerUI/RevengeBar_RevengeGauge.png",
+        "RevengeBar_Flame": "Player/PlayerUI/RevengeBar_Flame.png",
+        "RevengeBar_WeaponGauge": "Player/PlayerUI/RevengeBar_WeaponGauge.png"
+    },
+    "Model": {
+        "bossBody": "Boss/Body/boss.gltf",
+        "bossRightArm": "Boss/RightArm/rightArm.gltf",
+        "bossLeftArm": "Boss/LeftArm/leftArm.gltf",
+        "bossFloorAll": "Boss/FloorAll/floorAll.obj",
+        "bossLongDistanceAttack": "Boss/LongDistanceAttack/longDistanceAttack.obj",
+        "floor": "Floor/floor.gltf",
+        "player": "Player/player.gltf",
+        "block": "Block/Block.gltf",
+        "skydome": "Skydome/skydome.gltf",
+        "lightline": "LightLine/lightline.gltf",
+        "fireBarBar": "FireBar/Bar/bar.gltf",
+        "fireBarCenter": "FireBar/Center/center.gltf",
+        "ball": "Pendulum/Ball/ball.gltf",
+        "stick": "Pendulum/Stick/stick.gltf",
+        "box": "Box/box1x1.obj",
+        "building": "Building/building.gltf",
+        "building2": "Building2/building2.gltf",
+        "building3": "Building3/building3.gltf",
+        "bridge": "Bridge/bridge.gltf",
+        "stones": "Stones/stones.gltf"
+    }
+}

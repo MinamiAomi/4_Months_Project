@@ -1,7 +1,7 @@
 #include "PlayerBullet.h"
 
 #include "CollisionAttribute.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 
 void PlayerBullet::Initialize() {
 	model_ = std::make_unique<ModelInstance>();
