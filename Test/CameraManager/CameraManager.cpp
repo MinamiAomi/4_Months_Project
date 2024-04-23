@@ -58,10 +58,10 @@ void CameraManager::Update() {
 		debugCamera_->Update();
 		if (isMove_) {
 			if (characterState_ == Character::kRunAway) {
-				distance_ -= GameSpeed::speed;
+				distance_ -= GameSpeed::GetGameSpeed();
 			}
 			else {
-				distance_ += GameSpeed::speed;
+				distance_ += GameSpeed::GetGameSpeed();
 			}
 		}
 	}

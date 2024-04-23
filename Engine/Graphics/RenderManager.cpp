@@ -59,6 +59,8 @@ void RenderManager::Initialize() {
 
     skyRenderer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat(), geometryRenderingPass_.GetDepth().GetFormat());
 
+    edge_.Initialize(&lightingRenderingPass_.GetResult());
+    edgeMultiply_.Initialize(lightingRenderingPass_.GetResult());
 
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetRTVFormat());
@@ -85,8 +87,11 @@ void RenderManager::Render() {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
+        edge_.Render(commandContext_, geometryRenderingPass_);
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-    
+        edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
+     
+
         if (useSky_) {
             auto& rt = lightingRenderingPass_.GetResult();
             auto& ds = geometryRenderingPass_.GetDepth();
