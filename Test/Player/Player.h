@@ -66,6 +66,7 @@ private:
 
 	// JumpSE
 	std::unique_ptr<AudioSource> jumpSE_;
+	std::unique_ptr<AudioSource> revengeSE_;
 #pragma region パラメーター
 	float verticalSpeed_;
 	float horizontalSpeed_;
