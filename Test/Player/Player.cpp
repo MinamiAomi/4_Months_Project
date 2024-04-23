@@ -5,7 +5,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 #include "FollowCamera.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Input/Input.h"
 
 
@@ -22,6 +22,7 @@ void Player::Initialize() {
 	JSON_LOAD(knockBack_);
 	JSON_LOAD(maxInvincibleTime_);
 	JSON_LOAD(offset_);
+	JSON_LOAD(revengeStartOffset_);
 	JSON_CLOSE();
 #pragma endregion
 
@@ -50,6 +51,15 @@ void Player::Initialize() {
 	transform.UpdateMatrix();
 	canFirstJump_ = true;
 	canSecondJump_ = true;
+
+#pragma region SE
+	jumpSE_ = std::make_unique<AudioSource>();
+	revengeSE_ = std::make_unique<AudioSource>();
+
+	(*jumpSE_) = ResourceManager::GetInstance()->FindSound("jump");
+	(*revengeSE_) = ResourceManager::GetInstance()->FindSound("revenge");
+#pragma endregion
+
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -64,8 +74,6 @@ void Player::Initialize() {
 
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
-
-
 }
 
 void Player::Update() {
@@ -94,6 +102,23 @@ void Player::Update() {
 	// UIアップデート
 	playerUI_->Update();
 
+	// 切り替え
+	if (characterState_ == Character::State::kRunAway &&
+		(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
+		(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
+		characterState_ = Character::State::kChase;
+		transform.translate.x = 0.0f;
+		transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
+		transform.rotate = Quaternion::identity;
+		canFirstJump_ = true;
+		canSecondJump_ = true;
+		velocity_ = Vector3::zero;
+		acceleration_ = Vector3::zero;
+		revengeSE_->Play();
+
+
+	}
+
 	acceleration_.y += gravity_;
 	acceleration_.z *= 0.9f;
 	velocity_ += acceleration_;
@@ -103,7 +128,11 @@ void Player::Update() {
 	transform.translate.y = std::max(transform.translate.y, -10.0f);
 	// 救済
 	if (transform.translate.y <= -10.0f) {
-		transform.translate.y = 5.0f;
+		transform.translate.y = 8.0f;
+		acceleration_.y = 0.0f;
+		// ジャンプ復活
+		canFirstJump_ = true;
+		canSecondJump_ = true;
 	}
 	switch (characterState_) {
 	case Character::kChase:
@@ -123,8 +152,9 @@ void Player::Update() {
 	}
 	UpdateTransform();
 
+
 	// 弾アップデート
-	bulletManager_->Update(transform.worldMatrix.GetTranslate());
+	//bulletManager_->Update(transform.worldMatrix.GetTranslate());
 
 	//playerModel_.Update();
 }
@@ -154,17 +184,17 @@ void Player::UpdateTransform() {
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
 	if (collisionInfo.collider->GetName() == "Boss") {
+		acceleration_.z -= knockBack_;
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
-			acceleration_.z -= knockBack_;
 			if (playerHP_->GetCurrentHP() > 0) {
 				playerHP_->AddHP(-1);
 			}
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||
-		collisionInfo.collider->GetName() == "FireBarCenter"||
-		collisionInfo.collider->GetName() == "Floor"||
+		collisionInfo.collider->GetName() == "FireBarCenter" ||
+		collisionInfo.collider->GetName() == "Floor" ||
 		collisionInfo.collider->GetName() == "StageObject") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
@@ -191,8 +221,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		//	transform.SetParent(&nextParent->transform);
 		//}
 	}
-	else if (collisionInfo.collider->GetName() == "FireBarBar"||
-		collisionInfo.collider->GetName() == "PendulumBall"||
+	else if (collisionInfo.collider->GetName() == "FireBarBar" ||
+		collisionInfo.collider->GetName() == "PendulumBall" ||
 		collisionInfo.collider->GetName() == "bossLeftArm") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
@@ -278,6 +308,7 @@ void Player::Jump() {
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
+		jumpSE_->Play();
 		acceleration_.y += jumpPower_;
 		canFirstJump_ = false;
 	}
@@ -286,6 +317,7 @@ void Player::Jump() {
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
+		jumpSE_->Play();
 		canSecondJump_ = false;
 		acceleration_.y = jumpPower_ * 0.5f;
 	}
@@ -308,6 +340,7 @@ void Player::DebugParam() {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
 		ImGui::DragFloat4("rotate", &transform.rotate.x);
 		ImGui::DragFloat3("offset_", &offset_.x);
+		ImGui::DragFloat3("revengeStartOffset_", &revengeStartOffset_.x);
 		ImGui::DragFloat3("velocity_", &velocity_.x);
 		ImGui::DragFloat3("acceleration_", &acceleration_.x);
 		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
@@ -334,6 +367,7 @@ void Player::DebugParam() {
 			JSON_SAVE(knockBack_);
 			JSON_SAVE(maxInvincibleTime_);
 			JSON_SAVE(offset_);
+			JSON_SAVE(revengeStartOffset_);
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();

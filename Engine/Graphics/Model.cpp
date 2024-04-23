@@ -10,6 +10,8 @@
 #include "Core/TextureLoader.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Debug/Debug.h"
+#include <sstream>
 
 namespace {
 
@@ -199,7 +201,6 @@ std::shared_ptr<Model> Model::Load(const std::filesystem::path& path) {
     // 左手座標系に変換
     flags |= aiProcess_FlipUVs;
     // 接空間を計算
-    flags |= aiProcess_GenNormals;
     flags |= aiProcess_CalcTangentSpace;
     const aiScene* scene = importer.ReadFile(path.string(), flags);
     // 読み込めた
@@ -211,6 +212,11 @@ std::shared_ptr<Model> Model::Load(const std::filesystem::path& path) {
 
     auto materials = ParsePBRMaterials(scene, directory);
     model->meshes_ = ParseMeshes(scene, materials);
+
+    aiVector3D translate, scale;
+    aiQuaternion rotate;
+    scene->mRootNode->mTransformation.Decompose(scale, rotate, translate);
+    model->matrix_ = Matrix4x4::MakeAffineTransform({ scale.x, scale.y, scale.z }, Quaternion(rotate.x, -rotate.y, -rotate.z, rotate.w), { translate.x, translate.y, translate.z });
 
     CommandContext commandContext;
     commandContext.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);

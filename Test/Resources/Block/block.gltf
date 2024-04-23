@@ -15,7 +15,12 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u7acb\u65b9\u4f53.006"
+			"name":"block",
+			"scale":[
+				2.3741064071655273,
+				2.3741064071655273,
+				2.3741064071655273
+			]
 		}
 	],
 	"materials":[
@@ -39,10 +44,9 @@
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
@@ -65,7 +69,7 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":2576,
+			"count":2230,
 			"max":[
 				0.49002373218536377,
 				0.5141708850860596,
@@ -81,57 +85,45 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":2576,
+			"count":2230,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":2576,
+			"count":2230,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":2576,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":3876,
+			"count":2952,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":30912,
+			"byteLength":26760,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":30912,
-			"byteOffset":30912,
+			"byteLength":26760,
+			"byteOffset":26760,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":20608,
-			"byteOffset":61824,
+			"byteLength":17840,
+			"byteOffset":53520,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":41216,
-			"byteOffset":82432,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":7752,
-			"byteOffset":123648,
+			"byteLength":5904,
+			"byteOffset":71360,
 			"target":34963
 		}
 	],
@@ -143,7 +135,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":131400,
+			"byteLength":77264,
 			"uri":"block.bin"
 		}
 	]

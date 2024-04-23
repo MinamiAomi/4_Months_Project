@@ -2,7 +2,7 @@
 
 #include "CharacterState.h"
 #include "CollisionAttribute.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
 
@@ -13,12 +13,6 @@ void Boss::Initialize() {
 	JSON_LOAD(offset_);
 	JSON_ROOT();
 	JSON_CLOSE();
-	bossModelManager_ = std::make_unique<BossModelManager>();
-	bossModelManager_->Initialize(&transform);
-	// 隠す
-	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
-	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
-	isMove_ = true;
 
 	state_ = std::make_unique<BossStateManager>(*this);
 	state_->Initialize();
@@ -30,14 +24,25 @@ void Boss::Initialize() {
 	bossAttackTriggerManager_->Initialize(0);
 
 	Reset(0);
+
+	bossModelManager_ = std::make_unique<BossModelManager>();
+	bossModelManager_->Initialize(&transform);
+
+	// 隠す
+	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
+	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
+	isMove_ = true;
+
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Boss");
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
-	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう）
-	collider_->SetSize({ transform.scale.x*10.0f,transform.scale.y,transform.scale.z});
+	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
+	// ）
+	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x *2.0f,modelSize.y ,modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -76,7 +81,7 @@ void Boss::Update() {
 void Boss::Reset(uint32_t stageIndex) {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
-	transform.scale = { 7.0f,7.0f,7.0f };
+	transform.scale = Vector3::one;
 	state_->ChangeState<BossStateRoot>();
 	time_ = interval_;
 	bossAttackTriggerManager_->Reset(stageIndex);

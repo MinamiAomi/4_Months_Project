@@ -1,11 +1,11 @@
 #include "PlayerDustParticle.h"
 #include "Player/Player.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 
 void PlayerDustParticle::Initialize() {
 	minDirection_ = { -0.5f,0.5f,-0.5f };
 	maxDirection_ = { 0.5f,1.0f,0.5f };
-	emitTransform_.SetParent(&player_->transform);
+	emitTransform_.SetParent(&player_->transform,false);
 	Vector3 modelMinSize = player_->GetMinModelSize();
 	//emitTransform_.translate.y = modelMinSize.y - 2.0f;
 	emitTransform_.translate.z = modelMinSize.z;

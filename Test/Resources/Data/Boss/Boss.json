@@ -42,22 +42,22 @@
         ]
     },
     "StateFloorAll": {
-        "jsonData_.floorAllData.attackEasingTime": 20.0,
+        "jsonData_.floorAllData.attackEasingTime": 30.0,
         "jsonData_.floorAllData.chargeEasingTime": 60.0,
         "jsonData_.floorAllData.endPosition": [
             0.0,
-            0.0,
-            -10.0
+            -7.0,
+            -50.0
         ],
         "jsonData_.floorAllData.scale": [
-            5.0,
-            0.30000001192092896,
-            10.0
+            40.0,
+            4.0,
+            60.0
         ],
         "jsonData_.floorAllData.startPosition": [
             0.0,
-            -0.800000011920929,
-            -10.0
+            -10.0,
+            -50.0
         ]
     },
     "StateHook": {
@@ -65,9 +65,9 @@
         "jsonData_.attackData.chargeEasingTime": 45.0,
         "jsonData_.attackData.easingTime": 30.0,
         "jsonData_.attackData.endPosition": [
-            1.5,
-            -0.30000001192092896,
-            -5.0
+            -25.0,
+            -7.0,
+            -30.0
         ],
         "jsonData_.attackData.endRotate": [
             1.5707963705062866,
@@ -80,9 +80,9 @@
             0.0
         ],
         "jsonData_.attackData.startPosition": [
-            1.5,
-            -0.30000001192092896,
-            -5.0
+            25.0,
+            -7.0,
+            -55.0
         ],
         "jsonData_.attackData.startRotate": [
             1.5707963705062866,
@@ -117,7 +117,7 @@
     "bossFloorAll": {},
     "bossLeftArm": {
         "offset_": [
-            1.5,
+            20.0,
             0.0,
             0.0
         ]
@@ -125,7 +125,7 @@
     "bossLongDistanceAttack": {},
     "bossRightArm": {
         "offset_": [
-            -1.5,
+            -20.0,
             0.0,
             0.0
         ]

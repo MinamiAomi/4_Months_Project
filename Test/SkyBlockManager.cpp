@@ -1,7 +1,7 @@
 #include "SkyBlockManager.h"
 
 #include "CollisionAttribute.h"
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
 #include "./Test/CharacterState.h"
@@ -25,7 +25,7 @@ void SkyBlockManager::Initialize() {
 			float scale = rng_.NextFloatRange(1.0f, 3.0f);
 			float x = 30.0f + rng_.NextFloatRange(0.0f, 10.0f);
 			float y = 3.0f + rng_.NextFloatRange(0.0f, 7.0f);
-			float z = boss_->transform.worldMatrix.GetTranslate().z + rng_.NextFloatRange(-appearLength , appearLength );
+			float z = boss_->transform.translate.z + rng_.NextFloatRange(-appearLength , appearLength );
 			skyblock = std::make_unique<SkyBlock>();
 			skyblock->SetBoss(boss_);
 			

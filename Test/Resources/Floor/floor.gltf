@@ -15,13 +15,18 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Floor"
+			"name":"Floor",
+			"translation":[
+				0,
+				-2.7427167892456055,
+				0
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"\u30de\u30c6\u30ea\u30a2\u30eb.005",
+			"name":"Floor",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -39,10 +44,9 @@
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2,
-						"TANGENT":3
+						"TEXCOORD_0":2
 					},
-					"indices":4,
+					"indices":3,
 					"material":0
 				}
 			]
@@ -65,73 +69,61 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1830,
+			"count":1268,
 			"max":[
-				18.947481155395508,
+				50.14963150024414,
 				2.540358304977417,
-				50.35710144042969
+				18.94748306274414
 			],
 			"min":[
-				-17.895427703857422,
+				-50.35709762573242,
 				-0.8400859236717224,
-				-50.149635314941406
+				-17.895429611206055
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1830,
+			"count":1268,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1830,
+			"count":1268,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5126,
-			"count":1830,
-			"type":"VEC4"
-		},
-		{
-			"bufferView":4,
 			"componentType":5123,
-			"count":4368,
+			"count":2196,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":21960,
+			"byteLength":15216,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":21960,
-			"byteOffset":21960,
+			"byteLength":15216,
+			"byteOffset":15216,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":14640,
-			"byteOffset":43920,
+			"byteLength":10144,
+			"byteOffset":30432,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":29280,
-			"byteOffset":58560,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":8736,
-			"byteOffset":87840,
+			"byteLength":4392,
+			"byteOffset":40576,
 			"target":34963
 		}
 	],
@@ -143,7 +135,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":96576,
+			"byteLength":44968,
 			"uri":"floor.bin"
 		}
 	]

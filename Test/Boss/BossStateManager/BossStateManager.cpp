@@ -189,13 +189,13 @@ void BossStateRoot::Update() {
 		case Character::State::kChase:
 		{
 			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::speed;
+			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
 		break;
 		case Character::State::kRunAway:
 		{
 			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::speed;
+			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
 		break;
 		default:
@@ -260,13 +260,13 @@ void BossStateHook::ChargeUpdate() {
 		case Character::State::kChase:
 		{
 			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::speed;
+			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
 		break;
 		case Character::State::kRunAway:
 		{
 			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::speed;
+			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
 		break;
 		default:
@@ -298,13 +298,13 @@ void BossStateHook::AttackUpdate() {
 		case Character::State::kChase:
 		{
 			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::speed;
+			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
 		break;
 		case Character::State::kRunAway:
 		{
 			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::speed;
+			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
 		break;
 		default:
@@ -375,13 +375,13 @@ void BossStateFloorAll::ChargeUpdate() {
 		case Character::State::kChase:
 		{
 			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::speed;
+			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
 		break;
 		case Character::State::kRunAway:
 		{
 			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::speed;
+			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
 		break;
 		default:
@@ -454,13 +454,13 @@ void BossStateLongDistanceAttack::ChargeUpdate() {
 		case Character::State::kChase:
 		{
 			//transform.translate.z += velocity_;
-			transform.translate.z += GameSpeed::speed;
+			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
 		break;
 		case Character::State::kRunAway:
 		{
 			//transform.translate.z -= velocity_;
-			transform.translate.z -= GameSpeed::speed;
+			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
 		break;
 		default:

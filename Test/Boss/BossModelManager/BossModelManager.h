@@ -37,6 +37,7 @@ public:
 		SetModelIsAlive(flag);
 	}
 	const std::unique_ptr<ModelInstance>& GetModel()const { return model_; }
+	const std::unique_ptr<BoxCollider>& GetCollider()const { return collider_; }
 private:
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
 	void UpdateTransform();

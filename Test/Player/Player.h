@@ -15,6 +15,7 @@
 #include "PlayerUI/PlayerUI.h"
 #include "PlayerRevengGage/PlayerRevengeGage.h"
 #include "PlayerBullet/BulletManager.h"
+#include "Engine/Audio/AudioSource.h"
 
 class Player :
 	public GameObject {
@@ -62,6 +63,10 @@ private:
 	bool isMove_;
 	bool isGround_;
 	uint32_t invincibleTime_;
+
+	// JumpSE
+	std::unique_ptr<AudioSource> jumpSE_;
+	std::unique_ptr<AudioSource> revengeSE_;
 #pragma region パラメーター
 	float verticalSpeed_;
 	float horizontalSpeed_;
@@ -72,6 +77,7 @@ private:
 	float knockBack_;
 	uint32_t maxInvincibleTime_;
 	Vector3 offset_;
+	Vector3 revengeStartOffset_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();

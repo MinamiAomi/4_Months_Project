@@ -192,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="File\JsonHelper.cpp" />
     <ClCompile Include="Framework\Engine.cpp" />
+    <ClCompile Include="Framework\ResourceManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Graphics\Animation.cpp" />
     <ClCompile Include="Graphics\App\SkyRenderer.cpp" />
     <ClCompile Include="Graphics\App\Voronoi.cpp" />
@@ -222,6 +225,7 @@
     <ClCompile Include="Graphics\Core\TextureResource.cpp" />
     <ClCompile Include="Graphics\Core\UploadBuffer.cpp" />
     <ClCompile Include="Graphics\DefaultTextures.cpp" />
+    <ClCompile Include="Graphics\Edge.cpp" />
     <ClCompile Include="Graphics\FXAA.cpp" />
     <ClCompile Include="Graphics\GeometryRenderingPass.cpp" />
     <ClCompile Include="Graphics\GameWindow.cpp" />
@@ -243,7 +247,6 @@
     <ClCompile Include="Graphics\Raytracing\StateObject.cpp" />
     <ClCompile Include="Graphics\Raytracing\TLAS.cpp" />
     <ClCompile Include="Graphics\RenderManager.cpp" />
-    <ClCompile Include="Graphics\ResourceManager.cpp" />
     <ClCompile Include="Graphics\Sprite.cpp" />
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\Timer.cpp" />
@@ -265,6 +268,7 @@
     <ClInclude Include="Collision\Collider.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Collision\GameObject.h" />
+    <ClInclude Include="Debug\Debug.h" />
     <ClInclude Include="Externals\DirectXTex\Include\BC.h" />
     <ClInclude Include="Externals\DirectXTex\Include\BCDirectCompute.h" />
     <ClInclude Include="Externals\DirectXTex\Include\d3dx12.h" />
@@ -310,6 +314,9 @@
     <ClInclude Include="File\JsonHelper.h" />
     <ClInclude Include="Framework\Engine.h" />
     <ClInclude Include="Framework\Game.h" />
+    <ClInclude Include="Framework\ResourceManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Graphics\Animation.h" />
     <ClInclude Include="Graphics\App\SkyRenderer.h" />
     <ClInclude Include="Graphics\App\Voronoi.h" />
@@ -340,6 +347,7 @@
     <ClInclude Include="Graphics\Core\TextureResource.h" />
     <ClInclude Include="Graphics\Core\UploadBuffer.h" />
     <ClInclude Include="Graphics\DefaultTextures.h" />
+    <ClInclude Include="Graphics\Edge.h" />
     <ClInclude Include="Graphics\FXAA.h" />
     <ClInclude Include="Graphics\GeometryRenderingPass.h" />
     <ClInclude Include="Graphics\GameWindow.h" />
@@ -362,7 +370,6 @@
     <ClInclude Include="Graphics\Raytracing\StateObject.h" />
     <ClInclude Include="Graphics\Raytracing\TLAS.h" />
     <ClInclude Include="Graphics\RenderManager.h" />
-    <ClInclude Include="Graphics\ResourceManager.h" />
     <ClInclude Include="Graphics\SphereMapConverter.h" />
     <ClInclude Include="Graphics\Sprite.h" />
     <ClInclude Include="Graphics\SpriteRenderer.h" />
@@ -684,6 +691,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\Shader\EdgePS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\EdgeVS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

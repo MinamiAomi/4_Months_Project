@@ -6,8 +6,10 @@
 #include "ImGuiManager.h"
 #include "Math/Color.h"
 
+
 #ifdef ENABLE_IMGUI
 static bool useBloom = true;
+static bool useEdge = true;
 #endif // ENABLE_IMGUI
 
 
@@ -17,6 +19,7 @@ RenderManager* RenderManager::GetInstance() {
 }
 
 void RenderManager::Initialize() {
+
     graphics_ = Graphics::GetInstance();
 
     auto shaderManager = ShaderManager::GetInstance();
@@ -59,6 +62,8 @@ void RenderManager::Initialize() {
 
     skyRenderer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat(), geometryRenderingPass_.GetDepth().GetFormat());
 
+    edge_.Initialize(&lightingRenderingPass_.GetResult());
+    edgeMultiply_.Initialize(lightingRenderingPass_.GetResult());
 
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetRTVFormat());
@@ -85,8 +90,24 @@ void RenderManager::Render() {
         // 影、スペキュラ
     //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
         geometryRenderingPass_.Render(commandContext_, *camera);
+#ifdef ENABLE_IMGUI
+        if (useEdge) {
+#endif // ENABLE_IMGUI
+            edge_.Render(commandContext_, geometryRenderingPass_);
+#ifdef ENABLE_IMGUI
+        }
+#endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-    
+#ifdef ENABLE_IMGUI
+        if (useEdge) {
+#endif // ENABLE_IMGUI
+            edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
+#ifdef ENABLE_IMGUI
+        }
+#endif // ENABLE_IMGUI
+       
+     
+
         if (useSky_) {
             auto& rt = lightingRenderingPass_.GetResult();
             auto& ds = geometryRenderingPass_.GetDepth();
@@ -94,10 +115,12 @@ void RenderManager::Render() {
             commandContext_.TransitionResource(ds, D3D12_RESOURCE_STATE_DEPTH_READ);
             commandContext_.SetRenderTarget(rt.GetRTV(), ds.GetDSV());
             commandContext_.SetViewportAndScissorRect(0, 0, rt.GetWidth(), rt.GetHeight());
-            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ 250.0f, 250.0f, 250.0f}, Quaternion::identity, camera->GetPosition()));
+            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ 900.0f, 900.0f, 900.0f}, Quaternion::identity, camera->GetPosition()));
         }
     }
     
+
+
 #ifdef ENABLE_IMGUI
     if (useBloom) {
 #endif // ENABLE_IMGUI
@@ -105,6 +128,8 @@ void RenderManager::Render() {
 #ifdef ENABLE_IMGUI
     }
 #endif // ENABLE_IMGUI
+
+
 
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
@@ -135,6 +160,13 @@ void RenderManager::Render() {
         bloom_.SetKnee(knee);
         bloom_.SetThreshold(threshold);
         
+        ImGui::TreePop();
+    }
+    if (ImGui::TreeNode("Edge")) {
+        Vector3 color = edge_.GetColor();
+        ImGui::Checkbox("Active", &useEdge);
+        ImGui::DragFloat3("color", &color.x, 0.01f, 0.0f, 1.0f);
+        edge_.SetColor(color);
         ImGui::TreePop();
     }
     

@@ -15,6 +15,7 @@ public:
 
     const BLAS& GetBLAS() const { return blas_; }
     const std::vector<Mesh>& GetMeshes() const { return meshes_; }
+    const Matrix4x4& GetMatrix() const { return matrix_; }
 
 private:
     Model() = default;
@@ -22,6 +23,7 @@ private:
 
     std::vector<Mesh> meshes_;
     BLAS blas_;
+    Matrix4x4 matrix_;
 };
 
 class ModelInstance {

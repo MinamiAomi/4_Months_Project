@@ -23,6 +23,7 @@
 #include "LightingRenderingPass.h"
 
 #include "App/SkyRenderer.h"
+#include "Edge.h"
 
 #define SHADER_DIRECTORY "../Engine/Graphics/Shader"
 //#define SHADER_DIRECTORY "Resources/Shader"
@@ -65,8 +66,10 @@ private:
     //ModelRenderer modelRenderer;
     Transition transition_;
     Bloom bloom_;
+    Edge edge_;
     FXAA fxaa_;
     PostEffect postEffect_;
+    PostEffect edgeMultiply_;
 
     SkyRenderer skyRenderer_;
     Matrix4x4 skyTransform_;

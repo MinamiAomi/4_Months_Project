@@ -1,6 +1,6 @@
 #include "Skydome.h"
 
-#include "Graphics/ResourceManager.h"
+#include "Framework/ResourceManager.h"
 #include "Player/Player.h"
 
 void Skydome::Initialize(const Player* player) {
