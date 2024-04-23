@@ -15,17 +15,24 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u58ca\u308c\u305f\u6a4b"
+			"name":"\u7acb\u65b9\u4f53",
+			"scale":[
+				5.451577186584473,
+				5.451577186584473,
+				5.451577186584473
+			],
+			"translation":[
+				1069.4273681640625,
+				6.277885437011719,
+				7.575836181640625
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"breakbrige",
+			"name":"tatemono",
 			"pbrMetallicRoughness":{
-				"baseColorTexture":{
-					"index":0
-				},
 				"metallicFactor":0,
 				"roughnessFactor":0.5
 			}
@@ -33,104 +40,98 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.019",
+			"name":"\u7acb\u65b9\u4f53.020",
 			"primitives":[
 				{
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2
+						"TEXCOORD_0":2,
+						"TANGENT":3
 					},
-					"indices":3,
+					"indices":4,
 					"material":0
 				}
 			]
-		}
-	],
-	"textures":[
-		{
-			"sampler":0,
-			"source":0
-		}
-	],
-	"images":[
-		{
-			"mimeType":"image/png",
-			"name":"aaaaaaaaa",
-			"uri":"aaaaaaaaa.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1306,
+			"count":24,
 			"max":[
-				16.230201721191406,
-				25.966426849365234,
-				22.522916793823242
+				1,
+				1,
+				1
 			],
 			"min":[
-				-15.829834938049316,
-				-13.660890579223633,
-				-19.840059280395508
+				-1,
+				-1,
+				-1
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1306,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1306,
+			"count":24,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
+			"componentType":5126,
+			"count":24,
+			"type":"VEC4"
+		},
+		{
+			"bufferView":4,
 			"componentType":5123,
-			"count":2472,
+			"count":36,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":15672,
+			"byteLength":288,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":15672,
-			"byteOffset":15672,
+			"byteLength":288,
+			"byteOffset":288,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":10448,
-			"byteOffset":31344,
+			"byteLength":192,
+			"byteOffset":576,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4944,
-			"byteOffset":41792,
+			"byteLength":384,
+			"byteOffset":768,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":72,
+			"byteOffset":1152,
 			"target":34963
-		}
-	],
-	"samplers":[
-		{
-			"magFilter":9729,
-			"minFilter":9987
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":46736,
+			"byteLength":1224,
 			"uri":"bridge.bin"
 		}
 	]
