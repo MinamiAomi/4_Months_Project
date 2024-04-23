@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.44",
+		"generator":"Khronos glTF Blender I/O v4.0.43",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -18,7 +18,7 @@
 			"name":"Boss",
 			"translation":[
 				0,
-				1.0257337093353271,
+				-9.59366226196289,
 				0
 			]
 		}
@@ -26,7 +26,7 @@
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"boss",
+			"name":"Boss",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -70,35 +70,35 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1714,
+			"count":1717,
 			"max":[
-				1.2390648126602173,
-				1.3454220294952393,
-				1.1175042390823364
+				8.659356117248535,
+				9.4026460647583,
+				7.809814929962158
 			],
 			"min":[
-				-1.2513066530227661,
-				-0.9130545258522034,
-				-1.0449705123901367
+				-8.744909286499023,
+				-6.380992889404297,
+				-7.30290412902832
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1714,
+			"count":1717,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1714,
+			"count":1717,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":1714,
+			"count":1717,
 			"type":"VEC4"
 		},
 		{
@@ -111,32 +111,32 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":20568,
+			"byteLength":20604,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":20568,
-			"byteOffset":20568,
+			"byteLength":20604,
+			"byteOffset":20604,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":13712,
-			"byteOffset":41136,
+			"byteLength":13736,
+			"byteOffset":41208,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":27424,
-			"byteOffset":54848,
+			"byteLength":27472,
+			"byteOffset":54944,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":5388,
-			"byteOffset":82272,
+			"byteOffset":82416,
 			"target":34963
 		}
 	],
@@ -148,7 +148,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":87660,
+			"byteLength":87804,
 			"uri":"boss.bin"
 		}
 	]
