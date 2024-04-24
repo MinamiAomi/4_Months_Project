@@ -32,6 +32,6 @@ public:
 private:
     RootSignature rootSignature_;
     PipelineState pipelineState_;
-    float near_ = 500.0f;
-    float far_ = 1000.0f;
+    float near_ = 100.0f;
+    float far_ = 700.0f;
 };
