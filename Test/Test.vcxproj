@@ -73,6 +73,7 @@
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TitleObject.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss\Boss.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TitleObject.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

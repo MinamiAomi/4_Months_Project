@@ -9,15 +9,17 @@
 #include "Graphics/Model.h"
 #include "Math/MathUtils.h"
 #include "Math/Camera.h"
+#include "StageGimmick/StageGimmick.h"
+
 class Boss;
 class BossAttackTrigger :
 	public GameObject {
 public:
 	struct Desc {
+		StageGimmick::Desc desc;
 		BossStateManager::State state;
-		float pos;
 	};
-	void Initialize(const Desc desc);
+	void Initialize(const Desc& desc);
 	void Update();
 
 	void Reset();

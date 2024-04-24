@@ -103,6 +103,9 @@
     <Filter Include="Game\Object\Player\PlayerAttack">
       <UniqueIdentifier>{fa2b26b5-f188-4b3a-b166-882677f4d42f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\UI">
+      <UniqueIdentifier>{5d31f539-6152-44b5-95f3-8103e66433d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -257,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Game\Object\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,6 +425,9 @@
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Game\Object\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

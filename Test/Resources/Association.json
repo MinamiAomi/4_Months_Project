@@ -3,16 +3,17 @@
         "jump": "SE/jump.wav",
         "revenge": "SE/revenge.wav"
     },
-    "Texture": {
-        "circle": "whiteCircle.png",
-        "white2x2": "white2x2.png",
-        "HPBar_Gauge": "Player/PlayerUI/HPBar_Gauge.png",
-        "HPBar_Flame": "Player/PlayerUI/HPBar_Flame.png",
-        "RevengeBar_RevengeGauge": "Player/PlayerUI/RevengeBar_RevengeGauge.png",
-        "RevengeBar_Flame": "Player/PlayerUI/RevengeBar_Flame.png",
-        "RevengeBar_WeaponGauge": "Player/PlayerUI/RevengeBar_WeaponGauge.png",
-        "title": "Other/titleLogo.png"
-    },
+  "Texture": {
+    "circle": "whiteCircle.png",
+    "white2x2": "white2x2.png",
+    "HPBar_Gauge": "Player/PlayerUI/HPBar_Gauge.png",
+    "HPBar_Flame": "Player/PlayerUI/HPBar_Flame.png",
+    "RevengeBar_RevengeGauge": "Player/PlayerUI/RevengeBar_RevengeGauge.png",
+    "RevengeBar_Flame": "Player/PlayerUI/RevengeBar_Flame.png",
+    "title": "Other/titleLogo.png",
+    "RevengeBar_WeaponGauge": "Player/PlayerUI/RevengeBar_WeaponGauge.png",
+    "ControllUI": "TutorialUI/ControllUI.png"
+  },
     "Model": {
         "bossBody": "Boss/Body/boss.gltf",
         "bossRightArm": "Boss/RightArm/rightArm.gltf",
