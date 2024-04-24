@@ -43,7 +43,7 @@ void Player::Initialize() {
 	playerRevengeGage_->Initialize();
 
 	bulletManager_->Initialize();
-	
+
 	Reset();
 #pragma region SE
 	jumpSE_ = std::make_unique<AudioSource>();
@@ -193,12 +193,25 @@ void Player::UpdateTransform() {
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
 	if (collisionInfo.collider->GetName() == "Boss") {
-		acceleration_.z -= knockBack_;
-		if (invincibleTime_ == 0) {
-			invincibleTime_ = maxInvincibleTime_;
-			if (playerHP_->GetCurrentHP() > 0) {
-				playerHP_->AddHP(-1);
+		switch (Character::currentCharacterState_) {
+		case Character::State::kChase:
+		{
+
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			acceleration_.z -= knockBack_;
+			if (invincibleTime_ == 0) {
+				invincibleTime_ = maxInvincibleTime_;
+				if (playerHP_->GetCurrentHP() > 0) {
+					playerHP_->AddHP(-1);
+				}
 			}
+		}
+		break;
+		default:
+			break;
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||
