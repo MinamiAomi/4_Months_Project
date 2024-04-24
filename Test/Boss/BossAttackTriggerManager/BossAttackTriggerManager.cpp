@@ -70,7 +70,7 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 			BossAttackTrigger::Desc desc{};
 			desc.desc = StageGimmick::GetDesc(obj);
 			const auto& gimmick = obj["gimmick"];
-			desc.state = static_cast<BossStateManager::State>(gimmick["state"]);
+			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
 			Create(desc);
 		}
 	}

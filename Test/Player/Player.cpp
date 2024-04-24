@@ -245,7 +245,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	}
 	else if (collisionInfo.collider->GetName() == "FireBarBar" ||
 		collisionInfo.collider->GetName() == "PendulumBall" ||
-		collisionInfo.collider->GetName() == "bossLeftArm") {
+		collisionInfo.collider->GetName() == "bossLeftArm" ||
+		collisionInfo.collider->GetName() == "bossFloorAll"||
+		collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {
