@@ -144,7 +144,7 @@ void RenderManager::Render() {
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
 
-    transition_.Dispatch(commandContext_, lightingRenderingPass_.GetResult());
+    transition_.Dispatch(commandContext_, fxaa_.GetResult());
 
     auto& swapChainBuffer = swapChain_.GetColorBuffer(targetSwapChainBufferIndex);
     commandContext_.CopyBuffer(swapChainBuffer, fxaa_.GetResult());
