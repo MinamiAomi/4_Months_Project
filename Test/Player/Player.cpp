@@ -78,81 +78,89 @@ void Player::Initialize() {
 
 void Player::Update() {
 
-	//false
-	isGround_ = false;
-	isMove_ = false;
-
-	// 移動
-	Move();
-
-	// ジャンプ
-	Jump();
-
-	// 無敵
-	Invincible();
-
-	DebugParam();
-
-	// リベンジゲージ
-	playerRevengeGage_->Update();
-
-	// HP
-	playerHP_->Update();
-
-	// UIアップデート
-	playerUI_->Update();
-
-	// 切り替え
-	if (Character::currentCharacterState_ == Character::State::kRunAway &&
-		(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
-		(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
-		Character::SetNextScene(Character::State::kChase);
-		//transform.translate.x = 0.0f;
-		//transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
-		transform.rotate = Quaternion::identity;
-		canFirstJump_ = true;
-		canSecondJump_ = true;
-		velocity_ = Vector3::zero;
-		acceleration_ = Vector3::zero;
-		revengeSE_->Play();
-	}
-	if (Character::currentCharacterState_ == Character::State::kChase &&
-		playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
-		Character::SetNextScene(Character::State::kRunAway);
-	}
-	acceleration_.y += gravity_;
-	acceleration_.z *= 0.9f;
-	velocity_ += acceleration_;
-	transform.translate += velocity_;
-
-	transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
-	transform.translate.y = std::max(transform.translate.y, -10.0f);
-	// 救済
-	if (transform.translate.y <= -10.0f) {
-		transform.translate.y = 8.0f;
-		acceleration_.y = 0.0f;
-		// ジャンプ復活
-		canFirstJump_ = true;
-		canSecondJump_ = true;
-	}
 	switch (Character::currentCharacterState_) {
-	case Character::kChase:
-	{
-		transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - chaseLimitLine_, boss_->transform.translate.z);
-	}
-	break;
-	case Character::kRunAway:
-	{
-		transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - runAwayLimitLine_, boss_->transform.translate.z);
-	}
-	break;
-	case Character::kCount:
+	case Character::State::kChase:
+	case Character::State::kRunAway:
+		//false
+		isGround_ = false;
+		isMove_ = false;
+
+		// 移動
+		Move();
+
+		// ジャンプ
+		Jump();
+
+		// 無敵
+		Invincible();
+
+		// リベンジゲージ
+		playerRevengeGage_->Update();
+
+		// HP
+		playerHP_->Update();
+
+		// UIアップデート
+		playerUI_->Update();
+
+		// 切り替え
+		if (Character::currentCharacterState_ == Character::State::kRunAway &&
+			(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
+			(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
+			Character::SetNextScene(Character::State::kChase);
+			//transform.translate.x = 0.0f;
+			//transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
+			transform.rotate = Quaternion::identity;
+			canFirstJump_ = true;
+			canSecondJump_ = true;
+			velocity_ = Vector3::zero;
+			acceleration_ = Vector3::zero;
+			revengeSE_->Play();
+		}
+		if (Character::currentCharacterState_ == Character::State::kChase &&
+			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
+			Character::SetNextScene(Character::State::kRunAway);
+		}
+		acceleration_.y += gravity_;
+		acceleration_.z *= 0.9f;
+		velocity_ += acceleration_;
+		transform.translate += velocity_;
+
+		transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
+		transform.translate.y = std::max(transform.translate.y, -10.0f);
+		// 救済
+		if (transform.translate.y <= -10.0f) {
+			transform.translate.y = 8.0f;
+			acceleration_.y = 0.0f;
+			// ジャンプ復活
+			canFirstJump_ = true;
+			canSecondJump_ = true;
+		}
+		switch (Character::currentCharacterState_) {
+		case Character::kChase:
+		{
+			transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - chaseLimitLine_, boss_->transform.translate.z);
+		}
+		break;
+		case Character::kRunAway:
+		{
+			transform.translate.z = std::clamp(transform.translate.z, boss_->transform.translate.z - runAwayLimitLine_, boss_->transform.translate.z);
+		}
+		break;
+		case Character::kCount:
+			break;
+		default:
+			break;
+		}
+		break;
+	case Character::State::kScneChange:
+
 		break;
 	default:
 		break;
 	}
+	DebugParam();
 	UpdateTransform();
-
 
 	// 弾アップデート
 	//bulletManager_->Update(transform.worldMatrix.GetTranslate());

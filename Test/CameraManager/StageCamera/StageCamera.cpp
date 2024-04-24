@@ -66,28 +66,52 @@ void StageCamera::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
-		if (Character::nextCharacterState_ == Character::State::kChase) {
-			float t = Character::GetSceneChangeTime();
-			transform.translate.z = std::lerp(easingStartPosition_.z, boss_->transform.worldMatrix.GetTranslate().z - player_->GetChaseLimitLine() * 0.5f, t);
-			Vector3 offset = {
+		float t = Character::GetSceneChangeTime();
+		Vector3 offset{}, rotate{};
+		switch (Character::nextCharacterState_) {
+		case Character::State::kChase:
+		{
+
+			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine() * 0.5f, t);
+			offset = {
 			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.x, cameraParam_.at(Character::State::kChase).offset.x, t),
 			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.y, cameraParam_.at(Character::State::kChase).offset.y, t),
 			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.z, cameraParam_.at(Character::State::kChase).offset.z, t),
 			};
-			Vector3 rotate = {
+			rotate = {
 			std::lerp(cameraParam_.at(Character::State::kRunAway).eulerAngle.x, cameraParam_.at(Character::State::kChase).eulerAngle.x, t),
 			std::lerp(cameraParam_.at(Character::State::kRunAway).eulerAngle.y, cameraParam_.at(Character::State::kChase).eulerAngle.y, t),
 			std::lerp(cameraParam_.at(Character::State::kRunAway).eulerAngle.z, cameraParam_.at(Character::State::kChase).eulerAngle.z, t),
 			};
-			transform.UpdateMatrix();
-			camera_->SetPosition(
-				{
-				transform.translate.x + offset.x,
-				transform.translate.y + offset.y,
-				transform.translate.z + offset.z
-				});
-			camera_->SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
+
 		}
+		break;
+		case Character::State::kRunAway:
+		{
+			transform.translate.z = std::lerp(easingStartPosition_.z, boss_->transform.worldMatrix.GetTranslate().z - player_->GetChaseLimitLine() * 0.5f, t);
+			offset = {
+			std::lerp(cameraParam_.at(Character::State::kChase).offset.x, cameraParam_.at(Character::State::kRunAway).offset.x, t),
+			std::lerp(cameraParam_.at(Character::State::kChase).offset.y, cameraParam_.at(Character::State::kRunAway).offset.y, t),
+			std::lerp(cameraParam_.at(Character::State::kChase).offset.z, cameraParam_.at(Character::State::kRunAway).offset.z, t),
+			};
+			rotate = {
+			std::lerp(cameraParam_.at(Character::State::kChase).eulerAngle.x, cameraParam_.at(Character::State::kRunAway).eulerAngle.x, t),
+			std::lerp(cameraParam_.at(Character::State::kChase).eulerAngle.y, cameraParam_.at(Character::State::kRunAway).eulerAngle.y, t),
+			std::lerp(cameraParam_.at(Character::State::kChase).eulerAngle.z, cameraParam_.at(Character::State::kRunAway).eulerAngle.z, t),
+			};
+		}
+		break;
+		default:
+			break;
+		}
+		transform.UpdateMatrix();
+		camera_->SetPosition(
+			{
+			transform.translate.x + offset.x,
+			transform.translate.y + offset.y,
+			transform.translate.z + offset.z
+			});
+		camera_->SetRotate(Quaternion::MakeFromEulerAngle(rotate * Math::ToRadian));
 		break;
 	}
 

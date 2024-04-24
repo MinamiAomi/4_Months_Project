@@ -1,6 +1,6 @@
 {
     "GameSpeed": {
-        "toChaseTime_": 120.0,
-        "toRunAwayTime_": 120.0
+        "toChaseTime_": 180.0,
+        "toRunAwayTime_": 180.0
     }
 }
