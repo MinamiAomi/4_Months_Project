@@ -9,7 +9,7 @@ namespace {
 	const wchar_t kPixelShader[] = L"App/SkyPS.hlsl";
 }
 
-void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
+void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat) {
 #pragma region パラメーター
 	JSON_OPEN("Resources/Data/Sky/Sky.json");
 	JSON_OBJECT("Sky");
@@ -60,12 +60,11 @@ void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
 	pipelineStateDesc.PS = CD3DX12_SHADER_BYTECODE(ps->GetBufferPointer(), ps->GetBufferSize());
 
 	pipelineStateDesc.BlendState = Helper::BlendAlpha;
-	pipelineStateDesc.DepthStencilState = Helper::DepthStateReadOnly;
+	pipelineStateDesc.DepthStencilState = Helper::DepthStateDisabled;
 	pipelineStateDesc.RasterizerState = Helper::RasterizerDefault;
-	// 前面カリング
+	pipelineStateDesc.RasterizerState.DepthClipEnable = FALSE;
 	pipelineStateDesc.NumRenderTargets = 1;
 	pipelineStateDesc.RTVFormats[0] = rtvFormat;
-	pipelineStateDesc.DSVFormat = dsvFormat;
 	pipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 	pipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	pipelineStateDesc.SampleDesc.Count = 1;

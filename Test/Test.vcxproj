@@ -36,6 +36,8 @@
     <ClCompile Include="Editor\FireBarEditor\FireBarEditor.cpp" />
     <ClCompile Include="Editor\FloorEditor\FloorEditor.cpp" />
     <ClCompile Include="Editor\PendulumEditor\PendulumEditor.cpp" />
+    <ClCompile Include="GameClearScene.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
@@ -70,6 +72,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TitleObject.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss\Boss.h" />
@@ -89,6 +92,8 @@
     <ClInclude Include="Editor\FireBarEditor\FireBarEditor.h" />
     <ClInclude Include="Editor\FloorEditor\FloorEditor.h" />
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h" />
+    <ClInclude Include="GameClearScene.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameSpeed.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
@@ -122,6 +127,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TitleObject.h" />
+    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

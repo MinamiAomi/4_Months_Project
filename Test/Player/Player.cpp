@@ -43,15 +43,8 @@ void Player::Initialize() {
 	playerRevengeGage_->Initialize();
 
 	bulletManager_->Initialize();
-
-	transform.translate = offset_;
-	transform.rotate = Quaternion::identity;
-	transform.scale = Vector3::one;
-
-	transform.UpdateMatrix();
-	canFirstJump_ = true;
-	canSecondJump_ = true;
-
+	
+	Reset();
 #pragma region SE
 	jumpSE_ = std::make_unique<AudioSource>();
 	revengeSE_ = std::make_unique<AudioSource>();
@@ -84,6 +77,10 @@ void Player::Update() {
 		//false
 		isGround_ = false;
 		isMove_ = false;
+
+		if (playerHP_->GetCurrentHP() <= 0) {
+			isAlive_ = false;
+		}
 
 		// 移動
 		Move();
@@ -162,6 +159,7 @@ void Player::Update() {
 	DebugParam();
 	UpdateTransform();
 
+
 	// 弾アップデート
 	//bulletManager_->Update(transform.worldMatrix.GetTranslate());
 
@@ -172,8 +170,10 @@ void Player::Reset() {
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
+	transform.UpdateMatrix();
 	canFirstJump_ = true;
 	canSecondJump_ = true;
+	isAlive_ = true;
 	velocity_ = Vector3::zero;
 	acceleration_ = Vector3::zero;
 	playerHP_->Reset();

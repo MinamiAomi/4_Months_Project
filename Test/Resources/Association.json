@@ -10,7 +10,8 @@
         "HPBar_Flame": "Player/PlayerUI/HPBar_Flame.png",
         "RevengeBar_RevengeGauge": "Player/PlayerUI/RevengeBar_RevengeGauge.png",
         "RevengeBar_Flame": "Player/PlayerUI/RevengeBar_Flame.png",
-        "RevengeBar_WeaponGauge": "Player/PlayerUI/RevengeBar_WeaponGauge.png"
+        "RevengeBar_WeaponGauge": "Player/PlayerUI/RevengeBar_WeaponGauge.png",
+        "title": "TitleScene/Title.png"
     },
     "Model": {
         "bossBody": "Boss/Body/boss.gltf",
