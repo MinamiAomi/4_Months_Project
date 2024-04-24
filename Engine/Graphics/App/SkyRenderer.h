@@ -13,7 +13,7 @@
 
 class SkyRenderer {
 public:
-    void Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat);
+    void Initialize(DXGI_FORMAT rtvFormat);
     void Render(CommandContext& commandContext, const Camera& camera, Matrix4x4 worldMatrix);
     void DebugParam();
 

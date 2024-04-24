@@ -23,6 +23,7 @@
 #include "LightingRenderingPass.h"
 
 #include "App/SkyRenderer.h"
+#include "App/Fog.h"
 #include "Edge.h"
 
 #define SHADER_DIRECTORY "../Engine/Graphics/Shader"
@@ -71,7 +72,9 @@ private:
     PostEffect postEffect_;
     PostEffect edgeMultiply_;
 
+    ColorBuffer skyTexture_;
     SkyRenderer skyRenderer_;
+    Fog fog_;
     Matrix4x4 skyTransform_;
 
     Timer timer_;

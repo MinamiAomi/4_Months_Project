@@ -312,6 +312,9 @@
     <ClCompile Include="Framework\ResourceManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\App\Fog.cpp">
+      <Filter>Graphics\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -611,6 +614,10 @@
     <ClInclude Include="Debug\Debug.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\Edge.h" />
+    <ClInclude Include="Graphics\App\Fog.h">
+      <Filter>Graphics\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Lighting.hlsli">
@@ -726,6 +733,9 @@
     </None>
     <None Include="Graphics\Shader\Standard\GeometryPassInstancingPS.hlsl">
       <Filter>Graphics\Shader\Standard</Filter>
+    </None>
+    <None Include="Graphics\Shader\App\FogCS.hlsl">
+      <Filter>Graphics\Shader\App</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
