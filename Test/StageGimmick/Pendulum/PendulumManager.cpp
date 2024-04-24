@@ -65,10 +65,10 @@ void PendulumManager::LoadJson(uint32_t stageIndex) {
 			desc.length = gimmick["length"];
 			desc.angle = gimmick["angle"] * Math::ToRadian;
 			desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
-			//desc.gravity = gimmick["gravity"];
+			desc.gravity = gimmick["gravity"];
 			//desc.stickScale = gimmick["stickScale"];
 			//desc.ballScale = gimmick["ballScale"];
-			desc.gravity = 0.002f;
+			//desc.gravity = 0.002f;
 			desc.stickScale = 1.0f;
 			desc.ballScale = 1.0f;
 			Create(desc);
