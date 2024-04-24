@@ -31,6 +31,7 @@ public:
 	const Vector3& GetMinModelSize()const { return model_->GetModel()->GetMeshes()[0].minVertex; }
 	const bool GetIsMove() const { return isMove_; }
 	const bool GetIsGround() const { return isGround_; }
+	const bool GetIsAlive() const { return isAlive_; }
 
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
@@ -64,6 +65,7 @@ private:
 	bool isMove_;
 	bool isGround_;
 	uint32_t invincibleTime_;
+	bool isAlive_;
 
 	// JumpSE
 	std::unique_ptr<AudioSource> jumpSE_;

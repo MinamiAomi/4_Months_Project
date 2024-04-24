@@ -36,6 +36,7 @@ public:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnFinalize() override;
+	void Initialize();
 
 private:
 	std::shared_ptr<CameraManager> cameraManager_;

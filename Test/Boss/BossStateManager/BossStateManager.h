@@ -72,7 +72,7 @@ private:
 	Vector3 initialRotate_;
 };
 
-class BossStateFloorAll :
+class BossStateLowerAttack :
 	public BossState {
 public:
 	struct JsonData {
@@ -95,7 +95,7 @@ private:
 	float time_;
 };
 
-class BossStateLongDistanceAttack :
+class BossStateInsideAttack :
 	public BossState {
 public:
 	struct JsonData {
@@ -170,8 +170,8 @@ public:
 	enum State {
 		kRoot,
 		kHook,
-		kFloorAll,
-		kLongDistanceAttack,
+		kLowerAttack,
+		kInsideAttack,
 		kRainOfArrow,
 		kArmHammer,
 
@@ -180,8 +180,8 @@ public:
 	struct JsonData {
 		BossStateRoot::JsonData rootData;
 		BossStateHook::JsonData attackData;
-		BossStateFloorAll::JsonData floorAllData;
-		BossStateLongDistanceAttack::JsonData longDistanceAttackData;
+		BossStateLowerAttack::JsonData lowerAttackData;
+		BossStateInsideAttack::JsonData insideAttackData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();

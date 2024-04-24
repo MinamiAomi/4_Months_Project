@@ -5,11 +5,13 @@
 #include "GameWindow.h"
 #include "ImGuiManager.h"
 #include "Math/Color.h"
+#include "Model.h"
 
 
 #ifdef ENABLE_IMGUI
 static bool useBloom = true;
 static bool useEdge = true;
+static bool useFog = true;
 #endif // ENABLE_IMGUI
 
 
@@ -38,7 +40,6 @@ void RenderManager::Initialize() {
     //preSwapChainBuffer_.Create(L"PreSwapChainBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM);
     //mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);
 
-    //postEffect_.Initialize(preSwapChainBuffer_);
 
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
@@ -49,7 +50,8 @@ void RenderManager::Initialize() {
 
     //    modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
     transition_.Initialize();
-    //raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    postEffect_.Initialize(lightingRenderingPass_.GetResult());
 
     //raymarchingRenderer_.Create(mainColorBuffer_.GetWidth(), mainColorBuffer_.GetHeight());
 
@@ -60,7 +62,9 @@ void RenderManager::Initialize() {
 
     timer_.Initialize();
 
-    skyRenderer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat(), geometryRenderingPass_.GetDepth().GetFormat());
+    skyTexture_.Create(L"SkyTexture", lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM, false);
+    skyRenderer_.Initialize(skyTexture_.GetRTVFormat());
+    fog_.Initialize();
 
     edge_.Initialize(&lightingRenderingPass_.GetResult());
     edgeMultiply_.Initialize(lightingRenderingPass_.GetResult());
@@ -88,7 +92,8 @@ void RenderManager::Render() {
     commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
     if (camera) {
         // 影、スペキュラ
-    //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
+        assert(!lightManager_.GetDirectionalLight().empty());
+        raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
         geometryRenderingPass_.Render(commandContext_, *camera);
 #ifdef ENABLE_IMGUI
         if (useEdge) {
@@ -105,20 +110,27 @@ void RenderManager::Render() {
 #ifdef ENABLE_IMGUI
         }
 #endif // ENABLE_IMGUI
-       
-     
+
+        postEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
         if (useSky_) {
-            auto& rt = lightingRenderingPass_.GetResult();
-            auto& ds = geometryRenderingPass_.GetDepth();
-            commandContext_.TransitionResource(rt, D3D12_RESOURCE_STATE_RENDER_TARGET);
-            commandContext_.TransitionResource(ds, D3D12_RESOURCE_STATE_DEPTH_READ);
-            commandContext_.SetRenderTarget(rt.GetRTV(), ds.GetDSV());
-            commandContext_.SetViewportAndScissorRect(0, 0, rt.GetWidth(), rt.GetHeight());
-            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ 900.0f, 900.0f, 900.0f}, Quaternion::identity, camera->GetPosition()));
+            commandContext_.TransitionResource(skyTexture_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+            commandContext_.SetRenderTarget(skyTexture_.GetRTV());
+            commandContext_.SetViewportAndScissorRect(0, 0, skyTexture_.GetWidth(), skyTexture_.GetHeight());
+            float skyScale = camera->GetFarClip() * 2.0f;
+            skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ skyScale, skyScale, skyScale }, Quaternion::identity, camera->GetPosition()));
+
+#ifdef ENABLE_IMGUI
+            if (useFog) {
+#endif // ENABLE_IMGUI
+                fog_.Render(commandContext_, *camera, lightingRenderingPass_.GetResult(), skyTexture_, geometryRenderingPass_.GetDepth());
+#ifdef ENABLE_IMGUI
+            }
+#endif // ENABLE_IMGUI
+
         }
     }
-    
+
 
 
 #ifdef ENABLE_IMGUI
@@ -134,7 +146,7 @@ void RenderManager::Render() {
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
 
-    transition_.Dispatch(commandContext_, lightingRenderingPass_.GetResult());
+    transition_.Dispatch(commandContext_, fxaa_.GetResult());
 
     auto& swapChainBuffer = swapChain_.GetColorBuffer(targetSwapChainBufferIndex);
     commandContext_.CopyBuffer(swapChainBuffer, fxaa_.GetResult());
@@ -151,15 +163,16 @@ void RenderManager::Render() {
     auto io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::Text("FrameCount : %d", frameCount_);
+    ImGui::Checkbox("Sky", &useSky_);
     if (ImGui::TreeNode("Bloom")) {
         float knee = bloom_.GetKnee();
         float threshold = bloom_.GetThreshold();
         ImGui::Checkbox("Active", &useBloom);
-        ImGui::DragFloat("knee",&knee,0.01f,0.0f,1.0f);
-        ImGui::DragFloat("threshold",&threshold,0.01f,0.0f,1.0f);
+        ImGui::DragFloat("knee", &knee, 0.01f, 0.0f, 1.0f);
+        ImGui::DragFloat("threshold", &threshold, 0.01f, 0.0f, 1.0f);
         bloom_.SetKnee(knee);
         bloom_.SetThreshold(threshold);
-        
+
         ImGui::TreePop();
     }
     if (ImGui::TreeNode("Edge")) {
@@ -169,7 +182,20 @@ void RenderManager::Render() {
         edge_.SetColor(color);
         ImGui::TreePop();
     }
-    
+    if (ImGui::TreeNode("Fog")) {
+        float fogNear = fog_.GetNear();
+        float fogFar = fog_.GetFar();
+        ImGui::Checkbox("Active", &useFog);
+        ImGui::DragFloat("Near", &fogNear, 1.0f, camera->GetNearClip(), camera->GetFarClip());
+        ImGui::DragFloat("Far", &fogFar, 1.0f, camera->GetNearClip(), camera->GetFarClip());
+        if (fogNear > fogFar) {
+            std::swap(fogNear, fogFar);
+        }
+        fog_.SetNear(fogNear);
+        fog_.SetFar(fogFar);
+        ImGui::TreePop();
+    }
+
     ImGui::End();
 #endif // ENABLE_IMGUI
 

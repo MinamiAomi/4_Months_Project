@@ -196,6 +196,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Graphics\Animation.cpp" />
+    <ClCompile Include="Graphics\App\Fog.cpp" />
     <ClCompile Include="Graphics\App\SkyRenderer.cpp" />
     <ClCompile Include="Graphics\App\Voronoi.cpp" />
     <ClCompile Include="Graphics\Bloom.cpp" />
@@ -318,6 +319,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Graphics\Animation.h" />
+    <ClInclude Include="Graphics\App\Fog.h" />
     <ClInclude Include="Graphics\App\SkyRenderer.h" />
     <ClInclude Include="Graphics\App\Voronoi.h" />
     <ClInclude Include="Graphics\Bloom.h" />
@@ -693,6 +695,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Graphics\Shader\App\FogCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
     <FxCompile Include="Graphics\Shader\EdgePS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>

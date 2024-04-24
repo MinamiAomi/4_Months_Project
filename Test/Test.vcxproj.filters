@@ -252,6 +252,15 @@
       <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClCompile>
     <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClearScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Game\Object\UI</Filter>
     </ClCompile>
@@ -407,6 +416,15 @@
     </ClInclude>
     <ClInclude Include="Player\PlayerAttack\PlayerAttackManager.h">
       <Filter>Game\Object\Player\PlayerAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Game\Object\UI</Filter>
