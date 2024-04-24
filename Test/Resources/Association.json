@@ -12,7 +12,11 @@
     "RevengeBar_Flame": "Player/PlayerUI/RevengeBar_Flame.png",
     "title": "Other/titleLogo.png",
     "RevengeBar_WeaponGauge": "Player/PlayerUI/RevengeBar_WeaponGauge.png",
-    "ControllUI": "TutorialUI/ControllUI.png"
+    "ControllUI": "TutorialUI/ControllUI.png",
+    "tutorial1": "TutorialUI/tutorial1_alpha.png",
+    "tutorial2": "TutorialUI/tutorial2_alpha.png",
+    "tutorial3": "TutorialUI/tutorial3_alpha.png",
+    "revengeUI": "EffectUI/RevengeMode.png"
   },
     "Model": {
         "bossBody": "Boss/Body/boss.gltf",

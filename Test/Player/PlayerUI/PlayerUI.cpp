@@ -20,6 +20,10 @@ void PlayerUI::Initialize() {
 	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "RevengeBar_Flame");
 
 	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "RevengeBar_WeaponGauge");
+
+	tutorial1_ = CreateSprite(tutorial1Data_, "tutorial1");
+	tutorial2_ = CreateSprite(tutorial2Data_, "tutorial2");
+	tutorial3_ = CreateSprite(tutorial3Data_, "tutorial3");
 	//revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
 #pragma endregion
 }
@@ -39,6 +43,12 @@ void PlayerUI::Update() {
 			//DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
 
 			DrawImGui(hpBaseSpriteData_, "hpBaseSpriteData_", hpBaseSprit_.get());
+
+			DrawImGui(tutorial1Data_, "tutorial1Data_", tutorial1_.get());
+
+			DrawImGui(tutorial2Data_, "tutorial2Data_", tutorial2_.get());
+
+			DrawImGui(tutorial3Data_, "tutorial3Data_", tutorial3_.get());
 
 			for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
 				std::string string = "hpSpriteData:(" + std::to_string(i) + ")";
@@ -81,7 +91,8 @@ void PlayerUI::UpdateHP() {
 }
 
 void PlayerUI::UpdateRevengeGage() {
-	float barT = playerRevengeGage_->GetCurrentRevengeBarGage() / PlayerRevengeGage::kMaxRevengeBar;
+	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
+	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
 	float circleT = playerRevengeGage_->GetCurrentRevengeCircleGage() / PlayerRevengeGage::kMaxRevengeCircle;
 #pragma region Bar
 	revengeBarGage_->SetPosition(
@@ -117,6 +128,22 @@ void PlayerUI::UpdateRevengeGage() {
 		}
 	);
 
+	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
+		tutorial1_->SetIsActive(false);
+		tutorial2_->SetIsActive(true);
+		tutorial3_->SetIsActive(false);
+	}
+	else
+	if (Character::currentCharacterState_ == Character::kRunAway) {
+		tutorial1_->SetIsActive(true);
+		tutorial2_->SetIsActive(false);
+		tutorial3_->SetIsActive(false);
+	}else
+	if (Character::currentCharacterState_ == Character::kChase) {
+		tutorial1_->SetIsActive(false);
+		tutorial2_->SetIsActive(false);
+		tutorial3_->SetIsActive(true);
+	}
 }
 
 void PlayerUI::LoadJson() {
@@ -150,6 +177,23 @@ void PlayerUI::LoadJson() {
 	JSON_OBJECT("revengeCircleGageData_");
 	revengeCircleGageData_.Load();
 	JSON_ROOT();
+
+	// 円
+	JSON_OBJECT("tutorial1Data_");
+	tutorial1Data_.Load();
+	JSON_ROOT();
+
+	// 円
+	JSON_OBJECT("tutorial2Data_");
+	tutorial2Data_.Load();
+	JSON_ROOT();
+
+	// 円
+	JSON_OBJECT("tutorial3Data_");
+	tutorial3Data_.Load();
+	JSON_ROOT();
+
+
 	/*JSON_OBJECT("revengeCircleGageBaseData_");
 	revengeCircleGageBaseData_.Load();
 	JSON_ROOT();*/
@@ -183,6 +227,18 @@ void PlayerUI::SaveJson() {
 	// 円
 	JSON_OBJECT("revengeCircleGageData_");
 	revengeCircleGageData_.Save();
+	JSON_ROOT();
+	// 円
+	JSON_OBJECT("tutorial1Data_");
+	tutorial1Data_.Save();
+	JSON_ROOT();
+	// 円
+	JSON_OBJECT("tutorial2Data_");
+	tutorial1Data_.Save();
+	JSON_ROOT();
+	// 円
+	JSON_OBJECT("tutorial3Data_");
+	tutorial1Data_.Save();
 	JSON_ROOT();
 	// 円
 	/*JSON_OBJECT("revengeCircleGageBaseData_");

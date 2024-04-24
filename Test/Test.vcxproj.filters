@@ -264,6 +264,9 @@
     <ClCompile Include="UI.cpp">
       <Filter>Game\Object\UI</Filter>
     </ClCompile>
+    <ClCompile Include="CutIn.cpp">
+      <Filter>Game\Object\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -427,6 +430,9 @@
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
+      <Filter>Game\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CutIn.h">
       <Filter>Game\Object\UI</Filter>
     </ClInclude>
   </ItemGroup>

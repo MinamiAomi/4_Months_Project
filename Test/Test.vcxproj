@@ -28,6 +28,7 @@
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />
+    <ClCompile Include="CutIn.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DecorationModel.cpp" />
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp" />
@@ -85,6 +86,7 @@
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="CollisionAttribute.h" />
+    <ClInclude Include="CutIn.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DecorationModel.h" />
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h" />

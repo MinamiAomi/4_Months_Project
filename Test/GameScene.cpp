@@ -90,6 +90,9 @@ void GameScene::OnInitialize() {
 	ui_ = std::make_unique<UI>();
 	ui_->Initialize();
 
+	cutIn_ = std::make_unique<CutIn>();
+	cutIn_->Initialize();
+
 	GameSpeed::LoadJson();
 	Character::LoadJson();
 	// ikkaideke
@@ -118,6 +121,9 @@ void GameScene::OnUpdate() {
 		boss_->Update();
 
 		skyBlockManager_->Update();
+
+		ui_->Update();
+		cutIn_->Update();
 
 		// 当たり判定を取る
 		CollisionManager::GetInstance()->CheckCollision();
@@ -222,6 +228,7 @@ void GameScene::Initialize() {
 
 	skyBlockManager_->Update();
 	ui_->Update();
+	cutIn_->Update();
 	// 当たり判定を取る
 	CollisionManager::GetInstance()->CheckCollision();
 
