@@ -27,6 +27,7 @@
 #include "StageBlock.h"
 #include "SkyBlockManager.h"
 #include "SkyBlock.h"
+#include "UI.h"
 
 class GameScene :
 	public BaseScene {
@@ -65,5 +66,7 @@ private:
 
 	std::unique_ptr<StageBlockManager> stageBlockManager_;
 	std::unique_ptr<SkyBlockManager> skyBlockManager_;
+
+	std::unique_ptr<UI> ui_;
 #pragma endregion
 };

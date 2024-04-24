@@ -1,0 +1,28 @@
+{
+    "controllData_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            180.0,
+            945.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            284.0,
+            212.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            284.0,
+            212.0
+        ]
+    }
+}
