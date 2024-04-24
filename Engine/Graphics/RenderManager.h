@@ -26,10 +26,10 @@
 #include "App/Fog.h"
 #include "Edge.h"
 
-#define SHADER_DIRECTORY "../Engine/Graphics/Shader"
-//#define SHADER_DIRECTORY "Resources/Shader"
 #ifdef _DEBUG
+#define SHADER_DIRECTORY "../Engine/Graphics/Shader"
 #else
+#define SHADER_DIRECTORY "Resources/Shader"
 #endif // _DEBUG
 
 class RenderManager {
