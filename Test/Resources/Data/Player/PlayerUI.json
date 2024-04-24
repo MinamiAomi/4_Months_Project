@@ -206,5 +206,83 @@
             188.0,
             188.0
         ]
+    },
+    "tutorial1Data_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            960.0,
+            100.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            544.0,
+            88.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            1088.0,
+            176.0
+        ]
+    },
+    "tutorial2Data_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            960.0,
+            100.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            544.0,
+            88.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            1088.0,
+            176.0
+        ]
+    },
+    "tutorial3Data_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            960.0,
+            100.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            544.0,
+            88.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            1088.0,
+            176.0
+        ]
     }
 }

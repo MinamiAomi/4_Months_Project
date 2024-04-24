@@ -19,12 +19,12 @@ void BossAttackTriggerEditor::Initialize() {
 
 	bossAttackTrigger_ = std::make_unique<BossAttackTrigger>();
 	BossAttackTrigger::Desc desc{};
-	desc.pos = -50.0f;
+	desc.desc.transform.translate.z = -50.0f;
 	desc.state = BossStateManager::State::kHook;
 	bossAttackTrigger_->SetCamera(camera_);
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
-	isAlive_ = true;
+	isAlive_ = false;
 #ifdef _DEBUG
 	bossAttackTrigger_->SetIsColliderAlive(false);
 #else
@@ -89,8 +89,8 @@ void BossAttackTriggerEditor::Update() {
 			}
 			if (ImGui::TreeNode(("BossState:" + std::to_string(i)).c_str())) {
 				auto& desc = bossAtackTrigger->GetDesc();
-				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.pos, 1.0f);
-				const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack" };
+				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.desc.transform.translate.x, 1.0f);
+				const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack" };
 				int selectedItem = static_cast<int>(desc.state);
 				if (ImGui::Combo(("State:" + std::to_string(i)).c_str(), &selectedItem, items, IM_ARRAYSIZE(items))) {
 					desc.state = static_cast<BossStateManager::State>(selectedItem);
@@ -105,14 +105,14 @@ void BossAttackTriggerEditor::Update() {
 						desc.state = BossStateManager::State::kHook;
 					}
 					break;
-					case BossStateManager::State::kFloorAll:
+					case BossStateManager::State::kLowerAttack:
 					{
-						desc.state = BossStateManager::State::kFloorAll;
+						desc.state = BossStateManager::State::kLowerAttack;
 					}
 					break;
-					case BossStateManager::State::kLongDistanceAttack:
+					case BossStateManager::State::kInsideAttack:
 					{
-						desc.state = BossStateManager::State::kLongDistanceAttack;
+						desc.state = BossStateManager::State::kInsideAttack;
 					}
 					}
 				}

@@ -4,6 +4,7 @@
 
 #include "Externals/nlohmann/json.hpp"
 #include "StageGimmick/StageGimmick.h"
+#include "CharacterState.h"
 
 void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
 	bossAttackTriggers_.clear();
@@ -11,6 +12,35 @@ void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
 }
 
 void BossAttackTriggerManager::Update() {
+	switch (Character::currentCharacterState_) {
+	case Character::State::kChase:
+	{
+
+	}
+	break;
+	case Character::State::kRunAway:
+	{
+		switch (Character::nextCharacterState_) {
+		case Character::State::kChase:
+		{
+
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			for (auto& trigger : bossAttackTriggers_) {
+				trigger->Reset();
+			}
+		}
+		break;
+		default:
+			break;
+		}
+	}
+	break;
+	default:
+		break;
+	}
 	for (auto& trigger : bossAttackTriggers_) {
 		trigger->Update();
 	}
@@ -66,11 +96,11 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 	// "objects"配列から"Block"オブジェクトを処理
 	for (const auto& obj : root["objects"]) {
 		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "BossAttackTrigger") {
+			obj["gimmick"]["type"] == "Trigger") {
 			BossAttackTrigger::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
 			const auto& gimmick = obj["gimmick"];
-			desc.pos = gimmick["position"];
-			desc.state = static_cast<BossStateManager::State>(gimmick["state"]);
+			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
 			Create(desc);
 		}
 	}

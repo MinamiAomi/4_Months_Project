@@ -60,6 +60,20 @@ private:
 	// 円のとこ
 	std::unique_ptr<Sprite> revengeCircleGage_;
 	SpriteData revengeCircleGageData_;
+
+	// tutorial
+	std::unique_ptr<Sprite> tutorial1_;
+	SpriteData tutorial1Data_;
+
+	// tutorial
+	std::unique_ptr<Sprite> tutorial2_;
+	SpriteData tutorial2Data_;
+
+	// tutorial
+	std::unique_ptr<Sprite> tutorial3_;
+	SpriteData tutorial3Data_;
+
+
 	//// Base
 	//std::unique_ptr<Sprite> revengeCircleGageBase_;
 	//SpriteData revengeCircleGageBaseData_;

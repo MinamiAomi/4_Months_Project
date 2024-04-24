@@ -25,6 +25,7 @@ public:
 
 	void Reset();
 
+	const PlayerRevengeGage& GetRevengeGage() const { return *playerRevengeGage_.get(); }
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 	const Vector3& GetVelocity() const { return velocity_; }

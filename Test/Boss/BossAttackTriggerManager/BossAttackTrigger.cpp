@@ -7,7 +7,7 @@
 #include "File/JsonHelper.h"
 #include "Framework/ResourceManager.h"
 
-void BossAttackTrigger::Initialize(const Desc desc) {
+void BossAttackTrigger::Initialize(const Desc& desc) {
 	Reset();
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
@@ -15,8 +15,8 @@ void BossAttackTrigger::Initialize(const Desc desc) {
 
 	desc_ = desc;
 
-	transform.translate.z = desc_.pos;
-	transform.scale = { 20.0f,20.0f,1.0f };
+	transform.translate.z = desc_.desc.transform.translate.z;
+	transform.scale = desc_.desc.transform.scale;
 
 #ifdef _DEBUG
 	model_->SetIsActive(true);
@@ -63,7 +63,7 @@ void BossAttackTrigger::Reset() {
 void BossAttackTrigger::SetDesc(const Desc& desc) {
 	desc_ = desc;
 
-	transform.translate.z = desc_.pos;
+	transform.translate.z = desc_.desc.transform.translate.z;
 	transform.UpdateMatrix();
 }
 
@@ -85,11 +85,11 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 		case BossStateManager::kHook:
 			boss_->GetStateManager()->ChangeState<BossStateHook>();
 			break;
-		case BossStateManager::kFloorAll:
-			boss_->GetStateManager()->ChangeState<BossStateFloorAll>();
+		case BossStateManager::kLowerAttack:
+			boss_->GetStateManager()->ChangeState<BossStateLowerAttack>();
 			break;
-		case BossStateManager::kLongDistanceAttack:
-			boss_->GetStateManager()->ChangeState<BossStateLongDistanceAttack>();
+		case BossStateManager::kInsideAttack:
+			boss_->GetStateManager()->ChangeState<BossStateInsideAttack>();
 			break;
 		default:
 			break;
