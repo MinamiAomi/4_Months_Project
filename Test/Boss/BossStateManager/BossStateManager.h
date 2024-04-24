@@ -5,12 +5,12 @@
 #include <array>
 
 #include "Math/MathUtils.h"
+#include "Collision/Collider.h"
 
 class Boss;
 class BossState;
 struct CollisionInfo;
 class BossStateManager;
-
 class BossState {
 public:
 	enum AttackState {

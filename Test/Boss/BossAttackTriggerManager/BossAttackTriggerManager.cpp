@@ -4,6 +4,7 @@
 
 #include "Externals/nlohmann/json.hpp"
 #include "StageGimmick/StageGimmick.h"
+#include "CharacterState.h"
 
 void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
 	bossAttackTriggers_.clear();
@@ -11,6 +12,35 @@ void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
 }
 
 void BossAttackTriggerManager::Update() {
+	switch (Character::currentCharacterState_) {
+	case Character::State::kChase:
+	{
+
+	}
+	break;
+	case Character::State::kRunAway:
+	{
+		switch (Character::nextCharacterState_) {
+		case Character::State::kChase:
+		{
+
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+			for (auto& trigger : bossAttackTriggers_) {
+				trigger->Reset();
+			}
+		}
+		break;
+		default:
+			break;
+		}
+	}
+	break;
+	default:
+		break;
+	}
 	for (auto& trigger : bossAttackTriggers_) {
 		trigger->Update();
 	}
@@ -70,7 +100,7 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 			BossAttackTrigger::Desc desc{};
 			desc.desc = StageGimmick::GetDesc(obj);
 			const auto& gimmick = obj["gimmick"];
-			desc.state = static_cast<BossStateManager::State>(gimmick["state"]);
+			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
 			Create(desc);
 		}
 	}

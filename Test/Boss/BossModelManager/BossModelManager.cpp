@@ -75,9 +75,9 @@ void BossModel::UpdateTransform() {
 	Vector3 scale, translate;
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
+	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	//collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }

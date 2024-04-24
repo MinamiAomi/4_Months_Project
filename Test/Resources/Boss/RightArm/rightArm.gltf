@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v4.0.44",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -17,9 +17,9 @@
 			"mesh":0,
 			"name":"Boss_RightArm",
 			"translation":[
-				-20.544893264770508,
+				-20.544891357421875,
 				-2.6753005981445312,
-				-2.7695271968841553
+				-2.770564079284668
 			]
 		}
 	],
@@ -70,35 +70,35 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1788,
+			"count":1789,
 			"max":[
 				10.681156158447266,
 				17.371931076049805,
-				7.82379150390625
+				4.22411584854126
 			],
 			"min":[
 				-9.355600357055664,
 				-19.631858825683594,
-				-7.311915397644043
+				-3.9477505683898926
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1788,
+			"count":1789,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1788,
+			"count":1789,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":1788,
+			"count":1789,
 			"type":"VEC4"
 		},
 		{
@@ -111,32 +111,32 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":21456,
+			"byteLength":21468,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":21456,
-			"byteOffset":21456,
+			"byteLength":21468,
+			"byteOffset":21468,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":14304,
-			"byteOffset":42912,
+			"byteLength":14312,
+			"byteOffset":42936,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":28608,
-			"byteOffset":57216,
+			"byteLength":28624,
+			"byteOffset":57248,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":5664,
-			"byteOffset":85824,
+			"byteOffset":85872,
 			"target":34963
 		}
 	],
@@ -148,7 +148,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":91488,
+			"byteLength":91536,
 			"uri":"rightArm.bin"
 		}
 	]
