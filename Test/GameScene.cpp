@@ -13,6 +13,7 @@
 void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
+	directionalLight_->direction = Vector3(0.1f, -1.0f, 0.3f).Normalized();
 
 	editorManager_ = std::make_unique<EditorManager>();
 	isMove_ = true;
