@@ -19,24 +19,24 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.attackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.attackData.attackEasingTime);
 	JSON_ROOT();
-	JSON_OBJECT("StateFloorAll");
-	JSON_LOAD(jsonData_.floorAllData.startPosition);
-	JSON_LOAD(jsonData_.floorAllData.endPosition);
-	JSON_LOAD(jsonData_.floorAllData.scale);
-	JSON_LOAD(jsonData_.floorAllData.chargeEasingTime);
-	JSON_LOAD(jsonData_.floorAllData.attackEasingTime);
+	JSON_OBJECT("StateLowerAttack");
+	JSON_LOAD(jsonData_.lowerAttackData.startPosition);
+	JSON_LOAD(jsonData_.lowerAttackData.endPosition);
+	JSON_LOAD(jsonData_.lowerAttackData.scale);
+	JSON_LOAD(jsonData_.lowerAttackData.chargeEasingTime);
+	JSON_LOAD(jsonData_.lowerAttackData.attackEasingTime);
 	JSON_ROOT();
-	JSON_OBJECT("StateLongDistanceAttack");
-	JSON_LOAD(jsonData_.longDistanceAttackData.startPosition);
-	JSON_LOAD(jsonData_.longDistanceAttackData.endPosition);
-	JSON_LOAD(jsonData_.longDistanceAttackData.scale);
-	JSON_LOAD(jsonData_.longDistanceAttackData.chargeEasingTime);
-	JSON_LOAD(jsonData_.longDistanceAttackData.attackEasingTime);
+	JSON_OBJECT("StateInsideAttack");
+	JSON_LOAD(jsonData_.insideAttackData.startPosition);
+	JSON_LOAD(jsonData_.insideAttackData.endPosition);
+	JSON_LOAD(jsonData_.insideAttackData.scale);
+	JSON_LOAD(jsonData_.insideAttackData.chargeEasingTime);
+	JSON_LOAD(jsonData_.insideAttackData.attackEasingTime);
 	JSON_ROOT();
 	JSON_CLOSE();
 	jsonData_.attackData.velocity = jsonData_.rootData.velocity;
-	jsonData_.floorAllData.velocity = jsonData_.rootData.velocity;
-	jsonData_.longDistanceAttackData.velocity = jsonData_.rootData.velocity;
+	jsonData_.lowerAttackData.velocity = jsonData_.rootData.velocity;
+	jsonData_.insideAttackData.velocity = jsonData_.rootData.velocity;
 	state_ = State::kRoot;
 }
 
@@ -64,7 +64,7 @@ void BossStateManager::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
-		const char* items[] = { "Root", "Hook" ,"FloorAll","LongDistanceAttack"};
+		const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack"};
 		static int selectedItem = static_cast<int>(state_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 			state_ = static_cast<State>(selectedItem);
@@ -81,16 +81,16 @@ void BossStateManager::DrawImGui() {
 				ChangeState<BossStateHook>();
 			}
 			break;
-			case State::kFloorAll:
+			case State::kLowerAttack:
 			{
-				state_ = State::kFloorAll;
-				ChangeState<BossStateFloorAll>();
+				state_ = State::kLowerAttack;
+				ChangeState<BossStateLowerAttack>();
 			}
 			break;
-			case State::kLongDistanceAttack:
+			case State::kInsideAttack:
 			{
-				state_ = State::kLongDistanceAttack;
-				ChangeState<BossStateLongDistanceAttack>();
+				state_ = State::kInsideAttack;
+				ChangeState<BossStateInsideAttack>();
 			}
 			break;
 			}
@@ -113,19 +113,19 @@ void BossStateManager::DrawImGui() {
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("FloorAll")) {
-			ImGui::DragFloat3("startPosition", &jsonData_.floorAllData.startPosition.x, 0.1f);
-			ImGui::DragFloat3("endPosition", &jsonData_.floorAllData.endPosition.x, 0.1f);
-			ImGui::DragFloat3("scale", &jsonData_.floorAllData.scale.x, 0.1f);
-			ImGui::DragFloat("chargeEasingTime", &jsonData_.floorAllData.chargeEasingTime, 0.1f);
-			ImGui::DragFloat("attackEasingTime", &jsonData_.floorAllData.attackEasingTime, 0.1f);
+			ImGui::DragFloat3("startPosition", &jsonData_.lowerAttackData.startPosition.x, 0.1f);
+			ImGui::DragFloat3("endPosition", &jsonData_.lowerAttackData.endPosition.x, 0.1f);
+			ImGui::DragFloat3("scale", &jsonData_.lowerAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.lowerAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.lowerAttackData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("LongDistanceAttack")) {
-			ImGui::DragFloat3("startPosition", &jsonData_.longDistanceAttackData.startPosition.x, 0.1f);
-			ImGui::DragFloat3("endPosition", &jsonData_.longDistanceAttackData.endPosition.x, 0.1f);
-			ImGui::DragFloat3("scale", &jsonData_.longDistanceAttackData.scale.x, 0.1f);
-			ImGui::DragFloat("chargeEasingTime", &jsonData_.longDistanceAttackData.chargeEasingTime, 0.1f);
-			ImGui::DragFloat("attackEasingTime", &jsonData_.longDistanceAttackData.attackEasingTime, 0.1f);
+			ImGui::DragFloat3("startPosition", &jsonData_.insideAttackData.startPosition.x, 0.1f);
+			ImGui::DragFloat3("endPosition", &jsonData_.insideAttackData.endPosition.x, 0.1f);
+			ImGui::DragFloat3("scale", &jsonData_.insideAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.insideAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.insideAttackData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
 		activeState_->SetDesc();
@@ -141,20 +141,20 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.attackData.endRotate);
 			JSON_SAVE(jsonData_.attackData.chargeEasingTime);
 			JSON_SAVE(jsonData_.attackData.attackEasingTime);
+			JSON_ROOT(); 
+			JSON_OBJECT("StateLowerAttack");
+			JSON_SAVE(jsonData_.lowerAttackData.startPosition);
+			JSON_SAVE(jsonData_.lowerAttackData.endPosition);
+			JSON_SAVE(jsonData_.lowerAttackData.scale);
+			JSON_SAVE(jsonData_.lowerAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.lowerAttackData.attackEasingTime);
 			JSON_ROOT();
-			JSON_OBJECT("StateFloorAll");
-			JSON_SAVE(jsonData_.floorAllData.startPosition);
-			JSON_SAVE(jsonData_.floorAllData.endPosition);
-			JSON_SAVE(jsonData_.floorAllData.scale);
-			JSON_SAVE(jsonData_.floorAllData.chargeEasingTime);
-			JSON_SAVE(jsonData_.floorAllData.attackEasingTime);
-			JSON_ROOT();
-			JSON_OBJECT("StateLongDistanceAttack");
-			JSON_SAVE(jsonData_.longDistanceAttackData.startPosition);
-			JSON_SAVE(jsonData_.longDistanceAttackData.endPosition);
-			JSON_SAVE(jsonData_.longDistanceAttackData.scale);
-			JSON_SAVE(jsonData_.longDistanceAttackData.chargeEasingTime);
-			JSON_SAVE(jsonData_.longDistanceAttackData.attackEasingTime);
+			JSON_OBJECT("StateInsideAttack");
+			JSON_SAVE(jsonData_.insideAttackData.startPosition);
+			JSON_SAVE(jsonData_.insideAttackData.endPosition);
+			JSON_SAVE(jsonData_.insideAttackData.scale);
+			JSON_SAVE(jsonData_.insideAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.insideAttackData.attackEasingTime);
 			JSON_ROOT();
 			JSON_CLOSE();
 		}
@@ -269,19 +269,19 @@ void BossStateRainOfArrow::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
-void BossStateFloorAll::Initialize() {
+void BossStateLowerAttack::Initialize() {
 	SetDesc();
 	attackState_ = kChage;
 	time_ = 0.0f;
 }
 
-void BossStateFloorAll::SetDesc() {
-	data_ = manager_.jsonData_.floorAllData;
+void BossStateLowerAttack::SetDesc() {
+	data_ = manager_.jsonData_.lowerAttackData;
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->transform.scale = data_.scale;
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->SetModelIsAlive(true);
 }
 
-void BossStateFloorAll::Update() {
+void BossStateLowerAttack::Update() {
 	switch (attackState_) {
 	case BossState::kChage:
 	{
@@ -298,11 +298,11 @@ void BossStateFloorAll::Update() {
 	}
 }
 
-void BossStateFloorAll::OnCollision(const CollisionInfo& collisionInfo) {
+void BossStateLowerAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
-void BossStateFloorAll::ChargeUpdate() {
+void BossStateLowerAttack::ChargeUpdate() {
 	auto& floorAllTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->transform;
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
@@ -317,7 +317,7 @@ void BossStateFloorAll::ChargeUpdate() {
 	}
 }
 
-void BossStateFloorAll::AttackUpdate() {
+void BossStateLowerAttack::AttackUpdate() {
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
@@ -328,19 +328,19 @@ void BossStateFloorAll::AttackUpdate() {
 	}
 }
 
-void BossStateLongDistanceAttack::Initialize() {
+void BossStateInsideAttack::Initialize() {
 	SetDesc();
 	attackState_ = kChage;
 	time_ = 0.0f;
 }
 
-void BossStateLongDistanceAttack::SetDesc() {
-	data_ = manager_.jsonData_.longDistanceAttackData;
+void BossStateInsideAttack::SetDesc() {
+	data_ = manager_.jsonData_.insideAttackData;
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.scale = data_.scale;
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetModelIsAlive(true);
 }
 
-void BossStateLongDistanceAttack::Update() {
+void BossStateInsideAttack::Update() {
 	switch (attackState_) {
 	case BossState::kChage:
 	{
@@ -357,11 +357,11 @@ void BossStateLongDistanceAttack::Update() {
 	}
 }
 
-void BossStateLongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
+void BossStateInsideAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
-void BossStateLongDistanceAttack::ChargeUpdate() {
+void BossStateInsideAttack::ChargeUpdate() {
 	auto& longDistanceAttackTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform;
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
@@ -376,7 +376,7 @@ void BossStateLongDistanceAttack::ChargeUpdate() {
 	}
 }
 
-void BossStateLongDistanceAttack::AttackUpdate() {
+void BossStateInsideAttack::AttackUpdate() {
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
