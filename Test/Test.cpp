@@ -14,13 +14,14 @@
 #include "Debug/Debug.h"
 
 #include "GameScene.h"
+#include "TitleScene.h"
 
 static const char ResourceAssociationFile[] = "Resources/Association.json";
 
 void Test::OnInitialize() {
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<GameScene>(false);
+    sceneManager->ChangeScene<TitleScene>(false);
 
     LoadResources();
 }
