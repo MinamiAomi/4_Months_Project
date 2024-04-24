@@ -23,7 +23,7 @@ public:
 	bool GetIsMove() { return isMove_; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetPlayer(const Player* player) { player_ = player; }
-	const bool GetIsAlive() { return isAlive_; }
+	const bool GetIsAlive() const { return isAlive_; }
 
 	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
