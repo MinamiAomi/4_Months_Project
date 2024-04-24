@@ -1,13 +1,13 @@
-#include "TitleScene.h"
+#include "GameOverScene.h"
 
 #include "Engine/Graphics/RenderManager.h"
 #include "Engine/Input/Input.h"
 #include "Scene/SceneManager.h"
-#include "GameScene.h"
+#include "TitleScene.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/GameWindow.h"
 
-void TitleScene::OnInitialize() {
+void GameOverScene::OnInitialize() {
 	camera_ = std::make_unique<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
@@ -23,26 +23,16 @@ void TitleScene::OnInitialize() {
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
 	title_->SetTexcoordSize({ 124.0f,32.0f });
-
-	model_ = std::make_unique<ModelInstance>();
-	model_->SetModel(ResourceManager::GetInstance()->FindModel("player"));
-	model_->SetIsActive(true);
-	Matrix4x4 worldMatrix = Matrix4x4::MakeAffineTransform(
-		{ 1.0f,1.0f,1.0f }, 
-		{ Quaternion::MakeFromEulerAngle(Vector3(0.0f, 180.0f * Math::ToRadian, 0.0f)) },
-		{ 0.0f,0.0f,0.0f });
-	model_->SetWorldMatrix(worldMatrix);
 }
 
-void TitleScene::OnUpdate() {
+void GameOverScene::OnUpdate() {
 	if ((Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
-			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))&&
-		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
-		) {
-		SceneManager::GetInstance()->ChangeScene<GameScene>();
+			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))&&
+		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+		SceneManager::GetInstance()->ChangeScene<TitleScene>();
 	}
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
 
-void TitleScene::OnFinalize() {}
+void GameOverScene::OnFinalize() {}

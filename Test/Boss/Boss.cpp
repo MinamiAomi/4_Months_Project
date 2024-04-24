@@ -103,9 +103,11 @@ void Boss::Update() {
 }
 
 void Boss::Reset(uint32_t stageIndex) {
+	isAlive_ = true;
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
+	transform.UpdateMatrix();
 	state_->ChangeState<BossStateRoot>();
 	bossAttackTriggerManager_->Reset(stageIndex);
 }
@@ -122,6 +124,19 @@ void Boss::UpdateTransform() {
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 	state_->OnCollision(collisionInfo);
 	if (collisionInfo.collider->GetName() == "Player") {
+		switch (Character::currentCharacterState_) {
+		case Character::State::kChase:
+		{
+			isAlive_ = false;
+		}
+		break;
+		case Character::State::kRunAway:
+		{
 
+		}
+		break;
+		default:
+			break;
+		}
 	}
 }
