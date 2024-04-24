@@ -292,7 +292,7 @@ void Player::Move() {
 		transform.rotate = Quaternion::Slerp(0.1f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
 
 		Vector3 vector = transform.rotate.Conjugate() * move.Normalized();
-		if (Vector3::unitZ != vector) {
+		if (Vector3::Dot(Vector3::unitZ, vector) < 0.999f) {
 			Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
 			transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
 		}
