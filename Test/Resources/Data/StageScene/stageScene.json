@@ -42,7 +42,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -86,7 +87,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossInsideAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -130,7 +132,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossLowerAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
@@ -3657,7 +3660,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossLowerAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
@@ -3701,7 +3705,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossInsideAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -3745,7 +3750,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         }
     ]
