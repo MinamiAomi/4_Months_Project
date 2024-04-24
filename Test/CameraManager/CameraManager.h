@@ -4,9 +4,11 @@
 
 #include "DebugCamera.h"
 #include "Math/Camera.h"
-#include "Player/Player.h"
+
 #include "StageCamera/StageCamera.h"
 
+class Player;
+class Boss;
 class CameraManager {
 public:
 	enum State {
@@ -16,7 +18,7 @@ public:
 		kCount,
 	};
 
-	void Initialize(Player* player);
+	void Initialize(const Player* player,const Boss* boss);
 	void Update();
 	void Reset();
 	void SetIsMove(bool flag);

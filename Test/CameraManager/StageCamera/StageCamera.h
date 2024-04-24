@@ -11,6 +11,7 @@
 
 
 class Player;
+class Boss;
 class StageCamera :
 	public GameObject {
 private:
@@ -29,12 +30,17 @@ public:
 	const std::shared_ptr<Camera>& GetCamera() const { return camera_; }
 	void SetRenderManager();
 	void Reset();
+	void SetPlayer(const Player* player) { player_ = player; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
 
 	void SetIsMove(bool flag) { isMove_ = flag; } 
 
 private:
+	const Player* player_;
+	const Boss* boss_;
 	std::shared_ptr<Camera> camera_;
 	std::array<CameraParameter, Character::State::kCount> cameraParam_;
 
+	Vector3 easingStartPosition_;
 	bool isMove_;
 };

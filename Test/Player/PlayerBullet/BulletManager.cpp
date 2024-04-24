@@ -22,7 +22,7 @@ void BulletManager::Initialize() {
 }
 
 void BulletManager::Update(const Vector3& pos) {
-	if (characterState_==Character::State::kChase &&
+	if (Character::currentCharacterState_ ==Character::State::kChase &&
 		canCreateBullet_ &&
 		(Input::GetInstance()->IsKeyPressed(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
 		isCreateBullet_ = true;

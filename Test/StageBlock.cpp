@@ -24,7 +24,7 @@ void StageBlock::Initialize(const Vector3& pos, const Vector3& direction) {
 	transform.rotate = Quaternion::MakeFromTwoVector({0.0f,1.0f,0.0f},direction);
 	appearFrame_ = kAppearFrame;
 	isDead_ = false;
-	initialState_ = characterState_;
+	initialState_ = Character::currentCharacterState_;
 }
 
 void StageBlock::Update() {
@@ -46,7 +46,7 @@ void StageBlock::Update() {
 			isDead_ = true;
 		}
 	}
-	if (initialState_ != characterState_) {
+	if (initialState_ != Character::currentCharacterState_) {
 		isDead_ = true;
 	}
 	UpdateTransform();

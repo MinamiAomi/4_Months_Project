@@ -11,6 +11,7 @@
 #include "BossStateManager/BossStateManager.h"
 #include "BossAttackTriggerManager/BossAttackTriggerManager.h"
 
+class Player;
 class Boss :
 	public GameObject {
 public:
@@ -21,6 +22,7 @@ public:
 	void SetIsMove(bool flag) { isMove_ = flag; }
 	bool GetIsMove() { return isMove_; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
+	void SetPlayer(const Player* player) { player_ = player; }
 
 
 	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
@@ -31,6 +33,7 @@ private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Camera* camera_;
+	const Player* player_;
 
 	std::unique_ptr<BoxCollider> collider_;
 
@@ -42,9 +45,7 @@ private:
 
 	Vector3 velocity_;
 	Vector3 offset_;
+	Vector3 easingStartPosition_;
 
 	bool isMove_;
-
-	float time_;
-	float interval_ = 600.0f;
 };

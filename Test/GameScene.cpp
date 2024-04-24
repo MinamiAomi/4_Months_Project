@@ -24,7 +24,7 @@ void GameScene::OnInitialize() {
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
-	cameraManager_->Initialize(player_.get());
+	cameraManager_->Initialize(player_.get(),boss_.get());
 
 	blockManager_->SetCamara(cameraManager_->GetCamera().get());
 	blockManager_->SetPlayer(player_.get());
@@ -46,7 +46,8 @@ void GameScene::OnInitialize() {
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
-
+	
+	boss_->SetPlayer(player_.get());
 	boss_->SetCamera(cameraManager_->GetCamera().get());
 	boss_->Initialize();
 
@@ -79,10 +80,11 @@ void GameScene::OnInitialize() {
 	editorManager_->SetBoss(boss_.get());
 	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
 
-	GameSpeed::LoadJson();
 	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
 	playerDustParticle_->SetPlayer(player_.get());
 	playerDustParticle_->Initialize();
+	GameSpeed::LoadJson();
+	Character::LoadJson();
 
 }
 
@@ -112,8 +114,9 @@ void GameScene::OnUpdate() {
 
 	cameraManager_->Update();
 	GameSpeed::Update();
+	Character::Update();
 
-	//playerが地面にいるかの確認をするためコリジョンの下
+	//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 	playerDustParticle_->Update();
 #ifdef _DEBUG
 	if (ImGui::Checkbox("Move", &isMove_)) {
@@ -129,18 +132,18 @@ void GameScene::OnUpdate() {
 
 	if (ImGui::BeginMenu("CharacterState")) {
 		const char* items[] = { "Chase", "RunAway" };
-		static int selectedItem = static_cast<int>(characterState_);
+		static int selectedItem = static_cast<int>(Character::currentCharacterState_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
-			characterState_ = static_cast<Character::State>(selectedItem);
-			switch (characterState_) {
+			Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
+			switch (Character::currentCharacterState_) {
 			case Character::State::kChase:
 			{
-				characterState_ = Character::State::kChase;
+				Character::currentCharacterState_ = Character::State::kChase;
 			}
 			break;
 			case Character::State::kRunAway:
 			{
-				characterState_ = Character::State::kRunAway;
+				Character::currentCharacterState_ = Character::State::kRunAway;
 			}
 			break;
 			}

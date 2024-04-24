@@ -9,7 +9,7 @@ namespace GameSpeed {
 	float runAwaySpeed;
 	float GetGameSpeed() {
 		float speed = 0.0f;
-		switch (characterState_) {
+		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 			speed = chaseSpeed;
 		break;

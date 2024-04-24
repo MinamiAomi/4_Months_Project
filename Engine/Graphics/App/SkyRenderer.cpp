@@ -72,7 +72,7 @@ void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat, DXGI_FORMAT dsvFormat) {
 	pipelineState_.Create(L"SkyRenderer PipelineState", pipelineStateDesc);
 
 	voronoi_.Initialize(1024, 1024, 60000);
-	saveState_ = characterState_;
+	saveState_ = Character::currentCharacterState_;
 }
 
 void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, Matrix4x4 worldMatrix) {
@@ -104,13 +104,13 @@ void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, M
 	scene.worldMatrix = worldMatrix;
 	scene.worldInverseTransposeMatrix = worldMatrix.Inverse().Transpose();
 	//遷移
-	if (saveState_ != characterState_) {
-		if (characterState_ == Character::kChase) {
+	if (saveState_ != Character::currentCharacterState_) {
+		if (Character::currentCharacterState_ == Character::kChase) {
 			//反撃になったら
 			t_ += speed_;
 			t_ = std::clamp(t_, 0.0f, 1.0f);
 			if (t_ >= 1.0f) {
-				saveState_ = characterState_;
+				saveState_ = Character::currentCharacterState_;
 			}
 		}
 		else {
@@ -118,7 +118,7 @@ void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, M
 			t_ -= speed_;
 			t_ = std::clamp(t_, 0.0f, 1.0f);
 			if (t_ <= 0.0f) {
-				saveState_ = characterState_;
+				saveState_ = Character::currentCharacterState_;
 			}
 		}
 	}

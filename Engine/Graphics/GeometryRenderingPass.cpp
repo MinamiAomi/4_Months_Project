@@ -155,6 +155,9 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         drawMap[model].emplace_back(instance);
         ++drawCount;
     }
+    if (drawCount == 0) {
+        return;
+    }
     // Uploadバッファを割り当てる
     size_t allocateBufferSize = sizeof(InstanceData) * drawCount;
     auto alloc = commandContext.AllocateDynamicBuffer(LinearAllocatorType::Upload, allocateBufferSize);
