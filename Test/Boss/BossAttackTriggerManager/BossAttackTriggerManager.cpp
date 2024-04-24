@@ -66,10 +66,10 @@ void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
 	// "objects"配列から"Block"オブジェクトを処理
 	for (const auto& obj : root["objects"]) {
 		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "BossAttackTrigger") {
+			obj["gimmick"]["type"] == "Trigger") {
 			BossAttackTrigger::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
 			const auto& gimmick = obj["gimmick"];
-			desc.pos = gimmick["position"];
 			desc.state = static_cast<BossStateManager::State>(gimmick["state"]);
 			Create(desc);
 		}

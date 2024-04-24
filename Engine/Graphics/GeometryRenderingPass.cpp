@@ -141,6 +141,16 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         return materialData;
     };
 
+    // バッファをクリア
+    commandContext.TransitionResource(albedo_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandContext.TransitionResource(metallicRoughness_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandContext.TransitionResource(normal_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandContext.TransitionResource(depth_, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+
+    commandContext.ClearColor(albedo_);
+    commandContext.ClearColor(metallicRoughness_);
+    commandContext.ClearColor(normal_);
+    commandContext.ClearDepth(depth_);
 
     // インスタンスをモデルごとに分けてインスタンシング用のバッファに送る
     auto& instanceList = ModelInstance::GetInstanceList();
@@ -181,16 +191,6 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     // Uploadバッファからコピー
     commandContext.CopyBufferRegion(instancingBuffer_, 0, alloc.resource, alloc.offset, allocateBufferSize);
     commandContext.TransitionResource(instancingBuffer_, D3D12_RESOURCE_STATE_GENERIC_READ);
-
-    commandContext.TransitionResource(albedo_, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    commandContext.TransitionResource(metallicRoughness_, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    commandContext.TransitionResource(normal_, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    commandContext.TransitionResource(depth_, D3D12_RESOURCE_STATE_DEPTH_WRITE);
-
-    commandContext.ClearColor(albedo_);
-    commandContext.ClearColor(metallicRoughness_);
-    commandContext.ClearColor(normal_);
-    commandContext.ClearDepth(depth_);
 
     D3D12_CPU_DESCRIPTOR_HANDLE rtvs[] = {
         albedo_.GetRTV(),

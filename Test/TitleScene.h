@@ -21,5 +21,4 @@ private:
 	std::shared_ptr<DirectionalLight> directionalLight_;
 
 	std::unique_ptr<Sprite> title_;
-	std::unique_ptr<ModelInstance> model_;
 };

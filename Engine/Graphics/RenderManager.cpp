@@ -5,6 +5,7 @@
 #include "GameWindow.h"
 #include "ImGuiManager.h"
 #include "Math/Color.h"
+#include "Model.h"
 
 
 #ifdef ENABLE_IMGUI
@@ -39,7 +40,6 @@ void RenderManager::Initialize() {
     //preSwapChainBuffer_.Create(L"PreSwapChainBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM);
     //mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);
 
-    //postEffect_.Initialize(preSwapChainBuffer_);
 
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
@@ -50,7 +50,8 @@ void RenderManager::Initialize() {
 
     //    modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
     transition_.Initialize();
-    //raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    postEffect_.Initialize(lightingRenderingPass_.GetResult());
 
     //raymarchingRenderer_.Create(mainColorBuffer_.GetWidth(), mainColorBuffer_.GetHeight());
 
@@ -91,7 +92,8 @@ void RenderManager::Render() {
     commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
     if (camera) {
         // 影、スペキュラ
-    //    raytracingRenderer_.Render(commandContext_, *camera, *sunLight);
+        assert(!lightManager_.GetDirectionalLight().empty());
+        raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
         geometryRenderingPass_.Render(commandContext_, *camera);
 #ifdef ENABLE_IMGUI
         if (useEdge) {
@@ -109,7 +111,7 @@ void RenderManager::Render() {
         }
 #endif // ENABLE_IMGUI
 
-
+        postEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
         if (useSky_) {
             commandContext_.TransitionResource(skyTexture_, D3D12_RESOURCE_STATE_RENDER_TARGET);
