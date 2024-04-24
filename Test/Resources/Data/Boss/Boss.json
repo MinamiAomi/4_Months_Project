@@ -133,7 +133,7 @@
         "jsonData_.lowerAttackData.chargeEasingTime": 60.0,
         "jsonData_.lowerAttackData.endPosition": [
             0.0,
-            -7.0,
+            -6.0,
             -50.0
         ],
         "jsonData_.lowerAttackData.scale": [

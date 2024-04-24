@@ -24,7 +24,7 @@ void BossAttackTriggerEditor::Initialize() {
 	bossAttackTrigger_->SetCamera(camera_);
 	bossAttackTrigger_->SetBoss(boss_);
 	bossAttackTrigger_->Initialize(desc);
-	isAlive_ = true;
+	isAlive_ = false;
 #ifdef _DEBUG
 	bossAttackTrigger_->SetIsColliderAlive(false);
 #else
