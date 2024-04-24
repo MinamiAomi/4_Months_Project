@@ -30,7 +30,7 @@ void GameClearScene::OnUpdate() {
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))&&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		SceneManager::GetInstance()->ChangeScene<TitleScene>();
+		SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 	}
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }

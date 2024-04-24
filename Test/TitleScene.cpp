@@ -40,7 +40,7 @@ void TitleScene::OnUpdate() {
 			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))&&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
-		SceneManager::GetInstance()->ChangeScene<GameScene>();
+		SceneManager::GetInstance()->ChangeScene<GameScene>(true);
 	}
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }

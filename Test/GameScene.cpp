@@ -87,10 +87,116 @@ void GameScene::OnInitialize() {
 	playerDustParticle_->Initialize();
 	GameSpeed::LoadJson();
 	Character::LoadJson();
-
+	// ikkaideke
+	Initialize();
 }
 
 void GameScene::OnUpdate() {
+	if (!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+
+		directionalLight_->DrawImGui("directionalLight");
+
+		blockManager_->Update();
+		stageBlockManager_->Update();
+		fireBarManager_->Update();
+		floorManager_->Update();
+		pendulumManager_->Update();
+		stageObjectManager_->Update();
+		editorManager_->Update();
+
+
+		player_->Update();
+		stageRightLight->Update();
+		stageLeftLight->Update();
+		stageUpRightLight->Update();
+		stageUpLeftLight->Update();
+		boss_->Update();
+
+		skyBlockManager_->Update();
+
+		// 当たり判定を取る
+		CollisionManager::GetInstance()->CheckCollision();
+
+		cameraManager_->Update();
+		GameSpeed::Update();
+		Character::Update();
+
+		//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
+		playerDustParticle_->Update();
+#ifdef _DEBUG
+		if (ImGui::Checkbox("Move", &isMove_)) {
+			player_->SetIsMove(isMove_);
+			boss_->SetIsMove(isMove_);
+			cameraManager_->SetIsMove(isMove_);
+			stageBlockManager_->SetIsMove(isMove_);
+		}
+		player_->SetIsMove(isMove_);
+		boss_->SetIsMove(isMove_);
+		cameraManager_->SetIsMove(isMove_);
+		stageBlockManager_->SetIsMove(isMove_);
+
+		if (ImGui::BeginMenu("CharacterState")) {
+			const char* items[] = { "Chase", "RunAway" };
+			static int selectedItem = static_cast<int>(Character::currentCharacterState_);
+			if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+				Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
+				switch (Character::currentCharacterState_) {
+				case Character::State::kChase:
+				{
+					Character::currentCharacterState_ = Character::State::kChase;
+				}
+				break;
+				case Character::State::kRunAway:
+				{
+					Character::currentCharacterState_ = Character::State::kRunAway;
+				}
+				break;
+				}
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::Button("Reset") ||
+			Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+			player_->Reset();
+			cameraManager_->Reset();
+			boss_->Reset(0);
+			stageBlockManager_->Reset();
+			skyBlockManager_->Reset();
+			blockManager_->Reset(0);
+			fireBarManager_->Reset(0);
+			floorManager_->Reset(0);
+			pendulumManager_->Reset(0);
+
+
+		}
+#endif // _DEBUG
+		if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+			player_->Reset();
+			cameraManager_->Reset();
+			stageBlockManager_->Reset();
+			boss_->Reset(0);
+			blockManager_->Reset(0);
+			fireBarManager_->Reset(0);
+			floorManager_->Reset(0);
+			pendulumManager_->Reset(0);
+
+
+		}
+		if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+			SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+		}
+		if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+			SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+		}
+	}
+
+	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
+}
+
+void GameScene::OnFinalize() {}
+
+void GameScene::Initialize() {
+
 	directionalLight_->DrawImGui("directionalLight");
 
 	blockManager_->Update();
@@ -180,12 +286,10 @@ void GameScene::OnUpdate() {
 
 	}
 	if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		SceneManager::GetInstance()->ChangeScene<GameOverScene>();
+		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 	}
 	if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		SceneManager::GetInstance()->ChangeScene<GameClearScene>();
+		SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
 	}
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
-
-void GameScene::OnFinalize() {}
