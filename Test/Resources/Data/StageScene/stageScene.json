@@ -2,6 +2,138 @@
     "name": "scene",
     "objects": [
         {
+            "type": "EMPTY",
+            "name": "ボストリガーHook",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.813758850097656,
+                    -0.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.837787628173828,
+                    24.59412956237793,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BossHookAttackTrigger"
+            }
+        },
+        {
+            "type": "EMPTY",
+            "name": "ボストリガーInside",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.813758850097656,
+                    -0.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.837787628173828,
+                    24.59412956237793,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BossInsideAttackTrigger"
+            }
+        },
+        {
+            "type": "EMPTY",
+            "name": "ボストリガーLower",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.813758850097656,
+                    -0.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.837787628173828,
+                    24.59412956237793,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BossLowerAttackTrigger"
+            }
+        },
+        {
             "type": "MESH",
             "name": "たてもの３.001",
             "transform": {
@@ -3383,6 +3515,237 @@
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "振り子バー.002",
+            "transform": {
+                "translate": [
+                    2.7549638748168945,
+                    9.575332641601562,
+                    -81.9515151977539
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Pendulum",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Pendulum",
+                "length": 15,
+                "angle": 45,
+                "initializeAngle": 45,
+                "gravity": 0.02,
+                "stickScale": 1,
+                "ballScale": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FireBarCenter.002",
+            "transform": {
+                "translate": [
+                    0.8676888942718506,
+                    2.6926894187927246,
+                    -38.93341064453125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    2.5888469219207764,
+                    3.0644948482513428,
+                    2.3632097244262695
+                ]
+            },
+            "file_name": "firebar",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "FireBar",
+                "length": 2,
+                "initializeAngle": 30,
+                "angularVelocity": 0.0005000000237487257
+            }
+        },
+        {
+            "type": "EMPTY",
+            "name": "ボストリガーLower.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.813758850097656,
+                    -380.837158203125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.837787628173828,
+                    24.59412956237793,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BossLowerAttackTrigger"
+            }
+        },
+        {
+            "type": "EMPTY",
+            "name": "ボストリガーInside.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.813758850097656,
+                    -230.0968475341797
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.837787628173828,
+                    24.59412956237793,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BossInsideAttackTrigger"
+            }
+        },
+        {
+            "type": "EMPTY",
+            "name": "ボストリガーHook.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.813758850097656,
+                    -74.19039916992188
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.837787628173828,
+                    24.59412956237793,
+                    1.0
+                ]
+            },
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BossHookAttackTrigger"
             }
         }
     ]
