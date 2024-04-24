@@ -86,6 +86,10 @@ void GameScene::OnInitialize() {
 	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
 	playerDustParticle_->SetPlayer(player_.get());
 	playerDustParticle_->Initialize();
+
+	ui_ = std::make_unique<UI>();
+	ui_->Initialize();
+
 	GameSpeed::LoadJson();
 	Character::LoadJson();
 	// ikkaideke
@@ -217,7 +221,7 @@ void GameScene::Initialize() {
 	boss_->Update();
 
 	skyBlockManager_->Update();
-
+	ui_->Update();
 	// 当たり判定を取る
 	CollisionManager::GetInstance()->CheckCollision();
 
