@@ -112,7 +112,7 @@ void BossStateManager::DrawImGui() {
 			ImGui::DragFloat("attackEasingTime", &jsonData_.attackData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("FloorAll")) {
+		if (ImGui::TreeNode("LowerAttack")) {
 			ImGui::DragFloat3("startPosition", &jsonData_.lowerAttackData.startPosition.x, 0.1f);
 			ImGui::DragFloat3("endPosition", &jsonData_.lowerAttackData.endPosition.x, 0.1f);
 			ImGui::DragFloat3("scale", &jsonData_.lowerAttackData.scale.x, 0.1f);
@@ -120,7 +120,7 @@ void BossStateManager::DrawImGui() {
 			ImGui::DragFloat("attackEasingTime", &jsonData_.lowerAttackData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("LongDistanceAttack")) {
+		if (ImGui::TreeNode("InsideAttack")) {
 			ImGui::DragFloat3("startPosition", &jsonData_.insideAttackData.startPosition.x, 0.1f);
 			ImGui::DragFloat3("endPosition", &jsonData_.insideAttackData.endPosition.x, 0.1f);
 			ImGui::DragFloat3("scale", &jsonData_.insideAttackData.scale.x, 0.1f);

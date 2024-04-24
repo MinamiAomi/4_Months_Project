@@ -63,8 +63,8 @@ void FireBarManager::LoadJson(uint32_t stageIndex) {
 			desc.desc = StageGimmick::GetDesc(obj);
 			const auto& gimmick = obj["gimmick"];
 			desc.barDesc.length = gimmick["length"];
-			desc.barDesc.barInitialAngle = gimmick["initialAngle"] * Math::ToRadian;
-			desc.barDesc.rotateVelocity = gimmick["rotateVelocity"] * Math::ToRadian;
+			desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
+			desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
 			Create(desc);
 		}
 	}
