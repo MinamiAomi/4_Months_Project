@@ -7,7 +7,7 @@
         "horizontalSpeed_": 0.30000001192092896,
         "jumpPower_": 0.5,
         "knockBack_": 5.0,
-        "maxInvincibleTime_": 30,
+        "maxInvincibleTime_": 90,
         "offset_": [
             0.0,
             10.0,
