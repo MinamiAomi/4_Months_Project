@@ -7,7 +7,6 @@
 #include "Math/Color.h"
 #include "Model.h"
 
-
 #ifdef ENABLE_IMGUI
 static bool useBloom = true;
 static bool useEdge = true;

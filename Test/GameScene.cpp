@@ -151,6 +151,7 @@ void GameScene::OnUpdate() {
         cutIn_->Update();
 
         // 当たり判定を取る
+
         CollisionManager::GetInstance()->CheckCollision();
 
         cameraManager_->Update();

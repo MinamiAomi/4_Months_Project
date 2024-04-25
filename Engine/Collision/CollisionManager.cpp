@@ -5,12 +5,12 @@ CollisionManager* CollisionManager::GetInstance() {
     return &instance;
 }
 
-void CollisionManager::AddCollider(Collider* collider) { 
-    colliders_.emplace_back(collider); 
+void CollisionManager::AddCollider(Collider* collider) {
+    colliders_.emplace_back(collider);
 }
 
 void CollisionManager::RemoveCollider(Collider* collider) {
-    auto iter = std::find(colliders_.begin(), colliders_.end() , collider);
+    auto iter = std::find(colliders_.begin(), colliders_.end(), collider);
     if (iter != colliders_.end()) {
         colliders_.erase(iter);
     }
@@ -30,7 +30,7 @@ void CollisionManager::CheckCollision() {
             // アクティブじゃなければ通さない
             if (!collider2->isActive_) { continue; }
 
-            CollisionInfo collisionInfo1;      
+            CollisionInfo collisionInfo1;
             if (collider1->IsCollision(collider2, collisionInfo1)) {
                 // 衝突情報を反転
                 CollisionInfo collisionInfo2 = collisionInfo1;
@@ -42,11 +42,10 @@ void CollisionManager::CheckCollision() {
             }
         }
     }
-
 }
 
 bool CollisionManager::RayCast(const Vector3& origin, const Vector3& diff, uint32_t mask, RayCastInfo* nearest) {
-    
+
     RayCastInfo tmpNearest{};
     tmpNearest.nearest = 1.1f;
 
@@ -57,7 +56,7 @@ bool CollisionManager::RayCast(const Vector3& origin, const Vector3& diff, uint3
             if (info.nearest < tmpNearest.nearest) {
                 tmpNearest = info;
             }
-        }   
+        }
     }
     if (tmpNearest.nearest > 1.0f) {
         return false;

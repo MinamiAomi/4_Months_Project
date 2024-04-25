@@ -168,6 +168,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     if (drawCount == 0) {
         return;
     }
+
     // Uploadバッファを割り当てる
     size_t allocateBufferSize = sizeof(InstanceData) * drawCount;
     auto alloc = commandContext.AllocateDynamicBuffer(LinearAllocatorType::Upload, allocateBufferSize);
@@ -177,7 +178,8 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     for (auto& [model, instances] : drawMap) {
         for (auto instance : instances) {
             instancesData[drawCount].worldMatrix = instance->GetWorldMatrix();
-            instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix.Inverse().Transpose();
+            //instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix.Inverse().Transpose();
+            instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix;
             instancesData[drawCount].color = instance->GetColor();
             instancesData[drawCount].useLighting = instance->UseLighting();
             ++drawCount;
@@ -188,6 +190,8 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     if (allocateBufferSize > instancingBuffer_.GetBufferSize()) {
         instancingBuffer_.Create(L"GeoemtryPass InstancingBuffer", drawCount, sizeof(InstanceData));
     }
+
+
     // Uploadバッファからコピー
     commandContext.CopyBufferRegion(instancingBuffer_, 0, alloc.resource, alloc.offset, allocateBufferSize);
     commandContext.TransitionResource(instancingBuffer_, D3D12_RESOURCE_STATE_GENERIC_READ);
