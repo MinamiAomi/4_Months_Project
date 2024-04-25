@@ -79,7 +79,7 @@ void Bar::OnCollision(const CollisionInfo& collisionInfo) {
 void FireBar::Initialize(const Desc& desc) {
 	desc_ = desc;
 
-	StageGimmick::SetDesc(transform,colliderDesc_,desc_.desc);
+	StageGimmick::SetDesc(transform, colliderDesc_, desc_.desc);
 
 	model_ = std::make_unique<ModelInstance>();
 
@@ -115,36 +115,36 @@ void FireBar::Initialize(const Desc& desc) {
 
 void FireBar::Update() {
 
-	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
-	if (!onPlayer_ &&
-		onceOnPlayer_) {
-		isDown_ = true;
-	}
-	onPlayer_ = false;
-	// ブロックが下がる
-	if (isDown_) {
-		transform.translate.y -= 0.05f;
-	}
-	// ブロックがおり切ったら
-	if (transform.translate.y <= (-transform.scale.y * 0.5f) - 1.0f) {
-		collider_->SetIsActive(false);
-		model_->SetIsActive(false);
-	}
-	// 一度でもプレイヤーがブロックのうえに乗ったら
-	if (onceOnPlayer_) {
-		bar_->SetIsActive(false);
-	}
-	// 雑カリング
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
+		if (!onPlayer_ &&
+			onceOnPlayer_) {
+			isDown_ = true;
+		}
+		onPlayer_ = false;
+		// ブロックが下がる
+		if (isDown_) {
+			transform.translate.y -= 0.05f;
+		}
+		// ブロックがおり切ったら
+		if (transform.translate.y <= (-transform.scale.y * 0.5f) - 1.0f) {
+			collider_->SetIsActive(false);
+			model_->SetIsActive(false);
+		}
+		// 一度でもプレイヤーがブロックのうえに乗ったら
+		if (onceOnPlayer_) {
+			bar_->SetIsActive(false);
+		}
+		// 雑カリング
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
+		UpdateTransform();
+		bar_->Update();
 	}
 	else {
 		model_->SetIsActive(false);
 		collider_->SetIsActive(false);
 	}
-	UpdateTransform();
-	bar_->Update();
 }
 
 void FireBar::SetDesc(const Desc& desc) {

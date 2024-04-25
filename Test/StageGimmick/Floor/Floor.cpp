@@ -36,12 +36,12 @@ void Floor::Update() {
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
+		UpdateTransform();
 	}
 	else {
 		model_->SetIsActive(false);
 		collider_->SetIsActive(false);
 	}
-	UpdateTransform();
 }
 
 void Floor::UpdateTransform() {

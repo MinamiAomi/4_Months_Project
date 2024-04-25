@@ -41,7 +41,7 @@ void Stick::SetDesc(float length, float scale) {
 	transform.rotate = Quaternion::identity;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	transform.translate = Vector3::zero;
-	transform.scale = { scale , length/ modelSize.y,scale };
+	transform.scale = { scale , length / modelSize.y,scale };
 	UpdateTransform();
 }
 
@@ -116,7 +116,7 @@ void Ball::OnCollision(const CollisionInfo& collisionInfo) {
 
 void Pendulum::Initialize(const Desc& desc) {
 	desc_ = desc;
-	
+
 
 	transform.translate = desc_.desc.transform.translate;
 	transform.rotate = desc_.desc.transform.rotate;
@@ -155,16 +155,16 @@ void Pendulum::Initialize(const Desc& desc) {
 }
 
 void Pendulum::Update() {
-	angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle_);
-
-	angularVelocity_ += angularAcceleration_;
-	angle_ += angularVelocity_;
-	UpdateTransform();
-
-	ball_->Update();
-	stick_->Update();
-	// 雑カリング
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 100.0f) {
+		angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle_);
+
+		angularVelocity_ += angularAcceleration_;
+		angle_ += angularVelocity_;
+		UpdateTransform();
+
+		ball_->Update();
+		stick_->Update();
+		// 雑カリング
 		ball_->SetIsActive(true);
 		stick_->SetIsActive(true);
 	}
@@ -188,8 +188,8 @@ void Pendulum::SetDesc(const Desc& desc) {
 	angularAcceleration_ = 0.0f;
 	float angle = desc_.angle;
 	// 速度計算
-	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle)&&
-		desc_.gravity!=0.0f) {
+	if (std::fabsf(angle) > std::fabsf(desc_.initializeAngle) &&
+		desc_.gravity != 0.0f) {
 		if (angle > 0) {
 			while (angle >= desc_.initializeAngle) {
 				angularAcceleration_ = -(desc_.gravity / desc_.length) * std::sin(angle);

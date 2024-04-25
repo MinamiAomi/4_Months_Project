@@ -37,13 +37,16 @@ void Block::Initialize(const StageGimmick::Desc& desc) {
 
 void Block::Update() {
 	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
-	if (!onPlayer_ &&
-		onceOnPlayer_) {
-		transform.translate.y -= 0.05f;
-	}
-	transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
-	// 雑カリング
+
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		if (!onPlayer_ &&
+			onceOnPlayer_) {
+			transform.translate.y -= 0.05f;
+		}
+		transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
+		UpdateTransform();
+		onPlayer_ = false;
+		// 雑カリング
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 	}
@@ -51,8 +54,6 @@ void Block::Update() {
 		model_->SetIsActive(false);
 		collider_->SetIsActive(false);
 	}
-	UpdateTransform();
-	onPlayer_ = false;
 }
 
 void Block::UpdateTransform() {
