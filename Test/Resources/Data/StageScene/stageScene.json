@@ -6934,7 +6934,7 @@
             "transform": {
                 "translate": [
                     -1.3318748474121094,
-                    5.219927787780762,
+                    2.410433053970337,
                     -1515.0958251953125
                 ],
                 "rotate": [
@@ -6979,7 +6979,7 @@
             "transform": {
                 "translate": [
                     -1.3318748474121094,
-                    5.219927787780762,
+                    2.410433053970337,
                     -1583.3138427734375
                 ],
                 "rotate": [
@@ -7024,7 +7024,7 @@
             "transform": {
                 "translate": [
                     -1.3318748474121094,
-                    5.219927787780762,
+                    2.110104560852051,
                     -1651.5318603515625
                 ],
                 "rotate": [
@@ -7634,15 +7634,15 @@
                     -2070.622314453125
                 ],
                 "rotate": [
-                    1.0,
                     0.0,
-                    0.0,
-                    0.0
+                    -0.0,
+                    -0.0,
+                    1.0
                 ],
                 "scale": [
-                    -1.9518426656723022,
-                    -1.2780073881149292,
-                    -1.2780073881149292
+                    2.0,
+                    1.2780073881149292,
+                    1.2780073881149292
                 ]
             },
             "file_name": "stones",
@@ -7676,15 +7676,15 @@
                     -2101.94091796875
                 ],
                 "rotate": [
-                    1.0,
                     0.0,
-                    0.0,
-                    0.0
+                    -0.0,
+                    -0.0,
+                    1.0
                 ],
                 "scale": [
-                    -1.9518426656723022,
-                    -1.2780073881149292,
-                    -1.2780073881149292
+                    2.0,
+                    1.2780073881149292,
+                    1.2780073881149292
                 ]
             },
             "file_name": "stones",
@@ -7718,15 +7718,15 @@
                     -2133.259521484375
                 ],
                 "rotate": [
-                    1.0,
                     0.0,
-                    0.0,
-                    0.0
+                    -0.0,
+                    -0.0,
+                    1.0
                 ],
                 "scale": [
-                    -1.9518426656723022,
-                    -1.2780073881149292,
-                    -1.2780073881149292
+                    2.0,
+                    1.2780073881149292,
+                    1.2780073881149292
                 ]
             },
             "file_name": "stones",
@@ -7760,15 +7760,15 @@
                     -2164.578125
                 ],
                 "rotate": [
-                    1.0,
                     0.0,
-                    0.0,
-                    0.0
+                    -0.0,
+                    -0.0,
+                    1.0
                 ],
                 "scale": [
-                    -1.9518426656723022,
-                    -1.2780073881149292,
-                    -1.2780073881149292
+                    2.0,
+                    1.2780073881149292,
+                    1.2780073881149292
                 ]
             },
             "file_name": "stones",
@@ -9705,6 +9705,51 @@
         },
         {
             "type": "MESH",
+            "name": "block.057",
+            "transform": {
+                "translate": [
+                    15.593717575073242,
+                    3.023643732070923,
+                    -289.2242126464844
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    10.214694023132324,
+                    8.779204368591309,
+                    14.524188995361328
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    0.7600002288818359,
+                    0.9800000190734863,
+                    0.8500001430511475
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Block"
+            }
+        },
+        {
+            "type": "MESH",
             "name": "FireBarCenter.003",
             "transform": {
                 "translate": [
@@ -9748,7 +9793,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -9796,7 +9841,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10099,7 +10144,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10147,7 +10192,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10195,7 +10240,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10243,7 +10288,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10291,7 +10336,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10390,7 +10435,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10438,7 +10483,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10486,7 +10531,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10534,7 +10579,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10582,7 +10627,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -10630,7 +10675,7 @@
                 "type": "FireBar",
                 "length": 2,
                 "initializeAngle": 30,
-                "angularVelocity": 0.0005000000237487257
+                "angularVelocity": 2.0
             }
         },
         {
@@ -11069,7 +11114,7 @@
                 "translate": [
                     0.0,
                     15.813758850097656,
-                    -1083.125732421875
+                    -1012.1915893554688
                 ],
                 "rotate": [
                     0.0,
