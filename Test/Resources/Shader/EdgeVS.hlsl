@@ -23,6 +23,8 @@ VSOutput main(VSInput input) {
 
 	float2 texSize;
 	colorTex.GetDimensions(texSize.x, texSize.y);
+
+	float32_t2 pixelSize = 1.0f / texSize;
 	
 	//真ん中のピクセル
 	output.texCenter = float2(uint2(input.vertexID, input.vertexID << 1) & 2);
@@ -43,7 +45,7 @@ VSOutput main(VSInput input) {
 	//上のピクセル
 	output.texRB.xy = output.texCenter + float2(-pixelSize.x, pixelSize.y);
 
+    output.position = float4(lerp(float2(-1.0f, 1.0f), float2(1.0f, -1.0f), output.texCenter), 0.0f, 1.0f);
 
-    output.position = float4(lerp(float2(-1.0f, 1.0f), float2(1.0f, -1.0f), output.texcoord), 0.0f, 1.0f);
     return output;
 }
