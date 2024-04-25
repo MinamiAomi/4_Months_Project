@@ -3,6 +3,7 @@
 #include "CollisionAttribute.h"
 #include "Graphics/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
+#include "Math/Geometry.h"
 
 void StageObject::Initialize(const StageGimmick::Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
@@ -37,8 +38,13 @@ void StageObject::Update() {
 }
 
 void StageObject::UpdateTransform() {
-	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= camera_->GetFarClip()) {
-
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	Math::Sphere model{}, camera{};
+	model.center = (transform.worldMatrix.GetTranslate());
+	model.radius = ((std::max)(modelSize.z * transform.scale.z,std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
+	camera.center = (camera_->GetPosition());
+	camera.radius = (camera_->GetFarClip());
+	if (Math::IsCollision(model,camera)) {
 		transform.UpdateMatrix();
 		if (colliderDesc_) {
 			collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
