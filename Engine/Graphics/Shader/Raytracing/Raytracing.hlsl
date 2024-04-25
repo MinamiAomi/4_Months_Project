@@ -122,7 +122,7 @@ void PrimaryClosestHit(inout PrimaryPayload payload, in Attributes attributes) {
         
         TraceRay(
             g_TLAS,
-            RAY_FLAG_CULL_BACK_FACING_TRIANGLES,
+            0,
             SHADOW_RAY_ATTRIBUTE,
             SHADOW_RAY_CONTRIBUTION_TO_HIT_GROUP_INDEX, // RayContributionToHitGroupIndex
             0, // MultiplierForGeometryContributionToHitGroupIndex

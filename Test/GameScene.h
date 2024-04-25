@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "Audio/AudioSource.h"
 #include "Graphics/Model.h"
 #include "Graphics/LightManager.h"
 #include "Math/Camera.h"
@@ -72,4 +73,8 @@ private:
 	std::unique_ptr<UI> ui_;
 	std::unique_ptr<CutIn> cutIn_;
 #pragma endregion
+
+	AudioSource bgm_;
+	std::shared_ptr<Sound> chaseBGM_;
+	std::shared_ptr<Sound> revengeBGM_;
 };
