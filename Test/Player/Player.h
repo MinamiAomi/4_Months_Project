@@ -16,6 +16,7 @@
 #include "PlayerRevengGage/PlayerRevengeGage.h"
 #include "PlayerBullet/BulletManager.h"
 #include "Engine/Audio/AudioSource.h"
+#include "Engine/Math/Random.h"
 
 class Player :
 	public GameObject {
@@ -49,6 +50,7 @@ private:
 
 	const StageCamera* stageCamera_;
 	const Boss* boss_;
+	Random::RandomNumberGenerator rnd_;
 
 	std::unique_ptr<PlayerHP> playerHP_;
 	std::unique_ptr<PlayerUI> playerUI_;
@@ -67,6 +69,9 @@ private:
 	bool isGround_;
 	uint32_t invincibleTime_;
 	bool isAlive_;
+	// ステージギミックにヒットした
+	bool isHit_;
+	bool preIsHit_;
 
 	// JumpSE
 	std::unique_ptr<AudioSource> jumpSE_;
@@ -82,6 +87,7 @@ private:
 	uint32_t maxInvincibleTime_;
 	Vector3 offset_;
 	Vector3 revengeStartOffset_;
+	float hitJump_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();

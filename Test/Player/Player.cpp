@@ -23,6 +23,7 @@ void Player::Initialize() {
 	JSON_LOAD(maxInvincibleTime_);
 	JSON_LOAD(offset_);
 	JSON_LOAD(revengeStartOffset_);
+	JSON_LOAD(hitJump_);
 	JSON_CLOSE();
 #pragma endregion
 
@@ -75,19 +76,26 @@ void Player::Update() {
 	case Character::State::kChase:
 	case Character::State::kRunAway:
 		//false
+		preIsHit_ = isHit_;
 		isGround_ = false;
 		isMove_ = false;
 
 		if (playerHP_->GetCurrentHP() <= 0) {
 			isAlive_ = false;
 		}
+		if (!isHit_) {
+			// 移動
+			Move();
 
-		// 移動
-		Move();
+			// ジャンプ
+			Jump();
 
-		// ジャンプ
-		Jump();
-
+		}
+		else {
+			velocity_ = Vector3::zero;
+			Vector3 rotate = { 0.0f,rnd_.NextFloatUnit() ,0.0f };
+			transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		}
 		// 無敵
 		Invincible();
 
@@ -175,6 +183,8 @@ void Player::Reset() {
 	canFirstJump_ = true;
 	canSecondJump_ = true;
 	isAlive_ = true;
+	isHit_ = false;
+	preIsHit_ = isHit_;
 	velocity_ = Vector3::zero;
 	acceleration_ = Vector3::zero;
 	playerHP_->Reset();
@@ -202,6 +212,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		break;
 		case Character::State::kRunAway:
 		{
+			isHit_ = false;
 			acceleration_.z -= knockBack_;
 			if (invincibleTime_ == 0) {
 				invincibleTime_ = maxInvincibleTime_;
@@ -236,6 +247,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			canFirstJump_ = true;
 			canSecondJump_ = true;
 			isGround_ = true;
+			if (preIsHit_ && isHit_) {
+				isHit_ = false;
+			}
 		}
 
 		UpdateTransform();
@@ -244,16 +258,25 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		//	transform.SetParent(&nextParent->transform);
 		//}
 	}
-	else if (collisionInfo.collider->GetName() == "FireBarBar" ||
-		collisionInfo.collider->GetName() == "PendulumBall" ||
-		collisionInfo.collider->GetName() == "bossLeftArm" ||
-		collisionInfo.collider->GetName() == "bossFloorAll"||
+	else if (collisionInfo.collider->GetName() == "bossLeftArm" ||
+		collisionInfo.collider->GetName() == "bossFloorAll" ||
 		collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
+		isHit_ = false;
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {
 				playerHP_->AddHP(-1);
 			}
+		}
+	}
+	else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
+		collisionInfo.collider->GetName() == "PendulumBall") &&
+		!isHit_) {
+		if (invincibleTime_ == 0) {
+			velocity_ = Vector3::zero;
+			acceleration_.y = hitJump_;
+			invincibleTime_ = maxInvincibleTime_;
+			isHit_ = true;
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "RevengeCoin") {
@@ -357,6 +380,7 @@ void Player::Invincible() {
 		invincibleTime_--;
 	}
 	else {
+		isHit_ = false;
 		model_->SetColor({ 1.0f,1.0f,1.0f });
 	}
 }
@@ -374,6 +398,7 @@ void Player::DebugParam() {
 		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
 		ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
 		ImGui::DragFloat("jumpPower_", &jumpPower_);
+		ImGui::DragFloat("hitJump_", &hitJump_);
 		ImGui::DragFloat("gravity_", &gravity_);
 		ImGui::DragFloat("chaseLimitLine_", &chaseLimitLine_);
 		ImGui::DragFloat("runAwayLimitLine_", &runAwayLimitLine_);
@@ -383,6 +408,8 @@ void Player::DebugParam() {
 		maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
 		ImGui::Checkbox("onGround_", &canFirstJump_);
 		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
+		ImGui::Checkbox("isHit_", &isHit_);
+		ImGui::Checkbox("preIsHit_", &preIsHit_);
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Player/Player.json");
 			JSON_OBJECT("Player");
@@ -396,6 +423,7 @@ void Player::DebugParam() {
 			JSON_SAVE(maxInvincibleTime_);
 			JSON_SAVE(offset_);
 			JSON_SAVE(revengeStartOffset_);
+			JSON_SAVE(hitJump_);
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
