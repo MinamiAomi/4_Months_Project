@@ -12,6 +12,27 @@
 #include "StageGimmick/StageGimmick.h"
 
 // バーとブロックで分けた
+class BarChildren :
+	public GameObject {
+public:
+	void Initialize(uint32_t count);
+	void Update();
+
+	void SetPlayer(const Player* player) { player_ = player; }
+	void SetIsActive(bool flag);
+private:
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
+
+	static const std::string kModelName;
+
+	const Player* player_;
+
+	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<BoxCollider> collider_;
+};
+
+
 class Bar :
 	public GameObject {
 public:
@@ -31,17 +52,13 @@ public:
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
-
-	static const std::string kModelName;
-
 	const Player* player_;
-
-	std::unique_ptr<ModelInstance> model_;
-	std::unique_ptr<BoxCollider> collider_;
 
 	float angle_;
 
 	float rotateVelocity_;
+
+	std::vector<std::unique_ptr<BarChildren>> barChildren_;
 };
 
 class FireBar :
@@ -63,9 +80,6 @@ public:
 	Desc& GetDesc() { return desc_; }
 	void SetDesc(const Desc& desc);
 	void SetIsActive(bool flag);
-
-	/*const Vector3& GetRotate() const { return rotate_; }
-	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }*/
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:

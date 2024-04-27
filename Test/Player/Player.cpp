@@ -167,6 +167,7 @@ void Player::Update() {
 }
 
 void Player::Reset() {
+	invincibleTime_ = 0;
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;

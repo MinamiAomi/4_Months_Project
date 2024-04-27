@@ -88,7 +88,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": 5.0
+                "angularVelocity": 1.0
             }
         },
         {
@@ -136,7 +136,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": -1.0
             }
         },
         {

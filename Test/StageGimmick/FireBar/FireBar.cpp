@@ -5,23 +5,21 @@
 #include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 
-const std::string Bar::kModelName = "fireBarBar";
+const std::string BarChildren::kModelName = "ball";
 
 #pragma region Bar
-void Bar::Initialize(const Desc& desc) {
-	rotateVelocity_ = desc.rotateVelocity;
+
+void BarChildren::Initialize(uint32_t count) {
 	model_ = std::make_unique<ModelInstance>();
-
-	transform.scale = Vector3::one;
-	transform.scale.x = desc.length;
-	transform.translate = Vector3::zero;
-
-	angle_ = desc.barInitialAngle;
-	transform.rotate = Quaternion::MakeForYAxis(angle_);
-
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(kModelName));
 	model_->SetIsActive(true);
 
+	transform.scale = Vector3::one;
+	transform.rotate = Quaternion::identity;
+	transform.translate = Vector3::zero;
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	transform.translate.z = (modelSize.z * transform.scale.z)*(count + 1);
+	transform.UpdateMatrix();
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -29,19 +27,67 @@ void Bar::Initialize(const Desc& desc) {
 	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::FireBarBar);
 	collider_->SetCollisionMask(~CollisionAttribute::FireBarBar);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
+}
+
+void BarChildren::Update() {
+	UpdateTransform();
+}
+
+void BarChildren::SetIsActive(bool flag) {
+	collider_->SetIsActive(flag);
+	model_->SetIsActive(flag);
+}
+
+void BarChildren::UpdateTransform() {
+	transform.UpdateMatrix();
+	Vector3 scale, translate;
+	Quaternion rotate;
+	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	collider_->SetCenter(translate);
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	collider_->SetOrientation(rotate);
+	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void BarChildren::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+
+void Bar::Initialize(const Desc& desc) {
+	rotateVelocity_ = desc.rotateVelocity;
+
+	transform.scale = Vector3::one;
+	transform.translate = Vector3::zero;
+
+	angle_ = desc.barInitialAngle;
+	transform.rotate = Quaternion::MakeForYAxis(angle_);
+	transform.UpdateMatrix();
+
+	barChildren_.resize(size_t(desc.length));
+	for (uint32_t i = 0; auto & child : barChildren_) {
+		child = std::make_unique<BarChildren>();
+		child->transform.SetParent(&transform);
+		child->Initialize(i);
+		i++;
+	}
 }
 
 void Bar::Update() {
 	angle_ += rotateVelocity_;
 	angle_ = std::fmod(angle_, Math::Pi * 2.0f);
 	UpdateTransform();
+	for (auto& child : barChildren_) {
+		child->Update();
+	}
 }
 
 void Bar::SetDesc(const Desc& desc) {
@@ -53,21 +99,22 @@ void Bar::SetDesc(const Desc& desc) {
 }
 
 void Bar::SetIsActive(bool flag) {
-	collider_->SetIsActive(flag);
-	model_->SetIsActive(flag);
+	for (auto & child : barChildren_) {
+		child->SetIsActive(flag);
+	}
 }
 
 void Bar::UpdateTransform() {
 	transform.rotate = Quaternion::MakeForYAxis(angle_);
 	transform.UpdateMatrix();
-	Vector3 scale, translate;
-	Quaternion rotate;
-	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
-	collider_->SetOrientation(rotate);
-	model_->SetWorldMatrix(transform.worldMatrix);
+	//Vector3 scale, translate;
+	//Quaternion rotate;
+	//transform.worldMatrix.GetAffineValue(scale, rotate, translate);
+	//collider_->SetCenter(translate);
+	//Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	//collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
+	//collider_->SetOrientation(rotate);
+	//model_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void Bar::OnCollision(const CollisionInfo& collisionInfo) {
@@ -80,7 +127,7 @@ void FireBar::Initialize(const Desc& desc) {
 	desc_ = desc;
 
 	StageGimmick::SetDesc(transform, colliderDesc_, desc_.desc);
-
+	transform.UpdateMatrix();
 	model_ = std::make_unique<ModelInstance>();
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("fireBarCenter"));
@@ -183,3 +230,4 @@ void FireBar::UpdateTransform() {
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
+
