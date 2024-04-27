@@ -86,7 +86,7 @@
             },
             "gimmick": {
                 "type": "FireBar",
-                "length": 3,
+                "length": 6,
                 "initializeAngle": 0,
                 "angularVelocity": 1.0
             }
