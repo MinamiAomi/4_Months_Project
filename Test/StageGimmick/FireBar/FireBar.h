@@ -39,7 +39,7 @@ public:
 	struct Desc {
 		float barInitialAngle;
 		float rotateVelocity;
-		float length;
+		uint32_t length;
 	};
 	void Initialize(const Desc& desc);
 	void Update();

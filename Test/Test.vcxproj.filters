@@ -106,6 +106,9 @@
     <Filter Include="Game\Object\UI">
       <UniqueIdentifier>{5d31f539-6152-44b5-95f3-8103e66433d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageGimmick\RevengeCoin">
+      <UniqueIdentifier>{50ec14d7-1cb3-4065-9e46-c0b27f44618c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -266,6 +269,12 @@
     </ClCompile>
     <ClCompile Include="CutIn.cpp">
       <Filter>Game\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoin.cpp">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoinManager.cpp">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +443,12 @@
     </ClInclude>
     <ClInclude Include="CutIn.h">
       <Filter>Game\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoin.h">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoinManager.h">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

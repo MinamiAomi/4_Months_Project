@@ -64,6 +64,8 @@
     <ClCompile Include="StageGimmick\Pendulum\Pendulum.cpp" />
     <ClCompile Include="StageGimmick\Pendulum\PendulumManager.cpp" />
     <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoin.cpp" />
+    <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoinManager.cpp" />
     <ClCompile Include="StageGimmick\StageGimmick.cpp" />
     <ClCompile Include="StageGimmick\StageObject\StageObject.cpp" />
     <ClCompile Include="StageGimmick\StageObject\StageObjectManager.cpp" />
@@ -122,6 +124,8 @@
     <ClInclude Include="StageGimmick\Pendulum\Pendulum.h" />
     <ClInclude Include="StageGimmick\Pendulum\PendulumManager.h" />
     <ClInclude Include="Skydome.h" />
+    <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoin.h" />
+    <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoinManager.h" />
     <ClInclude Include="StageGimmick\StageGimmick.h" />
     <ClInclude Include="StageGimmick\StageObject\StageObject.h" />
     <ClInclude Include="StageGimmick\StageObject\StageObjectManager.h" />

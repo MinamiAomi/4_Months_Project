@@ -23,6 +23,7 @@ void GameScene::OnInitialize() {
     fireBarManager_ = std::make_unique<FireBarManager>();
     floorManager_ = std::make_unique<FloorManager>();
     pendulumManager_ = std::make_unique<PendulumManager>();
+    revengeCoinManager_ = std::make_unique<RevengeCoinManager>();
     stageObjectManager_ = std::make_unique<StageObjectManager>();
 
     player_ = std::make_unique<Player>();
@@ -30,7 +31,7 @@ void GameScene::OnInitialize() {
 
     cameraManager_->Initialize(player_.get(), boss_.get());
 
-    blockManager_->SetCamara(cameraManager_->GetCamera().get());
+    blockManager_->SetCamera(cameraManager_->GetCamera().get());
     blockManager_->SetPlayer(player_.get());
     fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
     fireBarManager_->SetPlayer(player_.get());
@@ -38,12 +39,15 @@ void GameScene::OnInitialize() {
     floorManager_->SetPlayer(player_.get());
     pendulumManager_->SetCamera(cameraManager_->GetCamera().get());
     pendulumManager_->SetPlayer(player_.get());
-    stageObjectManager_->SetCamara(cameraManager_->GetCamera().get());
+    revengeCoinManager_->SetCamera(cameraManager_->GetCamera().get());
+    revengeCoinManager_->SetPlayer(player_.get());
+    stageObjectManager_->SetCamera(cameraManager_->GetCamera().get());
     stageObjectManager_->SetPlayer(player_.get());
 
     blockManager_->Initialize(0);
     fireBarManager_->Initialize(0);
     floorManager_->Initialize(0);
+    revengeCoinManager_->Initialize(0);
     pendulumManager_->Initialize(0);
     stageObjectManager_->Initialize(0);
 
@@ -133,6 +137,7 @@ void GameScene::OnUpdate() {
         stageBlockManager_->Update();
         fireBarManager_->Update();
         floorManager_->Update();
+        revengeCoinManager_->Update();
         pendulumManager_->Update();
         stageObjectManager_->Update();
         editorManager_->Update();
@@ -203,6 +208,7 @@ void GameScene::OnUpdate() {
             skyBlockManager_->Reset();
             blockManager_->Reset(0);
             fireBarManager_->Reset(0);
+            revengeCoinManager_->Reset(0);
             floorManager_->Reset(0);
             pendulumManager_->Reset(0);
 
@@ -216,6 +222,7 @@ void GameScene::OnUpdate() {
             boss_->Reset(0);
             blockManager_->Reset(0);
             fireBarManager_->Reset(0);
+            revengeCoinManager_->Reset(0);
             floorManager_->Reset(0);
             pendulumManager_->Reset(0);
 
@@ -241,6 +248,7 @@ void GameScene::Initialize() {
     blockManager_->Update();
     stageBlockManager_->Update();
     fireBarManager_->Update();
+    revengeCoinManager_->Update();
     floorManager_->Update();
     pendulumManager_->Update();
     stageObjectManager_->Update();
@@ -307,6 +315,7 @@ void GameScene::Initialize() {
         skyBlockManager_->Reset();
         blockManager_->Reset(0);
         fireBarManager_->Reset(0);
+        revengeCoinManager_->Reset(0);
         floorManager_->Reset(0);
         pendulumManager_->Reset(0);
 
@@ -321,6 +330,7 @@ void GameScene::Initialize() {
         blockManager_->Reset(0);
         fireBarManager_->Reset(0);
         floorManager_->Reset(0);
+        revengeCoinManager_->Reset(0);
         pendulumManager_->Reset(0);
 
 

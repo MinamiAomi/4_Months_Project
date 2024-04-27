@@ -12,9 +12,8 @@ void PlayerRevengeGage::Initialize() {
 
 	JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 	JSON_OBJECT("PlayerRevengeGage");
-	JSON_LOAD(addGageBar_);
+	JSON_LOAD(addGage_);
 	JSON_LOAD(subGageBar_);
-	JSON_LOAD(addGageCircle_);
 	JSON_LOAD(subGageCircle_);
 	JSON_CLOSE();
 }
@@ -34,14 +33,7 @@ void PlayerRevengeGage::Update() {
 	break;
 	case Character::State::kRunAway:
 	{
-		if (isMove_ || isUpdate_) {
-			if (currentRevengeBarGage_ < kMaxRevengeBar) {
-				currentRevengeBarGage_ += addGageBar_;
-			}
-			else if (currentRevengeCircleGage_ < kMaxRevengeCircle) {
-				currentRevengeCircleGage_ += addGageBar_;
-			}
-		}
+		
 	}
 	break;
 	default:
@@ -58,17 +50,15 @@ void PlayerRevengeGage::Update() {
 			ImGui::Checkbox("isUpdate", &isUpdate_);
 			ImGui::DragFloat("currentRevengeBarGage_", &currentRevengeBarGage_, 0.1f);
 			ImGui::DragFloat("currentRevengeCircleGage_", &currentRevengeCircleGage_, 0.1f);
-			ImGui::DragFloat("addGageBar_", &addGageBar_, 0.1f);
+			ImGui::DragFloat("addGage_", &addGage_, 0.1f);
 			ImGui::DragFloat("subGageBar_", &subGageBar_, 0.1f);
-			ImGui::DragFloat("addGageCircle_", &addGageCircle_, 0.1f);
 			ImGui::DragFloat("subGageCircle_", &subGageCircle_, 0.1f);
 
 			if (ImGui::Button("Save")) {
 				JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 				JSON_OBJECT("PlayerRevengeGage");
-				JSON_SAVE(addGageBar_);
+				JSON_SAVE(addGage_);
 				JSON_SAVE(subGageBar_);
-				JSON_SAVE(addGageCircle_);
 				JSON_SAVE(subGageCircle_);
 				JSON_CLOSE();
 			}
@@ -86,4 +76,17 @@ void PlayerRevengeGage::Reset() {
 	currentRevengeBarGage_ = 0.0f;
 	currentRevengeCircleGage_ = 0.0f;
 	Character::currentCharacterState_ = Character::State::kRunAway;
+}
+
+void PlayerRevengeGage::AddGage() {
+	if (isMove_ || isUpdate_) {
+		if (currentRevengeBarGage_ < kMaxRevengeBar) {
+			currentRevengeBarGage_ += addGage_;
+		}
+		else if (currentRevengeCircleGage_ < kMaxRevengeCircle) {
+			currentRevengeCircleGage_ += addGage_;
+		}
+	}
+	currentRevengeBarGage_ = std::clamp(currentRevengeBarGage_, 0.0f, kMaxRevengeBar);
+	currentRevengeCircleGage_ = std::clamp(currentRevengeCircleGage_, 0.0f, kMaxRevengeCircle);
 }

@@ -4,9 +4,9 @@
 #include <memory>
 
 #include "Player/Player.h"
-#include "Block.h"
+#include "RevengeCoin.h"
 
-class BlockManager {
+class RevengeCoinManager {
 public:
 	void Initialize(uint32_t stageIndex);
 	void Update();
@@ -16,8 +16,8 @@ public:
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<Block>>& GetBlocks() const { return blocks_; }
-	void DeleteBlock(Block* block);
+	const std::list<std::unique_ptr<RevengeCoin>>& GetBlocks() const { return revengeCoins_; }
+	void Delete(RevengeCoin* revengeCoin);
 
 	void LoadJson(uint32_t stageIndex);
 
@@ -27,5 +27,5 @@ public:
 private:
 	const Camera* camera_;
 	const Player* player_;
-	std::list<std::unique_ptr<Block>> blocks_;
+	std::list<std::unique_ptr<RevengeCoin>> revengeCoins_;
 };

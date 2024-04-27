@@ -30,6 +30,7 @@
 #include "SkyBlock.h"
 #include "UI.h"
 #include "CutIn.h"
+#include "StageGimmick/RevengeCoin/RevengeCoinManager.h"
 
 class GameScene :
 	public BaseScene {
@@ -53,6 +54,7 @@ private:
 	std::unique_ptr<FireBarManager> fireBarManager_;
 	std::unique_ptr<FloorManager> floorManager_;
 	std::unique_ptr<PendulumManager> pendulumManager_;
+	std::unique_ptr<RevengeCoinManager> revengeCoinManager_;
 	std::unique_ptr<StageObjectManager> stageObjectManager_;
 #pragma endregion
 

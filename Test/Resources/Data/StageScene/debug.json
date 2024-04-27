@@ -86,9 +86,9 @@
             },
             "gimmick": {
                 "type": "FireBar",
-                "length": 6,
+                "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": 1.0
+                "angularVelocity": 5.0
             }
         },
         {
@@ -136,7 +136,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": -1.0
+                "angularVelocity": 1.0
             }
         },
         {
@@ -281,6 +281,96 @@
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "立方体",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -78.12603759765625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -96.62890625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
             }
         }
     ]

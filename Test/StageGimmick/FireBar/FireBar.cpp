@@ -91,11 +91,10 @@ void Bar::Update() {
 }
 
 void Bar::SetDesc(const Desc& desc) {
+
 	rotateVelocity_ = desc.rotateVelocity;
-
-	transform.scale.x = desc.length;
-
 	angle_ = desc.barInitialAngle;
+
 }
 
 void Bar::SetIsActive(bool flag) {

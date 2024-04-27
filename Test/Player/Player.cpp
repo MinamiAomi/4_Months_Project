@@ -256,6 +256,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			}
 		}
 	}
+	else if (collisionInfo.collider->GetName() == "RevengeCoin") {
+		playerRevengeGage_->AddGage();
+	}
 
 }
 

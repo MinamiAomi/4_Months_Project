@@ -25,7 +25,7 @@ void FireBarEditor::Initialize() {
 	desc_.desc.transform.translate = transform.translate;
 	desc_.desc.transform.scale = transform.scale;
 	desc_.barDesc.barInitialAngle = 90.0f * Math::ToRadian;
-	desc_.barDesc.length = 1.0f;
+	desc_.barDesc.length = 1;
 	desc_.barDesc.rotateVelocity = 0.01f;
 
 	fireBar_ = std::make_unique<FireBar>();
@@ -82,7 +82,7 @@ void FireBarEditor::Update() {
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Bar")) {
-					ImGui::DragFloat(("length:" + std::to_string(i)).c_str(), &desc.barDesc.length, 0.1f);
+					//ImGui::DragInt(("length:" + std::to_string(i)).c_str(), &desc.barDesc.length, 0.1f);
 					ImGui::DragFloat(("barRotateVelocity:" + std::to_string(i)).c_str(), &desc.barDesc.rotateVelocity, 0.01f);
 					desc.barDesc.barInitialAngle *= Math::ToDegree;
 					ImGui::DragFloat(("InitialAngle:" + std::to_string(i)).c_str(), &desc.barDesc.barInitialAngle, 0.01f);
