@@ -1,0 +1,287 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "Floor.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    -2.7427167892456055,
+                    -109.4663314819336
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "floor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    33.0,
+                    2.0,
+                    100.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FireBarCenter.001",
+            "transform": {
+                "translate": [
+                    10.306987762451172,
+                    0.0,
+                    -38.608436584472656
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.271635890007019,
+                    1.5052731037139893,
+                    1.1608034372329712
+                ]
+            },
+            "file_name": "fireBar",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "FireBar",
+                "length": 3,
+                "initializeAngle": 0,
+                "angularVelocity": 5.0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "FireBarCenter.002",
+            "transform": {
+                "translate": [
+                    -9.758962631225586,
+                    0.0,
+                    -23.169048309326172
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.271635890007019,
+                    1.5052731037139893,
+                    1.1608034372329712
+                ]
+            },
+            "file_name": "fireBar",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "FireBar",
+                "length": 3,
+                "initializeAngle": 0,
+                "angularVelocity": 0.01
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Floor.002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    -2.742719888687134,
+                    -0.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "floor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    33.0,
+                    2.0,
+                    100.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "振り子バー.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.0,
+                    -127.0076904296875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "pendulam",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Pendulum",
+                "length": 15,
+                "angle": -20,
+                "initializeAngle": -5,
+                "gravity": 0.02,
+                "stickScale": 1,
+                "ballScale": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "振り子バー.002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    15.0,
+                    -105.64665222167969
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "pendulam",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Pendulum",
+                "length": 15,
+                "angle": 20,
+                "initializeAngle": 0,
+                "gravity": 0.02,
+                "stickScale": 1,
+                "ballScale": 1
+            }
+        }
+    ]
+}
