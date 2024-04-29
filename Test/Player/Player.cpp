@@ -110,8 +110,7 @@ void Player::Update() {
 
 		// 切り替え
 		if (Character::currentCharacterState_ == Character::State::kRunAway &&
-			(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
-			(Input::GetInstance()->IsKeyTrigger(DIK_J) || (Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) {
+			(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar)) {
 			Character::SetNextScene(Character::State::kChase);
 			//transform.translate.x = 0.0f;
 			//transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
