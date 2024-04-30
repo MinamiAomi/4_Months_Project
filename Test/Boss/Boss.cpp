@@ -18,7 +18,7 @@ void Boss::Initialize() {
 
 	state_ = std::make_unique<BossStateManager>(*this);
 	state_->Initialize();
-	state_->ChangeState<BossStateRoot>();
+	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 
 	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
 	bossAttackTriggerManager_->SetCamera(camera_);
@@ -108,7 +108,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
-	state_->ChangeState<BossStateRoot>();
+	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	bossAttackTriggerManager_->Reset(stageIndex);
 }
 

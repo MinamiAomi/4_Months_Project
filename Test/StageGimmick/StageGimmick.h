@@ -26,7 +26,7 @@ namespace StageGimmick {
 		std::string name;
 	};
 
-	static const std::string stageScenePath_ = "Resources/Data/StageScene/stageScene.json";
+	static const std::string stageScenePath_ = "Resources/Data/StageScene/stageScene2.json";
 	//static const std::string stageScenePath_ = "Resources/Data/StageScene/debug.json";
 
 	Desc GetDesc(const nlohmann::json& json);
