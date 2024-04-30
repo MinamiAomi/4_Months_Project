@@ -106,6 +106,7 @@ void GameScene::OnInitialize() {
     chaseBGM_ = ResourceManager::GetInstance()->FindSound("chaseBGM");
     revengeBGM_ = ResourceManager::GetInstance()->FindSound("revengeBGM");
     bgm_ = chaseBGM_;
+    bgm_.SetVolume(0.1f);
     bgm_.Play(true);
 }
 
@@ -120,12 +121,14 @@ void GameScene::OnUpdate() {
                 bgm_.Stop();
                 bgm_ = revengeBGM_;
                 bgm_.Play(true);
+                bgm_.SetVolume(0.1f);
             break;
             }
             case Character::State::kRunAway: {
                 bgm_.Stop();
                 bgm_ = chaseBGM_;
                 bgm_.Play(true);
+                bgm_.SetVolume(0.1f);
                 break;
             }
             default:
