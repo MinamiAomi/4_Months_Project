@@ -14,6 +14,7 @@ public:
 	struct Desc {
 		Vector3 pos;
 		float velocity;
+		float offset;
 	};
 	void Initialize(const Desc& desc);
 	void Update();
@@ -31,8 +32,7 @@ private:
 
 	std::unique_ptr<BoxCollider> collider_;
 
-	float velocity_;
-	float offset_;
+	Desc desc_;
 
 	bool isMove_;
 

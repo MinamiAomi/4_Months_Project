@@ -45,6 +45,7 @@ void GameScene::OnInitialize() {
 	stageObjectManager_->SetCamera(cameraManager_->GetCamera().get());
 	stageObjectManager_->SetPlayer(player_.get());
 	trapManager_->SetCamera(cameraManager_->GetCamera().get());
+	trapManager_->SetPlayer(player_.get());
 
 	blockManager_->Initialize(0);
 	fireBarManager_->Initialize(0);
@@ -197,12 +198,12 @@ void GameScene::OnUpdate() {
 				switch (Character::currentCharacterState_) {
 				case Character::State::kChase:
 				{
-					Character::currentCharacterState_ = Character::State::kChase;
+					Character::SetNextScene(Character::State::kChase);
 				}
 				break;
 				case Character::State::kRunAway:
 				{
-					Character::currentCharacterState_ = Character::State::kRunAway;
+					Character::SetNextScene(Character::State::kRunAway);
 				}
 				break;
 				}

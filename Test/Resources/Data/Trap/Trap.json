@@ -1,3 +1,6 @@
 {
-    "Trap": {}
+    "Trap": {
+        "offset_": 0.5,
+        "velocity_": 1.0
+    }
 }

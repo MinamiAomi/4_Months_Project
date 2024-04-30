@@ -7,6 +7,7 @@ void TrapManager::Initialize() {
 	JSON_OPEN("Resources/Data/Trap/Trap.json");
 	JSON_OBJECT("Trap");
 	JSON_LOAD(velocity_);
+	JSON_LOAD(offset_);
 	JSON_CLOSE();
 	Reset();
 }
@@ -19,10 +20,12 @@ void TrapManager::Update() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Trap")) {
 		ImGui::DragFloat("velocity_", &velocity_, 0.1f);
+		ImGui::DragFloat("offset_", &offset_, 0.1f);
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Trap/Trap.json");
 			JSON_OBJECT("Trap");
 			JSON_SAVE(velocity_);
+			JSON_SAVE(offset_);
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
@@ -38,6 +41,7 @@ void TrapManager::Create(const Vector3& position) {
 	desc.pos = position;
 	desc.velocity = velocity_;
 	trap->SetCamera(camera_);
+	trap->SetPlayer(player_);
 	trap->Initialize(desc);
 	traps_.emplace_back(std::move(trap));
 }

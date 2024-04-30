@@ -390,7 +390,7 @@ void Player::Invincible() {
 void Player::SetTrap() {
 
 	if (Character::currentCharacterState_ == Character::State::kRunAway &&
-		(Input::GetInstance()->IsKeyPressed(DIK_J) ||
+		(Input::GetInstance()->IsKeyTrigger(DIK_J) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B)))) {
 		trapManager_->Create(transform.worldMatrix.GetTranslate());

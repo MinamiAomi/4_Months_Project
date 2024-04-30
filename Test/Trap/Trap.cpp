@@ -11,19 +11,17 @@
 void Trap::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
+	desc_ = desc;
 	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::identity;
 	transform.translate = desc.pos;
-	transform.UpdateMatrix();
-
-	velocity_ = desc.velocity;
 
 	isMove_ = false;
 	isAlive_ = true;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("block"));
 	model_->SetIsActive(true);
-	model_->SetWorldMatrix(transform.worldMatrix);
+
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -37,6 +35,8 @@ void Trap::Initialize(const Desc& desc) {
 	collider_->SetCollisionMask(~CollisionAttribute::Trap);
 	collider_->SetIsActive(true);
 #pragma endregion
+	transform.translate.z += transform.scale.z * modelSize.z + desc_.offset;
+	UpdateTransform();
 }
 
 void Trap::Update() {
@@ -44,8 +44,10 @@ void Trap::Update() {
 	if (isAlive_) {
 		collider_->SetIsActive(true);
 		model_->SetIsActive(true);
-		transform.translate.z += velocity_;
-		UpdateTransform();
+		if (isMove_) {
+			transform.translate.z += desc_.velocity;
+			UpdateTransform();
+		}
 	}
 	else {
 		collider_->SetIsActive(false);
