@@ -28,6 +28,7 @@
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />
+    <ClCompile Include="Culling.cpp" />
     <ClCompile Include="CutIn.cpp" />
     <ClCompile Include="DebugCamera.cpp" />
     <ClCompile Include="DecorationModel.cpp" />
@@ -76,6 +77,8 @@
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TitleObject.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Trap\Trap.cpp" />
+    <ClCompile Include="Trap\TrapManager.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +91,7 @@
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CharacterState.h" />
     <ClInclude Include="CollisionAttribute.h" />
+    <ClInclude Include="Culling.h" />
     <ClInclude Include="CutIn.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DecorationModel.h" />
@@ -134,6 +138,8 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TitleObject.h" />
+    <ClInclude Include="Trap\Trap.h" />
+    <ClInclude Include="Trap\TrapManager.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>

@@ -7,7 +7,7 @@
 #include "FollowCamera.h"
 #include "Framework/ResourceManager.h"
 #include "Input/Input.h"
-
+#include "Trap/TrapManager.h"
 
 void Player::Initialize() {
 #pragma region パラメーター
@@ -89,6 +89,8 @@ void Player::Update() {
 
 			// ジャンプ
 			Jump();
+
+			SetTrap();
 
 		}
 		else {
@@ -382,6 +384,17 @@ void Player::Invincible() {
 		isHit_ = false;
 		model_->SetColor({ 1.0f,1.0f,1.0f });
 	}
+}
+
+void Player::SetTrap() {
+
+	if (Character::currentCharacterState_ == Character::State::kRunAway &&
+		(Input::GetInstance()->IsKeyPressed(DIK_J) ||
+			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B) &&
+				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B)))) {
+		trapManager_->Create(transform.worldMatrix.GetTranslate());
+	}
+
 }
 
 void Player::DebugParam() {

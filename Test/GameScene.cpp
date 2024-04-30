@@ -25,6 +25,7 @@ void GameScene::OnInitialize() {
     pendulumManager_ = std::make_unique<PendulumManager>();
     revengeCoinManager_ = std::make_unique<RevengeCoinManager>();
     stageObjectManager_ = std::make_unique<StageObjectManager>();
+    trapManager_ = std::make_unique<TrapManager>();
 
     player_ = std::make_unique<Player>();
     boss_ = std::make_unique<Boss>();
@@ -43,6 +44,7 @@ void GameScene::OnInitialize() {
     revengeCoinManager_->SetPlayer(player_.get());
     stageObjectManager_->SetCamera(cameraManager_->GetCamera().get());
     stageObjectManager_->SetPlayer(player_.get());
+    trapManager_->SetCamera(cameraManager_->GetCamera().get());
 
     blockManager_->Initialize(0);
     fireBarManager_->Initialize(0);
@@ -50,7 +52,9 @@ void GameScene::OnInitialize() {
     revengeCoinManager_->Initialize(0);
     pendulumManager_->Initialize(0);
     stageObjectManager_->Initialize(0);
+    trapManager_->Initialize();
 
+    player_->SetTrapManager(trapManager_.get());
     player_->SetBoss(boss_.get());
     player_->SetStageCamera(cameraManager_->GetStageCamera());
     player_->Initialize();
@@ -141,6 +145,7 @@ void GameScene::OnUpdate() {
         pendulumManager_->Update();
         stageObjectManager_->Update();
         editorManager_->Update();
+        trapManager_->Update();
 
 
         player_->Update();
@@ -211,7 +216,7 @@ void GameScene::OnUpdate() {
             revengeCoinManager_->Reset(0);
             floorManager_->Reset(0);
             pendulumManager_->Reset(0);
-
+            trapManager_->Reset();
 
         }
 #endif // _DEBUG
@@ -225,7 +230,7 @@ void GameScene::OnUpdate() {
             revengeCoinManager_->Reset(0);
             floorManager_->Reset(0);
             pendulumManager_->Reset(0);
-
+            trapManager_->Reset();
 
     }
         //if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
@@ -318,6 +323,7 @@ void GameScene::Initialize() {
         revengeCoinManager_->Reset(0);
         floorManager_->Reset(0);
         pendulumManager_->Reset(0);
+        trapManager_->Reset();
 
 
     }
@@ -332,7 +338,7 @@ void GameScene::Initialize() {
         floorManager_->Reset(0);
         revengeCoinManager_->Reset(0);
         pendulumManager_->Reset(0);
-
+        trapManager_->Reset();
 
 }
     if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {

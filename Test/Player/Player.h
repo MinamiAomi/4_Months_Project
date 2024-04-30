@@ -18,6 +18,7 @@
 #include "Engine/Audio/AudioSource.h"
 #include "Engine/Math/Random.h"
 
+class TrapManager;
 class Player :
 	public GameObject {
 public:
@@ -40,16 +41,21 @@ public:
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
+
+	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:
 	void Move();
 	void Jump();
 	void Invincible();
+	void SetTrap();
 	void UpdateTransform();
 
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const StageCamera* stageCamera_;
 	const Boss* boss_;
+	TrapManager* trapManager_;
+	
 	Random::RandomNumberGenerator rnd_;
 
 	std::unique_ptr<PlayerHP> playerHP_;

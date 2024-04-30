@@ -109,6 +109,9 @@
     <Filter Include="Game\Object\StageGimmick\RevengeCoin">
       <UniqueIdentifier>{50ec14d7-1cb3-4065-9e46-c0b27f44618c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Trap">
+      <UniqueIdentifier>{2e91e277-6773-4ec8-8d97-d50d5aa552fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -276,6 +279,9 @@
     <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoinManager.cpp">
       <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
     </ClCompile>
+    <ClCompile Include="Trap\Trap.cpp" />
+    <ClCompile Include="Culling.cpp" />
+    <ClCompile Include="Trap\TrapManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -449,6 +455,15 @@
     </ClInclude>
     <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoinManager.h">
       <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap\Trap.h">
+      <Filter>Game\Object\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Culling.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap\TrapManager.h">
+      <Filter>Game\Object\Trap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
