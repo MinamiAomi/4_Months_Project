@@ -4081,7 +4081,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 0.10000000149011612
             }
         },
         {
@@ -5221,7 +5221,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 0.10000000149011612
             }
         },
         {
@@ -6361,7 +6361,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 0.10000000149011612
             }
         },
         {
@@ -7501,7 +7501,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 0.10000000149011612
             }
         },
         {
@@ -8641,7 +8641,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 0.10000000149011612
             }
         },
         {
@@ -9781,7 +9781,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 0.10000000149011612
             }
         },
         {
