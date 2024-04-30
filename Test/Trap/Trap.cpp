@@ -79,7 +79,8 @@ void Trap::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Boss") {
-		if (Character::currentCharacterState_ == Character::State::kChase)
+		if (Character::currentCharacterState_ == Character::State::kChase && isMove_) {
 			isAlive_ = false;
+		}
 	}
 }
