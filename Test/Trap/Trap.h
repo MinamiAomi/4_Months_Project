@@ -32,6 +32,7 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 
 	float velocity_;
+	float offset_;
 
 	bool isMove_;
 
