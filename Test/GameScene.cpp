@@ -108,11 +108,11 @@ void GameScene::OnInitialize() {
 	// ikkaideke
 	Initialize();
 
-	chaseBGM_ = ResourceManager::GetInstance()->FindSound("chaseBGM");
-	revengeBGM_ = ResourceManager::GetInstance()->FindSound("revengeBGM");
-	bgm_ = chaseBGM_;
-	bgm_.Play(true);
-	bgm_.SetVolume(0.1f);
+    chaseBGM_ = ResourceManager::GetInstance()->FindSound("chaseBGM");
+    revengeBGM_ = ResourceManager::GetInstance()->FindSound("revengeBGM");
+    bgm_ = chaseBGM_;
+    bgm_.SetVolume(0.1f);
+    bgm_.Play(true);
 }
 
 void GameScene::OnUpdate() {
@@ -120,28 +120,26 @@ void GameScene::OnUpdate() {
 
 		directionalLight_->DrawImGui("directionalLight");
 
-		if (Character::currentCharacterState_ == Character::State::kScneChange) {
-			switch (Character::nextCharacterState_) {
-			case Character::State::kChase:
-			{
-				bgm_.Stop();
-				bgm_ = revengeBGM_;
-				bgm_.Play(true);
-				bgm_.SetVolume(0.1f);
-				break;
-			}
-			case Character::State::kRunAway:
-			{
-				bgm_.Stop();
-				bgm_ = chaseBGM_;
-				bgm_.Play(true);
-				bgm_.SetVolume(0.1f);
-				break;
-			}
-			default:
-				break;
-			}
-		}
+        if (Character::currentCharacterState_ == Character::State::kScneChange) {
+            switch (Character::nextCharacterState_) {
+            case Character::State::kChase: {
+                bgm_.Stop();
+                bgm_ = revengeBGM_;
+                bgm_.Play(true);
+                bgm_.SetVolume(0.1f);
+            break;
+            }
+            case Character::State::kRunAway: {
+                bgm_.Stop();
+                bgm_ = chaseBGM_;
+                bgm_.Play(true);
+                bgm_.SetVolume(0.1f);
+                break;
+            }
+            default:
+                break;
+            }
+        }
 
 		blockManager_->Update();
 		stageBlockManager_->Update();
