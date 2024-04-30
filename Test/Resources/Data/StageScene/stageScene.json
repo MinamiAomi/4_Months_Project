@@ -10873,8 +10873,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 2
+                "type": "BossLowerAttackTrigger"
             }
         },
         {
@@ -10919,8 +10918,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 1
+                "type": "BossInsideAttackTrigger"
             }
         },
         {
@@ -10965,8 +10963,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11011,8 +11008,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11057,8 +11053,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 2
+                "type": "BossLowerAttackTrigger"
             }
         },
         {
@@ -11103,8 +11098,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11149,8 +11143,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 1
+                "type": "BossInsideAttackTrigger"
             }
         },
         {
@@ -11195,8 +11188,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11241,8 +11233,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11287,8 +11278,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 2
+                "type": "BossLowerAttackTrigger"
             }
         },
         {
@@ -11333,8 +11323,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 1
+                "type": "BossInsideAttackTrigger"
             }
         },
         {
@@ -11379,8 +11368,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 1
+                "type": "BossInsideAttackTrigger"
             }
         },
         {
@@ -11425,8 +11413,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11471,8 +11458,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11517,8 +11503,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -11563,8 +11548,907 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    8.4199857711792
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    76.39106750488281
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.003",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    144.36215209960938
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.004",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    212.33323669433594
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.005",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    280.3043212890625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.006",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    348.275390625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.007",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    416.2464599609375
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.008",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    484.217529296875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.009",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    552.1885986328125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.010",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    620.15966796875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.011",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    688.1307373046875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.012",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    756.101806640625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.013",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    824.0728759765625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.014",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    892.0439453125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.015",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    960.0150146484375
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.016",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    1027.986083984375
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.017",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    1095.9571533203125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.018",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    1163.92822265625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.019",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    1231.8992919921875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "リベンジコイン.020",
+            "transform": {
+                "translate": [
+                    0.0,
+                    3.0606791973114014,
+                    1299.870361328125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "revengeCoin",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
             }
         }
     ]
