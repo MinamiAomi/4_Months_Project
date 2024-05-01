@@ -19,7 +19,8 @@ public:
 	const float GetCurrentRevengeBarGage()const { return currentRevengeBarGage_; }
 	const float GetCurrentRevengeCircleGage()const { return currentRevengeCircleGage_; }
 private:
-	float addGage_;
+	float addCoin_;
+	float addGageBar_;
 	float subGageBar_;
 	float subGageCircle_;
 	float currentRevengeBarGage_;
