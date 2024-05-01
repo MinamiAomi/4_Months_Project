@@ -253,11 +253,9 @@
     <ClCompile Include="SkyBlockManager.cpp">
       <Filter>Game\Object\SkyBlock</Filter>
     </ClCompile>
-    <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp">
       <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
     <ClCompile Include="TitleScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
@@ -279,9 +277,21 @@
     <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoinManager.cpp">
       <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
     </ClCompile>
-    <ClCompile Include="Trap\Trap.cpp" />
-    <ClCompile Include="Culling.cpp" />
-    <ClCompile Include="Trap\TrapManager.cpp" />
+    <ClCompile Include="Trap\Trap.cpp">
+      <Filter>Game\Object\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap\TrapManager.cpp">
+      <Filter>Game\Object\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp">
+      <Filter>Game\Object\Player\PlayerAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpeed.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Culling.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -380,9 +390,6 @@
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClInclude>
-    <ClInclude Include="Skydome.h">
-      <Filter>Game\Object\Skydome</Filter>
-    </ClInclude>
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h">
       <Filter>Game\Object\Boss\BossModelManager</Filter>
     </ClInclude>
@@ -464,6 +471,9 @@
     </ClInclude>
     <ClInclude Include="Trap\TrapManager.h">
       <Filter>Game\Object\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>Game\Object\Skydome</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

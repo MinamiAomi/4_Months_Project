@@ -72,28 +72,31 @@ void Boss::Update() {
 	if (Character::IsSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
-	if (isMove_) {
-		switch (Character::currentCharacterState_) {
-		case Character::State::kChase:
-		{
+
+	switch (Character::currentCharacterState_) {
+	case Character::State::kChase:
+	{
+		if (isMove_) {
 			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
-		break;
-		case Character::State::kRunAway:
-		{
+	}
+	break;
+	case Character::State::kRunAway:
+	{
+		if (isMove_) {
 			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
-		break;
-		case Character::State::kScneChange:
-		{
-			if (Character::nextCharacterState_ == Character::State::kChase) {
-				transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(),  Character::GetSceneChangeTime());
-			}
+	}
+	break;
+	case Character::State::kScneChange:
+	{
+		if (Character::nextCharacterState_ == Character::State::kChase) {
+			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
 		}
+	}
+	break;
+	default:
 		break;
-		default:
-			break;
-		}
 	}
 
 	state_->Update();

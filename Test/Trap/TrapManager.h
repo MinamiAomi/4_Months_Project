@@ -17,8 +17,7 @@ public:
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
-	float velocity_;
-	float offset_;
+	Trap::Desc desc_;
 
 	const Camera* camera_;
 	const Player* player_;

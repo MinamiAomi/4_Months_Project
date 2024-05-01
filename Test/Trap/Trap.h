@@ -13,11 +13,22 @@ class Trap :
 public:
 	struct Desc {
 		Vector3 pos;
-		float velocity;
+		float dropVelocity;
+		float shotVelocity;
 		float offset;
+	};
+	enum State {
+		kDrop,
+		kStay,
+		kShot,
+
+		kCount,
 	};
 	void Initialize(const Desc& desc);
 	void Update();
+
+	bool GetIsAlive() { return isAlive_; }
+	const State GetState() const { return state_; }
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
@@ -34,7 +45,7 @@ private:
 
 	Desc desc_;
 
-	bool isMove_;
-
+	State state_;
+	
 	bool isAlive_;
 }; 

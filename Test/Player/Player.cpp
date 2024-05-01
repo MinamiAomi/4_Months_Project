@@ -123,6 +123,7 @@ void Player::Update() {
 			acceleration_ = Vector3::zero;
 			revengeSE_->Play();
 		}
+		
 		if (Character::currentCharacterState_ == Character::State::kChase &&
 			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
 			Character::SetNextScene(Character::State::kRunAway);
@@ -230,8 +231,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	else if (collisionInfo.collider->GetName() == "Block" ||
 		collisionInfo.collider->GetName() == "FireBarCenter" ||
 		collisionInfo.collider->GetName() == "Floor" ||
-		collisionInfo.collider->GetName() == "StageObject" ||
-		collisionInfo.collider->GetName() == "Trap") {
+		collisionInfo.collider->GetName() == "StageObject" /*||
+		collisionInfo.collider->GetName() == "Trap"*/) {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();
