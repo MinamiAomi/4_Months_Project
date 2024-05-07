@@ -36,6 +36,8 @@ void AudioSource::Stop() {
     HRESULT hr = S_FALSE;
     hr = sourceVoice_->Stop();
     assert(SUCCEEDED(hr));
+    hr = sourceVoice_->FlushSourceBuffers();
+    assert(SUCCEEDED(hr));
 }
 
 void AudioSource::SetVolume(float volume) {

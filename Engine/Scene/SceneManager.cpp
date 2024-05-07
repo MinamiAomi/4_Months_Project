@@ -29,12 +29,12 @@ void SceneManager::Update() {
 }
 
 void SceneManager::Finalize() {
-    if (currentScene_) { 
-        currentScene_->OnFinalize(); 
+    if (currentScene_) {
+        currentScene_->OnFinalize();
         currentScene_ = nullptr;
     }
-    if (nextScene_) { 
-        nextScene_->OnFinalize(); 
+    if (nextScene_) {
+        nextScene_->OnFinalize();
         nextScene_ = nullptr;
     }
 }

@@ -20,6 +20,8 @@ void BossAttackTriggerEditor::Initialize() {
 	bossAttackTrigger_ = std::make_unique<BossAttackTrigger>();
 	BossAttackTrigger::Desc desc{};
 	desc.desc.transform.translate.z = -50.0f;
+	desc.desc.collider = StageGimmick::Collider{};
+	desc.desc.collider->size = { 2.0f,2.0f,2.0f };
 	desc.state = BossStateManager::State::kHook;
 	bossAttackTrigger_->SetCamera(camera_);
 	bossAttackTrigger_->SetBoss(boss_);

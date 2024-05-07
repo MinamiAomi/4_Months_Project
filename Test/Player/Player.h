@@ -16,7 +16,9 @@
 #include "PlayerRevengGage/PlayerRevengeGage.h"
 #include "PlayerBullet/BulletManager.h"
 #include "Engine/Audio/AudioSource.h"
+#include "Engine/Math/Random.h"
 
+class TrapManager;
 class Player :
 	public GameObject {
 public:
@@ -39,16 +41,23 @@ public:
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
+
+	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:
 	void Move();
 	void Jump();
+	void Dash();
 	void Invincible();
+	void SetTrap();
 	void UpdateTransform();
 
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const StageCamera* stageCamera_;
 	const Boss* boss_;
+	TrapManager* trapManager_;
+	
+	Random::RandomNumberGenerator rnd_;
 
 	std::unique_ptr<PlayerHP> playerHP_;
 	std::unique_ptr<PlayerUI> playerUI_;
@@ -67,6 +76,13 @@ private:
 	bool isGround_;
 	uint32_t invincibleTime_;
 	bool isAlive_;
+	Vector3 dashVector_;
+	bool isDash_;
+	uint32_t dashCount_;
+	uint32_t dashCoolTime_;
+	// ステージギミックにヒットした
+	bool isHit_;
+	bool preIsHit_;
 
 	// JumpSE
 	std::unique_ptr<AudioSource> jumpSE_;
@@ -82,6 +98,10 @@ private:
 	uint32_t maxInvincibleTime_;
 	Vector3 offset_;
 	Vector3 revengeStartOffset_;
+	float hitJump_;
+	float dashPower_;
+	uint32_t dashMaxCount_;
+	uint32_t dashIntervalCount_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();

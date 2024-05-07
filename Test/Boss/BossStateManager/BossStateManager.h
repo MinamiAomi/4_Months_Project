@@ -193,7 +193,8 @@ public:
 
 	const JsonData& GetData() { return jsonData_; }
 	template<class T>
-	void ChangeState() {
+	void ChangeState(const BossStateManager::State& state) {
+		state_ = state;
 		static_assert(std::is_base_of_v<BossState, T>, "Not inherited.");
 		standbyState_ = std::make_unique<T>(*this);
 	}
