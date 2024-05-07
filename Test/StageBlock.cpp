@@ -18,7 +18,7 @@ void StageBlock::Initialize(const Vector3& pos, const Vector3& direction) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
 	model_->SetIsActive(true);
-	transform.scale = { 2.0f,36.0f,2.0f };
+	transform.scale = { 2.0f,33.0f,2.0f };
 	direction_ = direction;
 	transform.translate = pos;
 	transform.rotate = Quaternion::MakeFromTwoVector({0.0f,1.0f,0.0f},direction);
