@@ -237,12 +237,13 @@ void GameScene::OnUpdate() {
 			trapManager_->Reset();
 			Character::currentCharacterState_ = Character::kRunAway;
 		}
-		//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
-		//}
-		//if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		//    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
-		//}
+		
+		if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+		    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+		}
+		if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+		    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+		}
 	}
 
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);

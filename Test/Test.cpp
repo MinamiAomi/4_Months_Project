@@ -18,10 +18,17 @@
 
 static const char ResourceAssociationFile[] = "Resources/Association.json";
 
+#ifdef _DEBUG
+#define START_SCENE GameScene
+#else
+#define START_SCENE TitleScene
+#endif // _DEBUG
+
+
 void Test::OnInitialize() {
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<GameScene>(false);
+    sceneManager->ChangeScene<START_SCENE>(false);
 
     LoadResources();
 }
