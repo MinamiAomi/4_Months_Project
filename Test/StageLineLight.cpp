@@ -20,10 +20,10 @@ void StageLineLight::Initialize(bool isLeft,bool isUp) {
 	lineLight_ = std::make_unique<LineLight>();
 
 	if (isLeft) {
-		transform.translate.x = -20.0f;
+		transform.translate.x = -32.0f;
 	}
 	else {
-		transform.translate.x = 20.0f;
+		transform.translate.x = 32.0f;
 	}
 
 	if (isUp) {
@@ -31,7 +31,7 @@ void StageLineLight::Initialize(bool isLeft,bool isUp) {
 		lineLight_->range = 10.5f;
 	}
 	else {
-		transform.translate.y = -8.0f;
+		transform.translate.y = -10.0f;
 		lineLight_->range = 15.0f;
 	}
 
@@ -93,5 +93,6 @@ void StageLineLight::UpdateTransform() {
 	model_->SetWorldMatrix(transform.worldMatrix);
 	lineLight_->origin = originTransform_.worldMatrix.GetTranslate();
 	lineLight_->diff = diffTransform_.worldMatrix.GetTranslate();
+	lineLight_->diff = lineLight_->diff - lineLight_->origin;
 }
 
