@@ -20,6 +20,8 @@ namespace Character {
 	extern float toRunAwayTime_;
 
 	float GetSceneChangeTime();
+
+	float GetSceneChangeT();
 	// この関数を使いセットすること
 	void SetNextScene(const Character::State& scene);
 	// シーンチェンジに入った瞬間true
