@@ -25,6 +25,7 @@
 #include "App/SkyRenderer.h"
 #include "App/Fog.h"
 #include "Edge.h"
+#include "ChaseEffect.h"
 
 #ifdef _DEBUG
 #define SHADER_DIRECTORY "../Engine/Graphics/Shader"
@@ -68,6 +69,7 @@ private:
     Transition transition_;
     Bloom bloom_;
     Edge edge_;
+    ChaseEffect chaseEffect_;
     FXAA fxaa_;
     PostEffect postEffect_;
     PostEffect edgeMultiply_;

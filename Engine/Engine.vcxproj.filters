@@ -315,6 +315,9 @@
     <ClCompile Include="Graphics\App\Fog.cpp">
       <Filter>Graphics\App</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\ChaseEffect.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -618,6 +621,9 @@
     <ClInclude Include="Graphics\App\Fog.h">
       <Filter>Graphics\App</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\ChaseEffect.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Lighting.hlsli">
@@ -748,6 +754,15 @@
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Graphics\Shader\EdgeVS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\ChaseEdgePS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\ChaseEdgeVS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\ChaseEffectPS.hlsl">
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
   </ItemGroup>
