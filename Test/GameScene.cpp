@@ -221,7 +221,7 @@ void GameScene::OnUpdate() {
 			floorManager_->Reset(0);
 			pendulumManager_->Reset(0);
 			trapManager_->Reset();
-
+			Character::currentCharacterState_ = Character::kRunAway;
 		}
 #endif // _DEBUG
 		if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
@@ -235,7 +235,7 @@ void GameScene::OnUpdate() {
 			floorManager_->Reset(0);
 			pendulumManager_->Reset(0);
 			trapManager_->Reset();
-
+			Character::currentCharacterState_ = Character::kRunAway;
 		}
 		//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 		//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);

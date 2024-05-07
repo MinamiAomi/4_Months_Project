@@ -142,4 +142,20 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 	}
+	if (collisionInfo.collider->GetName() == "Trap") {
+		switch (Character::currentCharacterState_) {
+		case Character::State::kChase:
+		{
+			
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+
+		}
+		break;
+		default:
+			break;
+		}
+	}
 }
