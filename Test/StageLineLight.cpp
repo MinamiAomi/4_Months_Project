@@ -14,16 +14,16 @@ void StageLineLight::Initialize(bool isLeft,bool isUp) {
 	originTransform_.SetParent(&transform);
 	diffTransform_.SetParent(&transform);
 
-	originTransform_.translate.z = model_->GetModel()->GetMeshes()[0].maxVertex.z;
-	diffTransform_.translate.z = model_->GetModel()->GetMeshes()[0].minVertex.z;
+	originTransform_.translate.z = 300.0f;
+	diffTransform_.translate.z = -300.0f;
 
 	lineLight_ = std::make_unique<LineLight>();
 
 	if (isLeft) {
-		transform.translate.x = -32.0f;
+		transform.translate.x = -20.0f;
 	}
 	else {
-		transform.translate.x = 32.0f;
+		transform.translate.x = 20.0f;
 	}
 
 	if (isUp) {
@@ -31,11 +31,9 @@ void StageLineLight::Initialize(bool isLeft,bool isUp) {
 		lineLight_->range = 10.5f;
 	}
 	else {
-		transform.translate.y = -23.0f;
+		transform.translate.y = -8.0f;
 		lineLight_->range = 15.0f;
 	}
-
-	transform.scale.z = 300.0f;
 
 	lineLight_->color = runAwayColor_;
 	lineLight_->intensity = 1.5f;
@@ -94,6 +92,6 @@ void StageLineLight::UpdateTransform() {
 	diffTransform_.UpdateMatrix();
 	model_->SetWorldMatrix(transform.worldMatrix);
 	lineLight_->origin = originTransform_.worldMatrix.GetTranslate();
-	lineLight_->diff.z = diffTransform_.worldMatrix.GetTranslate().z;
+	lineLight_->diff = diffTransform_.worldMatrix.GetTranslate();
 }
 
