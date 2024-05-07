@@ -21,6 +21,6 @@ float32_t3 HSVToRGB(in float32_t3 hsv) {
 PSOutput main(PSInput input) {
     PSOutput output;
 	output.color = colorTex.Sample(smp, input.texcoord);
-	output.color = output.color * output.color * output.color * output.color * output.color * output.color;
+	output.color = output.color * output.color * output.color * output.color;
     return output;
 }
