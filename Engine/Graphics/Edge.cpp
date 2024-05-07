@@ -9,6 +9,8 @@
 #include "GeometryRenderingPass.h"
 #include "ImGuiManager.h"
 
+#include "../Test/CharacterState.h"
+
 static const char kEdgeVS[] = "EdgeVS.hlsl";
 static const char kEdgePS[] = "EdgePS.hlsl";
 
@@ -26,6 +28,7 @@ void Edge::Initialize(ColorBuffer* originalTexture) {
         rootParameters[static_cast<uint32_t>(RootParameter::kNormalTexture)].InitAsDescriptorTable(1, &ranges[static_cast<uint32_t>(RootParameter::kNormalTexture)]);
         rootParameters[static_cast<uint32_t>(RootParameter::kDepthTexture)].InitAsDescriptorTable(1, &ranges[static_cast<uint32_t>(RootParameter::kDepthTexture)]);
         rootParameters[static_cast<uint32_t>(RootParameter::kEdgeColor)].InitAsConstants(3, 0);
+        rootParameters[static_cast<uint32_t>(RootParameter::kT)].InitAsConstants(1, 1);
 
         CD3DX12_STATIC_SAMPLER_DESC staticSamplerDesc(0, D3D12_FILTER_MIN_MAG_MIP_LINEAR, D3D12_TEXTURE_ADDRESS_MODE_CLAMP, D3D12_TEXTURE_ADDRESS_MODE_CLAMP,D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
 
@@ -87,6 +90,7 @@ void Edge::Render(CommandContext& commandContext, GeometryRenderingPass& geometr
     commandContext.SetDescriptorTable(static_cast<UINT>(RootParameter::kDepthTexture), geometryRenderingPass.GetDepth().GetSRV());
 
     commandContext.SetConstants(static_cast<UINT>(RootParameter::kEdgeColor), edgeColor_.x, edgeColor_.y, edgeColor_.z);
+    commandContext.SetConstants(static_cast<UINT>(RootParameter::kT),Character::GetSceneChangeT());
     commandContext.Draw(3);
 
 }
