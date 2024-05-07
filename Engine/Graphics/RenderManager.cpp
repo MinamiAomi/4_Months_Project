@@ -100,8 +100,7 @@ void RenderManager::Render() {
 #ifdef ENABLE_IMGUI
         if (useEdge) {
 #endif // ENABLE_IMGUI
-            //edge_.Render(commandContext_, geometryRenderingPass_);
-            chaseEffect_.EdgeRender(commandContext_, geometryRenderingPass_);
+            edge_.Render(commandContext_, geometryRenderingPass_);
 #ifdef ENABLE_IMGUI
         }
 #endif // ENABLE_IMGUI
@@ -109,10 +108,9 @@ void RenderManager::Render() {
 #ifdef ENABLE_IMGUI
         if (useEdge) {
 #endif // ENABLE_IMGUI
-            //edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
             chaseEffect_.EffectRender(commandContext_, geometryRenderingPass_);
             commandContext_.CopyBuffer(lightingRenderingPass_.GetResult(), chaseEffect_.GetEffect());
-            edgeMultiply_.RenderAlphaTexture(commandContext_, chaseEffect_.GetEdge());
+            edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
 #ifdef ENABLE_IMGUI
         }
 #endif // ENABLE_IMGUI

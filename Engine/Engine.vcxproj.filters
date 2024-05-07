@@ -617,11 +617,13 @@
     <ClInclude Include="Debug\Debug.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Edge.h" />
     <ClInclude Include="Graphics\App\Fog.h">
       <Filter>Graphics\App</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\ChaseEffect.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Edge.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -754,12 +756,6 @@
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Graphics\Shader\EdgeVS.hlsl">
-      <Filter>Graphics\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Graphics\Shader\ChaseEdgePS.hlsl">
-      <Filter>Graphics\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Graphics\Shader\ChaseEdgeVS.hlsl">
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Graphics\Shader\ChaseEffectPS.hlsl">

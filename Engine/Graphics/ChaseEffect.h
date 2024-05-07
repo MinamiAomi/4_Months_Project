@@ -15,16 +15,14 @@ public:
 		kColorTexture,
 		kNormalTexture,
 		kDepthTexture,
+		kT,
 
 		ParameterNum
 	};
 
 	void Initialize(ColorBuffer* originalTexture);
-	void EdgeRender(CommandContext& commandContext, GeometryRenderingPass& geometryRenderingPass);
 	void EffectRender(CommandContext& commandContext, GeometryRenderingPass& geometryRenderingPass);
 
-
-	ColorBuffer& GetEdge() { return edgeTexture_; }
 	ColorBuffer& GetEffect() { return chaseEffectTexture_; }
 
 private:
@@ -35,8 +33,6 @@ private:
 	PipelineState effectPipelineState_;
 
 	ColorBuffer* originalTexture_;
-
-	ColorBuffer edgeTexture_;
 
 	ColorBuffer chaseEffectTexture_;
 };
