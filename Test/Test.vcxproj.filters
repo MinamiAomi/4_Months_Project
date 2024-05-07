@@ -106,6 +106,12 @@
     <Filter Include="Game\Object\UI">
       <UniqueIdentifier>{5d31f539-6152-44b5-95f3-8103e66433d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageGimmick\RevengeCoin">
+      <UniqueIdentifier>{50ec14d7-1cb3-4065-9e46-c0b27f44618c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Trap">
+      <UniqueIdentifier>{2e91e277-6773-4ec8-8d97-d50d5aa552fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -247,11 +253,9 @@
     <ClCompile Include="SkyBlockManager.cpp">
       <Filter>Game\Object\SkyBlock</Filter>
     </ClCompile>
-    <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp">
       <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClCompile>
-    <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
     <ClCompile Include="TitleScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
@@ -266,6 +270,27 @@
     </ClCompile>
     <ClCompile Include="CutIn.cpp">
       <Filter>Game\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoin.cpp">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\RevengeCoin\RevengeCoinManager.cpp">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap\Trap.cpp">
+      <Filter>Game\Object\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap\TrapManager.cpp">
+      <Filter>Game\Object\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp">
+      <Filter>Game\Object\Player\PlayerAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSpeed.cpp">
+      <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Culling.cpp">
+      <Filter>Game\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,9 +390,6 @@
     <ClInclude Include="Editor\PendulumEditor\PendulumEditor.h">
       <Filter>Game\Object\Editor\PendulumEditor</Filter>
     </ClInclude>
-    <ClInclude Include="Skydome.h">
-      <Filter>Game\Object\Skydome</Filter>
-    </ClInclude>
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h">
       <Filter>Game\Object\Boss\BossModelManager</Filter>
     </ClInclude>
@@ -434,6 +456,24 @@
     </ClInclude>
     <ClInclude Include="CutIn.h">
       <Filter>Game\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoin.h">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\RevengeCoin\RevengeCoinManager.h">
+      <Filter>Game\Object\StageGimmick\RevengeCoin</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap\Trap.h">
+      <Filter>Game\Object\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Culling.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap\TrapManager.h">
+      <Filter>Game\Object\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>Game\Object\Skydome</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

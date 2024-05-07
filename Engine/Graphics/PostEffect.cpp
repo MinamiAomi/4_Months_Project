@@ -107,6 +107,8 @@ void PostEffect::RenderAddTexture(CommandContext& commandContext, ColorBuffer& t
 
 void PostEffect::RenderMultiplyTexture(CommandContext& commandContext, ColorBuffer& texture) {
     commandContext.TransitionResource(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandContext.TransitionResource(*targetTexture_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandContext.SetRenderTarget(targetTexture_->GetRTV());
     commandContext.SetRootSignature(rootSignature_);
     commandContext.SetPipelineState(pipelineStateMultiply_);
     commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -116,6 +118,8 @@ void PostEffect::RenderMultiplyTexture(CommandContext& commandContext, ColorBuff
 
 void PostEffect::RenderAlphaTexture(CommandContext& commandContext, ColorBuffer& texture) {
     commandContext.TransitionResource(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+    commandContext.TransitionResource(*targetTexture_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandContext.SetRenderTarget(targetTexture_->GetRTV());
     commandContext.SetRootSignature(rootSignature_);
     commandContext.SetPipelineState(pipelineStateAlpha_);
     commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

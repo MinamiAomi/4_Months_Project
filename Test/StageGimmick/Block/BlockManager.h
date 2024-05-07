@@ -23,7 +23,7 @@ public:
 
 	void Clear();
 
-	void SetCamara(const Camera* camera) { camera_ = camera; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	const Camera* camera_;
 	const Player* player_;

@@ -14,12 +14,14 @@ public:
 	void Reset();
 	void SetIsMove(bool flag) { isMove_ = flag; }
 
+	void AddGage();
+
 	const float GetCurrentRevengeBarGage()const { return currentRevengeBarGage_; }
 	const float GetCurrentRevengeCircleGage()const { return currentRevengeCircleGage_; }
 private:
+	float addCoin_;
 	float addGageBar_;
 	float subGageBar_;
-	float addGageCircle_;
 	float subGageCircle_;
 	float currentRevengeBarGage_;
 	float currentRevengeCircleGage_;
