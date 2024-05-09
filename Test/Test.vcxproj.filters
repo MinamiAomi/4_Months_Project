@@ -112,6 +112,9 @@
     <Filter Include="Game\Object\Trap">
       <UniqueIdentifier>{2e91e277-6773-4ec8-8d97-d50d5aa552fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageLoop">
+      <UniqueIdentifier>{f77410a2-5a5b-4738-819d-d7de9a30040f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -292,6 +295,7 @@
     <ClCompile Include="Culling.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
+    <ClCompile Include="StageLoop\StageLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -474,6 +478,9 @@
     </ClInclude>
     <ClInclude Include="Skydome.h">
       <Filter>Game\Object\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLoop\StageLoop.h">
+      <Filter>Game\Object\StageLoop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
