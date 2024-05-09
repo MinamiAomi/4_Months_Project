@@ -10,6 +10,7 @@
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
 #include "Framework/ResourceManager.h"
+#include "TitleScene.h"
 
 void GameScene::OnInitialize() {
 	cameraManager_ = std::make_unique<CameraManager>();
@@ -222,6 +223,26 @@ void GameScene::OnUpdate() {
 			pendulumManager_->Reset(0);
 			trapManager_->Reset();
 
+		}
+		// シーン変更
+		if ((Input::GetInstance()->IsKeyTrigger(DIK_1) &&
+			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
+			SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
+		}
+		if ((Input::GetInstance()->IsKeyTrigger(DIK_2) &&
+			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+			) {
+			SceneManager::GetInstance()->ChangeScene<GameScene>(true);
+		}
+		if ((Input::GetInstance()->IsKeyTrigger(DIK_3) &&
+			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+			) {
+			SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+		}
+		if ((Input::GetInstance()->IsKeyTrigger(DIK_4) &&
+			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+			) {
+			SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 		}
 #endif // _DEBUG
 		if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
