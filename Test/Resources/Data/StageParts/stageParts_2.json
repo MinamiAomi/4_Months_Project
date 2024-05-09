@@ -211,7 +211,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -341,9 +342,9 @@
             },
             "gimmick": {
                 "type": "FireBar",
-                "length": 2,
-                "initializeAngle": 30,
-                "angularVelocity": 2.0
+                "length": 3,
+                "initializeAngle": 0,
+                "angularVelocity": 5.0
             }
         },
         {
@@ -389,9 +390,9 @@
             },
             "gimmick": {
                 "type": "FireBar",
-                "length": 2,
-                "initializeAngle": 30,
-                "angularVelocity": 2.0
+                "length": 3,
+                "initializeAngle": 0,
+                "angularVelocity": 0.01
             }
         },
         {

@@ -397,7 +397,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossLowerAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
