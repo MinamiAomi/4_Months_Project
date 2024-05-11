@@ -12,7 +12,7 @@ public:
 
 	void Create(const Vector3& position);
 	
-	void Reset();
+	void Clear();
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }

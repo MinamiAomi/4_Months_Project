@@ -28,6 +28,7 @@ void Floor::Initialize(const Desc& desc) {
 	collider_->SetCollisionMask(~CollisionAttribute::Floor);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void Floor::Update() {

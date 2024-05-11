@@ -27,11 +27,6 @@ void GameScene::OnInitialize() {
 
 	cameraManager_->Initialize(player_.get(), boss_.get());
 
-	stageLoop_->SetPlayer(player_.get());
-	stageLoop_->SetBoss(boss_.get());
-	stageLoop_->SetCamera(cameraManager_->GetCamera().get());
-	stageLoop_->Initialize();
-
 	player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
@@ -40,6 +35,11 @@ void GameScene::OnInitialize() {
 	boss_->SetPlayer(player_.get());
 	boss_->SetCamera(cameraManager_->GetCamera().get());
 	boss_->Initialize();
+
+	stageLoop_->SetPlayer(player_.get());
+	stageLoop_->SetBoss(boss_.get());
+	stageLoop_->SetCamera(cameraManager_->GetCamera().get());
+	stageLoop_->Initialize();
 
 	stageRightLight = std::make_unique<StageLineLight>();
 	stageRightLight->Initialize(false, false);

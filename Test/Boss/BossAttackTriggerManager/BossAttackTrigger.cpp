@@ -11,7 +11,7 @@ void BossAttackTrigger::Initialize(const Desc& desc) {
 	Reset();
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
-	model_->SetIsActive(true);
+	model_->SetIsActive(false);
 
 	desc_ = desc;
 

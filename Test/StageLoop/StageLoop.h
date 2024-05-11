@@ -53,11 +53,13 @@ private:
 
 	void LoadJson();
 
+	void Clear();
 	void CreateStage();
 	void CreateStageObject(const Desc& stageData, float distance);
 
 	std::vector<Desc> stageData_;
 	Random::RandomNumberGenerator rnd_;
+	bool isCreateStage_;
 #pragma region 
 	std::unique_ptr<BlockManager> blockManager_;
 	std::unique_ptr<BossAttackTriggerManager> bossAttackTriggerManager_;

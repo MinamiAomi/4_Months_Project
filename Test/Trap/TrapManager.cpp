@@ -11,7 +11,7 @@ void TrapManager::Initialize() {
 	JSON_LOAD(desc_.dropVelocity);
 	JSON_LOAD(desc_.offset);
 	JSON_CLOSE();
-	Reset();
+	Clear();
 }
 
 void TrapManager::Update() {
@@ -66,6 +66,6 @@ void TrapManager::Create(const Vector3& position) {
 	traps_.emplace_back(std::move(trap));
 }
 
-void TrapManager::Reset() {
+void TrapManager::Clear() {
 	traps_.clear();
 }

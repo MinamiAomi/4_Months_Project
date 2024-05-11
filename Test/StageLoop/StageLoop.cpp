@@ -7,6 +7,8 @@
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "Player/Player.h"
+#include "CharacterState.h"
+
 
 void StageLoop::Initialize() {
 	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
@@ -34,20 +36,26 @@ void StageLoop::Initialize() {
 	stageObjectManager_->SetPlayer(player_);
 	trapManager_->SetCamera(camera_);
 	trapManager_->SetPlayer(player_);
-
-	bossAttackTriggerManager_->Initialize(0);
-	blockManager_->Initialize(0);
-	fireBarManager_->Initialize(0);
-	floorManager_->Initialize(0);
-	revengeCoinManager_->Initialize(0);
-	pendulumManager_->Initialize(0);
-	stageObjectManager_->Initialize(0);
 	trapManager_->Initialize();
 
 	LoadJson();
+
+	CreateStage();
+
+	isCreateStage_ = false;
 }
 
 void StageLoop::Update() {
+	if (Character::currentCharacterState_ == Character::State::kScneChange&&
+		Character::nextCharacterState_ == Character::State::kRunAway&&
+		!isCreateStage_) {
+		isCreateStage_ = true;
+		CreateStage();
+	}
+	else if(Character::currentCharacterState_ == Character::State::kRunAway){
+		isCreateStage_ = false;
+	}
+
 	blockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
@@ -59,20 +67,14 @@ void StageLoop::Update() {
 }
 
 void StageLoop::Reset() {
-	bossAttackTriggerManager_->Reset(0);
-	blockManager_->Reset(0);
-	fireBarManager_->Reset(0);
-	revengeCoinManager_->Reset(0);
-	floorManager_->Reset(0);
-	pendulumManager_->Reset(0);
-	trapManager_->Reset();
+	CreateStage();
 }
 
 void StageLoop::LoadJson() {
-	static std::string directoryPath = "Resources/Data/StageScene/";
+	static std::string directoryPath = "Resources/Data/StageParts/";
 
 	// パターンに一致するファイルを見つける正規表現パターン
-	std::regex pattern("stageScene([0-9]+)");
+	std::regex pattern("stageParts_([0-9]+)");
 
 	std::map<uint32_t, Desc> stageData{};
 
@@ -150,16 +152,21 @@ void StageLoop::LoadJson() {
 						desc.desc = StageGimmick::GetDesc(obj);
 						jsonData.revengeCoinDesc.emplace_back(desc);
 					}
+					// StageArea
+					else if (obj["file_name"] == "stageArea") {
+						if (obj.contains("collider")) {
+							const auto& collider = obj["collider"];
+							jsonData.stageSize = { collider["size"][2] };
+						}
+
+					}
 					// StageObject
 					else if (!obj.contains("gimmick")) {
 						StageObject::Desc desc{};
 						desc.desc = StageGimmick::GetDesc(obj);
 						jsonData.stageObjectDesc.emplace_back(desc);
 					}
-					// StageArea
-					else if () {
 
-					}
 
 				}
 
@@ -186,55 +193,70 @@ void StageLoop::LoadJson() {
 
 }
 
-void StageLoop::CreateStage() {
-	static uint32_t kCreateStageNum = 4;
-	std::vector<uint32_t> stageIndices{};
-	for (uint32_t i = 0; i < kCreateStageNum; i++) {
-		if (stageIndices.empty()) {
+void StageLoop::Clear() {
+	bossAttackTriggerManager_->Clear();
+	blockManager_->Clear();
+	fireBarManager_->Clear();
+	revengeCoinManager_->Clear();
+	floorManager_->Clear();
+	pendulumManager_->Clear();
+	stageObjectManager_->Clear();
+	trapManager_->Clear();
+}
 
+void StageLoop::CreateStage() {
+	Clear();
+	static uint32_t kCreateStageNum = 5;
+	std::vector<uint32_t> stageIndices{};
+	float distance = 0.0f;
+	for (uint32_t i = 0; i < kCreateStageNum; i++) {
+		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size()-1));
+		if (stageIndices.empty()) {
+			// ぎりぎりすぎないよう
+			distance = player_->GetWorldMatrix().GetTranslate().z- stageData_.at(stageIndex).stageSize * 0.5f+10.0f;
 		}
 		else {
-			uint32_t stageIndex = rnd_.NextUIntRange(0, stageData_.size());
-			CreateStageObject(stageData_.at(stageIndex));
-			stageIndices.emplace_back(stageIndex);
+			distance -= stageData_.at(stageIndices.at(i - 1)).stageSize;
 		}
+		CreateStageObject(stageData_.at(stageIndex), distance);
+		stageIndices.emplace_back(stageIndex);
 	}
 }
 
-void StageLoop::CreateStageObject(const Desc& stageData,float distance) {
-	for (const auto& desc : stageData.blockDesc) { 
-		Block::Desc mutableDesc = desc; 
-		mutableDesc.desc.transform.translate.z += distance; 
+void StageLoop::CreateStageObject(const Desc& stageData, float distance) {
+	for (const auto& desc : stageData.blockDesc) {
+		Block::Desc mutableDesc = desc;
+		mutableDesc.desc.transform.translate.z += distance;
 		blockManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.bossAttackTrigger) {
 		BossAttackTrigger::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		bossAttackTriggerManager_->Create(desc);
+		bossAttackTriggerManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.fireBarDesc) {
 		FireBar::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		fireBarManager_->Create(desc);
+		fireBarManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.floorDesc) {
 		Floor::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		floorManager_->Create(desc);
+		floorManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.pendulumDesc) {
 		Pendulum::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		pendulumManager_->Create(desc);
+		pendulumManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.revengeCoinDesc) {
 		RevengeCoin::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		revengeCoinManager_->Create(desc);
+		revengeCoinManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.stageObjectDesc) {
 		StageObject::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		stageObjectManager_->Create(desc);
+		stageObjectManager_->Create(mutableDesc);
 	}
 }

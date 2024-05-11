@@ -31,6 +31,7 @@ void RevengeCoin::Initialize(const Desc& desc) {
 	collider_->SetCollisionMask(~CollisionAttribute::RevengeCoin);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void RevengeCoin::Update() {

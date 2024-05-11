@@ -33,6 +33,7 @@ void Block::Initialize(const Desc& desc) {
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void Block::Update() {

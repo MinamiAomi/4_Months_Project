@@ -31,6 +31,7 @@ void StageObject::Initialize(const Desc& desc) {
 		collider_->SetIsActive(true);
 	}
 #pragma endregion
+	UpdateTransform();
 }
 
 void StageObject::Update() {
