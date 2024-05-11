@@ -22,7 +22,7 @@ void StageObjectManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void StageObjectManager::Create(const StageGimmick::Desc& desc) {
+void StageObjectManager::Create(const StageObject::Desc& desc) {
 	StageObject* stageObject = new StageObject();
 	stageObject->SetCamera(camera_);
 	stageObject->Initialize(desc);
@@ -56,7 +56,9 @@ void StageObjectManager::LoadJson(uint32_t stageIndex) {
 	// "objects"配列から"Block"オブジェクトを処理
 	for (const auto& obj : root["objects"]) {
 		if (!obj.contains("gimmick")) {
-			Create(StageGimmick::GetDesc(obj));
+			StageObject::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
+			Create(desc);
 		}
 	}
 }

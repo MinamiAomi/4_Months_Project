@@ -23,7 +23,7 @@ void RevengeCoinManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void RevengeCoinManager::Create(const StageGimmick::Desc& desc) {
+void RevengeCoinManager::Create(const RevengeCoin::Desc& desc) {
 	RevengeCoin* revengeCoin = new RevengeCoin();
 	revengeCoin->GetCamera(camera_);
 	revengeCoin->SetPlayer(player_);
@@ -59,7 +59,9 @@ void RevengeCoinManager::LoadJson(uint32_t stageIndex) {
 	for (const auto& obj : root["objects"]) {
 		if (obj.contains("gimmick") &&
 			obj["gimmick"]["type"] == "RevengeCoin") {
-			Create(StageGimmick::GetDesc(obj));
+			RevengeCoin::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
+			Create(desc);
 		}
 	}
 }

@@ -295,7 +295,9 @@
     <ClCompile Include="Culling.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="StageLoop\StageLoop.cpp" />
+    <ClCompile Include="StageLoop\StageLoop.cpp">
+      <Filter>Game\Object\StageLoop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">

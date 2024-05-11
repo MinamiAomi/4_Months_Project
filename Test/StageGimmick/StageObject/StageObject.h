@@ -14,7 +14,10 @@
 class StageObject :
 	public GameObject {
 public:
-	void Initialize(const StageGimmick::Desc& desc);
+	struct Desc {
+		StageGimmick::Desc desc;
+	};
+	void Initialize(const Desc& desc);
 	void Update();
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }

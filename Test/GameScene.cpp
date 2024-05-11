@@ -16,46 +16,22 @@ void GameScene::OnInitialize() {
 	directionalLight_ = std::make_shared<DirectionalLight>();
 	directionalLight_->direction = Vector3(0.1f, -1.0f, 0.3f).Normalized();
 
+	stageLoop_ = std::make_unique<StageLoop>();
+
 	editorManager_ = std::make_unique<EditorManager>();
 	isMove_ = true;
-
-	blockManager_ = std::make_unique<BlockManager>();
-	fireBarManager_ = std::make_unique<FireBarManager>();
-	floorManager_ = std::make_unique<FloorManager>();
-	pendulumManager_ = std::make_unique<PendulumManager>();
-	revengeCoinManager_ = std::make_unique<RevengeCoinManager>();
-	stageObjectManager_ = std::make_unique<StageObjectManager>();
-	trapManager_ = std::make_unique<TrapManager>();
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
 	cameraManager_->Initialize(player_.get(), boss_.get());
 
-	blockManager_->SetCamera(cameraManager_->GetCamera().get());
-	blockManager_->SetPlayer(player_.get());
-	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
-	fireBarManager_->SetPlayer(player_.get());
-	floorManager_->SetCamera(cameraManager_->GetCamera().get());
-	floorManager_->SetPlayer(player_.get());
-	pendulumManager_->SetCamera(cameraManager_->GetCamera().get());
-	pendulumManager_->SetPlayer(player_.get());
-	revengeCoinManager_->SetCamera(cameraManager_->GetCamera().get());
-	revengeCoinManager_->SetPlayer(player_.get());
-	stageObjectManager_->SetCamera(cameraManager_->GetCamera().get());
-	stageObjectManager_->SetPlayer(player_.get());
-	trapManager_->SetCamera(cameraManager_->GetCamera().get());
-	trapManager_->SetPlayer(player_.get());
+	stageLoop_->SetPlayer(player_.get());
+	stageLoop_->SetBoss(boss_.get());
+	stageLoop_->SetCamera(cameraManager_->GetCamera().get());
+	stageLoop_->Initialize();
 
-	blockManager_->Initialize(0);
-	fireBarManager_->Initialize(0);
-	floorManager_->Initialize(0);
-	revengeCoinManager_->Initialize(0);
-	pendulumManager_->Initialize(0);
-	stageObjectManager_->Initialize(0);
-	trapManager_->Initialize();
-
-	player_->SetTrapManager(trapManager_.get());
+	player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
@@ -91,7 +67,7 @@ void GameScene::OnInitialize() {
 
 	editorManager_->SetPlayer(player_.get());
 	editorManager_->SetBoss(boss_.get());
-	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
+	editorManager_->Initialize(stageLoop_->GetBlockManager().get(), stageLoop_->GetFireBarManager().get(), stageLoop_->GetFloorManager().get(), stageLoop_->GetPendulumManager().get(), stageLoop_->GetBossAttackTriggerManager().get());
 
 	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
 	playerDustParticle_->SetPlayer(player_.get());
@@ -141,16 +117,9 @@ void GameScene::OnUpdate() {
             }
         }
 
-		blockManager_->Update();
 		stageBlockManager_->Update();
-		fireBarManager_->Update();
-		floorManager_->Update();
-		revengeCoinManager_->Update();
-		pendulumManager_->Update();
-		stageObjectManager_->Update();
-		editorManager_->Update();
-		trapManager_->Update();
 
+		stageLoop_->Update();
 
 		player_->Update();
 		stageRightLight->Update();
@@ -177,6 +146,7 @@ void GameScene::OnUpdate() {
 		//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 		playerDustParticle_->Update();
 #ifdef _DEBUG
+		editorManager_->Update();
 		if (ImGui::Checkbox("Move", &isMove_)) {
 			player_->SetIsMove(isMove_);
 			boss_->SetIsMove(isMove_);
@@ -215,12 +185,7 @@ void GameScene::OnUpdate() {
 			boss_->Reset(0);
 			stageBlockManager_->Reset();
 			skyBlockManager_->Reset();
-			blockManager_->Reset(0);
-			fireBarManager_->Reset(0);
-			revengeCoinManager_->Reset(0);
-			floorManager_->Reset(0);
-			pendulumManager_->Reset(0);
-			trapManager_->Reset();
+			stageLoop_->Reset();
 			Character::currentCharacterState_ = Character::kRunAway;
 		}
 #endif // _DEBUG
@@ -229,12 +194,7 @@ void GameScene::OnUpdate() {
 			cameraManager_->Reset();
 			stageBlockManager_->Reset();
 			boss_->Reset(0);
-			blockManager_->Reset(0);
-			fireBarManager_->Reset(0);
-			revengeCoinManager_->Reset(0);
-			floorManager_->Reset(0);
-			pendulumManager_->Reset(0);
-			trapManager_->Reset();
+			stageLoop_->Reset();
 			Character::currentCharacterState_ = Character::kRunAway;
 		}
 		//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
@@ -254,16 +214,10 @@ void GameScene::Initialize() {
 
 	directionalLight_->DrawImGui("directionalLight");
 
-	blockManager_->Update();
+	stageLoop_->Update();
+	
 	stageBlockManager_->Update();
-	fireBarManager_->Update();
-	revengeCoinManager_->Update();
-	floorManager_->Update();
-	pendulumManager_->Update();
-	stageObjectManager_->Update();
-	editorManager_->Update();
-
-
+	
 	player_->Update();
 	stageRightLight->Update();
 	stageLeftLight->Update();
@@ -284,6 +238,7 @@ void GameScene::Initialize() {
 	//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 	playerDustParticle_->Update();
 #ifdef _DEBUG
+	editorManager_->Update();
 	if (ImGui::Checkbox("Move", &isMove_)) {
 		player_->SetIsMove(isMove_);
 		boss_->SetIsMove(isMove_);
@@ -322,12 +277,7 @@ void GameScene::Initialize() {
 		boss_->Reset(0);
 		stageBlockManager_->Reset();
 		skyBlockManager_->Reset();
-		blockManager_->Reset(0);
-		fireBarManager_->Reset(0);
-		revengeCoinManager_->Reset(0);
-		floorManager_->Reset(0);
-		pendulumManager_->Reset(0);
-		trapManager_->Reset();
+		stageLoop_->Reset();
 
 
 	}
@@ -337,12 +287,7 @@ void GameScene::Initialize() {
 		cameraManager_->Reset();
 		stageBlockManager_->Reset();
 		boss_->Reset(0);
-		blockManager_->Reset(0);
-		fireBarManager_->Reset(0);
-		floorManager_->Reset(0);
-		revengeCoinManager_->Reset(0);
-		pendulumManager_->Reset(0);
-		trapManager_->Reset();
+		stageLoop_->Reset();
 
 	}
 	if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
