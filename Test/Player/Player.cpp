@@ -16,11 +16,14 @@ void Player::Initialize() {
 	JSON_LOAD(verticalSpeed_);
 	JSON_LOAD(horizontalSpeed_);
 	JSON_LOAD(jumpPower_);
+	JSON_LOAD(dashPower_);
 	JSON_LOAD(gravity_);
 	JSON_LOAD(chaseLimitLine_);
 	JSON_LOAD(runAwayLimitLine_);
 	JSON_LOAD(knockBack_);
 	JSON_LOAD(maxInvincibleTime_);
+	JSON_LOAD(dashMaxCount_);
+	JSON_LOAD(dashIntervalCount_);
 	JSON_LOAD(offset_);
 	JSON_LOAD(revengeStartOffset_);
 	JSON_LOAD(hitJump_);
@@ -83,20 +86,31 @@ void Player::Update() {
 		if (playerHP_->GetCurrentHP() <= 0) {
 			isAlive_ = false;
 		}
-		if (!isHit_) {
+		if (!isHit_ && !isDash_) {
 			// 移動
 			Move();
 
 			// ジャンプ
 			Jump();
 
-			SetTrap();
+			// ダッシュ
+			Dash();
 
+			//SetTrap();
 		}
 		else {
 			velocity_ = Vector3::zero;
-			Vector3 rotate = { 0.0f,rnd_.NextFloatUnit() ,0.0f };
-			transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+			if (isDash_) {
+				dashCount_--;
+				if (dashCount_ <= 0) {
+					dashVector_ = Vector3::zero;
+					isDash_ = false;
+				}
+			}
+			if (isHit_) {
+				Vector3 rotate = { 0.0f,rnd_.NextFloatUnit() ,0.0f };
+				transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+			}
 		}
 		// 無敵
 		Invincible();
@@ -123,13 +137,23 @@ void Player::Update() {
 			acceleration_ = Vector3::zero;
 			revengeSE_->Play();
 		}
+
 		if (Character::currentCharacterState_ == Character::State::kChase &&
 			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
 			Character::SetNextScene(Character::State::kRunAway);
 		}
-		acceleration_.y += gravity_;
+		if (!isDash_) {
+			acceleration_.y += gravity_;
+		}
+		else {
+			acceleration_.y = 0.0f;
+		}
 		acceleration_.z *= 0.9f;
 		velocity_ += acceleration_;
+		if (!isHit_) {
+			Vector3 dashVelocity = dashVector_ * dashPower_;
+			transform.translate += dashVelocity;
+		}
 		transform.translate += velocity_;
 
 		transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
@@ -155,15 +179,13 @@ void Player::Update() {
 		break;
 		case Character::kCount:
 			break;
+
+		case Character::State::kScneChange:
+
+			break;
 		default:
 			break;
 		}
-		break;
-	case Character::State::kScneChange:
-
-		break;
-	default:
-		break;
 	}
 	DebugParam();
 	UpdateTransform();
@@ -188,6 +210,8 @@ void Player::Reset() {
 	preIsHit_ = isHit_;
 	velocity_ = Vector3::zero;
 	acceleration_ = Vector3::zero;
+	dashVector_ = Vector3::zero;
+	isDash_ = false;
 	playerHP_->Reset();
 	playerRevengeGage_->Reset();
 }
@@ -213,8 +237,10 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		break;
 		case Character::State::kRunAway:
 		{
-			isHit_ = false;
-			acceleration_.z -= knockBack_;
+			if (!isHit_) {
+				acceleration_.z -= knockBack_;
+			}
+			isHit_ = true;
 			if (invincibleTime_ == 0) {
 				invincibleTime_ = maxInvincibleTime_;
 				if (playerHP_->GetCurrentHP() > 0) {
@@ -230,8 +256,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	else if (collisionInfo.collider->GetName() == "Block" ||
 		collisionInfo.collider->GetName() == "FireBarCenter" ||
 		collisionInfo.collider->GetName() == "Floor" ||
-		collisionInfo.collider->GetName() == "StageObject" ||
-		collisionInfo.collider->GetName() == "Trap") {
+		collisionInfo.collider->GetName() == "StageObject" /*||
+		collisionInfo.collider->GetName() == "Trap"*/) {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();
@@ -263,7 +289,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	else if (collisionInfo.collider->GetName() == "bossLeftArm" ||
 		collisionInfo.collider->GetName() == "bossFloorAll" ||
 		collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
-		isHit_ = false;
+		isHit_ = true;
 		if (invincibleTime_ == 0) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {
@@ -376,6 +402,28 @@ void Player::Jump() {
 	}
 }
 
+void Player::Dash() {
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_LSHIFT) ||
+		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B) &&
+			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_B))) &&
+		dashCoolTime_ <= 0) {
+		dashVector_ = transform.rotate.GetForward();
+		dashVector_ = dashVector_.Normalize();
+		isDash_ = true;
+		dashCount_ = dashMaxCount_;
+		dashCoolTime_ = dashIntervalCount_;
+		velocity_ = Vector3::zero;
+		acceleration_ = Vector3::zero;
+	}
+	else {
+		if (dashCoolTime_ > 0) {
+			dashCoolTime_--;
+		}
+		dashCoolTime_ = std::clamp(dashCoolTime_, 0u, dashIntervalCount_);
+		dashVector_ = Vector3::zero;
+	}
+}
+
 void Player::Invincible() {
 	if (invincibleTime_ > 0) {
 		model_->SetColor({ 1.0f,0.0f,0.0f });
@@ -411,6 +459,7 @@ void Player::DebugParam() {
 		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
 		ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
 		ImGui::DragFloat("jumpPower_", &jumpPower_);
+		ImGui::DragFloat("dashPower_", &dashPower_);
 		ImGui::DragFloat("hitJump_", &hitJump_);
 		ImGui::DragFloat("gravity_", &gravity_);
 		ImGui::DragFloat("chaseLimitLine_", &chaseLimitLine_);
@@ -419,6 +468,12 @@ void Player::DebugParam() {
 		int maxInvincibleTime = maxInvincibleTime_;
 		ImGui::DragInt("maxInvincibleTime_", &maxInvincibleTime);
 		maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
+		int dashMaxCount = dashMaxCount_;
+		ImGui::DragInt("dashMaxCount_", &dashMaxCount);
+		dashMaxCount_ = static_cast<uint32_t>(dashMaxCount);
+		int dashIntervalCount = dashIntervalCount_;
+		ImGui::DragInt("dashIntervalCount_", &dashIntervalCount);
+		dashIntervalCount_ = static_cast<uint32_t>(dashIntervalCount);
 		ImGui::Checkbox("onGround_", &canFirstJump_);
 		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
 		ImGui::Checkbox("isHit_", &isHit_);
@@ -429,11 +484,14 @@ void Player::DebugParam() {
 			JSON_SAVE(verticalSpeed_);
 			JSON_SAVE(horizontalSpeed_);
 			JSON_SAVE(jumpPower_);
+			JSON_SAVE(dashPower_);
 			JSON_SAVE(gravity_);
 			JSON_SAVE(chaseLimitLine_);
 			JSON_SAVE(runAwayLimitLine_);
 			JSON_SAVE(knockBack_);
 			JSON_SAVE(maxInvincibleTime_);
+			JSON_SAVE(dashMaxCount_);
+			JSON_SAVE(dashIntervalCount_);
 			JSON_SAVE(offset_);
 			JSON_SAVE(revengeStartOffset_);
 			JSON_SAVE(hitJump_);

@@ -46,6 +46,7 @@ public:
 private:
 	void Move();
 	void Jump();
+	void Dash();
 	void Invincible();
 	void SetTrap();
 	void UpdateTransform();
@@ -75,6 +76,10 @@ private:
 	bool isGround_;
 	uint32_t invincibleTime_;
 	bool isAlive_;
+	Vector3 dashVector_;
+	bool isDash_;
+	uint32_t dashCount_;
+	uint32_t dashCoolTime_;
 	// ステージギミックにヒットした
 	bool isHit_;
 	bool preIsHit_;
@@ -94,6 +99,9 @@ private:
 	Vector3 offset_;
 	Vector3 revengeStartOffset_;
 	float hitJump_;
+	float dashPower_;
+	uint32_t dashMaxCount_;
+	uint32_t dashIntervalCount_;
 #pragma endregion
 #pragma region Json
 	void DebugParam();

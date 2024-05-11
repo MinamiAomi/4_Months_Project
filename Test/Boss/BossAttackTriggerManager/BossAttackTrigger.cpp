@@ -28,8 +28,9 @@ void BossAttackTrigger::Initialize(const Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("BossAttackTrigger");
-	collider_->SetCenter(transform.translate);
-	collider_->SetSize(transform.scale);
+	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
+	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::BossAttackTrigger);
 	collider_->SetCollisionMask(~CollisionAttribute::BossAttackTrigger);
@@ -47,12 +48,9 @@ void BossAttackTrigger::Update() {
 		collider_->SetIsActive(false);
 	}
 	transform.UpdateMatrix();
-	Vector3 scale, translate;
-	Quaternion rotate;
-	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
-	collider_->SetSize(scale);
-	collider_->SetOrientation(rotate);
+	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
+	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
@@ -80,16 +78,16 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 		isCollision_ = true;
 		switch (desc_.state) {
 		case BossStateManager::kRoot:
-			boss_->GetStateManager()->ChangeState<BossStateRoot>();
+			boss_->GetStateManager()->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 			break;
 		case BossStateManager::kHook:
-			boss_->GetStateManager()->ChangeState<BossStateHook>();
+			boss_->GetStateManager()->ChangeState<BossStateHook>(BossStateManager::State::kHook);
 			break;
 		case BossStateManager::kLowerAttack:
-			boss_->GetStateManager()->ChangeState<BossStateLowerAttack>();
+			boss_->GetStateManager()->ChangeState<BossStateLowerAttack>(BossStateManager::State::kLowerAttack);
 			break;
 		case BossStateManager::kInsideAttack:
-			boss_->GetStateManager()->ChangeState<BossStateInsideAttack>();
+			boss_->GetStateManager()->ChangeState<BossStateInsideAttack>(BossStateManager::State::kInsideAttack);
 			break;
 		default:
 			break;

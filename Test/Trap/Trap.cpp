@@ -15,12 +15,14 @@ void Trap::Initialize(const Desc& desc) {
 	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::identity;
 	transform.translate = desc.pos;
+	transform.translate.y = desc_.offset;
 
-	isMove_ = false;
 	isAlive_ = true;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("block"));
 	model_->SetIsActive(true);
+
+	state_ = State::kDrop;
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -35,24 +37,31 @@ void Trap::Initialize(const Desc& desc) {
 	collider_->SetCollisionMask(~CollisionAttribute::Trap);
 	collider_->SetIsActive(true);
 #pragma endregion
-	transform.translate.z += transform.scale.z * modelSize.z + desc_.offset;
 	UpdateTransform();
 }
 
 void Trap::Update() {
 	// カリングしてない（めんどくさいだけ）
-	if (isAlive_) {
-		collider_->SetIsActive(true);
-		model_->SetIsActive(true);
-		if (isMove_) {
-			transform.translate.z += desc_.velocity;
-			UpdateTransform();
+
+	switch (state_) {
+	case Trap::kDrop:
+		transform.translate = { player_->transform.worldMatrix.GetTranslate().x,transform.translate.y,player_->transform.worldMatrix.GetTranslate().z };
+		transform.translate.y -= desc_.dropVelocity;
+		// 地面を貫通したときに
+		if (transform.translate.y<=-4.0f ||
+			Character::currentCharacterState_==Character::State::kChase) {
+			isAlive_ = false;
 		}
+		break;
+	case Trap::kStay:
+		
+		break;
+	case Trap::kShot:
+		transform.translate.z += desc_.shotVelocity;
+		
+		break;
 	}
-	else {
-		collider_->SetIsActive(false);
-		model_->SetIsActive(false);
-	}
+	UpdateTransform();
 	/*if (Culling::Culling(transform, *model_.get(), *camera_) && isMove_) {
 	}
 	else {
@@ -73,14 +82,23 @@ void Trap::UpdateTransform() {
 void Trap::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
 		if (Character::currentCharacterState_ == Character::State::kChase &&
-			(Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-				player_->GetVelocity().y <= 0.0f)) {
-			isMove_ = true;
+			state_ == State::kStay) {
+			state_ = State::kShot;
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Boss") {
-		if (Character::currentCharacterState_ == Character::State::kChase && isMove_) {
+		if (Character::currentCharacterState_ == Character::State::kChase &&
+			state_ == State::kShot) {
 			isAlive_ = false;
+		}
+	}
+	else if (collisionInfo.collider->GetName() == "Block" ||
+		collisionInfo.collider->GetName() == "FireBarCenter" ||
+		collisionInfo.collider->GetName() == "Floor" ||
+		collisionInfo.collider->GetName() == "StageObject") {
+		if (state_ == State::kDrop) {
+
+		state_ = State::kStay;
 		}
 	}
 }

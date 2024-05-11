@@ -16,6 +16,7 @@ public:
 		kNormalTexture,
 		kDepthTexture,
 		kEdgeColor,
+		kT,
 
 		ParameterNum
 	};

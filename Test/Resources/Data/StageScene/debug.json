@@ -372,6 +372,144 @@
             "gimmick": {
                 "type": "RevengeCoin"
             }
+        },
+        {
+            "type": "MESH",
+            "name": "BossHookAttack.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -150.24693298339844
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "trigger",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "BossInsideAttackTrigger.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -104.09274291992188
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "trigger",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "BossLowerAttack.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -55.034934997558594
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "trigger",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 2
+            }
         }
     ]
 }

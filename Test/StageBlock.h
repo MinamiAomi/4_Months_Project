@@ -16,7 +16,7 @@ class StageBlock :
 	public GameObject {
 public:
 
-	static const int kAppearFrame = 13;
+	static const int kAppearFrame = 20;
 
 	StageBlock();
 	~StageBlock();

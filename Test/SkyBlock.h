@@ -29,6 +29,7 @@ private:
 	const Boss* boss_;
 
 	std::unique_ptr<ModelInstance> model_;
+	Vector3 rotate_;
 
 	bool isDead_ = false;
 	

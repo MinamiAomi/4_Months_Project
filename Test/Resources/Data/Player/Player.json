@@ -2,6 +2,9 @@
     "Player": {
         "chaseLimitLine_": 80.0,
         "chaseVerticalSpeed_": 0.4000000059604645,
+        "dashIntervalCount_": 10,
+        "dashMaxCount_": 10,
+        "dashPower_": 1.0,
         "defaultSpeed_": 0.0,
         "gravity_": -0.019999999552965164,
         "hitJump_": 0.4000000059604645,

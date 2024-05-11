@@ -31,13 +31,17 @@ void StageBlockManager::Reset()
 
 void StageBlockManager::Appear()
 {
+
+	const float blockPosY = -30.0f;
+	const float blockPosZ = 40.0f;
+
 	if (boss_ && isMove_) {
 		std::unique_ptr<StageBlock> leftStageBlock = std::make_unique<StageBlock>();
 		std::unique_ptr<StageBlock> rightStageBlock = std::make_unique<StageBlock>();
 		
 		Vector3 direction = Vector3{ rng_.NextFloatRange(-0.2f, 0.2f), rng_.NextFloatRange(0.8f, 1.0f),0.0f }.Normalize();
-		leftStageBlock->Initialize({ -32.0f,-30.0f, boss_->transform.worldMatrix.GetTranslate().z  - 30.0f}, direction);
-		rightStageBlock->Initialize({ 32.0f,-30.0f, boss_->transform.worldMatrix.GetTranslate().z - 30.0f }, direction);
+		leftStageBlock->Initialize({ -32.0f,blockPosY, boss_->transform.worldMatrix.GetTranslate().z  - blockPosZ }, direction);
+		rightStageBlock->Initialize({ 32.0f,blockPosY, boss_->transform.worldMatrix.GetTranslate().z - blockPosZ }, direction);
 		leftStageBlock->SetBoss(boss_);
 		rightStageBlock->SetBoss(boss_);
 		stageBlocks_.push_back(std::move(leftStageBlock));

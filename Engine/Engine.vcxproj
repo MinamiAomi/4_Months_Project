@@ -200,6 +200,7 @@
     <ClCompile Include="Graphics\App\SkyRenderer.cpp" />
     <ClCompile Include="Graphics\App\Voronoi.cpp" />
     <ClCompile Include="Graphics\Bloom.cpp" />
+    <ClCompile Include="Graphics\ChaseEffect.cpp" />
     <ClCompile Include="Graphics\ComputeShader.cpp" />
     <ClCompile Include="Graphics\Core\ColorBuffer.cpp" />
     <ClCompile Include="Graphics\Core\CommandAllocatorPool.cpp" />
@@ -323,6 +324,7 @@
     <ClInclude Include="Graphics\App\SkyRenderer.h" />
     <ClInclude Include="Graphics\App\Voronoi.h" />
     <ClInclude Include="Graphics\Bloom.h" />
+    <ClInclude Include="Graphics\ChaseEffect.h" />
     <ClInclude Include="Graphics\ComputeShader.h" />
     <ClInclude Include="Graphics\Core\ColorBuffer.h" />
     <ClInclude Include="Graphics\Core\CommandAllocatorPool.h" />
@@ -707,6 +709,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <FxCompile Include="Graphics\Shader\ChaseEffectPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Graphics\Shader\EdgePS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>

@@ -4,6 +4,9 @@
 #include "Engine/Input/Input.h"
 #include "Scene/SceneManager.h"
 #include "TitleScene.h"
+#include "GameClearScene.h"
+#include "GameOverScene.h"
+#include "GameScene.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/GameWindow.h"
 
@@ -33,6 +36,28 @@ void GameOverScene::OnUpdate() {
 		SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 	}
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
+#ifdef _DEBUG
+	// シーン変更
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_1) &&
+		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
+		SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
+	}
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_2) &&
+		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+		) {
+		SceneManager::GetInstance()->ChangeScene<GameScene>(true);
+	}
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_3) &&
+		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+		) {
+		SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+	}
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_4) &&
+		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+		) {
+		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+	}
+#endif // _DEBUG
 }
 
 void GameOverScene::OnFinalize() {}

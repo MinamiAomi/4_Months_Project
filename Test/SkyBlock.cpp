@@ -20,6 +20,7 @@ SkyBlock::~SkyBlock()
 void SkyBlock::Initialize(const Vector3& pos, const Vector3& rotate, const Vector3& scale) {
 	transform.translate = pos;
 	transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+	rotate_ = rotate;
 	transform.scale = scale;
 	isDead_ = false;
 }
@@ -31,6 +32,9 @@ void SkyBlock::Update(float apperLength) {
 			isDead_ = true;
 		}
 	}
+
+	transform.rotate = transform.rotate * Quaternion::MakeFromAngleAxis(1.0f * Math::ToRadian,rotate_);
+
 	UpdateTransform();
 }
 

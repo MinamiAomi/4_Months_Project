@@ -71,26 +71,22 @@ void BossStateManager::DrawImGui() {
 			switch (state_) {
 			case State::kRoot:
 			{
-				state_ = State::kRoot;
-				ChangeState<BossStateRoot>();
+				ChangeState<BossStateRoot>(State::kRoot);
 			}
 			break;
 			case State::kHook:
 			{
-				state_ = State::kHook;
-				ChangeState<BossStateHook>();
+				ChangeState<BossStateHook>(State::kHook);
 			}
 			break;
 			case State::kLowerAttack:
 			{
-				state_ = State::kLowerAttack;
-				ChangeState<BossStateLowerAttack>();
+				ChangeState<BossStateLowerAttack>(State::kLowerAttack);
 			}
 			break;
 			case State::kInsideAttack:
 			{
-				state_ = State::kInsideAttack;
-				ChangeState<BossStateInsideAttack>();
+				ChangeState<BossStateInsideAttack>(State::kInsideAttack);
 			}
 			break;
 			}
@@ -194,6 +190,7 @@ void BossStateHook::Initialize() {
 	initialPosition_ = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform.translate;
 	initialRotate_ = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->GetRotate();
 	attackState_ = kChage;
+	
 	time_ = 0.0f;
 }
 
@@ -254,7 +251,7 @@ void BossStateHook::AttackUpdate() {
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
 
 	if (t >= 1.0f) {
-		manager_.ChangeState<BossStateRoot>();
+		manager_.ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	}
 }
 
@@ -324,7 +321,7 @@ void BossStateLowerAttack::AttackUpdate() {
 	if (t >= 1.0f) {
 		manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
 		manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
-		manager_.ChangeState<BossStateRoot>();
+		manager_.ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	}
 }
 
@@ -383,7 +380,7 @@ void BossStateInsideAttack::AttackUpdate() {
 	if (t >= 1.0f) {
 		manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 		manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
-		manager_.ChangeState<BossStateRoot>();
+		manager_.ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	}
 }
 
