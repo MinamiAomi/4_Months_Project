@@ -90,74 +90,80 @@ void GameScene::OnInitialize() {
     bgm_ = chaseBGM_;
     bgm_.SetVolume(0.1f);
     bgm_.Play(true);
+
+	pause_ = std::make_unique<Pause>();
+	pause_->Initialize();
 }
 
 void GameScene::OnUpdate() {
 	if (!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-
-		directionalLight_->DrawImGui("directionalLight");
-
-        if (Character::currentCharacterState_ == Character::State::kScneChange) {
-            switch (Character::nextCharacterState_) {
-            case Character::State::kChase: {
-                bgm_.Stop();
-                bgm_ = revengeBGM_;
-                bgm_.Play(true);
-                bgm_.SetVolume(0.1f);
-            break;
-            }
-            case Character::State::kRunAway: {
-                bgm_.Stop();
-                bgm_ = chaseBGM_;
-                bgm_.Play(true);
-                bgm_.SetVolume(0.1f);
-                break;
-            }
-            default:
-                break;
-            }
-        }
-
-		stageBlockManager_->Update();
-
-		stageLoop_->Update();
-
-		player_->Update();
+		pause_->Update();
+		//ライティングされなくなるからこれだけ
 		stageRightLight->Update();
 		stageLeftLight->Update();
 		stageUpRightLight->Update();
 		stageUpLeftLight->Update();
-		boss_->Update();
 
-		skyBlockManager_->Update();
+		if (!pause_->GetIsPause()) {
+			directionalLight_->DrawImGui("directionalLight");
 
-		ui_->Update();
-		cutIn_->Update();
+			if (Character::currentCharacterState_ == Character::State::kScneChange) {
+				switch (Character::nextCharacterState_) {
+				case Character::State::kChase: {
+					bgm_.Stop();
+					bgm_ = revengeBGM_;
+					bgm_.Play(true);
+					bgm_.SetVolume(0.1f);
+					break;
+				}
+				case Character::State::kRunAway: {
+					bgm_.Stop();
+					bgm_ = chaseBGM_;
+					bgm_.Play(true);
+					bgm_.SetVolume(0.1f);
+					break;
+				}
+				default:
+					break;
+				}
+			}
 
-		// 当たり判定を取る
+			stageBlockManager_->Update();
 
-		CollisionManager::GetInstance()->CheckCollision();
+			stageLoop_->Update();
 
-		cameraManager_->Update();
-		GameSpeed::Update();
-		Character::Update();
+			player_->Update();
+			boss_->Update();
+
+			skyBlockManager_->Update();
+
+			ui_->Update();
+			cutIn_->Update();
+
+			// 当たり判定を取る
+
+			CollisionManager::GetInstance()->CheckCollision();
+
+			cameraManager_->Update();
+			GameSpeed::Update();
+			Character::Update();
 
 
 
-		//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
-		playerDustParticle_->Update();
+			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
+			playerDustParticle_->Update();
 #ifdef _DEBUG
-		editorManager_->Update();
-		if (ImGui::Checkbox("Move", &isMove_)) {
+			editorManager_->Update();
+			if (ImGui::Checkbox("Move", &isMove_)) {
+				player_->SetIsMove(isMove_);
+				boss_->SetIsMove(isMove_);
+				cameraManager_->SetIsMove(isMove_);
+				stageBlockManager_->SetIsMove(isMove_);
+			}
 			player_->SetIsMove(isMove_);
 			boss_->SetIsMove(isMove_);
 			cameraManager_->SetIsMove(isMove_);
 			stageBlockManager_->SetIsMove(isMove_);
-		}
-		player_->SetIsMove(isMove_);
-		boss_->SetIsMove(isMove_);
-		cameraManager_->SetIsMove(isMove_);
-		stageBlockManager_->SetIsMove(isMove_);
 
 		if (ImGui::BeginMenu("CharacterState")) {
 			const char* items[] = { "Chase", "RunAway" };

@@ -21,7 +21,8 @@ void Boss::Initialize() {
 	state_->Initialize();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 
-	
+	bossHP_ = std::make_unique<BossHP>();
+	bossHP_->Initialize();
 
 	Reset(0);
 
@@ -111,6 +112,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+	bossHP_->Reset();
 }
 
 void Boss::UpdateTransform() {
@@ -144,7 +146,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			
+			bossHP_->AddHP(-1);
 		}
 		break;
 		case Character::State::kRunAway:

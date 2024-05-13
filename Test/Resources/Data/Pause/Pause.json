@@ -1,0 +1,106 @@
+{
+    "ToTitleData_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            980.0,
+            327.0
+        ],
+        "retryData_": {
+            "color": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+            ],
+            "greyData_": {
+                "arrowData_": {
+                    "color": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "order": 0,
+                    "position": [
+                        650.0,
+                        465.0
+                    ],
+                    "rotate": 0.0,
+                    "scale": [
+                        64.0,
+                        64.0
+                    ],
+                    "textureBase": [
+                        0.0,
+                        0.0
+                    ],
+                    "textureSize": [
+                        2.0,
+                        2.0
+                    ]
+                },
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "order": 1,
+                "position": [
+                    980.0,
+                    540.0
+                ],
+                "rotate": 0.0,
+                "scale": [
+                    1960.0,
+                    1080.0
+                ],
+                "textureBase": [
+                    0.0,
+                    0.0
+                ],
+                "textureSize": [
+                    2.0,
+                    2.0
+                ]
+            },
+            "order": 0,
+            "position": [
+                980.0,
+                465.0
+            ],
+            "rotate": 0.0,
+            "scale": [
+                512.0,
+                128.0
+            ],
+            "textureBase": [
+                0.0,
+                0.0
+            ],
+            "textureSize": [
+                512.0,
+                128.0
+            ]
+        },
+        "rotate": 0.0,
+        "scale": [
+            512.0,
+            128.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            512.0,
+            128.0
+        ]
+    }
+}

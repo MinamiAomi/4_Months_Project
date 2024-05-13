@@ -22,18 +22,6 @@
     <Filter Include="Game\Object\Player\PlayerModel">
       <UniqueIdentifier>{62f553df-74a3-4bbf-97f2-1b55decca304}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\CameraManager">
-      <UniqueIdentifier>{e14079df-c1e0-4adb-81b9-9a1e0c9058d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\CameraManager\StageCamera">
-      <UniqueIdentifier>{e5e30ff8-b753-4e62-a53a-021b63432290}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\CameraManager\DebugCamera">
-      <UniqueIdentifier>{3116c5f7-bbb1-446a-8719-4ac4bd66a1f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Object\CameraManager\FollowCamera">
-      <UniqueIdentifier>{2338eee5-95c1-4265-bf5c-f4bec2ab492f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Object\Boss">
       <UniqueIdentifier>{3cd0faa8-3e04-4ea3-9dee-e9a59e9ca4e3}</UniqueIdentifier>
     </Filter>
@@ -88,9 +76,6 @@
     <Filter Include="Game\Object\Boss\BossAttackTriggerManager">
       <UniqueIdentifier>{cd5d9808-5672-4165-a254-8da543bd62f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Object\Editor\BossAttackTrigger">
-      <UniqueIdentifier>{376e4724-e1d7-4558-8e5e-4b348e17e866}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Object\StageGimmick\StageObject">
       <UniqueIdentifier>{f89ba708-1b5b-43b6-9d19-4cded027730c}</UniqueIdentifier>
     </Filter>
@@ -114,6 +99,33 @@
     </Filter>
     <Filter Include="Game\Object\StageLoop">
       <UniqueIdentifier>{f77410a2-5a5b-4738-819d-d7de9a30040f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\BossParticle">
+      <UniqueIdentifier>{53416b31-346c-460f-b5bc-40bfb804f958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Pause">
+      <UniqueIdentifier>{cfd8aaea-fe61-4273-af0f-402791540063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\BossHP">
+      <UniqueIdentifier>{affbde12-fc35-42af-8800-dde8adb56638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\BossAttackTrigger">
+      <UniqueIdentifier>{376e4724-e1d7-4558-8e5e-4b348e17e866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\CameraManager">
+      <UniqueIdentifier>{e14079df-c1e0-4adb-81b9-9a1e0c9058d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\CameraManager\StageCamera">
+      <UniqueIdentifier>{e5e30ff8-b753-4e62-a53a-021b63432290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\CameraManager\DebugCamera">
+      <UniqueIdentifier>{3116c5f7-bbb1-446a-8719-4ac4bd66a1f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\CameraManager\FollowCamera">
+      <UniqueIdentifier>{2338eee5-95c1-4265-bf5c-f4bec2ab492f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\BossUI">
+      <UniqueIdentifier>{cddf67de-27b2-42bf-9bd3-ca49515bb4c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +168,6 @@
     </ClCompile>
     <ClCompile Include="CameraManager\CameraManager.cpp">
       <Filter>Game\Object\CameraManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss\Boss.cpp">
-      <Filter>Game\Object\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp">
       <Filter>Game\Object\Player\PlayerUI</Filter>
@@ -233,7 +242,7 @@
       <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
     </ClCompile>
     <ClCompile Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.cpp">
-      <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
+      <Filter>Game\Object\Boss\BossAttackTrigger</Filter>
     </ClCompile>
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp">
       <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
@@ -297,6 +306,21 @@
     </ClCompile>
     <ClCompile Include="StageLoop\StageLoop.cpp">
       <Filter>Game\Object\StageLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleUI.cpp">
+      <Filter>Game\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>Game\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\Boss.cpp">
+      <Filter>Game\Object\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossHP\BossHP.cpp">
+      <Filter>Game\Object\Boss\BossHP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,7 +446,7 @@
       <Filter>Game\Object\Boss\BossAttackTriggerManager</Filter>
     </ClInclude>
     <ClInclude Include="Editor\BossAttackTriggerEditor\BossAttackTriggerEditor.h">
-      <Filter>Game\Object\Editor\BossAttackTrigger</Filter>
+      <Filter>Game\Object\Boss\BossAttackTrigger</Filter>
     </ClInclude>
     <ClInclude Include="StageGimmick\StageGimmick.h">
       <Filter>Game\Object\StageGimmick</Filter>
@@ -481,8 +505,23 @@
     <ClInclude Include="Skydome.h">
       <Filter>Game\Object\Skydome</Filter>
     </ClInclude>
+    <ClInclude Include="Boss\BossParticle\BossDustParticle.h">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleUI.h">
+      <Filter>Game\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Pause.h">
+      <Filter>Game\Pause</Filter>
+    </ClInclude>
     <ClInclude Include="StageLoop\StageLoop.h">
       <Filter>Game\Object\StageLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossHP\BossHP.h">
+      <Filter>Game\Object\Boss\BossHP</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossUI\BossUI.h">
+      <Filter>Game\Object\Boss\BossUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

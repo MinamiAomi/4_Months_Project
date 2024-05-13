@@ -26,10 +26,15 @@ void TitleScene::OnInitialize() {
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
 	title_->SetTexcoordSize({ 864.0f,278.0f });
+
+	UI_ = std::make_unique<TitleUI>();
+	UI_->Initialize();
 }
 
 void TitleScene::OnUpdate() {
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
+	UI_->Update();
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_A)) ||
+		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))&&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())

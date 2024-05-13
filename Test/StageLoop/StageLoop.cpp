@@ -36,6 +36,7 @@ void StageLoop::Initialize() {
 	stageObjectManager_->SetPlayer(player_);
 	trapManager_->SetCamera(camera_);
 	trapManager_->SetPlayer(player_);
+	trapManager_->SetBoss(boss_);
 	trapManager_->Initialize();
 
 	LoadJson();

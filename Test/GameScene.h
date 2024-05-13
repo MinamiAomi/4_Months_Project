@@ -27,6 +27,7 @@
 #include "UI.h"
 #include "CutIn.h"
 #include "Trap/TrapManager.h"
+#include "Pause.h"
 
 class GameScene :
 	public BaseScene {
@@ -64,6 +65,7 @@ private:
 
 	std::unique_ptr<UI> ui_;
 	std::unique_ptr<CutIn> cutIn_;
+	std::unique_ptr<Pause> pause_;
 #pragma endregion
 
 	AudioSource bgm_;
