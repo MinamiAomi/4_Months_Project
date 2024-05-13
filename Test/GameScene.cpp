@@ -128,9 +128,9 @@ void GameScene::OnUpdate() {
 				}
 			}
 
-		stageBlockManager_->Update();
+			stageBlockManager_->Update();
 
-		stageLoop_->Update();
+			stageLoop_->Update();
 
 			player_->Update();
 			boss_->Update();
@@ -153,86 +153,89 @@ void GameScene::OnUpdate() {
 			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 			playerDustParticle_->Update();
 #ifdef _DEBUG
-		editorManager_->Update();
-		if (ImGui::Checkbox("Move", &isMove_)) {
+			editorManager_->Update();
+			if (ImGui::Checkbox("Move", &isMove_)) {
+				player_->SetIsMove(isMove_);
+				boss_->SetIsMove(isMove_);
+				cameraManager_->SetIsMove(isMove_);
+				stageBlockManager_->SetIsMove(isMove_);
+			}
 			player_->SetIsMove(isMove_);
 			boss_->SetIsMove(isMove_);
 			cameraManager_->SetIsMove(isMove_);
 			stageBlockManager_->SetIsMove(isMove_);
-		}
-		player_->SetIsMove(isMove_);
-		boss_->SetIsMove(isMove_);
-		cameraManager_->SetIsMove(isMove_);
-		stageBlockManager_->SetIsMove(isMove_);
 
-		if (ImGui::BeginMenu("CharacterState")) {
-			const char* items[] = { "Chase", "RunAway" };
-			static int selectedItem = static_cast<int>(Character::currentCharacterState_);
-			if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
-				Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
-				switch (Character::currentCharacterState_) {
-				case Character::State::kChase:
-				{
-					Character::SetNextScene(Character::State::kChase);
+			if (ImGui::BeginMenu("CharacterState")) {
+				const char* items[] = { "Chase", "RunAway" };
+				static int selectedItem = static_cast<int>(Character::currentCharacterState_);
+				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+					Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
+					switch (Character::currentCharacterState_) {
+					case Character::State::kChase:
+					{
+						Character::SetNextScene(Character::State::kChase);
+					}
+					break;
+					case Character::State::kRunAway:
+					{
+						Character::SetNextScene(Character::State::kRunAway);
+					}
+					break;
+					}
 				}
-				break;
-				case Character::State::kRunAway:
-				{
-					Character::SetNextScene(Character::State::kRunAway);
-				}
-				break;
-				}
+				ImGui::EndMenu();
 			}
-			ImGui::EndMenu();
+
 		}
-		if (ImGui::Button("Reset") ||
-			Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-			player_->Reset();
-			cameraManager_->Reset();
-			boss_->Reset(0);
-			stageBlockManager_->Reset();
-			skyBlockManager_->Reset();
-			stageLoop_->Reset();
-			Character::currentCharacterState_ = Character::kRunAway;
-		}
-		// シーン変更
-		if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
-			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
-			SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
-		}
-		if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
-			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
-			) {
-			SceneManager::GetInstance()->ChangeScene<GameScene>(true);
-		}
-		if ((Input::GetInstance()->IsKeyTrigger(DIK_O) &&
-			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
-			) {
-			SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
-		}
-		if ((Input::GetInstance()->IsKeyTrigger(DIK_P) &&
-			!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
-			) {
-			SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
-		}
-#endif // _DEBUG
-		if (Input::GetInstance()->IsKeyTrigger(DIK_R) || pause_->GetOrderReset()) {
-			player_->Reset();
-			cameraManager_->Reset();
-			stageBlockManager_->Reset();
-			boss_->Reset(0);
-			stageLoop_->Reset();
-			Character::currentCharacterState_ = Character::kRunAway;
-		}
-		if (pause_->GetOrderToTitle()) {
-			SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
-		}
-		//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
-		//}
-		//if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		//    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
-		//}
+			if (ImGui::Button("Reset") ||
+				Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+				player_->Reset();
+				cameraManager_->Reset();
+				boss_->Reset(0);
+				stageBlockManager_->Reset();
+				skyBlockManager_->Reset();
+				stageLoop_->Reset();
+				Character::currentCharacterState_ = Character::kRunAway;
+			}
+			// シーン変更
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
+				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
+			}
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				) {
+				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
+			}
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_O) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				) {
+				SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+			}
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_P) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				) {
+				SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+			}
+#endif /	/ _DEBUG
+			if (Input::GetInstance()->IsKeyTrigger(DIK_R) || pause_->GetOrderReset()) {
+				player_->Reset();
+				cameraManager_->Reset();
+				stageBlockManager_->Reset();
+				boss_->Reset(0);
+				stageLoop_->Reset();
+				Character::currentCharacterState_ = Character::kRunAway;
+			}
+			if (pause_->GetOrderToTitle()) {
+				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
+			}
+			//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+			//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+			//}
+			//if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+			//    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+			//}
+
 	}
 
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
