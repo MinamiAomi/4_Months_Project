@@ -12,6 +12,11 @@ struct PSOutput {
     float4 color : SV_TARGET0;
 };
 
+struct T {
+	float32_t value;
+};
+ConstantBuffer<T> t  : register(b0);
+
 float32_t3 HSVToRGB(in float32_t3 hsv) {
 	float32_t4 k = float32_t4(1.0f, 2.0f / 3.0f, 1.0f / 3.0f, 3.0f);
 	float32_t3 p = abs(frac(hsv.xxx + k.xyz) * 6.0f - k.www);
@@ -20,7 +25,8 @@ float32_t3 HSVToRGB(in float32_t3 hsv) {
 
 PSOutput main(PSInput input) {
     PSOutput output;
-	output.color = colorTex.Sample(smp, input.texcoord);
-	output.color = output.color * output.color * output.color * output.color * output.color * output.color;
+	float32_t4 color = colorTex.Sample(smp, input.texcoord);
+	float32_t4 afterColor = color * color * color * color;
+	output.color = lerp(color, afterColor, t.value);
     return output;
 }

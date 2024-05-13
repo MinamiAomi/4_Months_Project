@@ -5,16 +5,16 @@
 #include "Graphics/ImGuiManager.h"
 #include "Math/Geometry.h"
 
-void StageObject::Initialize(const StageGimmick::Desc& desc) {
+void StageObject::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = desc.transform.scale;
-	transform.rotate = desc.transform.rotate;
-	transform.translate = desc.transform.translate;
-	desc_ = desc;
-	colliderDesc_ = desc.collider;
+	transform.scale = desc.desc.transform.scale;
+	transform.rotate = desc.desc.transform.rotate;
+	transform.translate = desc.desc.transform.translate;
+	desc_ = desc.desc;
+	colliderDesc_ = desc.desc.collider;
 
-	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.name));
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
 
 #pragma region コライダー
@@ -31,6 +31,7 @@ void StageObject::Initialize(const StageGimmick::Desc& desc) {
 		collider_->SetIsActive(true);
 	}
 #pragma endregion
+	UpdateTransform();
 }
 
 void StageObject::Update() {

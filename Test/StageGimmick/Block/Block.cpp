@@ -6,16 +6,16 @@
 #include "Graphics/ImGuiManager.h"
 
 
-void Block::Initialize(const StageGimmick::Desc& desc) {
+void Block::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
-	transform.scale = desc.transform.scale;
-	transform.rotate = desc.transform.rotate;
-	transform.translate = desc.transform.translate;
+	transform.scale = desc.desc.transform.scale;
+	transform.rotate = desc.desc.transform.rotate;
+	transform.translate = desc.desc.transform.translate;
 
-	colliderDesc_ = desc.collider;
+	colliderDesc_ = desc.desc.collider;
 
-	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.name));
+	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
 
 	onPlayer_ = false;
@@ -33,6 +33,7 @@ void Block::Initialize(const StageGimmick::Desc& desc) {
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void Block::Update() {

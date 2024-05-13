@@ -31,6 +31,7 @@ void Stick::Initialize(const Transform* Transform, float length, float scale) {
 	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void Stick::Update() {
@@ -84,6 +85,7 @@ void Ball::Initialize(const Transform* Transform, float length, float scale) {
 	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void Ball::Update() {

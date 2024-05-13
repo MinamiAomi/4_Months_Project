@@ -54,6 +54,7 @@ public:
     void SetIsActive(bool isActive) { isActive_ = isActive; }
 
     uint8_t GetDrawOrder() const { return drawOrder_; }
+    const Vector2& GetPosition() const { return position_; }
     const std::shared_ptr<Texture>& GetTexture() const { return texture_; }
 
 private:

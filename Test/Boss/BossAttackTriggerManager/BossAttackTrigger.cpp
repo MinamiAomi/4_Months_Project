@@ -11,18 +11,12 @@ void BossAttackTrigger::Initialize(const Desc& desc) {
 	Reset();
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
-	model_->SetIsActive(true);
+	model_->SetIsActive(false);
 
 	desc_ = desc;
 
 	transform.translate.z = desc_.desc.transform.translate.z;
 	transform.scale = desc_.desc.transform.scale;
-
-#ifdef _DEBUG
-	model_->SetIsActive(true);
-#else
-	model_->SetIsActive(false);
-#endif // _DEBUG
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();

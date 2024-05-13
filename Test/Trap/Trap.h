@@ -5,9 +5,12 @@
 
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
+#include "Math/Random.h"
+
 
 class Camera;
 class Player;
+class Boss;
 class Trap : 
 	public GameObject {
 public:
@@ -31,12 +34,14 @@ public:
 	const State GetState() const { return state_; }
 
 	void SetPlayer(const Player* player) { player_ = player; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Player* player_;
+	const Boss* boss_;
 	const Camera* camera_;
 
 	std::unique_ptr<ModelInstance> model_;
@@ -48,4 +53,11 @@ private:
 	State state_;
 	
 	bool isAlive_;
+
+	Vector3 setPos_;
+	Vector3 random_;
+
+	Random::RandomNumberGenerator rnd_;
+
+	float time_;
 }; 

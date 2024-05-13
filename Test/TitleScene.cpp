@@ -26,10 +26,15 @@ void TitleScene::OnInitialize() {
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
 	title_->SetTexcoordSize({ 864.0f,278.0f });
+
+	UI_ = std::make_unique<TitleUI>();
+	UI_->Initialize();
 }
 
 void TitleScene::OnUpdate() {
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
+	UI_->Update();
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_A)) ||
+		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))&&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
@@ -39,21 +44,21 @@ void TitleScene::OnUpdate() {
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 #ifdef _DEBUG
 	// シーン変更
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_1) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
 		SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 	}
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_2) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameScene>(true);
 	}
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_3) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_O) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
 	}
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_4) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_P) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
