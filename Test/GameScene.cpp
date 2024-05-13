@@ -187,7 +187,6 @@ void GameScene::OnUpdate() {
 			stageBlockManager_->Reset();
 			skyBlockManager_->Reset();
 			stageLoop_->Reset();
-			Character::currentCharacterState_ = Character::kRunAway;
 		}
 		// シーン変更
 		if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
@@ -216,7 +215,6 @@ void GameScene::OnUpdate() {
 			stageBlockManager_->Reset();
 			boss_->Reset(0);
 			stageLoop_->Reset();
-			Character::currentCharacterState_ = Character::kRunAway;
 		}
 		//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 		//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);

@@ -40,7 +40,7 @@ void StageLoop::Initialize() {
 
 	LoadJson();
 
-	CreateStage();
+	InitializeCreateStage();
 
 	isCreateStage_ = false;
 }
@@ -67,7 +67,7 @@ void StageLoop::Update() {
 }
 
 void StageLoop::Reset() {
-	CreateStage();
+	InitializeCreateStage();
 }
 
 void StageLoop::LoadJson() {
@@ -193,6 +193,25 @@ void StageLoop::LoadJson() {
 
 }
 
+void StageLoop::InitializeCreateStage() {
+	Clear();
+
+	std::vector<uint32_t> stageIndices{};
+	float distance = 0.0f;
+	for (uint32_t i = 0; i < kCreateStageNum; i++) {
+		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		if (stageIndices.empty()) {
+			// ぎりぎりすぎないよう
+			distance = player_->GetWorldMatrix().GetTranslate().z + stageData_.at(stageIndex).stageSize * 0.5f - 10.0f;
+		}
+		else {
+			distance *= stageData_.at(stageIndices.at(i - 1)).stageSize;
+		}
+		CreateStageObject(stageData_.at(stageIndex), distance);
+		stageIndices.emplace_back(stageIndex);
+	}
+}
+
 void StageLoop::Clear() {
 	bossAttackTriggerManager_->Clear();
 	blockManager_->Clear();
@@ -206,7 +225,7 @@ void StageLoop::Clear() {
 
 void StageLoop::CreateStage() {
 	Clear();
-	static uint32_t kCreateStageNum = 5;
+
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
