@@ -213,7 +213,7 @@ void StageLoop::CreateStage() {
 		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size()-1));
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
-			distance = player_->GetWorldMatrix().GetTranslate().z- stageData_.at(stageIndex).stageSize * 0.5f+10.0f;
+			distance = player_->GetWorldMatrix().GetTranslate().z- stageData_.at(stageIndex).stageSize * 0.5f + 10.0f;
 		}
 		else {
 			distance -= stageData_.at(stageIndices.at(i - 1)).stageSize;

@@ -38,21 +38,21 @@ void GameOverScene::OnUpdate() {
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 #ifdef _DEBUG
 	// シーン変更
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_1) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
 		SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 	}
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_2) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameScene>(true);
 	}
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_3) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_O) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
 	}
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_4) &&
+	if ((Input::GetInstance()->IsKeyTrigger(DIK_P) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
