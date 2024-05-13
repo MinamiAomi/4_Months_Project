@@ -112,6 +112,12 @@
     <Filter Include="Game\Object\Trap">
       <UniqueIdentifier>{2e91e277-6773-4ec8-8d97-d50d5aa552fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\BossParticle">
+      <UniqueIdentifier>{53416b31-346c-460f-b5bc-40bfb804f958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Pause">
+      <UniqueIdentifier>{cfd8aaea-fe61-4273-af0f-402791540063}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -291,6 +297,15 @@
     </ClCompile>
     <ClCompile Include="Culling.cpp">
       <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleUI.cpp">
+      <Filter>Game\Object\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Pause.cpp">
+      <Filter>Game\Pause</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +489,15 @@
     </ClInclude>
     <ClInclude Include="Skydome.h">
       <Filter>Game\Object\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossParticle\BossDustParticle.h">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleUI.h">
+      <Filter>Game\Object\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Pause.h">
+      <Filter>Game\Pause</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

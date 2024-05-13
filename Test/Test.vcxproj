@@ -24,6 +24,7 @@
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp" />
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
+    <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="GameSpeed.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="Pause.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
@@ -77,6 +79,7 @@
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="TitleObject.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TitleUI.cpp" />
     <ClCompile Include="Trap\Trap.cpp" />
     <ClCompile Include="Trap\TrapManager.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -86,6 +89,7 @@
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTrigger.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.h" />
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h" />
+    <ClInclude Include="Boss\BossParticle\BossDustParticle.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
@@ -106,6 +110,7 @@
     <ClInclude Include="GameSpeed.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerAttack\PlayerAttackManager.h" />
@@ -138,6 +143,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="TitleObject.h" />
+    <ClInclude Include="TitleUI.h" />
     <ClInclude Include="Trap\Trap.h" />
     <ClInclude Include="Trap\TrapManager.h" />
     <ClInclude Include="UI.h" />

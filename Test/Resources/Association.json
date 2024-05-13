@@ -8,6 +8,7 @@
   "Texture": {
     "circle": "whiteCircle.png",
     "white2x2": "white2x2.png",
+    "grey2x2": "grey2x2.png",
     "HPBar_Gauge": "Player/PlayerUI/HPBar_Gauge.png",
     "HPBar_Flame": "Player/PlayerUI/HPBar_Flame.png",
     "RevengeBar_RevengeGauge": "Player/PlayerUI/RevengeBar_RevengeGauge.png",
@@ -18,7 +19,10 @@
     "tutorial1": "TutorialUI/tutorial1_alpha.png",
     "tutorial2": "TutorialUI/tutorial2_alpha.png",
     "tutorial3": "TutorialUI/tutorial3_alpha.png",
-    "revengeUI": "EffectUI/RevengeMode.png"
+    "revengeUI": "EffectUI/RevengeMode.png",
+    "pressA" : "TitleUI/press_A.png",
+    "toTitle" : "PauseUI/totitle.png",
+    "retry" : "PauseUI/retry.png"
   },
     "Model": {
         "bossBody": "Boss/Body/boss.gltf",

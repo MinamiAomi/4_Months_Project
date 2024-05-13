@@ -21,7 +21,7 @@ static const char ResourceAssociationFile[] = "Resources/Association.json";
 void Test::OnInitialize() {
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<GameScene>(false);
+    sceneManager->ChangeScene<TitleScene>(false);
 
     LoadResources();
 }

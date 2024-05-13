@@ -1,7 +1,12 @@
 struct Param {
     float32_t3 edgeColor;
 };
+struct T {
+	float32_t value;
+};
 ConstantBuffer<Param> param_  : register(b0);
+ConstantBuffer<T> t  : register(b1);
+
 
 struct PSInput {
     float4 position : SV_POSITION;
@@ -54,7 +59,7 @@ PSOutput main(PSInput input) {
 
 	//法線の計算結果、あるいは深度値の計算結果が一定以上ならエッジとみなす。
 	if (length(Normal) >= 0.2f || abs(depth) > 0.0001f) {
-		output.color.xyz = param_.edgeColor;
+		output.color.xyz = lerp(param_.edgeColor, colorTex.Sample(smp, input.texCenter).xyz, t.value);
 		output.color.w = 1.0f;
 	}
 	else {
