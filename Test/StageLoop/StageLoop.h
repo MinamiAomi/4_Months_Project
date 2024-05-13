@@ -39,6 +39,7 @@ private:
 	const Boss* boss_;
 	const Camera* camera_;
 	const Player* player_;
+	static const uint32_t kCreateStageNum = 5;
 
 	struct Desc {
 		std::vector<Block::Desc>blockDesc;
@@ -53,6 +54,7 @@ private:
 
 	void LoadJson();
 
+	void InitializeCreateStage();
 	void Clear();
 	void CreateStage();
 	void CreateStageObject(const Desc& stageData, float distance);

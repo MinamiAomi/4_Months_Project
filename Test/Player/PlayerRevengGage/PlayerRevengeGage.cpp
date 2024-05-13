@@ -80,9 +80,9 @@ void PlayerRevengeGage::Update() {
 void PlayerRevengeGage::Reset() {
 	isUpdate_ = true;
 	isMove_ = true;
-	currentRevengeBarGage_ = 0.0f;
-	currentRevengeCircleGage_ = 0.0f;
-	Character::currentCharacterState_ = Character::State::kRunAway;
+	currentRevengeBarGage_ = kMaxRevengeBar;
+	currentRevengeCircleGage_ = kMaxRevengeCircle;
+	Character::currentCharacterState_ = Character::State::kChase;
 }
 
 void PlayerRevengeGage::AddGage() {

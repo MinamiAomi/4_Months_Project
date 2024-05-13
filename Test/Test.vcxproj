@@ -23,6 +23,7 @@
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp" />
+    <ClCompile Include="Boss\BossHP\BossHP.cpp" />
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
     <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
@@ -89,9 +90,11 @@
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTrigger.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.h" />
+    <ClInclude Include="Boss\BossHP\BossHP.h" />
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h" />
     <ClInclude Include="Boss\BossParticle\BossDustParticle.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
+    <ClInclude Include="Boss\BossUI\BossUI.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CharacterState.h" />
