@@ -10,7 +10,7 @@ public:
 	void Update();
 	void Reset(uint32_t stageIndex);
 
-	void Create(const StageGimmick::Desc& desc);
+	void Create(const StageObject::Desc& desc);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 

@@ -7,6 +7,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "GameSpeed.h"
 #include "Player/Player.h"
+#include "CameraManager/CameraManager.h"
 
 void Boss::Initialize() {
 #pragma endregion
@@ -20,10 +21,7 @@ void Boss::Initialize() {
 	state_->Initialize();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 
-	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
-	bossAttackTriggerManager_->SetCamera(camera_);
-	bossAttackTriggerManager_->SetBoss(this);
-	bossAttackTriggerManager_->Initialize(0);
+	
 
 	Reset(0);
 
@@ -102,17 +100,17 @@ void Boss::Update() {
 	state_->Update();
 	UpdateTransform();
 	bossModelManager_->Update();
-	bossAttackTriggerManager_->Update();
+	
 }
 
 void Boss::Reset(uint32_t stageIndex) {
+	stageIndex;
 	isAlive_ = true;
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
-	bossAttackTriggerManager_->Reset(stageIndex);
 }
 
 void Boss::UpdateTransform() {
@@ -131,6 +129,22 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		case Character::State::kChase:
 		{
 			isAlive_ = false;
+		}
+		break;
+		case Character::State::kRunAway:
+		{
+
+		}
+		break;
+		default:
+			break;
+		}
+	}
+	if (collisionInfo.collider->GetName() == "Trap") {
+		switch (Character::currentCharacterState_) {
+		case Character::State::kChase:
+		{
+			
 		}
 		break;
 		case Character::State::kRunAway:

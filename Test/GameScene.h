@@ -11,11 +11,7 @@
 #include "Math/Transform.h"
 #include "Math/Random.h"
 
-#include "StageGimmick/Block/BlockManager.h"
-#include "StageGimmick/Floor/FloorManager.h"
-#include "StageGimmick/FireBar/FireBarManager.h"
-#include "StageGimmick/Pendulum/PendulumManager.h"
-#include "StageGimmick/StageObject/StageObjectManager.h"
+#include "StageLoop/StageLoop.h"
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
@@ -30,7 +26,6 @@
 #include "SkyBlock.h"
 #include "UI.h"
 #include "CutIn.h"
-#include "StageGimmick/RevengeCoin/RevengeCoinManager.h"
 #include "Trap/TrapManager.h"
 #include "Pause.h"
 
@@ -51,15 +46,8 @@ private:
 	std::unique_ptr<EditorManager> editorManager_;
 	bool isMove_;
 #pragma endregion
-#pragma region 
-	std::unique_ptr<BlockManager> blockManager_;
-	std::unique_ptr<FireBarManager> fireBarManager_;
-	std::unique_ptr<FloorManager> floorManager_;
-	std::unique_ptr<PendulumManager> pendulumManager_;
-	std::unique_ptr<RevengeCoinManager> revengeCoinManager_;
-	std::unique_ptr<StageObjectManager> stageObjectManager_;
-	std::unique_ptr<TrapManager> trapManager_;
-#pragma endregion
+
+	std::unique_ptr<StageLoop> stageLoop_;
 
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;

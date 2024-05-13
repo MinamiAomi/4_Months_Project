@@ -112,6 +112,9 @@
     <Filter Include="Game\Object\Trap">
       <UniqueIdentifier>{2e91e277-6773-4ec8-8d97-d50d5aa552fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageLoop">
+      <UniqueIdentifier>{f77410a2-5a5b-4738-819d-d7de9a30040f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Object\Boss\BossParticle">
       <UniqueIdentifier>{53416b31-346c-460f-b5bc-40bfb804f958}</UniqueIdentifier>
     </Filter>
@@ -297,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="Culling.cpp">
       <Filter>Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="StageLoop\StageLoop.cpp">
+      <Filter>Game\Object\StageLoop</Filter>
     </ClCompile>
     <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp">
       <Filter>Game\Object\Boss\BossParticle</Filter>
@@ -498,6 +504,9 @@
     </ClInclude>
     <ClInclude Include="Pause.h">
       <Filter>Game\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="StageLoop\StageLoop.h">
+      <Filter>Game\Object\StageLoop</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
