@@ -5,10 +5,12 @@
 #include "GameSpeed.h"
 #include "Boss/Boss.h"
 #include "Player/Player.h"
+#include "Engine/Graphics/RenderManager.h"
 
 void CameraManager::Initialize(const Player* player,const Boss* boss) {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	stageCamera_ = std::make_unique<StageCamera>();
+	movieCamera_ = std::make_shared<Camera>();
 
 	stageCamera_->SetPlayer(player);
 	stageCamera_->SetBoss(boss);
@@ -38,6 +40,11 @@ void CameraManager::Update() {
 			{
 				debugCamera_->SetCamera(stageCamera_->GetCamera());
 				debugCamera_->SetRenderManager();
+			}
+			break;
+			case CameraManager::kMovieCamera:
+			{
+				RenderManager::GetInstance()->SetCamera(movieCamera_);
 			}
 			break;
 			}

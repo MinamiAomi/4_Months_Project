@@ -3,24 +3,14 @@
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 #include "CharacterState.h"
+#include "Movie.h"
 
 namespace GameSpeed {
 	float chaseSpeed;
 	float runAwaySpeed;
+	float currentSpeed = 0.0f;
 	float GetGameSpeed() {
-		float speed = 0.0f;
-		switch (Character::currentCharacterState_) {
-		case Character::State::kChase:
-			speed = chaseSpeed;
-		break;
-		case Character::State::kRunAway:
-			speed = runAwaySpeed;
-		break;
-
-		default:
-			break;
-		}
-		return speed;
+		return currentSpeed;
 	}
 	void LoadJson() {
 		JSON_OPEN("Resources/Data/GameSpeed/GameSpeed.json");
@@ -47,6 +37,23 @@ namespace GameSpeed {
 			ImGui::EndMenu();
 		}
 #endif // _DEBUG
+
+		//currentSpeedにspeedを代入
+		if (Movie::isPlaying) {
+			currentSpeed = 0.0f;
+		}
+		else {
+			switch (Character::currentCharacterState_) {
+			case Character::State::kChase:
+				currentSpeed = chaseSpeed;
+				break;
+			case Character::State::kRunAway:
+				currentSpeed = runAwaySpeed;
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
 

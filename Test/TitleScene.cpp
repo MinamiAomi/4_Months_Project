@@ -33,10 +33,10 @@ void TitleScene::OnInitialize() {
 
 void TitleScene::OnUpdate() {
 	UI_->Update();
-	if ((Input::GetInstance()->IsKeyTrigger(DIK_A)) ||
+	if (((Input::GetInstance()->IsKeyTrigger(DIK_A)) ||
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
-			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))&&
+			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))&&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameScene>(true);

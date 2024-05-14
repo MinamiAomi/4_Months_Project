@@ -49,6 +49,108 @@ public:
     bool IsMousePressed(int button) const { return mouseState_.state.rgbButtons[button] & MOUSE_CLICKED_VALUE; }
     bool IsMouseTrigger(int button) const { return (mouseState_.state.rgbButtons[button] & MOUSE_CLICKED_VALUE) && !(preMouseState_.state.rgbButtons[button] & MOUSE_CLICKED_VALUE); }
     bool IsMouseRelease(int button) const { return !(mouseState_.state.rgbButtons[button] & MOUSE_CLICKED_VALUE) && (preMouseState_.state.rgbButtons[button] & MOUSE_CLICKED_VALUE); }
+
+    bool DownLStick(SHORT deadZone = -20000) {
+        if (xInputState_.Gamepad.sThumbLY < deadZone) {
+            return true;
+        }
+        return false;
+    }
+    bool UpLStick(SHORT deadZone = 20000) {
+        if (xInputState_.Gamepad.sThumbLY > deadZone) {
+            return true;
+        }
+        return false;
+    }
+    bool DownLeftLStick(SHORT deadZone = -20000) {
+        if (xInputState_.Gamepad.sThumbLX < deadZone) {
+            return true;
+        }
+        return false;
+    }
+    bool DownRightLStick(SHORT deadZone = 20000) {
+        if (xInputState_.Gamepad.sThumbLX > deadZone) {
+            return true;
+        }
+        return false;
+    }
+
+    bool DownRStick(SHORT deadZone = -20000) {
+        if (xInputState_.Gamepad.sThumbRY < deadZone) {
+            return true;
+        }
+        return false;
+    }
+    bool UpRStick(SHORT deadZone = 20000) {
+        if (xInputState_.Gamepad.sThumbRY > deadZone) {
+            return true;
+        }
+        return false;
+    }
+    bool DownLeftRStick(SHORT deadZone = -20000) {
+        if (xInputState_.Gamepad.sThumbRX < deadZone) {
+            return true;
+        }
+        return false;
+    }
+    bool DownRightRStick(SHORT deadZone = 20000) {
+        if (xInputState_.Gamepad.sThumbRX > deadZone) {
+            return true;
+        }
+        return false;
+    }
+
+    bool TriggerRightTrigger() {
+        if (xInputState_.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD && preXInputState_.Gamepad.bRightTrigger < XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+            return true;
+        }
+        return false;
+    }
+
+    bool TriggerLeftTrigger() {
+        if (xInputState_.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD && preXInputState_.Gamepad.bLeftTrigger < XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+            return true;
+        }
+        return false;
+    }
+
+    bool PushRightTrigger() {
+        if (xInputState_.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+            return true;
+        }
+        return false;
+    }
+
+    bool PushLeftTrigger() {
+        if (xInputState_.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+            return true;
+        }
+        return false;
+    }
+
+    bool PushButton(int gamePadButton) {
+        if (xInputState_.Gamepad.wButtons & gamePadButton) {
+            return true;
+        }
+        return false;
+    }
+
+    bool TriggerButton(int gamePadButton) {
+        if (xInputState_.Gamepad.wButtons & gamePadButton &&
+            !(preXInputState_.Gamepad.wButtons & gamePadButton)) {
+            return true;
+        }
+        return false;
+    }
+
+    bool ReleaseButton(int gamePadButton) {
+        if (!(xInputState_.Gamepad.wButtons & gamePadButton) &&
+            preXInputState_.Gamepad.wButtons & gamePadButton) {
+            return true;
+        }
+        return false;
+    }
+
     POINT GetMousePosition() const { return mouseState_.screenPos; }
 
     LONG GetMouseMoveX() const { return mouseState_.state.lX; }

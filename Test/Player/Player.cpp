@@ -390,6 +390,7 @@ void Player::Jump() {
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		jumpSE_->Play();
+		jumpSE_->SetVolume(0.1f);
 		acceleration_.y += jumpPower_;
 		canFirstJump_ = false;
 	}
@@ -399,6 +400,7 @@ void Player::Jump() {
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
 		jumpSE_->Play();
+		jumpSE_->SetVolume(0.1f);
 		canSecondJump_ = false;
 		acceleration_.y = jumpPower_ * 0.5f;
 	}
