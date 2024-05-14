@@ -11,25 +11,25 @@
 #include "Player/Player.h"
 
 #include "StageGimmick/StageGimmick.h"
-#include "Math/Camera.h"
-class Block :
-	public GameObject {
+class BeltConveyor :
+	public GameObject{
 public:
 	struct Desc {
 		StageGimmick::Desc desc;
+		float velocity;
 	};
 	void Initialize(const Desc& desc);
 	void Update();
 
-	void SetPlayer(const Player* player) { player_ = player; }
+	void SetPlayer(Player* player) { player_ = player; }
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
+	Player* player_;
+	const Camera* camera_;
+
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
-
-	const Player* player_;
-	const Camera* camera_;
 
 	std::unique_ptr<ModelInstance> model_;
 
@@ -37,10 +37,5 @@ private:
 
 	std::optional<StageGimmick::Collider> colliderDesc_;
 
-	//Vector3 rotate_;
-
-	StageGimmick::Desc desc_;
-
-	bool onPlayer_;
-	bool onceOnPlayer_;
+	Desc desc_;
 };

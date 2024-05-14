@@ -16,4 +16,5 @@ namespace CollisionAttribute {
     const uint32_t StageObject =        0b1000000000;
     const uint32_t RevengeCoin =        0b1000000000;
     const uint32_t Trap =               0b10000000000;
+    const uint32_t BeltConveyor =       0b100000000000;
 }
