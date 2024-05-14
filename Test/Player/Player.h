@@ -31,10 +31,12 @@ public:
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
 	const Vector3& GetVelocity() const { return velocity_; }
+	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
 	const Vector3& GetMinModelSize()const { return model_->GetModel()->GetMeshes()[0].minVertex; }
 	const bool GetIsMove() const { return isMove_; }
 	const bool GetIsGround() const { return isGround_; }
 	const bool GetIsAlive() const { return isAlive_; }
+	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
@@ -80,6 +82,7 @@ private:
 	bool isDash_;
 	uint32_t dashCount_;
 	uint32_t dashCoolTime_;
+	float beltConveyorVelocity_;
 	// ステージギミックにヒットした
 	bool isHit_;
 	bool preIsHit_;

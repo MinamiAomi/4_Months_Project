@@ -23,7 +23,7 @@ public:
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	void GetCamera(const Camera* camera) { camera_ = camera; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);

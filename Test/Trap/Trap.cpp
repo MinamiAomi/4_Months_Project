@@ -7,6 +7,9 @@
 #include "Graphics/ImGuiManager.h"
 #include "Framework/ResourceManager.h"
 #include "Player/Player.h"
+#include "Math/MathUtils.h"
+#include "Boss/Boss.h"
+
 
 void Trap::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
@@ -23,6 +26,12 @@ void Trap::Initialize(const Desc& desc) {
 	model_->SetIsActive(true);
 
 	state_ = State::kDrop;
+
+	time_ = 0.0f;
+
+	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
+	random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
+	random_.y = rnd_.NextFloatRange(30.0f, 40.0f);
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -48,17 +57,23 @@ void Trap::Update() {
 		transform.translate = { player_->transform.worldMatrix.GetTranslate().x,transform.translate.y,player_->transform.worldMatrix.GetTranslate().z };
 		transform.translate.y -= desc_.dropVelocity;
 		// 地面を貫通したときに
-		if (transform.translate.y<=-4.0f ||
-			Character::currentCharacterState_==Character::State::kChase) {
+		if (transform.translate.y <= -4.0f ||
+			Character::currentCharacterState_ == Character::State::kChase) {
 			isAlive_ = false;
 		}
 		break;
 	case Trap::kStay:
-		
+
 		break;
 	case Trap::kShot:
-		transform.translate.z += desc_.shotVelocity;
-		
+		static const float kMax = 60.0f;
+
+		transform.translate = Vector3::QuadraticBezierCurve(
+			time_ / kMax,
+			setPos_,
+			setPos_ + random_ + Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
+			boss_->transform.worldMatrix.GetTranslate());
+		time_++;
 		break;
 	}
 	UpdateTransform();
@@ -98,7 +113,8 @@ void Trap::OnCollision(const CollisionInfo& collisionInfo) {
 		collisionInfo.collider->GetName() == "StageObject") {
 		if (state_ == State::kDrop) {
 
-		state_ = State::kStay;
+			state_ = State::kStay;
+			setPos_ = transform.worldMatrix.GetTranslate();
 		}
 	}
 }

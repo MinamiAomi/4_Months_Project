@@ -11,6 +11,7 @@
 #include "StageGimmick/Pendulum/PendulumManager.h"
 #include "StageGimmick/StageObject/StageObjectManager.h"
 #include "StageGimmick/RevengeCoin/RevengeCoinManager.h"
+#include "StageGimmick/BeltConveyor/BeltConveyorManager.h"
 #include "Trap/TrapManager.h"
 #include "Math/Random.h"
 
@@ -25,8 +26,9 @@ public:
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
-	void SetPlayer(const Player* player) { player_ = player; }
+	void SetPlayer(Player* player) { player_ = player; }
 
+	const std::unique_ptr<BeltConveyorManager>& GetBeltConveyorManager()const { return beltConveyorManager_; }
 	const std::unique_ptr<BlockManager>& GetBlockManager()const { return blockManager_; }
 	const std::unique_ptr<BossAttackTriggerManager>& GetBossAttackTriggerManager()const { return bossAttackTriggerManager_; }
 	const std::unique_ptr<FireBarManager>& GetFireBarManager()const { return fireBarManager_; }
@@ -38,9 +40,11 @@ public:
 private:
 	const Boss* boss_;
 	const Camera* camera_;
-	const Player* player_;
+	Player* player_;
+	static const uint32_t kCreateStageNum = 1;
 
 	struct Desc {
+		std::vector<BeltConveyor::Desc>beltConveyorDesc;
 		std::vector<Block::Desc>blockDesc;
 		std::vector<BossAttackTrigger::Desc>bossAttackTrigger;
 		std::vector<FireBar::Desc>fireBarDesc;
@@ -53,6 +57,7 @@ private:
 
 	void LoadJson();
 
+	void InitializeCreateStage();
 	void Clear();
 	void CreateStage();
 	void CreateStageObject(const Desc& stageData, float distance);
@@ -60,7 +65,8 @@ private:
 	std::vector<Desc> stageData_;
 	Random::RandomNumberGenerator rnd_;
 	bool isCreateStage_;
-#pragma region 
+#pragma region
+	std::unique_ptr<BeltConveyorManager> beltConveyorManager_;
 	std::unique_ptr<BlockManager> blockManager_;
 	std::unique_ptr<BossAttackTriggerManager> bossAttackTriggerManager_;
 	std::unique_ptr<FireBarManager> fireBarManager_;

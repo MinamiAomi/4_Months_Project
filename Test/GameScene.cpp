@@ -147,14 +147,16 @@ void GameScene::OnUpdate() {
 
 			if (Character::currentCharacterState_ == Character::State::kScneChange) {
 				switch (Character::nextCharacterState_) {
-				case Character::State::kChase: {
+				case Character::State::kChase:
+				{
 					bgm_.Stop();
 					bgm_ = revengeBGM_;
 					bgm_.Play(true);
 					bgm_.SetVolume(0.1f);
 					break;
 				}
-				case Character::State::kRunAway: {
+				case Character::State::kRunAway:
+				{
 					bgm_.Stop();
 					bgm_ = chaseBGM_;
 					bgm_.Play(true);
@@ -225,8 +227,6 @@ void GameScene::OnUpdate() {
 				}
 				ImGui::EndMenu();
 			}
-
-		}
 			if (ImGui::Button("Reset") ||
 				Input::GetInstance()->IsKeyTrigger(DIK_R)) {
 				player_->Reset();
@@ -235,7 +235,6 @@ void GameScene::OnUpdate() {
 				stageBlockManager_->Reset();
 				skyBlockManager_->Reset();
 				stageLoop_->Reset();
-				Character::currentCharacterState_ = Character::kRunAway;
 			}
 			// シーン変更
 			if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
@@ -257,17 +256,13 @@ void GameScene::OnUpdate() {
 				) {
 				SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 			}
-#endif /	/ _DEBUG
-			if (Input::GetInstance()->IsKeyTrigger(DIK_R) || pause_->GetOrderReset()) {
+#endif // _DEBUG
+			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
 				player_->Reset();
 				cameraManager_->Reset();
 				stageBlockManager_->Reset();
 				boss_->Reset(0);
 				stageLoop_->Reset();
-				Character::currentCharacterState_ = Character::kRunAway;
-			}
-			if (pause_->GetOrderToTitle()) {
-				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 			}
 			//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 			//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
@@ -275,9 +270,8 @@ void GameScene::OnUpdate() {
 			//if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 			//    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
 			//}
-
+		}
 	}
-
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
 

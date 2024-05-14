@@ -9,6 +9,7 @@
 #include "Graphics/Model.h"
 #include "BossModelManager/BossModelManager.h"
 #include "BossStateManager/BossStateManager.h"
+#include "BossHP/BossHP.h"
 
 class Player;
 class Camera;
@@ -27,6 +28,7 @@ public:
 
 	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
+	const std::unique_ptr<BossHP>& GetBossHP()const { return bossHP_; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
@@ -39,6 +41,8 @@ private:
 	std::unique_ptr<BossModelManager> bossModelManager_;
 
 	std::unique_ptr<BossStateManager> state_;
+	
+	std::unique_ptr<BossHP> bossHP_;
 
 	Vector3 velocity_;
 	Vector3 offset_;

@@ -11,8 +11,10 @@
 
 
 void StageLoop::Initialize() {
+
 	bossAttackTriggerManager_ = std::make_unique<BossAttackTriggerManager>();
 	blockManager_ = std::make_unique<BlockManager>();
+	beltConveyorManager_ = std::make_unique<BeltConveyorManager>();
 	fireBarManager_ = std::make_unique<FireBarManager>();
 	floorManager_ = std::make_unique<FloorManager>();
 	pendulumManager_ = std::make_unique<PendulumManager>();
@@ -22,6 +24,8 @@ void StageLoop::Initialize() {
 
 	bossAttackTriggerManager_->SetCamera(camera_);
 	bossAttackTriggerManager_->SetBoss(boss_);
+	beltConveyorManager_->SetCamera(camera_);
+	beltConveyorManager_->SetPlayer(player_);
 	blockManager_->SetCamera(camera_);
 	blockManager_->SetPlayer(player_);
 	fireBarManager_->SetCamera(camera_);
@@ -36,11 +40,12 @@ void StageLoop::Initialize() {
 	stageObjectManager_->SetPlayer(player_);
 	trapManager_->SetCamera(camera_);
 	trapManager_->SetPlayer(player_);
+	trapManager_->SetBoss(boss_);
 	trapManager_->Initialize();
 
 	LoadJson();
 
-	CreateStage();
+	InitializeCreateStage();
 
 	isCreateStage_ = false;
 }
@@ -64,13 +69,113 @@ void StageLoop::Update() {
 	stageObjectManager_->Update();
 	trapManager_->Update();
 	bossAttackTriggerManager_->Update();
+	beltConveyorManager_->Update();
 }
 
 void StageLoop::Reset() {
-	CreateStage();
+	InitializeCreateStage();
 }
 
 void StageLoop::LoadJson() {
+	//static std::string directoryPath = "Resources/Data/StageScene/debug.json";
+
+	//Desc jsonData{};
+
+	//std::ifstream ifs(directoryPath);
+	//if (!ifs.is_open()) {
+	//	return;
+	//}
+	//// JSONをパースしてルートオブジェクトを取得
+	//nlohmann::json root;
+	//ifs >> root;
+	//ifs.close();
+	//// "objects"配列からオブジェクトを処理
+	//for (const auto& obj : root["objects"]) {
+	//	// Block
+	//	if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "Block") {
+	//		Block::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		jsonData.blockDesc.emplace_back(desc);
+	//	}
+	//	// Trigger
+	//	else if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "Trigger") {
+	//		BossAttackTrigger::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		const auto& gimmick = obj["gimmick"];
+	//		desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+	//		jsonData.bossAttackTrigger.emplace_back(desc);
+
+	//	}
+	//	// FireBar
+	//	else if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "FireBar") {
+	//		FireBar::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		const auto& gimmick = obj["gimmick"];
+	//		desc.barDesc.length = gimmick["length"];
+	//		desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
+	//		desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
+	//		jsonData.fireBarDesc.emplace_back(desc);
+	//	}
+	//	// Floor
+	//	else if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "Floor") {
+	//		Floor::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		jsonData.floorDesc.emplace_back(desc);
+	//	}
+	//	// Pendulam
+	//	else if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "Pendulum") {
+	//		Pendulum::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		const auto& gimmick = obj["gimmick"];
+	//		desc.length = gimmick["length"];
+	//		desc.angle = gimmick["angle"] * Math::ToRadian;
+	//		desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
+	//		desc.gravity = gimmick["gravity"];
+	//		desc.stickScale = gimmick["stickScale"];
+	//		desc.ballScale = gimmick["ballScale"];
+	//		jsonData.pendulumDesc.emplace_back(desc);
+	//	}
+	//	// RevengeCoin
+	//	else if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "RevengeCoin") {
+	//		RevengeCoin::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		jsonData.revengeCoinDesc.emplace_back(desc);
+	//	}
+	//	// BeltConveyor
+	//	else if (obj.contains("gimmick") &&
+	//		obj["gimmick"]["type"] == "BeltConveyor") {
+	//		BeltConveyor::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		const auto& gimmick = obj["gimmick"];
+	//		desc.velocity = gimmick["beltConveyorVelocity"];
+	//		jsonData.beltConveyorDesc.emplace_back(desc);
+	//	}
+	//	// StageArea
+	//	else if (obj["file_name"] == "stageArea") {
+	//		if (obj.contains("collider")) {
+	//			const auto& collider = obj["collider"];
+	//			jsonData.stageSize = { collider["size"][2] };
+	//		}
+
+	//	}
+	//	// StageObject
+	//	else if (!obj.contains("gimmick")) {
+	//		StageObject::Desc desc{};
+	//		desc.desc = StageGimmick::GetDesc(obj);
+	//		jsonData.stageObjectDesc.emplace_back(desc);
+	//	}
+
+	//}
+	//
+	//stageData_.emplace_back(jsonData);
+
+
 	static std::string directoryPath = "Resources/Data/StageParts/";
 
 	// パターンに一致するファイルを見つける正規表現パターン
@@ -151,6 +256,14 @@ void StageLoop::LoadJson() {
 						RevengeCoin::Desc desc{};
 						desc.desc = StageGimmick::GetDesc(obj);
 						jsonData.revengeCoinDesc.emplace_back(desc);
+					} 
+					// BeltConveyor
+					else if(obj.contains("gimmick") &&
+						obj["gimmick"]["type"] == "BeltConveyor"){
+						BeltConveyor::Desc desc{};
+						desc.desc = StageGimmick::GetDesc(obj);
+						const auto& gimmick = obj["gimmick"];
+						desc.velocity = gimmick["velocity"];
 					}
 					// StageArea
 					else if (obj["file_name"] == "stageArea") {
@@ -193,8 +306,28 @@ void StageLoop::LoadJson() {
 
 }
 
+void StageLoop::InitializeCreateStage() {
+	Clear();
+
+	std::vector<uint32_t> stageIndices{};
+	float distance = 0.0f;
+	for (uint32_t i = 0; i < kCreateStageNum; i++) {
+		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		if (stageIndices.empty()) {
+			// ぎりぎりすぎないよう
+			distance = player_->GetWorldMatrix().GetTranslate().z + stageData_.at(stageIndex).stageSize * 0.5f - 10.0f;
+		}
+		else {
+			distance *= stageData_.at(stageIndices.at(i - 1)).stageSize;
+		}
+		CreateStageObject(stageData_.at(stageIndex), distance);
+		stageIndices.emplace_back(stageIndex);
+	}
+}
+
 void StageLoop::Clear() {
 	bossAttackTriggerManager_->Clear();
+	beltConveyorManager_->Clear();
 	blockManager_->Clear();
 	fireBarManager_->Clear();
 	revengeCoinManager_->Clear();
@@ -206,7 +339,7 @@ void StageLoop::Clear() {
 
 void StageLoop::CreateStage() {
 	Clear();
-	static uint32_t kCreateStageNum = 5;
+
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
@@ -228,6 +361,11 @@ void StageLoop::CreateStageObject(const Desc& stageData, float distance) {
 		Block::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
 		blockManager_->Create(mutableDesc);
+	}
+	for (const auto& desc : stageData.beltConveyorDesc) {
+		BeltConveyor::Desc mutableDesc = desc;
+		mutableDesc.desc.transform.translate.z += distance;
+		beltConveyorManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.bossAttackTrigger) {
 		BossAttackTrigger::Desc mutableDesc = desc;

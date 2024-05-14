@@ -4081,7 +4081,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.10000000149011612
+                "angularVelocity": 5.0
             }
         },
         {
@@ -4128,8 +4128,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -5221,7 +5221,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.10000000149011612
+                "angularVelocity": 5.0
             }
         },
         {
@@ -5268,8 +5268,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -6361,7 +6361,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.10000000149011612
+                "angularVelocity": 5.0
             }
         },
         {
@@ -6408,8 +6408,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -7501,7 +7501,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.10000000149011612
+                "angularVelocity": 5.0
             }
         },
         {
@@ -7548,8 +7548,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -8641,7 +8641,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.10000000149011612
+                "angularVelocity": 5.0
             }
         },
         {
@@ -8688,8 +8688,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -9781,7 +9781,7 @@
                 "type": "FireBar",
                 "length": 4,
                 "initializeAngle": 0,
-                "angularVelocity": 0.10000000149011612
+                "angularVelocity": 5.0
             }
         },
         {
@@ -9828,8 +9828,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1

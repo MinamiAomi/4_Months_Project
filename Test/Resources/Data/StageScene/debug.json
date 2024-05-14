@@ -8,7 +8,7 @@
                 "translate": [
                     0.0,
                     -2.7427167892456055,
-                    -109.4663314819336
+                    92.13274383544922
                 ],
                 "rotate": [
                     0.0,
@@ -50,7 +50,7 @@
                 "translate": [
                     10.306987762451172,
                     0.0,
-                    -38.608436584472656
+                    162.99063110351562
                 ],
                 "rotate": [
                     0.0,
@@ -88,7 +88,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": 5.0
+                "angularVelocity": 0.01
             }
         },
         {
@@ -98,7 +98,7 @@
                 "translate": [
                     -9.758962631225586,
                     0.0,
-                    -23.169048309326172
+                    178.43002319335938
                 ],
                 "rotate": [
                     0.0,
@@ -146,7 +146,7 @@
                 "translate": [
                     0.0,
                     -2.742719888687134,
-                    -0.0
+                    201.59906005859375
                 ],
                 "rotate": [
                     0.0,
@@ -188,7 +188,7 @@
                 "translate": [
                     0.0,
                     15.0,
-                    -127.0076904296875
+                    74.59138488769531
                 ],
                 "rotate": [
                     0.0,
@@ -225,8 +225,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": -20,
-                "initializeAngle": -5,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -239,7 +239,7 @@
                 "translate": [
                     0.0,
                     15.0,
-                    -105.64665222167969
+                    95.95242309570312
                 ],
                 "rotate": [
                     0.0,
@@ -285,12 +285,12 @@
         },
         {
             "type": "MESH",
-            "name": "BossHookAttack.001",
+            "name": "立方体",
             "transform": {
                 "translate": [
                     0.0,
                     0.0,
-                    -150.24693298339844
+                    123.4730453491211
                 ],
                 "rotate": [
                     0.0,
@@ -299,12 +299,12 @@
                     1.0
                 ],
                 "scale": [
-                    20.0,
-                    10.0,
+                    1.0,
+                    1.0,
                     1.0
                 ]
             },
-            "file_name": "trigger",
+            "file_name": "block",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -325,8 +325,186 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    104.97016906738281
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "RevengeCoin"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベアー.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -36.19596862792969
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    40.0,
+                    2.0,
+                    120.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.10000000149011612
+            }
+        },
+        {
+            "type": "EMPTY",
+            "name": "エンプティ",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "stageArea",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    500.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベアー.002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -192.48098754882812
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    40.0,
+                    2.0,
+                    120.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.20000000298023224
             }
         }
     ]

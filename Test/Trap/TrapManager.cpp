@@ -3,6 +3,7 @@
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
 #include "Player/Player.h"
+#include "Boss/Boss.h"
 
 void TrapManager::Initialize() {
 	JSON_OPEN("Resources/Data/Trap/Trap.json");
@@ -62,6 +63,7 @@ void TrapManager::Create(const Vector3& position) {
 	desc.pos = position;
 	trap->SetCamera(camera_);
 	trap->SetPlayer(player_);
+	trap->SetBoss(boss_);
 	trap->Initialize(desc);
 	traps_.emplace_back(std::move(trap));
 }

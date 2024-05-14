@@ -23,6 +23,7 @@
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp" />
+    <ClCompile Include="Boss\BossHP\BossHP.cpp" />
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
     <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
@@ -61,6 +62,8 @@
     <ClCompile Include="SkyBlockManager.cpp" />
     <ClCompile Include="StageBlock.cpp" />
     <ClCompile Include="StageBlockManager.cpp" />
+    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyor.cpp" />
+    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp" />
     <ClCompile Include="StageGimmick\Block\Block.cpp" />
     <ClCompile Include="StageGimmick\Block\BlockManager.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBar.cpp" />
@@ -93,9 +96,11 @@
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTrigger.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.h" />
+    <ClInclude Include="Boss\BossHP\BossHP.h" />
     <ClInclude Include="Boss\BossModelManager\BossModelManager.h" />
     <ClInclude Include="Boss\BossParticle\BossDustParticle.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
+    <ClInclude Include="Boss\BossUI\BossUI.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CharacterState.h" />
@@ -132,6 +137,8 @@
     <ClInclude Include="SkyBlockManager.h" />
     <ClInclude Include="StageBlock.h" />
     <ClInclude Include="StageBlockManager.h" />
+    <ClInclude Include="StageGimmick\BeltConveyor\BeltConveyor.h" />
+    <ClInclude Include="StageGimmick\BeltConveyor\BeltConveyorManager.h" />
     <ClInclude Include="StageGimmick\Block\Block.h" />
     <ClInclude Include="StageGimmick\Block\BlockManager.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBar.h" />

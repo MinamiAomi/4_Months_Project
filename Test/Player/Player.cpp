@@ -154,7 +154,9 @@ void Player::Update() {
 			Vector3 dashVelocity = dashVector_ * dashPower_;
 			transform.translate += dashVelocity;
 		}
-		transform.translate += velocity_;
+		transform.translate += velocity_ + Vector3(0.0f,0.0f, beltConveyorVelocity_);
+
+		beltConveyorVelocity_ = 0.0f;
 
 		transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
 		transform.translate.y = std::max(transform.translate.y, -10.0f);
@@ -256,8 +258,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	else if (collisionInfo.collider->GetName() == "Block" ||
 		collisionInfo.collider->GetName() == "FireBarCenter" ||
 		collisionInfo.collider->GetName() == "Floor" ||
-		collisionInfo.collider->GetName() == "StageObject" /*||
-		collisionInfo.collider->GetName() == "Trap"*/) {
+		collisionInfo.collider->GetName() == "StageObject" ||
+		collisionInfo.collider->GetName() == "BeltConveyor") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();
