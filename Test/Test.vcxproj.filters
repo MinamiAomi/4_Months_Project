@@ -331,8 +331,13 @@
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyor.cpp">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClCompile>
-    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp" />
-    <ClCompile Include="StageGimmick\Dropper\DropGimmick.cpp" />
+    <ClCompile Include="StageGimmick\Dropper\DropGimmick.cpp">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Dropper\DropGimmickManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -507,9 +512,6 @@
     <ClInclude Include="Trap\Trap.h">
       <Filter>Game\Object\Trap</Filter>
     </ClInclude>
-    <ClInclude Include="Culling.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Trap\TrapManager.h">
       <Filter>Game\Object\Trap</Filter>
     </ClInclude>
@@ -541,6 +543,12 @@
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClInclude>
     <ClInclude Include="StageGimmick\Dropper\DropGimmick.h">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClInclude>
+    <ClInclude Include="Culling.h">
+      <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Dropper\DropGimmickManager.h">
       <Filter>Game\Object\StageGimmick\Dopper</Filter>
     </ClInclude>
   </ItemGroup>
