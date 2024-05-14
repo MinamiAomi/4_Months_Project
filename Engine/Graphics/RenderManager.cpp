@@ -39,19 +39,19 @@ void RenderManager::Initialize() {
     //preSwapChainBuffer_.Create(L"PreSwapChainBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM);
     //mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);
 
-
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
+    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    temporaryScreenBuffer_.Create(L"TemporaryScreenBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), swapChainBuffer.GetRTVFormat());
 
     bloom_.Initialize(&lightingRenderingPass_.GetResult());
     fxaa_.Initialize(&lightingRenderingPass_.GetResult());
-    spriteRenderer_.Initialize(lightingRenderingPass_.GetResult());
+    spriteRenderer_.Initialize(temporaryScreenBuffer_);
 
     //    modelRenderer.Initialize(mainColorBuffer_, mainDepthBuffer_);
     transition_.Initialize();
-    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
-    postEffect_.Initialize(lightingRenderingPass_.GetResult());
-
+    postEffect_.Initialize(temporaryScreenBuffer_);
+    lightingPassPostEffect_.Initialize(lightingRenderingPass_.GetResult());
     //raymarchingRenderer_.Create(mainColorBuffer_.GetWidth(), mainColorBuffer_.GetHeight());
 
     //computeShaderTester_.Initialize(1024, 1024);
@@ -68,8 +68,6 @@ void RenderManager::Initialize() {
     edge_.Initialize(&lightingRenderingPass_.GetResult());
 
     chaseEffect_.Initialize(&lightingRenderingPass_.GetResult());
-
-    edgeMultiply_.Initialize(lightingRenderingPass_.GetResult());
 
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetRTVFormat());
@@ -105,17 +103,17 @@ void RenderManager::Render() {
         }
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
+        lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 #ifdef ENABLE_IMGUI
         if (useEdge) {
 #endif // ENABLE_IMGUI
             chaseEffect_.EffectRender(commandContext_, geometryRenderingPass_);
             commandContext_.CopyBuffer(lightingRenderingPass_.GetResult(), chaseEffect_.GetEffect());
-            edgeMultiply_.RenderAlphaTexture(commandContext_, edge_.GetResult());
+            lightingPassPostEffect_.RenderAlphaTexture(commandContext_, edge_.GetResult());
 #ifdef ENABLE_IMGUI
         }
 #endif // ENABLE_IMGUI
 
-        postEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
         if (useSky_) {
             commandContext_.TransitionResource(skyTexture_, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -146,14 +144,20 @@ void RenderManager::Render() {
 #endif // ENABLE_IMGUI
 
 
-
-    spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(lightingRenderingPass_.GetResult().GetWidth()), float(lightingRenderingPass_.GetResult().GetHeight()));
     fxaa_.Render(commandContext_);
 
-    transition_.Dispatch(commandContext_, fxaa_.GetResult());
+    commandContext_.TransitionResource(temporaryScreenBuffer_, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    commandContext_.FlushResourceBarriers();
+    commandContext_.SetRenderTarget(temporaryScreenBuffer_.GetRTV());
+    commandContext_.SetViewportAndScissorRect(0, 0, temporaryScreenBuffer_.GetWidth(), temporaryScreenBuffer_.GetHeight());
+    postEffect_.Render(commandContext_, fxaa_.GetResult());
+    
+    spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(temporaryScreenBuffer_.GetWidth()), float(temporaryScreenBuffer_.GetHeight()));
+    
+    transition_.Dispatch(commandContext_, temporaryScreenBuffer_);
 
     auto& swapChainBuffer = swapChain_.GetColorBuffer(targetSwapChainBufferIndex);
-    commandContext_.CopyBuffer(swapChainBuffer, fxaa_.GetResult());
+    commandContext_.CopyBuffer(swapChainBuffer, temporaryScreenBuffer_);
     //commandContext_.CopyBuffer(swapChainBuffer, lightingRenderingPass_.GetResult());
 
     commandContext_.TransitionResource(swapChainBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);

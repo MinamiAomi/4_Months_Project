@@ -3,6 +3,7 @@
 #include "Core/RootSignature.h"
 #include "Core/PipelineState.h"
 #include "Core/ColorBuffer.h"
+#include "Math/MathUtils.h"
 
 class CommandContext;
 
@@ -10,7 +11,6 @@ class PostEffect {
 public:
 
     void Initialize(ColorBuffer& target);
-    void Render(CommandContext& commandContext, ColorBuffer& texture, ColorBuffer& shadow, ColorBuffer& reflection);
     void Render(CommandContext& commandContext, ColorBuffer& texture);
     void RenderAddTexture(CommandContext& commandContext, ColorBuffer& texture);
     void RenderMultiplyTexture(CommandContext& commandContext, ColorBuffer& texture);

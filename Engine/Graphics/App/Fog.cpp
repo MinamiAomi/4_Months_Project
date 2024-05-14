@@ -66,7 +66,7 @@ void Fog::Render(CommandContext& commandContext, const Camera& camera, ColorBuff
     constant.fogLength = far_ - near_;
     commandContext.SetComputeDynamicConstantBufferView(RootParameter::Constant, sizeof(constant), &constant);
 
-    commandContext.Dispatch((UINT)std::floor(texture.GetWidth() / 8), (UINT)std::floor(texture.GetHeight() / 8));
+    commandContext.Dispatch(UINT(texture.GetWidth() + 31) / 32, UINT(texture.GetHeight() + 31) / 32);
     commandContext.UAVBarrier(texture);
     commandContext.FlushResourceBarriers();
 }
