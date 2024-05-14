@@ -3,6 +3,7 @@
 namespace GameSpeed {
 	extern float chaseSpeed;
 	extern float runAwaySpeed;
+	extern float currentSpeed;
 
 	float GetGameSpeed();
 	void LoadJson();

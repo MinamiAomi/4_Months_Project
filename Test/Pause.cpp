@@ -18,7 +18,9 @@ void Pause::Initialize() {
 
 void Pause::Update() {
 	
-	if (Input::GetInstance()->IsKeyTrigger(DIK_ESCAPE)) {
+	Input* input = Input::GetInstance();
+
+	if (input->IsKeyTrigger(DIK_ESCAPE) || input->TriggerButton(XINPUT_GAMEPAD_START)) {
 		isPause_ = !isPause_;
 	}
 	
@@ -26,7 +28,6 @@ void Pause::Update() {
 	retry_->SetIsActive(isPause_);
 	grey_->SetIsActive(isPause_);
 	arrow_->SetIsActive(isPause_);
-
 	
 	if (isPause_) {
 		PauseUpdate();
@@ -38,7 +39,7 @@ void Pause::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Pause")) {
-		if (ImGui::TreeNode("PuaseData")) {
+		if (ImGui::TreeNode("PauseData")) {
 
 			DrawImGui(ToTitleData_, "ToTitleData_", ToTitle_.get());
 			DrawImGui(retryData_, "retryData_", retry_.get());
@@ -63,12 +64,12 @@ void Pause::PauseUpdate()
 	int select = static_cast<int>(select_);
 
 
-	if (Input::GetInstance()->IsKeyTrigger(DIK_DOWN)) {
+	if (Input::GetInstance()->IsKeyTrigger(DIK_DOWN) || Input::GetInstance()->DownRStick() || Input::GetInstance()->DownLStick()) {
 		select++;
 		select = std::clamp(select, 0, static_cast<int>(SelectNum) - 1);
 	}
 
-	if (Input::GetInstance()->IsKeyTrigger(DIK_UP)) {
+	if (Input::GetInstance()->IsKeyTrigger(DIK_UP) || Input::GetInstance()->UpRStick() || Input::GetInstance()->UpLStick()) {
 		select--;
 		select = std::clamp(select, 0, static_cast<int>(SelectNum) - 1);
 	}
@@ -87,7 +88,7 @@ void Pause::PauseUpdate()
 		break;
 	}
 
-	if (Input::GetInstance()->IsKeyTrigger(DIK_SPACE)) {
+	if (Input::GetInstance()->IsKeyTrigger(DIK_SPACE) || Input::GetInstance()->PushButton(XINPUT_GAMEPAD_A)) {
 
 		isPause_ = false;
 
