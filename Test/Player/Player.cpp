@@ -135,6 +135,7 @@ void Player::Update() {
 			canSecondJump_ = true;
 			velocity_ = Vector3::zero;
 			acceleration_ = Vector3::zero;
+			revengeSE_->SetVolume(0.1f);
 			revengeSE_->Play();
 		}
 

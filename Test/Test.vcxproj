@@ -63,6 +63,7 @@
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp" />
     <ClCompile Include="StageGimmick\Block\Block.cpp" />
     <ClCompile Include="StageGimmick\Block\BlockManager.cpp" />
+    <ClCompile Include="StageGimmick\Dropper\DropGimmick.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBar.cpp" />
     <ClCompile Include="StageGimmick\FireBar\FireBarManager.cpp" />
     <ClCompile Include="StageGimmick\Floor\Floor.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="StageGimmick\BeltConveyor\BeltConveyorManager.h" />
     <ClInclude Include="StageGimmick\Block\Block.h" />
     <ClInclude Include="StageGimmick\Block\BlockManager.h" />
+    <ClInclude Include="StageGimmick\Dropper\DropGimmick.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBar.h" />
     <ClInclude Include="StageGimmick\FireBar\FireBarManager.h" />
     <ClInclude Include="StageGimmick\Floor\Floor.h" />
