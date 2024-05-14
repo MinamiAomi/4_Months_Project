@@ -1,4 +1,4 @@
-#define NUM_SAMPLE 10
+#define NUM_SAMPLES 10
 
 struct Constant {
     float32_t2 center;
@@ -22,12 +22,13 @@ PSOutput main(PSInput input) {
     
     float32_t2 direction = input.texcoord - g_Constant.center;
     float32_t3 outputColor = float32_t3(0.0f, 0.0f, 0.0f);
+    float32_t distortion = pow(length(direction * 2.0f), 5.0f);
     for (int32_t sampleIndex = 0; sampleIndex < NUM_SAMPLES; ++sampleIndex) {
-        float32_t2 texcoord = input.texcoord * direction * g_Constant.blurWidth * float32_t(sampleIndex);
+        float32_t2 texcoord = input.texcoord + direction * g_Constant.blurWidth * float32_t(sampleIndex) * distortion;
         outputColor += g_Texture.Sample(g_Sampler, texcoord).rgb;
     }
     outputColor *= rcp(NUM_SAMPLES);
-   
+
     output.color.rgb = outputColor;
     output.color.a = 1.0f;
     

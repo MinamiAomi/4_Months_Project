@@ -44,7 +44,7 @@ void Transition::Dispatch(CommandContext& commandContext, ColorBuffer& texture) 
     commandContext.SetComputeDescriptorTable(0, texture.GetUAV());
     commandContext.SetComputeDynamicConstantBufferView(1, sizeof(parameter), &parameter);
 
-    commandContext.Dispatch((UINT)std::ceil(texture.GetWidth() / 8), (UINT)std::ceil(texture.GetHeight() / 8));
+    commandContext.Dispatch(UINT(texture.GetWidth() + 31) / 32, UINT(texture.GetHeight() + 31) / 32);
     commandContext.UAVBarrier(texture);
     commandContext.FlushResourceBarriers();
 }

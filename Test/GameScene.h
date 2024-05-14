@@ -28,6 +28,9 @@
 #include "CutIn.h"
 #include "Trap/TrapManager.h"
 #include "Pause.h"
+#include "StartMovie.h"
+#include "GameClearMovie.h"
+#include "GameOverMovie.h"
 
 class GameScene :
 	public BaseScene {
@@ -54,11 +57,8 @@ private:
 	std::unique_ptr<PlayerDustParticle> playerDustParticle_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<Skydome> skydome_;
-	std::unique_ptr<StageLineLight> stageRightLight;
-	std::unique_ptr<StageLineLight> stageLeftLight;
 
-	std::unique_ptr<StageLineLight> stageUpRightLight;
-	std::unique_ptr<StageLineLight> stageUpLeftLight;
+	std::array<std::unique_ptr<StageLineLight>, 4> stageLineLights_;
 
 	std::unique_ptr<StageBlockManager> stageBlockManager_;
 	std::unique_ptr<SkyBlockManager> skyBlockManager_;
@@ -66,6 +66,12 @@ private:
 	std::unique_ptr<UI> ui_;
 	std::unique_ptr<CutIn> cutIn_;
 	std::unique_ptr<Pause> pause_;
+
+	Movie* currentMovie_ = nullptr;
+
+	std::unique_ptr<StartMovie> startMovie_;
+	std::unique_ptr<GameClearMovie> gameClearMovie_;
+	std::unique_ptr<GameOverMovie> gameOverMovie_;
 #pragma endregion
 
 	AudioSource bgm_;

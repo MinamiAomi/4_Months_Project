@@ -58,6 +58,8 @@ private:
     SwapChain swapChain_;
     CommandContext commandContext_;
 
+    ColorBuffer temporaryScreenBuffer_;
+
     SpriteRenderer spriteRenderer_;
 
     GeometryRenderingPass geometryRenderingPass_;
@@ -72,7 +74,7 @@ private:
     ChaseEffect chaseEffect_;
     FXAA fxaa_;
     PostEffect postEffect_;
-    PostEffect edgeMultiply_;
+    PostEffect lightingPassPostEffect_;
 
     ColorBuffer skyTexture_;
     SkyRenderer skyRenderer_;

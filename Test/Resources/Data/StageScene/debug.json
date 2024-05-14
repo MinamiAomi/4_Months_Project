@@ -8,7 +8,7 @@
                 "translate": [
                     0.0,
                     -2.7427167892456055,
-                    92.13274383544922
+                    -109.4663314819336
                 ],
                 "rotate": [
                     0.0,
@@ -50,7 +50,7 @@
                 "translate": [
                     10.306987762451172,
                     0.0,
-                    162.99063110351562
+                    -38.608436584472656
                 ],
                 "rotate": [
                     0.0,
@@ -98,7 +98,7 @@
                 "translate": [
                     -9.758962631225586,
                     0.0,
-                    178.43002319335938
+                    -23.169048309326172
                 ],
                 "rotate": [
                     0.0,
@@ -136,7 +136,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": 1.0
+                "angularVelocity": 0.01
             }
         },
         {
@@ -146,7 +146,7 @@
                 "translate": [
                     0.0,
                     -2.742719888687134,
-                    201.59906005859375
+                    -0.0
                 ],
                 "rotate": [
                     0.0,
@@ -188,7 +188,7 @@
                 "translate": [
                     0.0,
                     15.0,
-                    74.59138488769531
+                    -127.0076904296875
                 ],
                 "rotate": [
                     0.0,
@@ -239,7 +239,7 @@
                 "translate": [
                     0.0,
                     15.0,
-                    95.95242309570312
+                    -105.64665222167969
                 ],
                 "rotate": [
                     0.0,
@@ -277,7 +277,7 @@
                 "type": "Pendulum",
                 "length": 15,
                 "angle": 20,
-                "initializeAngle": 0,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -285,12 +285,12 @@
         },
         {
             "type": "MESH",
-            "name": "立方体",
+            "name": "switch.001",
             "transform": {
                 "translate": [
                     0.0,
                     0.0,
-                    123.4730453491211
+                    -30.0
                 ],
                 "rotate": [
                     0.0,
@@ -325,17 +325,18 @@
                 ]
             },
             "gimmick": {
-                "type": "RevengeCoin"
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 0
             }
         },
         {
             "type": "MESH",
-            "name": "立方体.001",
+            "name": "dropper.001",
             "transform": {
                 "translate": [
                     0.0,
                     0.0,
-                    104.97016906738281
+                    -114.27275085449219
                 ],
                 "rotate": [
                     0.0,
@@ -370,17 +371,18 @@
                 ]
             },
             "gimmick": {
-                "type": "RevengeCoin"
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 1
             }
         },
         {
             "type": "MESH",
-            "name": "ベルトコンベアー.001",
+            "name": "dropper.002",
             "transform": {
                 "translate": [
+                    -11.943857192993164,
                     0.0,
-                    0.0,
-                    -36.19596862792969
+                    -55.0
                 ],
                 "rotate": [
                     0.0,
@@ -403,9 +405,9 @@
                     -0.0
                 ],
                 "size": [
-                    40.0,
                     2.0,
-                    120.0
+                    2.0,
+                    2.0
                 ],
                 "rotate": [
                     0.0,
@@ -415,60 +417,18 @@
                 ]
             },
             "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.10000000149011612
-            }
-        },
-        {
-            "type": "EMPTY",
-            "name": "エンプティ",
-            "transform": {
-                "translate": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "stageArea",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    500.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 0
             }
         },
         {
             "type": "MESH",
-            "name": "ベルトコンベアー.002",
+            "name": "dropper.003",
             "transform": {
                 "translate": [
+                    13.61008071899414,
                     0.0,
-                    0.0,
-                    -192.48098754882812
+                    -55.0
                 ],
                 "rotate": [
                     0.0,
@@ -491,9 +451,9 @@
                     -0.0
                 ],
                 "size": [
-                    40.0,
                     2.0,
-                    120.0
+                    2.0,
+                    2.0
                 ],
                 "rotate": [
                     0.0,
@@ -503,8 +463,54 @@
                 ]
             },
             "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.20000000298023224
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "switch.002",
+            "transform": {
+                "translate": [
+                    -2.339326858520508,
+                    0.0,
+                    -72.7482681274414
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 1
             }
         }
     ]

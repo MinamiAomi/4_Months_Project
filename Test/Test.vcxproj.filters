@@ -133,6 +133,9 @@
     <Filter Include="Game\Object\StageGimmick\Dopper">
       <UniqueIdentifier>{2506031b-619e-4b68-a102-d50669a840be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Movie">
+      <UniqueIdentifier>{1c94bd19-6744-4ebd-82d4-96c74029944f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -338,6 +341,19 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="StageGimmick\Dropper\DropGimmickManager.cpp" />
+    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp" />
+    <ClCompile Include="Movie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClearMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -366,9 +382,6 @@
     </ClInclude>
     <ClInclude Include="Player\Player.h">
       <Filter>Game\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugCamera.h">
-      <Filter>Game\Object\CameraManager\DebugCamera</Filter>
     </ClInclude>
     <ClInclude Include="FollowCamera.h">
       <Filter>Game\Object\CameraManager\FollowCamera</Filter>
@@ -529,6 +542,21 @@
     </ClInclude>
     <ClInclude Include="StageLoop\StageLoop.h">
       <Filter>Game\Object\StageLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="Movie.h">
+      <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMovie.h">
+      <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCamera.h">
+      <Filter>Game\Object\CameraManager\DebugCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearMovie.h">
+      <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverMovie.h">
+      <Filter>Game\Object\Movie</Filter>
     </ClInclude>
     <ClInclude Include="Boss\BossHP\BossHP.h">
       <Filter>Game\Object\Boss\BossHP</Filter>

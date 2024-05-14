@@ -9,6 +9,7 @@
 #include "StageGimmick/StageGimmick.h"
 
 class Player;
+class Camera;
 class Switch :
 	public GameObject {
 public:

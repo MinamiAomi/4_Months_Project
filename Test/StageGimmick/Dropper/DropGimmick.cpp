@@ -34,7 +34,7 @@ void Switch::Initialize(const Desc& desc) {
 }
 
 void Switch::Update() {
-
+	camera_;
 	UpdateTransform();
 }
 
@@ -83,6 +83,7 @@ void Dropper::Initialize(const Desc& desc) {
 }
 
 void Dropper::Update() {
+	camera_;
 	UpdateTransform();
 }
 
