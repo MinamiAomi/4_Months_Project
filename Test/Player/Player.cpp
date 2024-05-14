@@ -260,7 +260,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		collisionInfo.collider->GetName() == "FireBarCenter" ||
 		collisionInfo.collider->GetName() == "Floor" ||
 		collisionInfo.collider->GetName() == "StageObject" ||
-		collisionInfo.collider->GetName() == "BeltConveyor") {
+		collisionInfo.collider->GetName() == "BeltConveyor"||
+		collisionInfo.collider->GetName() == "DropGimmickDropper"||
+		collisionInfo.collider->GetName() == "DropGimmickSwitch") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 		auto parent = transform.GetParent();
