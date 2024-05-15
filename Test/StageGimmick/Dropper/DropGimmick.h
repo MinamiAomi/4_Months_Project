@@ -10,6 +10,37 @@
 
 class Player;
 class Camera;
+
+class DropperBall :
+	public GameObject {
+public:
+	enum State {
+		kDrop,
+		kStay,
+		kShot,
+
+		kCount,
+	};
+
+	void Initialize(const Vector3& pos);
+	void Update();
+
+	bool GetIsAlive() { return isAlive_; }
+
+	void SetPlayer(const Player* player) { player_ = player; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
+private:
+	const Player* player_;
+	const Camera* camera_;
+	void UpdateTransform();
+	void OnCollision(const CollisionInfo& collisionInfo);
+
+	std::unique_ptr<BoxCollider> collider_;
+	std::unique_ptr<ModelInstance> model_;
+	State state_;
+	bool isAlive_;
+};
+
 class Switch :
 	public GameObject {
 public:
@@ -80,4 +111,6 @@ private:
 
 	std::vector<std::unique_ptr<Switch>>switch_;
 	std::vector<std::unique_ptr<Dropper>>dropper_;
+	std::vector<std::unique_ptr<DropperBall>> dropperBall_;
+	bool isCreate_;
 };

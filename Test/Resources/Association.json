@@ -45,6 +45,8 @@
         "building3": "Building3/building3.gltf",
         "bridge": "Bridge/bridge.gltf",
         "stones": "Stones/stones.gltf",
-        "revengeCoin": "RevengeCoin/revengeCoin.gltf"
+        "revengeCoin": "RevengeCoin/revengeCoin.gltf",
+        "switch": "DropGimmick/switch.gltf",
+        "dropper": "DropGimmick/dropper.gltf"
     }
 }

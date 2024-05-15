@@ -6,6 +6,77 @@
 #include "Graphics/ImGuiManager.h"
 #include "Player/Player.h"
 
+void DropperBall::Initialize(const Vector3& pos) {
+	model_ = std::make_unique<ModelInstance>();
+
+	transform.scale = Vector3::one;
+	transform.rotate = Quaternion::identity;
+	transform.translate = pos;
+
+	model_->SetModel(ResourceManager::GetInstance()->FindModel("ball"));
+	model_->SetIsActive(true);
+
+	state_ = kDrop;
+#pragma region コライダー
+	collider_ = std::make_unique<BoxCollider>();
+	collider_->SetGameObject(this);
+	collider_->SetName("DropGimmickBall");
+	collider_->SetCenter(transform.worldMatrix.GetTranslate());
+	collider_->SetOrientation(transform.rotate);
+	Vector3 modelSize = model_->GetModel()->GetMeshes().at(0).minVertex - model_->GetModel()->GetMeshes().at(0).maxVertex;
+	collider_->SetSize({ transform.scale.x* modelSize .x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z});
+	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
+	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickDropperBall);
+	collider_->SetCollisionMask(~CollisionAttribute::DropGimmickDropperBall);
+	collider_->SetIsActive(true);
+#pragma endregion
+	UpdateTransform();
+}
+
+void DropperBall::Update() {
+	switch (state_) {
+	case DropperBall::kDrop:
+		transform.translate.y -= 0.5f;
+		break;
+	case DropperBall::kShot:
+		transform.translate.z += 1.0f;
+		break;
+	}
+	UpdateTransform();
+}
+
+void DropperBall::UpdateTransform() {
+	transform.UpdateMatrix(); 
+	collider_->SetCenter(transform.worldMatrix.GetTranslate());
+	collider_->SetOrientation(transform.rotate);
+	Vector3 modelSize = model_->GetModel()->GetMeshes().at(0).minVertex - model_->GetModel()->GetMeshes().at(0).maxVertex;
+	collider_->SetSize({ transform.scale.x * modelSize.x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z });
+	model_->SetWorldMatrix(transform.worldMatrix);
+}
+
+void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
+	if (collisionInfo.collider->GetName() == "Player") {
+		if (Character::currentCharacterState_ == Character::State::kChase &&
+			state_ == State::kStay) {
+			state_ = State::kShot;
+		}
+	}
+	else if (collisionInfo.collider->GetName() == "Boss") {
+		if (Character::currentCharacterState_ == Character::State::kChase &&
+			state_ == State::kShot) {
+			isAlive_ = false;
+		}
+	}
+	else if (collisionInfo.collider->GetName() == "Block" ||
+		collisionInfo.collider->GetName() == "FireBarCenter" ||
+		collisionInfo.collider->GetName() == "Floor" ||
+		collisionInfo.collider->GetName() == "StageObject") {
+		if (state_ == State::kDrop) {
+			state_ = State::kStay;
+		}
+	}
+}
+
 void Switch::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 	
@@ -113,6 +184,7 @@ void DropGimmick::Initialize(const Desc& desc) {
 		button->Initialize(switchDesc);
 		switch_.emplace_back(std::move(button));
 	}
+	isCreate_ = false;
 }
 
 void DropGimmick::Update() {
@@ -123,7 +195,20 @@ void DropGimmick::Update() {
 			isAllSwich = false;
 		}
 	}
+	for (auto& ball : dropperBall_) {
+		ball->Update();
+	}
 	for (auto& dropper:dropper_) {
 		dropper->Update();
+	}
+	if (!isCreate_ && isAllSwich) {
+		isCreate_ = true;
+		for (auto& dropper : dropper_) {
+			DropperBall* ball = new DropperBall();
+			ball->SetPlayer(player_);
+			ball->SetCamera(camera_);
+			ball->Initialize(dropper->transform.worldMatrix.GetTranslate());
+			dropperBall_.emplace_back(std::move(ball));
+		}
 	}
 }

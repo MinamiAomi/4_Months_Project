@@ -285,58 +285,12 @@
         },
         {
             "type": "MESH",
-            "name": "switch.001",
-            "transform": {
-                "translate": [
-                    0.0,
-                    0.0,
-                    -30.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "block",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "DropGimmickSwitch",
-                "dropGimmickIndex": 0
-            }
-        },
-        {
-            "type": "MESH",
             "name": "dropper.001",
             "transform": {
                 "translate": [
-                    0.0,
-                    0.0,
-                    -114.27275085449219
+                    -8.791999816894531,
+                    10.0,
+                    -41.99151611328125
                 ],
                 "rotate": [
                     0.0,
@@ -350,17 +304,17 @@
                     1.0
                 ]
             },
-            "file_name": "block",
+            "file_name": "dropper",
             "collider": {
                 "type": "BOX",
                 "center": [
                     0.0,
-                    0.0,
+                    -0.25,
                     -0.0
                 ],
                 "size": [
                     2.0,
-                    2.0,
+                    2.5,
                     2.0
                 ],
                 "rotate": [
@@ -372,7 +326,7 @@
             },
             "gimmick": {
                 "type": "DropGimmickDropper",
-                "dropGimmickIndex": 1
+                "dropGimmickIndex": 0
             }
         },
         {
@@ -380,9 +334,9 @@
             "name": "dropper.002",
             "transform": {
                 "translate": [
-                    -11.943857192993164,
-                    0.0,
-                    -55.0
+                    8.68966007232666,
+                    11.615567207336426,
+                    -50.509193420410156
                 ],
                 "rotate": [
                     0.0,
@@ -396,17 +350,17 @@
                     1.0
                 ]
             },
-            "file_name": "block",
+            "file_name": "dropper",
             "collider": {
                 "type": "BOX",
                 "center": [
                     0.0,
-                    0.0,
+                    -0.25,
                     -0.0
                 ],
                 "size": [
                     2.0,
-                    2.0,
+                    2.5,
                     2.0
                 ],
                 "rotate": [
@@ -426,9 +380,9 @@
             "name": "dropper.003",
             "transform": {
                 "translate": [
-                    13.61008071899414,
-                    0.0,
-                    -55.0
+                    -8.791999816894531,
+                    11.441024780273438,
+                    -79.29812622070312
                 ],
                 "rotate": [
                     0.0,
@@ -442,17 +396,17 @@
                     1.0
                 ]
             },
-            "file_name": "block",
+            "file_name": "dropper",
             "collider": {
                 "type": "BOX",
                 "center": [
                     0.0,
-                    0.0,
+                    0.25,
                     -0.0
                 ],
                 "size": [
                     2.0,
-                    2.0,
+                    2.5,
                     2.0
                 ],
                 "rotate": [
@@ -464,17 +418,17 @@
             },
             "gimmick": {
                 "type": "DropGimmickDropper",
-                "dropGimmickIndex": 0
+                "dropGimmickIndex": 1
             }
         },
         {
             "type": "MESH",
-            "name": "switch.002",
+            "name": "dropper.004",
             "transform": {
                 "translate": [
-                    -2.339326858520508,
-                    0.0,
-                    -72.7482681274414
+                    5.280362129211426,
+                    8.91169548034668,
+                    -92.51940155029297
                 ],
                 "rotate": [
                     0.0,
@@ -488,18 +442,110 @@
                     1.0
                 ]
             },
-            "file_name": "block",
+            "file_name": "dropper",
             "collider": {
                 "type": "BOX",
                 "center": [
                     0.0,
-                    0.0,
+                    0.25,
                     -0.0
                 ],
                 "size": [
                     2.0,
-                    2.0,
+                    2.5,
                     2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "switch..001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -25.560623168945312
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    -0.3499999940395355,
+                    -0.0
+                ],
+                "size": [
+                    6.0,
+                    4.0,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "switch..002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -55.1926383972168
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    -0.3499999940395355,
+                    -0.0
+                ],
+                "size": [
+                    6.0,
+                    4.0,
+                    6.0
                 ],
                 "rotate": [
                     0.0,
