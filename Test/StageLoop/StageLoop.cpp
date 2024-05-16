@@ -48,7 +48,7 @@ void StageLoop::Initialize() {
 
 	LoadJson();
 
-	InitializeCreateStage();
+	InitializeCreateStage(1);
 
 	isCreateStage_ = false;
 }
@@ -58,7 +58,7 @@ void StageLoop::Update() {
 		Character::nextCharacterState_ == Character::State::kRunAway &&
 		!isCreateStage_) {
 		isCreateStage_ = true;
-		CreateStage();
+		CreateStage(1);
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
@@ -387,13 +387,15 @@ void StageLoop::LoadJson() {
 
 }
 
-void StageLoop::InitializeCreateStage() {
+void StageLoop::InitializeCreateStage(uint32_t stageIndex) {
 	Clear();
 
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
-		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		if (stageIndex == (uint32_t)-1) {
+			stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		}
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
 			distance = player_->GetWorldMatrix().GetTranslate().z + (stageData_.at(stageIndex).stageSize * 0.5f) - 10.0f;
@@ -419,13 +421,15 @@ void StageLoop::Clear() {
 	//trapManager_->Clear();
 }
 
-void StageLoop::CreateStage() {
+void StageLoop::CreateStage(uint32_t stageIndex) {
 	Clear();
 
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
-		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		if (stageIndex== (uint32_t)-1) {
+			stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		}
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
 			distance = player_->GetWorldMatrix().GetTranslate().z - stageData_.at(stageIndex).stageSize * 0.5f + 10.0f;

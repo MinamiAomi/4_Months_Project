@@ -60,9 +60,9 @@ private:
 
 	void LoadJson();
 
-	void InitializeCreateStage();
+	void InitializeCreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void Clear();
-	void CreateStage();
+	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void CreateStageObject(const Desc& stageData, float distance);
 
 	std::vector<Desc> stageData_;
