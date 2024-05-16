@@ -43,8 +43,8 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	models_.at(BossParts::Parts::kBody)->SetIsAlive(false);
 	models_.at(BossParts::Parts::kRightArm)->SetIsAlive(false);
 	models_.at(BossParts::Parts::kLeftArm)->SetIsAlive(false);
-	models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
-	models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
+	//models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+	//models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
 void BossModelManager::Update() {
