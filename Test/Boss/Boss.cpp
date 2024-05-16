@@ -24,6 +24,10 @@ void Boss::Initialize() {
 	bossHP_ = std::make_unique<BossHP>();
 	bossHP_->Initialize();
 
+	bossUI_ = std::make_unique<BossUI>();
+	bossUI_->SetBossHP(bossHP_.get());
+	bossUI_->Initialize();
+
 	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
@@ -101,7 +105,8 @@ void Boss::Update() {
 	state_->Update();
 	UpdateTransform();
 	bossModelManager_->Update();
-	
+	bossUI_->Update();
+	bossHP_->Update();
 }
 
 void Boss::Reset(uint32_t stageIndex) {

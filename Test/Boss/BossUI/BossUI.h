@@ -28,9 +28,18 @@ public:
 
 	void SetBossHP(const BossHP* bossHP) {	bossHP_ = bossHP; }
 private:
+	void UpdateHP();
+	void LoadJson();
+	void SaveJson();
+	std::unique_ptr<Sprite> CreateSprite(const SpriteData& spriteData, std::string spriteName);
+	void DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite);
+
 	const BossHP* bossHP_;
 
 	// HP
 	std::unique_ptr<Sprite> hp_;
 	SpriteData hpData_;
+	// HP
+	std::unique_ptr<Sprite> hpBase_;
+	SpriteData hpBaseData_;
 };
