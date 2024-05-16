@@ -95,15 +95,19 @@ void Boss::Update() {
 	{
 		if (Character::nextCharacterState_ == Character::State::kChase) {
 			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
+			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
+
+		}
+		else {
+			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 		}
 	}
 	break;
 	default:
 		break;
 	}
-
-	state_->Update();
 	UpdateTransform();
+	state_->Update();
 	bossModelManager_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
@@ -113,7 +117,9 @@ void Boss::Reset(uint32_t stageIndex) {
 	stageIndex;
 	isAlive_ = true;
 	transform.translate = offset_;
-	transform.rotate = Quaternion::identity;
+
+	transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
+
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
