@@ -54,13 +54,13 @@ void StageLoop::Initialize() {
 }
 
 void StageLoop::Update() {
-	if (Character::currentCharacterState_ == Character::State::kScneChange&&
-		Character::nextCharacterState_ == Character::State::kRunAway&&
+	if (Character::currentCharacterState_ == Character::State::kScneChange &&
+		Character::nextCharacterState_ == Character::State::kRunAway &&
 		!isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
 	}
-	else if(Character::currentCharacterState_ == Character::State::kRunAway){
+	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
 	}
 
@@ -98,79 +98,80 @@ void StageLoop::LoadJson() {
 	// "objects"配列からオブジェクトを処理
 	for (const auto& obj : root["objects"]) {
 		// Block
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Block") {
-			Block::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			jsonData.blockDesc.emplace_back(desc);
-		}
-		// Trigger
-		else if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Trigger") {
-			BossAttackTrigger::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-			jsonData.bossAttackTrigger.emplace_back(desc);
+		if (obj.contains("gimmick")) {
+			if (obj["gimmick"]["type"] == "Block") {
+				Block::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				jsonData.blockDesc.emplace_back(desc);
+			}
+			else if (obj["gimmick"]["type"] == "Trigger") {
+				BossAttackTrigger::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+				jsonData.bossAttackTrigger.emplace_back(desc);
 
-		}
-		// FireBar
-		else if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "FireBar") {
-			FireBar::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.barDesc.length = gimmick["length"];
-			desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
-			desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
-			jsonData.fireBarDesc.emplace_back(desc);
-		}
-		// Floor
-		else if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Floor") {
-			Floor::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			jsonData.floorDesc.emplace_back(desc);
-		}
-		// Pendulam
-		else if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Pendulum") {
-			Pendulum::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.length = gimmick["length"];
-			desc.angle = gimmick["angle"] * Math::ToRadian;
-			desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
-			desc.gravity = gimmick["gravity"];
-			desc.stickScale = gimmick["stickScale"];
-			desc.ballScale = gimmick["ballScale"];
-			jsonData.pendulumDesc.emplace_back(desc);
-		}
-		// RevengeCoin
-		else if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "RevengeCoin") {
-			RevengeCoin::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			jsonData.revengeCoinDesc.emplace_back(desc);
-		}
-		// BeltConveyor
-		else if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "BeltConveyor") {
-			BeltConveyor::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.velocity = gimmick["beltConveyorVelocity"];
-		}
-		// DroppGimmick
-		else if (obj.contains("gimmick")) {
-			if (obj["gimmick"]["type"] == "DropGimmickSwitch") {
+			}// Trigger
+			else if (obj["gimmick"]["type"] == "Trigger") {
+				BossAttackTrigger::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+				jsonData.bossAttackTrigger.emplace_back(desc);
+
+			}
+			// FireBar
+			else if (obj["gimmick"]["type"] == "FireBar") {
+				FireBar::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.barDesc.length = gimmick["length"];
+				desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
+				desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
+				jsonData.fireBarDesc.emplace_back(desc);
+			}
+			// Floor
+			else if (obj["gimmick"]["type"] == "Floor") {
+				Floor::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				jsonData.floorDesc.emplace_back(desc);
+			}
+			// Pendulam
+			else if (obj["gimmick"]["type"] == "Pendulum") {
+				Pendulum::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.length = gimmick["length"];
+				desc.angle = gimmick["angle"] * Math::ToRadian;
+				desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
+				desc.gravity = gimmick["gravity"];
+				desc.stickScale = gimmick["stickScale"];
+				desc.ballScale = gimmick["ballScale"];
+				jsonData.pendulumDesc.emplace_back(desc);
+			}
+			// RevengeCoin
+			else if (obj["gimmick"]["type"] == "RevengeCoin") {
+				RevengeCoin::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				jsonData.revengeCoinDesc.emplace_back(desc);
+			}
+			// BeltConveyor
+			else if (obj["gimmick"]["type"] == "BeltConveyor") {
+				BeltConveyor::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.velocity = gimmick["beltConveyorVelocity"];
+				jsonData.beltConveyorDesc.emplace_back(desc);
+			}
+			// DroppGimmick
+			else if (obj["gimmick"]["type"] == "DropGimmickSwitch") {
 				Switch::Desc desc{};
 				desc.desc = StageGimmick::GetDesc(obj);
 				const auto& gimmick = obj["gimmick"];
 				desc.index = gimmick["dropGimmickIndex"];
 				switchDesc.emplace_back(desc);
 			}
-			if (obj["gimmick"]["type"] == "DropGimmickDropper") {
+			else if (obj["gimmick"]["type"] == "DropGimmickDropper") {
 				Dropper::Desc desc{};
 				desc.desc = StageGimmick::GetDesc(obj);
 				const auto& gimmick = obj["gimmick"];
@@ -192,8 +193,6 @@ void StageLoop::LoadJson() {
 			desc.desc = StageGimmick::GetDesc(obj);
 			jsonData.stageObjectDesc.emplace_back(desc);
 		}
-
-
 	}
 	// DropGimmickのソート
 	// １ステージにおけるスイッチのタイプの数
@@ -214,7 +213,7 @@ void StageLoop::LoadJson() {
 			jsonData.dropGimmickDesc.emplace_back(dropGimmickDesc);
 		}
 	}
-	
+
 	stageData_.emplace_back(jsonData);
 
 
@@ -425,7 +424,7 @@ void StageLoop::CreateStage() {
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
-		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size()-1));
+		uint32_t stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
 			distance = player_->GetWorldMatrix().GetTranslate().z - stageData_.at(stageIndex).stageSize * 0.5f + 10.0f;
@@ -466,7 +465,7 @@ void StageLoop::CreateStageObject(const Desc& stageData, float distance) {
 	}
 	for (auto& desc : stageData.dropGimmickDesc) {
 		DropGimmick::Desc mutableDesc = desc;
-		for (auto& switchDesc:mutableDesc.switchDesc) {
+		for (auto& switchDesc : mutableDesc.switchDesc) {
 			switchDesc.desc.transform.translate.z += distance;
 		}
 		for (auto& dropperDesc : mutableDesc.dropperDesc) {
