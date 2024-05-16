@@ -8,7 +8,6 @@
 #include "Core/DepthBuffer.h"
 #include "Raytracing/RaytracingRenderer.h"
 #include "RaymarchingRenderer.h"
-#include "ModelRenderer.h"
 #include "Bloom.h"
 #include "FXAA.h"
 #include "ParticleRenderer.h"
@@ -18,10 +17,11 @@
 #include "LightManager.h"
 #include "ComputeShader.h"
 #include "Transition.h"
-
+#include "ModelSorter.h"
+#include "SkinningManager.h"
 #include "GeometryRenderingPass.h"
 #include "LightingRenderingPass.h"
-
+#include "LineDrawer.h"
 #include "App/SkyRenderer.h"
 #include "App/Fog.h"
 #include "Edge.h"
@@ -47,7 +47,10 @@ public:
     void SetUseSky(bool useSky) { useSky_ = useSky; }
     LightManager& GetLightManager() { return lightManager_; }
     Bloom& GetBloom() { return bloom_; }
-    Transition& GetTransition() { return transition_; }
+    Transition& GetTransition() { return transition_; }  
+    SkinningManager& GetSkinningManager() { return skinningManager_; }
+    LineDrawer& GetLineDrawer() { return lineDrawer_; }
+
 
 private:
     RenderManager() = default;
@@ -62,8 +65,11 @@ private:
 
     SpriteRenderer spriteRenderer_;
 
+    ModelSorter modelSorter_;
+    SkinningManager skinningManager_;
     GeometryRenderingPass geometryRenderingPass_;
     LightingRenderingPass lightingRenderingPass_;
+    LineDrawer lineDrawer_;
 
     RaytracingRenderer raytracingRenderer_;
     //RaymarchingRenderer raymarchingRenderer_;

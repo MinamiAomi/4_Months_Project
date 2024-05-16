@@ -1,6 +1,7 @@
 #pragma once
 #include <chrono>
 #include <functional>
+#include <string>
 
 namespace Debug {
 
@@ -10,4 +11,9 @@ namespace Debug {
         func();
         return std::chrono::duration_cast<duration>(std::chrono::steady_clock::now() - start);
     }
+
+    void Log(const std::string& str);
+    void Log(const std::wstring& str);
+    void MsgBox(const std::string& text, const std::string& caption = "Debug");
+    void MsgBox(const std::wstring& text, const std::wstring& caption = L"Debug");
 }
