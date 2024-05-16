@@ -12,6 +12,7 @@
 #include "StageGimmick/StageObject/StageObjectManager.h"
 #include "StageGimmick/RevengeCoin/RevengeCoinManager.h"
 #include "StageGimmick/BeltConveyor/BeltConveyorManager.h"
+#include "StageGimmick/Dropper/DropGimmickManager.h"
 #include "Trap/TrapManager.h"
 #include "Math/Random.h"
 
@@ -33,10 +34,11 @@ public:
 	const std::unique_ptr<BossAttackTriggerManager>& GetBossAttackTriggerManager()const { return bossAttackTriggerManager_; }
 	const std::unique_ptr<FireBarManager>& GetFireBarManager()const { return fireBarManager_; }
 	const std::unique_ptr<FloorManager>& GetFloorManager()const { return floorManager_; }
+	const std::unique_ptr<DropGimmickManager>& GetDropGimmickManager()const { return dropGimmickManager_; }
 	const std::unique_ptr<PendulumManager>& GetPendulumManager()const { return pendulumManager_; }
 	const std::unique_ptr<RevengeCoinManager>& GetRevengeCoinManager()const { return revengeCoinManager_; }
 	const std::unique_ptr<StageObjectManager>& GetStageObjectManager()const { return stageObjectManager_; }
-	const std::unique_ptr<TrapManager>& GetTrapManager()const { return trapManager_; }
+	//const std::unique_ptr<TrapManager>& GetTrapManager()const { return trapManager_; }
 private:
 	const Boss* boss_;
 	const Camera* camera_;
@@ -49,6 +51,7 @@ private:
 		std::vector<BossAttackTrigger::Desc>bossAttackTrigger;
 		std::vector<FireBar::Desc>fireBarDesc;
 		std::vector<Floor::Desc>floorDesc;
+		std::vector<DropGimmick::Desc>dropGimmickDesc;
 		std::vector<Pendulum::Desc>pendulumDesc;
 		std::vector<RevengeCoin::Desc>revengeCoinDesc;
 		std::vector<StageObject::Desc>stageObjectDesc;
@@ -71,9 +74,10 @@ private:
 	std::unique_ptr<BossAttackTriggerManager> bossAttackTriggerManager_;
 	std::unique_ptr<FireBarManager> fireBarManager_;
 	std::unique_ptr<FloorManager> floorManager_;
+	std::unique_ptr<DropGimmickManager> dropGimmickManager_;
 	std::unique_ptr<PendulumManager> pendulumManager_;
 	std::unique_ptr<RevengeCoinManager> revengeCoinManager_;
 	std::unique_ptr<StageObjectManager> stageObjectManager_;
-	std::unique_ptr<TrapManager> trapManager_;
+	//std::unique_ptr<TrapManager> trapManager_;
 #pragma endregion
 };

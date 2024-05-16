@@ -39,7 +39,7 @@ void GameScene::OnInitialize() {
 	Movie::isPlaying = true;
 
 
-	player_->SetTrapManager(stageLoop_->GetTrapManager().get());
+	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
