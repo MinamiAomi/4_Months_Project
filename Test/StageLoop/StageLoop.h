@@ -38,7 +38,7 @@ public:
 	const std::unique_ptr<PendulumManager>& GetPendulumManager()const { return pendulumManager_; }
 	const std::unique_ptr<RevengeCoinManager>& GetRevengeCoinManager()const { return revengeCoinManager_; }
 	const std::unique_ptr<StageObjectManager>& GetStageObjectManager()const { return stageObjectManager_; }
-	const std::unique_ptr<TrapManager>& GetTrapManager()const { return trapManager_; }
+	//const std::unique_ptr<TrapManager>& GetTrapManager()const { return trapManager_; }
 private:
 	const Boss* boss_;
 	const Camera* camera_;
@@ -78,6 +78,6 @@ private:
 	std::unique_ptr<PendulumManager> pendulumManager_;
 	std::unique_ptr<RevengeCoinManager> revengeCoinManager_;
 	std::unique_ptr<StageObjectManager> stageObjectManager_;
-	std::unique_ptr<TrapManager> trapManager_;
+	//std::unique_ptr<TrapManager> trapManager_;
 #pragma endregion
 };
