@@ -23,14 +23,17 @@ class Player :
 public:
 	void Initialize();
 	void Update();
+	void UpdateTransform();
 
 	void Reset();
 
 	const PlayerRevengeGage& GetRevengeGage() const { return *playerRevengeGage_.get(); }
 	const Vector3& GetLocalPos() const { return transform.translate; }
-	const Matrix4x4& GetWorldMatrix() const { return transform.worldMatrix; }
+	Matrix4x4& GetWorldMatrix() { return transform.worldMatrix; }
+	Transform& GetTransform() { return transform; }
 	const Vector3& GetVelocity() const { return velocity_; }
 	void SetVelocity(const Vector3& velocity) { velocity_ = velocity; }
+	ModelInstance& GetModelInstance() const { return *model_; }
 	const Vector3& GetMinModelSize()const { return model_->GetModel()->GetMeshes()[0].minVertex; }
 	const bool GetIsMove() const { return isMove_; }
 	const bool GetIsGround() const { return isGround_; }
@@ -50,7 +53,6 @@ private:
 	void Dash();
 	void Invincible();
 	void SetTrap();
-	void UpdateTransform();
 
 	void OnCollision(const CollisionInfo& collisionInfo);
 

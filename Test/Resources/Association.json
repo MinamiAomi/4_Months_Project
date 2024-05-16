@@ -26,6 +26,7 @@
   },
     "Model": {
         "bossBody": "Boss/Body/boss.gltf",
+        "boss_2": "Boss_2/Boss_2.gltf",
         "bossRightArm": "Boss/RightArm/rightArm.gltf",
         "bossLeftArm": "Boss/LeftArm/leftArm.gltf",
         "bossFloorAll": "Boss/FloorAll/floorAll.obj",
@@ -45,6 +46,9 @@
         "building3": "Building3/building3.gltf",
         "bridge": "Bridge/bridge.gltf",
         "stones": "Stones/stones.gltf",
-        "revengeCoin": "RevengeCoin/revengeCoin.gltf"
+        "revengeCoin": "RevengeCoin/revengeCoin.gltf",
+        "switch": "DropGimmick/switch.gltf",
+        "dropper": "DropGimmick/dropper.gltf",
+        "dropBall": "DropGimmick/ball.gltf"
     }
 }

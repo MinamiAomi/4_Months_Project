@@ -130,6 +130,9 @@
     <Filter Include="Game\Object\StageGimmick\BeltConveyor">
       <UniqueIdentifier>{5ab3394d-0d44-4af4-b66a-eab3133cb16d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\StageGimmick\Dopper">
+      <UniqueIdentifier>{2506031b-619e-4b68-a102-d50669a840be}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Object\Movie">
       <UniqueIdentifier>{1c94bd19-6744-4ebd-82d4-96c74029944f}</UniqueIdentifier>
     </Filter>
@@ -322,6 +325,9 @@
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyor.cpp">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClCompile>
+    <ClCompile Include="StageGimmick\Dropper\DropGimmick.cpp">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClCompile>
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp" />
     <ClCompile Include="Movie.cpp">
       <Filter>Game\Object\Movie</Filter>
@@ -334,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="GameOverMovie.cpp">
       <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Dropper\DropGimmickManager.cpp">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp">
+      <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,9 +509,6 @@
     <ClInclude Include="Trap\Trap.h">
       <Filter>Game\Object\Trap</Filter>
     </ClInclude>
-    <ClInclude Include="Culling.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Trap\TrapManager.h">
       <Filter>Game\Object\Trap</Filter>
     </ClInclude>
@@ -544,6 +553,15 @@
     </ClInclude>
     <ClInclude Include="StageGimmick\BeltConveyor\BeltConveyorManager.h">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Dropper\DropGimmick.h">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClInclude>
+    <ClInclude Include="Culling.h">
+      <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
+    </ClInclude>
+    <ClInclude Include="StageGimmick\Dropper\DropGimmickManager.h">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@ namespace BossParts {
 		"bossLeftArm",
 		"bossFloorAll",
 		"bossLongDistanceAttack",
+		"boss_2"
 	};
 }
 
@@ -23,12 +24,18 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	models_.at(BossParts::Parts::kLeftArm) = std::make_unique<LeftArm>();
 	models_.at(BossParts::Parts::kFloorAll) = std::make_unique<FloorAll>();
 	models_.at(BossParts::Parts::kLongDistanceAttack) = std::make_unique<LongDistanceAttack>();
+	models_.at(BossParts::Parts::kBoss_2) = std::make_unique<Boss_2>();
 
 	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
 		model->Initialize(i);
 		i++;
 	}
+	models_.at(BossParts::Parts::kBody)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kRightArm)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kLeftArm)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
 void BossModelManager::Update() {
@@ -125,5 +132,9 @@ void FloorAll::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void LongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void Boss_2::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }

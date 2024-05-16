@@ -39,7 +39,7 @@ void GameScene::OnInitialize() {
 	Movie::isPlaying = true;
 
 
-	player_->SetTrapManager(stageLoop_->GetTrapManager().get());
+	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
@@ -112,36 +112,38 @@ void GameScene::OnUpdate() {
 		stageLineLight->Update();
 	}
 
-	if (!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+	pause_->Update();
+	ui_->Update();
 
-		pause_->Update();
+	if (!pause_->GetIsPause()) {
 
-		if (!pause_->GetIsPause()) {
+		//gameClear
+		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_C)) {
+			Movie::isPlaying = true;
+			currentMovie_ = gameClearMovie_.get();
+		}
+		//gameOver
+		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_K)) {
+			Movie::isPlaying = true;
+			currentMovie_ = gameOverMovie_.get();
+		}
 
-			//gameClear
-			if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-				Movie::isPlaying = true;
-				currentMovie_ = gameClearMovie_.get();
-			}
-			//gameOver
-			if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-				Movie::isPlaying = true;
-				currentMovie_ = gameOverMovie_.get();
-			}
-
-			if (currentMovie_) {
-				currentMovie_->Update();
-				if (Movie::isPlaying == false) {
-					currentMovie_->Reset();
-					currentMovie_ = nullptr;
-					if (!player_->GetIsAlive()) {
-						SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
-					}
-					if (!boss_->GetIsAlive()) {
-						SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
-					}
+		if (currentMovie_) {
+			currentMovie_->Update();
+			if (Movie::isPlaying == false) {
+				currentMovie_->Reset();
+				currentMovie_ = nullptr;
+				if (!player_->GetIsAlive()) {
+					SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+				}
+				if (!boss_->GetIsAlive()) {
+					SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
 				}
 			}
+		}
+
+
+		if (!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 
 			directionalLight_->DrawImGui("directionalLight");
 
@@ -179,7 +181,6 @@ void GameScene::OnUpdate() {
 
 			skyBlockManager_->Update();
 
-			ui_->Update();
 			cutIn_->Update();
 
 			// 当たり判定を取る
@@ -272,6 +273,7 @@ void GameScene::OnUpdate() {
 			//}
 		}
 	}
+
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }
 

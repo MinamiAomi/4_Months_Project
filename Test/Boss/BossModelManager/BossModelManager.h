@@ -16,6 +16,8 @@ namespace BossParts {
 		kFloorAll,
 		kLongDistanceAttack,
 
+		kBoss_2,
+
 		kCount,
 	};
 	extern std::array<std::string, Parts::kCount> partsName_;
@@ -48,6 +50,11 @@ private:
 	Vector3 offset_;
 	Vector3 rotate_;
 	std::string name_;
+};
+
+class Boss_2:public BossModel {
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
 
 class Body :public BossModel {
