@@ -6,6 +6,8 @@
 #include "Boss/Boss.h"
 #include "Player/Player.h"
 #include "Engine/Graphics/RenderManager.h"
+#include "Movie.h"
+#include "Scene/SceneManager.h"
 
 void CameraManager::Initialize(const Player* player,const Boss* boss) {
 	debugCamera_ = std::make_unique<DebugCamera>();
@@ -23,6 +25,17 @@ void CameraManager::Initialize(const Player* player,const Boss* boss) {
 }
 
 void CameraManager::Update() {
+
+	//カメラ制御  これのせいでデバックカメラできません
+	if (Movie::isPlaying == true) {
+		RenderManager::GetInstance()->SetCamera(movieCamera_);
+		state_ = kMovieCamera;
+	}
+	if (Movie::isPlaying == false && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+		stageCamera_->SetRenderManager();
+		state_ = kStageCamera;
+	}
+
 #ifdef _DEBUG
 	if (ImGui::BeginMenu("CameraManager")) {
 		const char* items[] = { "Stage Camera", "Debug Camera" };
