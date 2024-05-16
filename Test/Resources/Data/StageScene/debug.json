@@ -379,7 +379,7 @@
         },
         {
             "type": "MESH",
-            "name": "Beltconbeyor.001",
+            "name": "Floor.003",
             "transform": {
                 "translate": [
                     0.0,
@@ -417,10 +417,6 @@
                     -0.0,
                     1.0
                 ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
             }
         },
         {
@@ -466,7 +462,7 @@
             },
             "gimmick": {
                 "type": "DropGimmickSwitch",
-                "dropGimmickIndex": 1
+                "dropGimmickIndex": 0
             }
         },
         {
@@ -696,7 +692,7 @@
             },
             "gimmick": {
                 "type": "DropGimmickSwitch",
-                "dropGimmickIndex": 0
+                "dropGimmickIndex": 1
             }
         },
         {
