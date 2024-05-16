@@ -7,6 +7,7 @@
 
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
+#include "Graphics/Skeleton.h"
 
 namespace BossParts {
 	enum Parts {
@@ -91,4 +92,7 @@ public:
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }
 private:
 	std::array<std::unique_ptr<BossModel>, BossParts::Parts::kCount> models_;
+	std::shared_ptr<Animation> animation_;
+	std::shared_ptr<Skeleton> skeleton_;
+	float time_;
 };

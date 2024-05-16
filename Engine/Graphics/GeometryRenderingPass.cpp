@@ -166,7 +166,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     // Uploadバッファを埋める
     for (auto& [key, instances] : modelMap) {
         for (auto instance : instances) {
-            instancesData[drawCount].worldMatrix = instance->GetWorldMatrix();
+            instancesData[drawCount].worldMatrix = Matrix4x4::MakeRotationY(180.0f * Math::ToRadian) * instance->GetWorldMatrix();
             //instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix.Inverse().Transpose();
             instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix;
             instancesData[drawCount].color = instance->GetColor();

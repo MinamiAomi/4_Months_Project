@@ -1,4 +1,7 @@
 {
+  "Animation": {
+    "boss_2" : "Boss_2/Boss_2.gltf"
+  },
   "Sound": {
       "jump": "SE/jump.wav",
       "revenge": "SE/revenge.wav",
