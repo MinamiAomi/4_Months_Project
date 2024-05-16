@@ -21,6 +21,8 @@ namespace Random {
         float NextFloatLimit() { return NextFloatRange(FLT_MIN, FLT_MAX); }
         float NextFloatUnit() { return NextFloatRange(0.0f, 1.0f); }
 
+        Vector3 NextVector3Range(const Vector3& min, const Vector3& max) { return{ NextFloatRange(min.x, max.z) ,NextFloatRange(min.y, max.y) ,NextFloatRange(min.z, max.z) }; }
+
     private:
         std::random_device seedGenerator_;
         std::mt19937 engine_;

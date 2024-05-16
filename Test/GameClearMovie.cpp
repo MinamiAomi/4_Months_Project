@@ -7,12 +7,16 @@
 #include "Input/Input.h"
 
 void GameClearMovie::Update() {
+	if (!isInitialize_) {
+		isInitialize_ = true;
+
+	}
 	Movie::Update();
 	player_;
 	boss_;
 	camera_;
-	test--;
-	if (test <= 0) {
+	frame_++;
+	if (frame_ >= kFullFrame) {
 		isPlaying = false;
 	}
 }
@@ -20,4 +24,8 @@ void GameClearMovie::Update() {
 void GameClearMovie::Reset()
 {
 	Movie::Reset();
+}
+
+void GameClearMovie::UpdateInitialize()
+{
 }

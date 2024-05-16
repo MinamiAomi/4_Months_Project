@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Graphics/Sprite.h"
+#include "Pause.h"
 
 class UI {
 private:

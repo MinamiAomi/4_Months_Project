@@ -4,6 +4,7 @@
 #include "File/JsonHelper.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
+#include "Pause.h"
 
 void UI::Initialize() {
 	LoadJson();
@@ -29,6 +30,7 @@ void UI::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
+	controll_->SetIsActive(Pause::isPause_);
 }
 
 void UI::LoadJson() {

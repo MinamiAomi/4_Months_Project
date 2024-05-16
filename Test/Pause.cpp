@@ -6,6 +6,8 @@
 #include "Graphics/ImGuiManager.h"
 #include "Input/Input.h"
 
+bool Pause::isPause_ = false;
+
 void Pause::Initialize() {
 	LoadJson();
 	ToTitle_ = CreateSprite(ToTitleData_, "toTitle");

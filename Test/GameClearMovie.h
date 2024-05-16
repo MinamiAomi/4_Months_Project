@@ -10,8 +10,12 @@
 
 class GameClearMovie : public Movie {
 public:
+
+	const int kFullFrame = 120;
+
 	void Update() override;
 	void Reset() override;
+	void UpdateInitialize();
 private:
-
+	
 };

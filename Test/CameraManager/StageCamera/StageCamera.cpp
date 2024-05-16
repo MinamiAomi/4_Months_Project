@@ -25,6 +25,13 @@ void StageCamera::Initialize() {
 	}
 	JSON_CLOSE();
 #pragma endregion
+	camera_->SetPosition(
+		{
+		transform.translate.x + cameraParam_.at(Character::State::kChase).offset.x,
+		transform.translate.y + cameraParam_.at(Character::State::kChase).offset.y,
+		transform.translate.z + cameraParam_.at(Character::State::kChase).offset.z
+		});
+	camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kChase).eulerAngle * Math::ToRadian));
 }
 
 void StageCamera::Update() {
