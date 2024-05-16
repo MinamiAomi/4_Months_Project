@@ -337,10 +337,6 @@
     <ClCompile Include="StageGimmick\Dropper\DropGimmick.cpp">
       <Filter>Game\Object\StageGimmick\Dopper</Filter>
     </ClCompile>
-    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="StageGimmick\Dropper\DropGimmickManager.cpp" />
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp" />
     <ClCompile Include="Movie.cpp">
       <Filter>Game\Object\Movie</Filter>
@@ -353,6 +349,12 @@
     </ClCompile>
     <ClCompile Include="GameOverMovie.cpp">
       <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\Dropper\DropGimmickManager.cpp">
+      <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClCompile>
+    <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp">
+      <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

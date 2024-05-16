@@ -399,7 +399,7 @@ void StageLoop::InitializeCreateStage() {
 			distance = player_->GetWorldMatrix().GetTranslate().z + stageData_.at(stageIndex).stageSize * 0.5f - 10.0f;
 		}
 		else {
-			distance *= stageData_.at(stageIndices.at(i - 1)).stageSize;
+			distance += stageData_.at(stageIndices.at(i - 1)).stageSize;
 		}
 		CreateStageObject(stageData_.at(stageIndex), distance);
 		stageIndices.emplace_back(stageIndex);

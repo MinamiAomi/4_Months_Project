@@ -13,7 +13,7 @@ void DropperBall::Initialize(const Vector3& pos) {
 	transform.rotate = Quaternion::identity;
 	transform.translate = pos;
 
-	model_->SetModel(ResourceManager::GetInstance()->FindModel("ball"));
+	model_->SetModel(ResourceManager::GetInstance()->FindModel("dropBall"));
 	model_->SetIsActive(true);
 
 	state_ = kDrop;
