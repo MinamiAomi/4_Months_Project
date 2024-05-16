@@ -111,14 +111,6 @@ void StageLoop::LoadJson() {
 				desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
 				jsonData.bossAttackTrigger.emplace_back(desc);
 
-			}// Trigger
-			else if (obj["gimmick"]["type"] == "Trigger") {
-				BossAttackTrigger::Desc desc{};
-				desc.desc = StageGimmick::GetDesc(obj);
-				const auto& gimmick = obj["gimmick"];
-				desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-				jsonData.bossAttackTrigger.emplace_back(desc);
-
 			}
 			// FireBar
 			else if (obj["gimmick"]["type"] == "FireBar") {

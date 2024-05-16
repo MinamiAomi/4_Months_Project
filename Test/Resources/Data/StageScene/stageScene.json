@@ -10873,7 +10873,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossLowerAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
@@ -10883,7 +10884,7 @@
                 "translate": [
                     0.0,
                     15.813758850097656,
-                    -230.0968475341797
+                    -150.0968475341797
                 ],
                 "rotate": [
                     0.0,
@@ -10918,7 +10919,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossInsideAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
@@ -10963,7 +10965,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -11008,7 +11011,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -11053,7 +11057,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossLowerAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
@@ -11098,7 +11103,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -11143,7 +11149,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossInsideAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -11188,7 +11195,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -11233,7 +11241,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -11278,7 +11287,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossLowerAttackTrigger"
+                "type": "Trigger",
+                "state": 2
             }
         },
         {
@@ -11323,7 +11333,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossInsideAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -11368,7 +11379,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossInsideAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -11413,7 +11425,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
@@ -11458,7 +11471,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -11503,7 +11517,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -11548,7 +11563,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         }
     ]
