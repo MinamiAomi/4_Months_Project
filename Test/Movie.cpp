@@ -15,7 +15,7 @@ void Movie::Initialize(Player* player, Boss* boss, Camera* camera, const StageCa
 
 	isPlaying = false;
 	isSetCamera_ = false;
-	test = 120;
+	frame_ = 0;
 }
 
 void Movie::Update()
@@ -31,5 +31,6 @@ void Movie::Reset()
 {
 	isPlaying = false;
 	isSetCamera_ = false;
-	test = 120;
+	isInitialize_ = false;
+	frame_ = 0;
 }

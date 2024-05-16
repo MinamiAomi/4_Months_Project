@@ -7,7 +7,10 @@
 #include "Graphics/Sprite.h"
 
 class Pause {
+public:
+	static bool isPause_;
 private:
+
 	struct SpriteData {
 		Vector2 scale = { 64.0f,64.0f };
 		float rotate = 0.0f;
@@ -44,7 +47,6 @@ private:
 	std::unique_ptr<Sprite> CreateSprite(const SpriteData& spriteData, std::string spriteName);
 	void DrawImGui(SpriteData& spriteData, std::string string, Sprite* sprite);
 
-	bool isPause_ = false;
 	bool orderReset_ = false;
 	bool orderToTitle_ = false;
 	Select select_ = Retry;

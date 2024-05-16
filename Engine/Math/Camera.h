@@ -1,6 +1,8 @@
 #pragma once
+#include <optional>
 
 #include "MathUtils.h"
+#include "Random.h"
 
 class Camera {
 public:
@@ -18,6 +20,7 @@ public:
 
     void SetPerspective(float fovY, float aspectRaito, float nearClip, float farClip);
     void SetOrthographic(float width, float height, float nearClip, float farClip);
+    void Shake(const Vector3& shakeValue);
 
     float GetNearClip() const { return nearClip_; }
     float GetFarClip() const { return farClip_; }
@@ -34,6 +37,10 @@ public:
 private:
     Vector3 position_;
     Quaternion rotate_;
+
+    Random::RandomNumberGenerator rnd_;
+    std::optional<Vector3> shakeValue_;
+   
     
     ProjectionType projectionType_;
     union Projection {

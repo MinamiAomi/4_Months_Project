@@ -12,11 +12,11 @@ class Player;
 class Skydome :
 	public GameObject {
 public:
-	void Initialize(const Player* player);
+	void Initialize(Player* player);
 	void Update();
 public:
 
 private:
 	std::unique_ptr<ModelInstance> model_;
-	const Player* player_;
+	Player* player_;
 };
