@@ -29,7 +29,7 @@ PSOutput main(PSInput input) {
     }
     outputColor *= rcp(NUM_SAMPLES);
 
-    output.color.rgb = outputColor;
+    output.color.rgb = lerp(outputColor, g_Texture.Sample(g_Sampler, input.texcoord).rgb, 1.0f);
     output.color.a = 1.0f;
     
     return output;

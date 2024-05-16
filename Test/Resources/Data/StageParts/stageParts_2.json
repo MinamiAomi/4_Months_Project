@@ -391,7 +391,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": 0.01
+                "angularVelocity": 1
             }
         },
         {

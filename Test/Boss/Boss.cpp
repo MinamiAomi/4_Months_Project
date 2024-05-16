@@ -24,6 +24,10 @@ void Boss::Initialize() {
 	bossHP_ = std::make_unique<BossHP>();
 	bossHP_->Initialize();
 
+	bossUI_ = std::make_unique<BossUI>();
+	bossUI_->SetBossHP(bossHP_.get());
+	bossUI_->Initialize();
+
 	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
@@ -91,24 +95,31 @@ void Boss::Update() {
 	{
 		if (Character::nextCharacterState_ == Character::State::kChase) {
 			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
+			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
+
+		}
+		else {
+			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 		}
 	}
 	break;
 	default:
 		break;
 	}
-
-	state_->Update();
 	UpdateTransform();
+	state_->Update();
 	bossModelManager_->Update();
-	
+	bossUI_->Update();
+	bossHP_->Update();
 }
 
 void Boss::Reset(uint32_t stageIndex) {
 	stageIndex;
 	isAlive_ = true;
 	transform.translate = offset_;
-	transform.rotate = Quaternion::identity;
+
+	transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
+
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
@@ -142,11 +153,14 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 	}
-	if (collisionInfo.collider->GetName() == "Trap") {
+	if (collisionInfo.collider->GetName() == "DropGimmickBall") {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
 			bossHP_->AddHP(-1);
+			if (bossHP_ < 0) {
+				isAlive_ = false;
+			}
 		}
 		break;
 		case Character::State::kRunAway:
