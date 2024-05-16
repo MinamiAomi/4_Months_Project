@@ -11,6 +11,7 @@
 #include "Core/SamplerManager.h"
 #include "Model.h"
 #include "DefaultTextures.h"
+#include "RenderManager.h"
 
 namespace {
     const wchar_t kVertexShader[] = L"Standard/GeometryPassVS.hlsl";
@@ -102,7 +103,7 @@ void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
 
 }
 
-void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera& camera) {
+void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera& camera, const ModelSorter& modelSorter) {
 
     struct SceneData {
         Matrix4x4 viewMatrix;
@@ -152,32 +153,20 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     commandContext.ClearColor(normal_);
     commandContext.ClearDepth(depth_);
 
-    // インスタンスをモデルごとに分けてインスタンシング用のバッファに送る
-    auto& instanceList = ModelInstance::GetInstanceList();
-
-    std::unordered_map<Model*, std::vector<ModelInstance*>> drawMap;
-    uint32_t drawCount = 0;
-    // モデルごとに分ける
-    for (const auto& instance : instanceList) {
-        // アクティブかつモデルありのみ描画
-        if (!instance->IsActive() || !instance->GetModel()) { continue; }
-        auto model = instance->GetModel().get();
-        drawMap[model].emplace_back(instance);
-        ++drawCount;
-    }
-    if (drawCount == 0) {
+    auto& modelMap = modelSorter.GetModelInstanceMap();
+    auto& instanceList = modelSorter.GetDrawModels();
+    if (instanceList.empty()) {
         return;
     }
-
     // Uploadバッファを割り当てる
-    size_t allocateBufferSize = sizeof(InstanceData) * drawCount;
+    size_t allocateBufferSize = sizeof(InstanceData) * instanceList.size();
     auto alloc = commandContext.AllocateDynamicBuffer(LinearAllocatorType::Upload, allocateBufferSize);
-    std::span<InstanceData> instancesData = { static_cast<InstanceData*>(alloc.cpu), drawCount };
-    drawCount = 0;
+    std::span<InstanceData> instancesData = { static_cast<InstanceData*>(alloc.cpu), instanceList.size()};
+    uint32_t drawCount = 0;
     // Uploadバッファを埋める
-    for (auto& [model, instances] : drawMap) {
+    for (auto& [key, instances] : modelMap) {
         for (auto instance : instances) {
-            instancesData[drawCount].worldMatrix = instance->GetWorldMatrix();
+            instancesData[drawCount].worldMatrix = Matrix4x4::MakeRotationY(180.0f * Math::ToRadian) * instance->GetWorldMatrix();
             //instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix.Inverse().Transpose();
             instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix;
             instancesData[drawCount].color = instance->GetColor();
@@ -217,25 +206,35 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
     commandContext.SetDescriptorTable(RootIndex::Instances, instancingBuffer_.GetSRV());
 
     uint32_t instanceOffset = 0;
-    for (auto& [model, instances] : drawMap) {
+    for (auto& [key, instances] : modelMap) {
 
+        auto model = key.model;
         commandContext.SetConstants(RootIndex::InstanceOffset, instanceOffset);
 
         for (auto& mesh : model->GetMeshes()) {
             MaterialData materialData = ErrorMaterial();
-            if (mesh.material) {
-                materialData.albedo = mesh.material->albedo;
-                materialData.metallic = mesh.material->metallic;
-                materialData.roughness = mesh.material->roughness;
-                if (mesh.material->albedoMap) { materialData.albedoMapIndex = mesh.material->albedoMap->GetSRV().GetIndex(); }
-                if (mesh.material->metallicRoughnessMap) { materialData.metallicRoughnessMapIndex = mesh.material->metallicRoughnessMap->GetSRV().GetIndex(); }
-                if (mesh.material->normalMap) { materialData.normalMapIndex = mesh.material->normalMap->GetSRV().GetIndex(); }
+            if (mesh.material < model->GetMaterials().size()) {
+                auto& material = model->GetMaterials()[mesh.material];
+                materialData.albedo = material.albedo;
+                materialData.metallic = material.metallic;
+                materialData.roughness = material.roughness;
+                if (material.albedoMap) { materialData.albedoMapIndex = material.albedoMap->GetSRV().GetIndex(); }
+                if (material.metallicRoughnessMap) { materialData.metallicRoughnessMapIndex = material.metallicRoughnessMap->GetSRV().GetIndex(); }
+                if (material.normalMap) { materialData.normalMapIndex = material.normalMap->GetSRV().GetIndex(); }
             }
             commandContext.SetDynamicConstantBufferView(RootIndex::Material, sizeof(materialData), &materialData);
 
-            commandContext.SetVertexBuffer(0, mesh.vertexBuffer.GetVertexBufferView());
-            commandContext.SetIndexBuffer(mesh.indexBuffer.GetIndexBufferView());
-            commandContext.DrawIndexedInstanced((UINT)mesh.indices.size(), (UINT)instances.size());
+            auto skeleton = key.skeleton;
+            auto vbv = model->GetVertexBuffer().GetVertexBufferView();
+            if (skeleton) {
+                auto skinCluster = RenderManager::GetInstance()->GetSkinningManager().GetSkinCluster(skeleton);
+                if (skinCluster) {
+                    vbv = skinCluster->GetSkinnedVertexBuffer().GetVertexBufferView();
+                }
+            }
+            commandContext.SetVertexBuffer(0, vbv);
+            commandContext.SetIndexBuffer(model->GetIndexBuffer().GetIndexBufferView());
+            commandContext.DrawIndexedInstanced((UINT)mesh.indexCount, (UINT)instances.size(), mesh.indexOffset, mesh.vertexOffset);
         }
 
         instanceOffset += static_cast<uint32_t>(instances.size());

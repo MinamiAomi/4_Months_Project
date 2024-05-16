@@ -26,11 +26,20 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	models_.at(BossParts::Parts::kLongDistanceAttack) = std::make_unique<LongDistanceAttack>();
 	models_.at(BossParts::Parts::kBoss_2) = std::make_unique<Boss_2>();
 
+
 	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
 		model->Initialize(i);
 		i++;
 	}
+
+	animation_ = ResourceManager::GetInstance()->FindAnimation("boss_2");
+	skeleton_ = std::make_shared<Skeleton>();
+	skeleton_->Create(models_.at(BossParts::Parts::kBoss_2)->GetModel()->GetModel());
+	time_ = 0.0f;
+	skeleton_->ApplyAnimation(animation_->GetAnimation("move"), time_);
+	models_.at(BossParts::Parts::kBoss_2)->GetModel()->SetSkeleton(skeleton_);
+
 	models_.at(BossParts::Parts::kBody)->SetIsAlive(false);
 	models_.at(BossParts::Parts::kRightArm)->SetIsAlive(false);
 	models_.at(BossParts::Parts::kLeftArm)->SetIsAlive(false);
@@ -39,6 +48,11 @@ void BossModelManager::Initialize(const Transform* Transform) {
 }
 
 void BossModelManager::Update() {
+	time_ += 1.0f / 120.0f;
+	time_ = std::fmod(time_, 1.0f);
+	skeleton_->ApplyAnimation(animation_->GetAnimation("move"), time_);
+	skeleton_->Update();
+
 	for (auto& model : models_) {
 		model->Update();
 	}

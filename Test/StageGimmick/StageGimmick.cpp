@@ -1,13 +1,15 @@
 #include "StageGimmick.h"
 
+#include "File/JsonConverter.h"
+
 StageGimmick::Desc StageGimmick::GetDesc(const nlohmann::json& obj) {
 	StageGimmick::Desc desc{};
 	desc.name = obj["file_name"];
 
 	const auto& transform = obj["transform"];
-	desc.transform.scale = { transform["scale"][0], transform["scale"][1], transform["scale"][2] };
-	desc.transform.rotate = Quaternion{ transform["rotate"][0], transform["rotate"][1], transform["rotate"][2],transform["rotate"][3] };
-	desc.transform.translate = { transform["translate"][0], transform["translate"][1], transform["translate"][2] };
+	desc.transform.scale = transform["scale"].get<Vector3>();
+	desc.transform.rotate = transform["rotate"].get<Quaternion>();
+	desc.transform.translate = transform["translate"].get<Vector3>();
 
 	if (obj.contains("collider")) {
 		desc.collider = Collider{};
