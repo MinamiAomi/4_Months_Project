@@ -27,6 +27,7 @@
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
     <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
+    <ClCompile Include="Boss\BossUI\BossUI.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />

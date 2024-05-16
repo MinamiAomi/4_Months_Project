@@ -142,11 +142,14 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 	}
-	if (collisionInfo.collider->GetName() == "Trap") {
+	if (collisionInfo.collider->GetName() == "DropGimmickBall") {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
 			bossHP_->AddHP(-1);
+			if (bossHP_ < 0) {
+				isAlive_ = false;
+			}
 		}
 		break;
 		case Character::State::kRunAway:
