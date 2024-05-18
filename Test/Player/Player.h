@@ -45,6 +45,7 @@ public:
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
+	const float GetRunAwayLimitLine() const {	return runAwayLimitLine_;}
 
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:
