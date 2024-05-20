@@ -102,7 +102,6 @@ private:
 	float knockBack_;
 	uint32_t maxInvincibleTime_;
 	Vector3 offset_;
-	Vector3 revengeStartOffset_;
 	float hitJump_;
 	float dashPower_;
 	uint32_t dashMaxCount_;
@@ -110,7 +109,5 @@ private:
 #pragma endregion
 #pragma region Json
 	void DebugParam();
-	void SaveJson();
-	void LoadJson();
 #pragma endregion
 };

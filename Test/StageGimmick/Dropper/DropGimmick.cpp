@@ -5,6 +5,7 @@
 #include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
 #include "Player/Player.h"
+#include "Boss/Boss.h"
 
 void DropperBall::Initialize(const Vector3& pos) {
 	model_ = std::make_unique<ModelInstance>();
@@ -17,6 +18,13 @@ void DropperBall::Initialize(const Vector3& pos) {
 	model_->SetIsActive(true);
 
 	state_ = kDrop;
+
+	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
+	random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
+	random_.y = rnd_.NextFloatRange(30.0f, 40.0f);
+
+	time_ = 0.0f;
+	setPos_ = Vector3::zero;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -24,7 +32,7 @@ void DropperBall::Initialize(const Vector3& pos) {
 	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 	Vector3 modelSize = model_->GetModel()->GetMeshes().at(0).minVertex - model_->GetModel()->GetMeshes().at(0).maxVertex;
-	collider_->SetSize({ transform.scale.x* modelSize .x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z});
+	collider_->SetSize({ transform.scale.x * modelSize.x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetCollisionMask(~CollisionAttribute::DropGimmickDropperBall);
@@ -39,14 +47,23 @@ void DropperBall::Update() {
 		transform.translate.y -= 0.5f;
 		break;
 	case DropperBall::kShot:
-		transform.translate.z += 1.0f;
+		static const float kMax = 60.0f;
+		transform.translate = Vector3::QuadraticBezierCurve(
+			time_ / kMax,
+			setPos_,
+			setPos_ + random_ + Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
+			boss_->transform.worldMatrix.GetTranslate());
+		time_ += 1.0f;
+		if (time_>= kMax) {
+			isAlive_ = false;
+		}
 		break;
 	}
 	UpdateTransform();
 }
 
 void DropperBall::UpdateTransform() {
-	transform.UpdateMatrix(); 
+	transform.UpdateMatrix();
 	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 	Vector3 modelSize = model_->GetModel()->GetMeshes().at(0).minVertex - model_->GetModel()->GetMeshes().at(0).maxVertex;
@@ -73,14 +90,15 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 		collisionInfo.collider->GetName() == "StageObject") {
 		if (state_ == State::kDrop) {
 			state_ = State::kStay;
+			setPos_ = transform.translate;
 		}
 	}
 }
 
 void Switch::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
-	
-	desc_= desc;
+
+	desc_ = desc;
 
 	transform.scale = desc.desc.transform.scale;
 	transform.rotate = desc.desc.transform.rotate;
@@ -88,7 +106,7 @@ void Switch::Initialize(const Desc& desc) {
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
-	
+
 	isPushed_ = false;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -119,10 +137,12 @@ void Switch::UpdateTransform() {
 
 void Switch::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
-		// 落下しているとき
-		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-			player_->GetVelocity().y <= 0.0f) {
-			isPushed_ = true;
+		if (Character::currentCharacterState_ == Character::State::kRunAway) {
+			// 落下しているとき
+			if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
+				player_->GetVelocity().y <= 0.0f) {
+				isPushed_ = true;
+			}
 		}
 	}
 }
@@ -175,12 +195,14 @@ void DropGimmick::Initialize(const Desc& desc) {
 	for (auto& dropperDesc : desc.dropperDesc) {
 		Dropper* dropper = new Dropper();
 		dropper->SetPlayer(player_);
+		dropper->SetBoss(boss_);
 		dropper->Initialize(dropperDesc);
 		dropper_.emplace_back(std::move(dropper));
 	}
-	for (auto& switchDesc: desc.switchDesc) {
-		Switch* button= new Switch();
+	for (auto& switchDesc : desc.switchDesc) {
+		Switch* button = new Switch();
 		button->SetPlayer(player_);
+		button->SetBoss(boss_);
 		button->Initialize(switchDesc);
 		switch_.emplace_back(std::move(button));
 	}
@@ -189,16 +211,22 @@ void DropGimmick::Initialize(const Desc& desc) {
 
 void DropGimmick::Update() {
 	bool isAllSwich = true;
-	for (auto& button: switch_) {
+	for (auto& button : switch_) {
 		button->Update();
 		if (!button->GetIsPushed()) {
 			isAllSwich = false;
 		}
 	}
-	for (auto& ball : dropperBall_) {
-		ball->Update();
+	for (auto it = dropperBall_.begin(); it != dropperBall_.end(); ) {
+		if (!(*it)->GetIsAlive()) {
+			it = dropperBall_.erase(it); // eraseは次のイテレータを返す
+		}
+		else {
+			(*it)->Update();
+			++it;
+		}
 	}
-	for (auto& dropper:dropper_) {
+	for (auto& dropper : dropper_) {
 		dropper->Update();
 	}
 	if (!isCreate_ && isAllSwich) {
@@ -207,6 +235,7 @@ void DropGimmick::Update() {
 			DropperBall* ball = new DropperBall();
 			ball->SetPlayer(player_);
 			ball->SetCamera(camera_);
+			ball->SetBoss(boss_);
 			ball->Initialize(dropper->transform.worldMatrix.GetTranslate());
 			dropperBall_.emplace_back(std::move(ball));
 		}

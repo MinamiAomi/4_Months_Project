@@ -347,7 +347,9 @@
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClCompile>
-    <ClCompile Include="Boss\BossUI\BossUI.cpp" />
+    <ClCompile Include="Boss\BossUI\BossUI.cpp">
+      <Filter>Game\Object\Boss\BossUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">

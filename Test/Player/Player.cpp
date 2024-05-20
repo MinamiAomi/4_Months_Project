@@ -25,7 +25,6 @@ void Player::Initialize() {
 	JSON_LOAD(dashMaxCount_);
 	JSON_LOAD(dashIntervalCount_);
 	JSON_LOAD(offset_);
-	JSON_LOAD(revengeStartOffset_);
 	JSON_LOAD(hitJump_);
 	JSON_CLOSE();
 #pragma endregion
@@ -155,7 +154,7 @@ void Player::Update() {
 			Vector3 dashVelocity = dashVector_ * dashPower_;
 			transform.translate += dashVelocity;
 		}
-		transform.translate += velocity_ + Vector3(0.0f,0.0f, beltConveyorVelocity_);
+		transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_);
 
 		beltConveyorVelocity_ = 0.0f;
 
@@ -214,6 +213,7 @@ void Player::Reset() {
 	velocity_ = Vector3::zero;
 	acceleration_ = Vector3::zero;
 	dashVector_ = Vector3::zero;
+	beltConveyorVelocity_ = 0.0f;
 	isDash_ = false;
 	playerHP_->Reset();
 	playerRevengeGage_->Reset();
@@ -260,8 +260,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		collisionInfo.collider->GetName() == "FireBarCenter" ||
 		collisionInfo.collider->GetName() == "Floor" ||
 		collisionInfo.collider->GetName() == "StageObject" ||
-		collisionInfo.collider->GetName() == "BeltConveyor"||
-		collisionInfo.collider->GetName() == "DropGimmickDropper"||
+		collisionInfo.collider->GetName() == "BeltConveyor" ||
+		collisionInfo.collider->GetName() == "DropGimmickDropper" ||
 		collisionInfo.collider->GetName() == "DropGimmickSwitch") {
 		// ワールド空間の押し出しベクトル
 		Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
@@ -457,52 +457,53 @@ void Player::DebugParam() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
-		ImGui::DragFloat3("Pos", &transform.translate.x);
-		ImGui::DragFloat4("rotate", &transform.rotate.x);
-		ImGui::DragFloat3("offset_", &offset_.x);
-		ImGui::DragFloat3("revengeStartOffset_", &revengeStartOffset_.x);
-		ImGui::DragFloat3("velocity_", &velocity_.x);
-		ImGui::DragFloat3("acceleration_", &acceleration_.x);
-		ImGui::DragFloat("verticalSpeed_", &verticalSpeed_);
-		ImGui::DragFloat("horizontalSpeed_", &horizontalSpeed_);
-		ImGui::DragFloat("jumpPower_", &jumpPower_);
-		ImGui::DragFloat("dashPower_", &dashPower_);
-		ImGui::DragFloat("hitJump_", &hitJump_);
-		ImGui::DragFloat("gravity_", &gravity_);
-		ImGui::DragFloat("chaseLimitLine_", &chaseLimitLine_);
-		ImGui::DragFloat("runAwayLimitLine_", &runAwayLimitLine_);
-		ImGui::DragFloat("knockBack_", &knockBack_);
-		int maxInvincibleTime = maxInvincibleTime_;
-		ImGui::DragInt("maxInvincibleTime_", &maxInvincibleTime);
-		maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
-		int dashMaxCount = dashMaxCount_;
-		ImGui::DragInt("dashMaxCount_", &dashMaxCount);
-		dashMaxCount_ = static_cast<uint32_t>(dashMaxCount);
-		int dashIntervalCount = dashIntervalCount_;
-		ImGui::DragInt("dashIntervalCount_", &dashIntervalCount);
-		dashIntervalCount_ = static_cast<uint32_t>(dashIntervalCount);
+		ImGui::DragFloat3("Position", &transform.translate.x);
+		ImGui::DragFloat4("Rotate", &transform.rotate.x);
+		ImGui::DragFloat3("velocity", &velocity_.x);
+		ImGui::DragFloat3("acceleration", &acceleration_.x);
 		ImGui::Checkbox("onGround_", &canFirstJump_);
 		ImGui::Checkbox("canSecondJump_", &canSecondJump_);
 		ImGui::Checkbox("isHit_", &isHit_);
 		ImGui::Checkbox("preIsHit_", &preIsHit_);
-		if (ImGui::Button("Save")) {
-			JSON_OPEN("Resources/Data/Player/Player.json");
-			JSON_OBJECT("Player");
-			JSON_SAVE(verticalSpeed_);
-			JSON_SAVE(horizontalSpeed_);
-			JSON_SAVE(jumpPower_);
-			JSON_SAVE(dashPower_);
-			JSON_SAVE(gravity_);
-			JSON_SAVE(chaseLimitLine_);
-			JSON_SAVE(runAwayLimitLine_);
-			JSON_SAVE(knockBack_);
-			JSON_SAVE(maxInvincibleTime_);
-			JSON_SAVE(dashMaxCount_);
-			JSON_SAVE(dashIntervalCount_);
-			JSON_SAVE(offset_);
-			JSON_SAVE(revengeStartOffset_);
-			JSON_SAVE(hitJump_);
-			JSON_CLOSE();
+		if (ImGui::TreeNode("パラメーター")) {
+			ImGui::DragFloat3("オフセット", &offset_.x);
+			ImGui::DragFloat("縦のスピード", &verticalSpeed_);
+			ImGui::DragFloat("横のスピード", &horizontalSpeed_);
+			ImGui::DragFloat("ジャンプ力", &jumpPower_);
+			ImGui::DragFloat("ダッシュ力", &dashPower_);
+			ImGui::DragFloat("ヒット時のジャンプ", &hitJump_);
+			ImGui::DragFloat("重力", &gravity_);
+			ImGui::DragFloat("復讐時リミットライン", &chaseLimitLine_);
+			ImGui::DragFloat("逃げてる時のリミットライン", &runAwayLimitLine_);
+			ImGui::DragFloat("knockBack_", &knockBack_);
+			int maxInvincibleTime = maxInvincibleTime_;
+			ImGui::DragInt("無敵時間", &maxInvincibleTime);
+			maxInvincibleTime_ = static_cast<uint32_t>(maxInvincibleTime);
+			int dashMaxCount = dashMaxCount_;
+			ImGui::DragInt("ダッシュ時間", &dashMaxCount);
+			dashMaxCount_ = static_cast<uint32_t>(dashMaxCount);
+			int dashIntervalCount = dashIntervalCount_;
+			ImGui::DragInt("ダッシュクールタイム", &dashIntervalCount);
+			dashIntervalCount_ = static_cast<uint32_t>(dashIntervalCount);
+			if (ImGui::Button("Save")) {
+				JSON_OPEN("Resources/Data/Player/Player.json");
+				JSON_OBJECT("Player");
+				JSON_SAVE(verticalSpeed_);
+				JSON_SAVE(horizontalSpeed_);
+				JSON_SAVE(jumpPower_);
+				JSON_SAVE(dashPower_);
+				JSON_SAVE(gravity_);
+				JSON_SAVE(chaseLimitLine_);
+				JSON_SAVE(runAwayLimitLine_);
+				JSON_SAVE(knockBack_);
+				JSON_SAVE(maxInvincibleTime_);
+				JSON_SAVE(dashMaxCount_);
+				JSON_SAVE(dashIntervalCount_);
+				JSON_SAVE(offset_);
+				JSON_SAVE(hitJump_);
+				JSON_CLOSE();
+			}
+			ImGui::TreePop();
 		}
 		ImGui::EndMenu();
 	}
