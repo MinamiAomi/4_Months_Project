@@ -61,6 +61,8 @@ void Boss::Update() {
 	if (ImGui::BeginMenu("Boss")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
 		ImGui::DragFloat3("offset_", &offset_.x);
+		toCameraVector_ = camera_->GetPosition() - transform.worldMatrix.GetTranslate();
+		ImGui::Text("boss to camera Vector3  %f,%f,%f", toCameraVector_.x, toCameraVector_.y, toCameraVector_.z);
 		if (ImGui::Button("OffsetSave")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
 			JSON_OBJECT("Boss");
