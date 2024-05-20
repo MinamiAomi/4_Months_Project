@@ -3,7 +3,9 @@
 #include <list>
 #include <memory>
 
+
 #include "Player/Player.h"
+#include "Boss/Boss.h"
 #include "DropGimmick.h"
 
 class DropGimmickManager {
@@ -14,8 +16,6 @@ public:
 
 	void Create(const DropGimmick::Desc& desc);
 
-	void SetPlayer(const Player* player) { player_ = player; }
-
 	const std::list<std::unique_ptr<DropGimmick>>& GetDropGimmicks() const { return dropGimmicks_; }
 	void Delete(DropGimmick* block);
 
@@ -23,9 +23,12 @@ public:
 
 	void Clear();
 
+	void SetPlayer(const Player* player) { player_ = player; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
 private:
 	const Camera* camera_;
 	const Player* player_;
+	const Boss* boss_;
 	std::list<std::unique_ptr<DropGimmick>> dropGimmicks_;
 };

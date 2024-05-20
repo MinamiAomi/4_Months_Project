@@ -7,7 +7,6 @@
 class PlayerRevengeGage {
 public:
 	static const float kMaxRevengeBar;
-	static const float kMaxRevengeCircle;
 
 	void Initialize();
 	void Update();
@@ -17,14 +16,11 @@ public:
 	void AddGage();
 
 	const float GetCurrentRevengeBarGage()const { return currentRevengeBarGage_; }
-	const float GetCurrentRevengeCircleGage()const { return currentRevengeCircleGage_; }
 private:
 	float addCoin_;
 	float addGageBar_;
 	float subGageBar_;
-	float subGageCircle_;
 	float currentRevengeBarGage_;
-	float currentRevengeCircleGage_;
 
 	// Debug
 	bool isMove_;
