@@ -10,11 +10,14 @@ Texture2D<float4> g_SkyTexture : register(t0);
 Texture2D<float4> g_Depth : register(t1);
 ConstantBuffer<Constant> g_Constant : register(b0);
 
-[numthreads(8, 8, 1)]
+[numthreads(32, 32, 1)]
 void main(uint3 DTid : SV_DispatchThreadID) {
-
     float2 textureSize;
     g_Texture.GetDimensions(textureSize.x, textureSize.y);
+
+    if (!(DTid.x < textureSize.x || DTid.y < textureSize.y)) {
+        return;
+    }
     float2 uv = DTid.xy / textureSize;
     
     float3 color = g_Texture[DTid.xy].xyz;

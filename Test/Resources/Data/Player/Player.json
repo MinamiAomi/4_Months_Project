@@ -1,6 +1,6 @@
 {
     "Player": {
-        "chaseLimitLine_": 80.0,
+        "chaseLimitLine_": 100.0,
         "chaseVerticalSpeed_": 0.4000000059604645,
         "dashIntervalCount_": 10,
         "dashMaxCount_": 10,
@@ -22,7 +22,7 @@
             0.0,
             0.0
         ],
-        "runAwayLimitLine_": 66.0,
+        "runAwayLimitLine_": 80.0,
         "runAwayVerticalSpeed_": 0.5,
         "verticalSpeed_": 0.5
     }

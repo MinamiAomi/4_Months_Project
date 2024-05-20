@@ -10,6 +10,7 @@
 #include "BossModelManager/BossModelManager.h"
 #include "BossStateManager/BossStateManager.h"
 #include "BossHP/BossHP.h"
+#include "BossUI/BossUI.h"
 
 class Player;
 class Camera;
@@ -44,9 +45,13 @@ private:
 	
 	std::unique_ptr<BossHP> bossHP_;
 
+	std::unique_ptr<BossUI> bossUI_;
+
 	Vector3 velocity_;
 	Vector3 offset_;
 	Vector3 easingStartPosition_;
+
+	Vector3 toCameraVector_;
 
 	bool isMove_;
 	bool isAlive_;

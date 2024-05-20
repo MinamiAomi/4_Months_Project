@@ -39,4 +39,5 @@ private:
 	State state_;
 	bool isMove_;
 	float distance_;
+	bool isDebug_;
 };

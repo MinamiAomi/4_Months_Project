@@ -27,6 +27,7 @@
     <ClCompile Include="Boss\BossModelManager\BossModelManager.cpp" />
     <ClCompile Include="Boss\BossParticle\BossDustParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
+    <ClCompile Include="Boss\BossUI\BossUI.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />
@@ -49,7 +50,6 @@
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="Pause.cpp" />
-    <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
     <ClCompile Include="Player\PlayerBullet\BulletManager.cpp" />
@@ -86,8 +86,6 @@
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="TitleObject.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleUI.cpp" />
     <ClCompile Include="Trap\Trap.cpp" />
@@ -126,7 +124,6 @@
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Movie.h" />
     <ClInclude Include="Pause.h" />
-    <ClInclude Include="PlayerModel.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerAttack\PlayerAttackManager.h" />
     <ClInclude Include="Player\PlayerBullet\BulletManager.h" />
@@ -162,8 +159,6 @@
     <ClInclude Include="StartMovie.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="TestObject.h" />
-    <ClInclude Include="TitleObject.h" />
     <ClInclude Include="TitleUI.h" />
     <ClInclude Include="Trap\Trap.h" />
     <ClInclude Include="Trap\TrapManager.h" />

@@ -39,10 +39,12 @@ void RenderManager::Initialize() {
     //preSwapChainBuffer_.Create(L"PreSwapChainBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM);
     //mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);
 
+    skinningManager_.Initialize();
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
     temporaryScreenBuffer_.Create(L"TemporaryScreenBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), swapChainBuffer.GetRTVFormat());
+    lineDrawer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat());
 
     bloom_.Initialize(&lightingRenderingPass_.GetResult());
     fxaa_.Initialize(&lightingRenderingPass_.GetResult());
@@ -90,11 +92,15 @@ void RenderManager::Render() {
     auto camera = camera_.lock();
 
     commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
+    skinningManager_.Update(commandContext_);
+
     if (camera) {
         // 影、スペキュラ
+        modelSorter_.Sort(*camera);;
+        // 影、スペキュラ
         assert(!lightManager_.GetDirectionalLight().empty());
-        raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
-        geometryRenderingPass_.Render(commandContext_, *camera);
+        //raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
+        geometryRenderingPass_.Render(commandContext_, *camera, modelSorter_);
 #ifdef ENABLE_IMGUI
         if (useEdge) {
 #endif // ENABLE_IMGUI
@@ -103,7 +109,16 @@ void RenderManager::Render() {
         }
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-        lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+        //lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+
+#ifdef _DEBUG
+        commandContext_.TransitionResource(lightingRenderingPass_.GetResult(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+        commandContext_.SetRenderTarget(lightingRenderingPass_.GetResult().GetRTV());
+        commandContext_.SetViewportAndScissorRect(0, 0, lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+        lineDrawer_.Render(commandContext_, *camera);
+#endif // _DEBUG
+
+
 #ifdef ENABLE_IMGUI
         if (useEdge) {
 #endif // ENABLE_IMGUI

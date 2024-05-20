@@ -26,8 +26,13 @@ void GameScene::OnInitialize() {
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
-	cameraManager_->Initialize(player_.get(), boss_.get());
 
+	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
+	player_->SetBoss(boss_.get());
+	player_->SetStageCamera(cameraManager_->GetStageCamera());
+	player_->Initialize();
+
+	cameraManager_->Initialize(player_.get(), boss_.get());
 	startMovie_ = std::make_unique<StartMovie>();
 	startMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
 	gameClearMovie_ = std::make_unique<GameClearMovie>();
@@ -37,12 +42,6 @@ void GameScene::OnInitialize() {
 
 	currentMovie_ = startMovie_.get();
 	Movie::isPlaying = true;
-
-
-	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
-	player_->SetBoss(boss_.get());
-	player_->SetStageCamera(cameraManager_->GetStageCamera());
-	player_->Initialize();
 
 	boss_->SetPlayer(player_.get());
 	boss_->SetCamera(cameraManager_->GetCamera().get());
@@ -56,6 +55,7 @@ void GameScene::OnInitialize() {
 	stageBlockManager_ = std::make_unique<StageBlockManager>();
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
+
 
 	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {
 		stageLineLight = std::make_unique<StageLineLight>();

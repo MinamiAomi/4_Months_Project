@@ -10,7 +10,6 @@
 #include "CameraManager/StageCamera/StageCamera.h"
 #include "Graphics/Model.h"
 #include "Math/MathUtils.h"
-#include "PlayerModel.h"
 #include "PlayerHP/PlayerHP.h"
 #include "PlayerUI/PlayerUI.h"
 #include "PlayerRevengGage/PlayerRevengeGage.h"
@@ -46,6 +45,7 @@ public:
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
+	const float GetRunAwayLimitLine() const {	return runAwayLimitLine_;}
 
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:

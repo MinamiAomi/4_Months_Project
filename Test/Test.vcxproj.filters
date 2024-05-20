@@ -148,15 +148,6 @@
     <ClCompile Include="Ground.cpp">
       <Filter>Game\Object</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject.cpp">
-      <Filter>Game\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleObject.cpp">
-      <Filter>Game\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerModel.cpp">
-      <Filter>Game\Object</Filter>
-    </ClCompile>
     <ClCompile Include="Editor\BlockEditor\BlockEditor.cpp">
       <Filter>Game\Object\Editor\BlockEditor</Filter>
     </ClCompile>
@@ -356,6 +347,7 @@
     <ClCompile Include="StageGimmick\BeltConveyor\BeltConveyorManager.cpp">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClCompile>
+    <ClCompile Include="Boss\BossUI\BossUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -365,15 +357,6 @@
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
-      <Filter>Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleObject.h">
-      <Filter>Game\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerModel.h">
       <Filter>Game\Object</Filter>
     </ClInclude>
     <ClInclude Include="Editor\BlockEditor\BlockEditor.h">

@@ -10,6 +10,7 @@
 #include "Framework/ResourceManager.h"
 #include "Graphics/Model.h"
 #include "Graphics/Sprite.h"
+#include "Graphics/Animation.h"
 #include "Audio/Sound.h"
 #include "Debug/Debug.h"
 
@@ -75,6 +76,18 @@ void Test::LoadResources() {
             });
         std::stringstream str;
         str << "LoadSound : " << sound.key() << " - " << duration << "\n";
+        OutputDebugStringA(str.str().c_str());
+#endif
+    }
+    for (auto& animation : json["Animation"].items()) {
+#ifdef _DEBUG
+        auto duration = Debug::ElapsedTime([&]() {
+#endif
+            resourceManager->AddAnimation(animation.key(), Animation::Load("Resources/" + animation.value().get<std::string>()));
+#ifdef _DEBUG
+            });
+        std::stringstream str;
+        str << "LoadAnimation : " << animation.key() << " - " << duration << "\n";
         OutputDebugStringA(str.str().c_str());
 #endif
     }
