@@ -19,6 +19,7 @@ public:
 	virtual void Initialize(Player* player,Boss* boss,Camera* camera, const StageCamera* stageCamera);
 	virtual void Update();
 	virtual void Reset();
+	void ZoomInOut(const Vector3& savePos, const Vector3& axis , const float t);
 
 
 protected:
@@ -26,6 +27,7 @@ protected:
 	Boss* boss_ = nullptr;
 	Camera* camera_ = nullptr;
 	const StageCamera* stageCamera_ = nullptr;
+	Vector3 saveZoomPos_;
 	bool isSetCamera_ = false;
 	bool isInitialize_ = false;;
 

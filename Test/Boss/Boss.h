@@ -51,6 +51,8 @@ private:
 	Vector3 offset_;
 	Vector3 easingStartPosition_;
 
+	Vector3 toCameraVector_;
+
 	bool isMove_;
 	bool isAlive_;
 };
