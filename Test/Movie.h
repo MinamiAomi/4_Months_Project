@@ -27,7 +27,7 @@ protected:
 	Boss* boss_ = nullptr;
 	Camera* camera_ = nullptr;
 	const StageCamera* stageCamera_ = nullptr;
-	Vector3 saveZoomPos_;
+	Vector3 saveZoomPos_[3];
 	bool isSetCamera_ = false;
 	bool isInitialize_ = false;;
 

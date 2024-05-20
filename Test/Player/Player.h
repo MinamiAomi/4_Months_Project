@@ -14,8 +14,8 @@
 #include "PlayerUI/PlayerUI.h"
 #include "PlayerRevengGage/PlayerRevengeGage.h"
 #include "PlayerBullet/BulletManager.h"
-#include "Engine/Audio/AudioSource.h"
-#include "Engine/Math/Random.h"
+#include "Audio/AudioSource.h"
+#include "Math/Random.h"
 
 class TrapManager;
 class Player :
