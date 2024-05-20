@@ -23,6 +23,7 @@ class Player :
 public:
 	void Initialize();
 	void Update();
+	void AnimationUpdate();
 	void UpdateTransform();
 
 	void Reset();
@@ -49,6 +50,11 @@ public:
 
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:
+	enum AnimationType {
+		IdleAnimation,
+		MoveAnimation,
+	};
+
 	void Move();
 	void Jump();
 	void Dash();
@@ -69,9 +75,10 @@ private:
 	std::unique_ptr<BulletManager> bulletManager_;
 
 	std::unique_ptr<ModelInstance> model_;
+	std::shared_ptr<Animation> animation_;
+	std::shared_ptr<Skeleton> skeleton_;
 	//PlayerModel playerModel_;
 	std::unique_ptr<BoxCollider> collider_;
-
 	Vector3 acceleration_;
 	Vector3 velocity_;
 	bool canFirstJump_;
@@ -85,6 +92,8 @@ private:
 	uint32_t dashCount_;
 	uint32_t dashCoolTime_;
 	float beltConveyorVelocity_;
+	float animationTime_;
+	AnimationType animationType_;
 	// ステージギミックにヒットした
 	bool isHit_;
 	bool preIsHit_;
@@ -107,6 +116,7 @@ private:
 	uint32_t dashMaxCount_;
 	uint32_t dashIntervalCount_;
 #pragma endregion
+
 #pragma region Json
 	void DebugParam();
 #pragma endregion
