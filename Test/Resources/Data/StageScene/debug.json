@@ -3,7 +3,7 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Floor.001",
+            "name": "Beltconbeyor",
             "transform": {
                 "translate": [
                     0.0,
@@ -41,10 +41,6 @@
                     -0.0,
                     1.0
                 ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
             }
         },
         {
@@ -417,6 +413,10 @@
                     -0.0,
                     1.0
                 ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
             }
         },
         {

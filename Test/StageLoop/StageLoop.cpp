@@ -35,6 +35,7 @@ void StageLoop::Initialize() {
 	floorManager_->SetPlayer(player_);
 	dropGimmickManager_->SetCamera(camera_);
 	dropGimmickManager_->SetPlayer(player_);
+	dropGimmickManager_->SetBoss(boss_);
 	pendulumManager_->SetCamera(camera_);
 	pendulumManager_->SetPlayer(player_);
 	revengeCoinManager_->SetCamera(camera_);
@@ -81,7 +82,7 @@ void StageLoop::Reset() {
 }
 
 void StageLoop::LoadJson() {
-	static std::string directoryPath = "Resources/Data/StageScene/stageScene.json";
+	static std::string directoryPath = "Resources/Data/StageScene/debug.json";
 
 	Desc jsonData{};
 	std::vector<Switch::Desc> switchDesc{};

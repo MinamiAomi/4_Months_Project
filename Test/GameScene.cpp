@@ -20,7 +20,7 @@ void GameScene::OnInitialize() {
 
 	stageLoop_ = std::make_unique<StageLoop>();
 
-	editorManager_ = std::make_unique<EditorManager>();
+	//editorManager_ = std::make_unique<EditorManager>();
 	isMove_ = true;
 
 	player_ = std::make_unique<Player>();
@@ -71,14 +71,14 @@ void GameScene::OnInitialize() {
 		stageLineLight->Update();
 	}
 
-	editorManager_->SetCamera(cameraManager_->GetCamera().get());
+	//editorManager_->SetCamera(cameraManager_->GetCamera().get());
 	skyBlockManager_ = std::make_unique<SkyBlockManager>();
 	skyBlockManager_->SetBoss(boss_.get());
 	skyBlockManager_->Initialize();
 
-	editorManager_->SetPlayer(player_.get());
-	editorManager_->SetBoss(boss_.get());
-	editorManager_->Initialize(stageLoop_->GetBlockManager().get(), stageLoop_->GetFireBarManager().get(), stageLoop_->GetFloorManager().get(), stageLoop_->GetPendulumManager().get(), stageLoop_->GetBossAttackTriggerManager().get());
+	//editorManager_->SetPlayer(player_.get());
+	//editorManager_->SetBoss(boss_.get());
+	//editorManager_->Initialize(stageLoop_->GetBlockManager().get(), stageLoop_->GetFireBarManager().get(), stageLoop_->GetFloorManager().get(), stageLoop_->GetPendulumManager().get(), stageLoop_->GetBossAttackTriggerManager().get());
 
 	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
 	playerDustParticle_->SetPlayer(player_.get());
@@ -196,7 +196,7 @@ void GameScene::OnUpdate() {
 			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 			playerDustParticle_->Update();
 #ifdef _DEBUG
-			editorManager_->Update();
+			//editorManager_->Update();
 			if (ImGui::Checkbox("Move", &isMove_)) {
 				player_->SetIsMove(isMove_);
 				boss_->SetIsMove(isMove_);

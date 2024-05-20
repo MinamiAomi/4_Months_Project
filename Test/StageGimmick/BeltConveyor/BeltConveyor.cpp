@@ -13,7 +13,6 @@ void BeltConveyor::Initialize(const Desc& desc) {
 	transform.translate = desc.desc.transform.translate;
 
 	desc_ = desc;
-	colliderDesc_ = desc.desc.collider;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
@@ -22,9 +21,9 @@ void BeltConveyor::Initialize(const Desc& desc) {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("BeltConveyor");
-	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
-	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
+	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
+	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Block);
 	collider_->SetCollisionMask(~CollisionAttribute::Block);
@@ -49,10 +48,11 @@ void BeltConveyor::Update() {
 
 void BeltConveyor::UpdateTransform() {
 	transform.UpdateMatrix();
-	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
-	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
-	model_->SetWorldMatrix(transform.worldMatrix);
+	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
+	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
+	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
+	Matrix4x4 modelMatrix = Matrix4x4::MakeAffineTransform(transform.scale, transform.rotate* Quaternion::MakeForYAxis(90.0f * Math::ToRadian),transform.translate);
+	model_->SetWorldMatrix(modelMatrix);
 }
 
 void BeltConveyor::OnCollision(const CollisionInfo& collisionInfo) {

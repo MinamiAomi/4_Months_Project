@@ -27,6 +27,7 @@ void DropGimmickManager::Create(const DropGimmick::Desc& desc) {
 	DropGimmick* dropGimmick = new DropGimmick();
 	dropGimmick->SetCamera(camera_);
 	dropGimmick->SetPlayer(player_);
+	dropGimmick->SetBoss(boss_);
 	dropGimmick->Initialize(desc);
 	dropGimmicks_.emplace_back(std::move(dropGimmick));
 }

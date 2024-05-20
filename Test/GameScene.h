@@ -46,7 +46,7 @@ private:
 	std::shared_ptr<DirectionalLight> directionalLight_;
 
 #pragma region 
-	std::unique_ptr<EditorManager> editorManager_;
+	//std::unique_ptr<EditorManager> editorManager_;
 	bool isMove_;
 #pragma endregion
 

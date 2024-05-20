@@ -16,4 +16,7 @@ public:
 	const uint32_t GetCurrentHP() const { return currentHP_; }
 private:
 	uint32_t currentHP_;
+
+	uint32_t ballHitDamage_;
+	uint32_t playerHitDamage_;
 };

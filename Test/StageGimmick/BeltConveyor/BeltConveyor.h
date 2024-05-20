@@ -35,7 +35,5 @@ private:
 
 	std::unique_ptr<BoxCollider> collider_;
 
-	std::optional<StageGimmick::Collider> colliderDesc_;
-
 	Desc desc_;
 };
