@@ -13,7 +13,6 @@ void StageCamera::Initialize() {
 	camera_ = std::make_shared<Camera>();
 	RenderManager::GetInstance()->SetCamera(camera_);
 
-	transform.rotate = Quaternion::MakeForXAxis(10.0f * Math::ToRadian);
 
 	isMove_ = true;
 #pragma region パラメーター
@@ -25,13 +24,7 @@ void StageCamera::Initialize() {
 	}
 	JSON_CLOSE();
 #pragma endregion
-	camera_->SetPosition(
-		{
-		transform.translate.x + cameraParam_.at(Character::State::kChase).offset.x,
-		transform.translate.y + cameraParam_.at(Character::State::kChase).offset.y,
-		transform.translate.z + cameraParam_.at(Character::State::kChase).offset.z
-		});
-	camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kChase).eulerAngle * Math::ToRadian));
+	Reset();
 }
 
 void StageCamera::Update() {
@@ -42,15 +35,16 @@ void StageCamera::Update() {
 	case Character::State::kChase:
 	{
 		if (isMove_) {
-			//transform.translate += cameraParam_.at(Character::State::kChase).cameraVelocity;
 			transform.translate.z += GameSpeed::GetGameSpeed();
 			transform.UpdateMatrix();
 		}
+		float posZ = std::lerp(transform.translate.z,player_->transform.worldMatrix.GetTranslate().z, 0.8f);
+		//posZ = std::max(posZ, transform.translate.z);
 		camera_->SetPosition(
 			{
 			transform.translate.x + cameraParam_.at(Character::State::kChase).offset.x,
 			transform.translate.y + cameraParam_.at(Character::State::kChase).offset.y,
-			transform.translate.z + cameraParam_.at(Character::State::kChase).offset.z
+			posZ + cameraParam_.at(Character::State::kChase).offset.z
 			});
 		camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kChase).eulerAngle * Math::ToRadian));
 	}
@@ -58,7 +52,6 @@ void StageCamera::Update() {
 	case Character::State::kRunAway:
 	{
 		if (isMove_) {
-			//transform.translate -= cameraParam_.at(Character::State::kRunAway).cameraVelocity;
 			transform.translate.z -= GameSpeed::GetGameSpeed();
 			transform.UpdateMatrix();
 		}
@@ -79,7 +72,7 @@ void StageCamera::Update() {
 		case Character::State::kChase:
 		{
 
-			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine() * 0.5f, t);
+			transform.translate.z = std::lerp(easingStartPosition_.z,player_->transform.worldMatrix.GetTranslate().z, t);
 			offset = {
 			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.x, cameraParam_.at(Character::State::kChase).offset.x, t),
 			std::lerp(cameraParam_.at(Character::State::kRunAway).offset.y, cameraParam_.at(Character::State::kChase).offset.y, t),
@@ -95,7 +88,7 @@ void StageCamera::Update() {
 		break;
 		case Character::State::kRunAway:
 		{
-			transform.translate.z = std::lerp(easingStartPosition_.z, boss_->transform.worldMatrix.GetTranslate().z - player_->GetChaseLimitLine() * 0.5f, t);
+			transform.translate.z = std::lerp(easingStartPosition_.z, boss_->transform.worldMatrix.GetTranslate().z, t);
 			offset = {
 			std::lerp(cameraParam_.at(Character::State::kChase).offset.x, cameraParam_.at(Character::State::kRunAway).offset.x, t),
 			std::lerp(cameraParam_.at(Character::State::kChase).offset.y, cameraParam_.at(Character::State::kRunAway).offset.y, t),
@@ -129,7 +122,9 @@ void StageCamera::Update() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("CameraManager")) {
+
 		ImGui::Text("Pos: x:%f,y:%f,z:%f", camera_->GetPosition().x, camera_->GetPosition().y, camera_->GetPosition().z, 0.1f);
+		ImGui::Text("Translate: x:%f,y:%f,z:%f", transform.translate.x, transform.translate.y, transform.translate.z, 0.1f);
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
@@ -170,7 +165,9 @@ void StageCamera::SetRenderManager() {
 }
 
 void StageCamera::Reset() {
-	transform.translate = Vector3::zero;
+	transform.translate = Vector3(0.0f,0.0f, player_->transform.worldMatrix.GetTranslate().z);
+	camera_->SetPosition(transform.translate + cameraParam_.at(Character::State::kChase).offset);
+	camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kChase).eulerAngle * Math::ToRadian));
 }
 
 void StageCamera::CameraParameter::Load() {

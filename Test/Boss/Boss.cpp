@@ -101,6 +101,7 @@ void Boss::Update() {
 
 		}
 		else {
+			//transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetRunAwayLimitLine(), Character::GetSceneChangeTime());
 			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 		}
 	}
@@ -118,8 +119,8 @@ void Boss::Update() {
 void Boss::Reset(uint32_t stageIndex) {
 	stageIndex;
 	isAlive_ = true;
-	transform.translate = offset_;
-
+	// ボスのオフセット今はプレイヤーのチェイスライン
+	transform.translate = Vector3(offset_.x, offset_.y, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine());
 	transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
 
 	transform.scale = Vector3::one;
