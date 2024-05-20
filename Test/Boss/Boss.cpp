@@ -104,7 +104,8 @@ void Boss::Update() {
 		}
 		else {
 			if (player_->transform.translate.z<=transform.translate.z - player_->GetRunAwayLimitLine()) {
-				transform.translate.z -= (transform.translate.z - player_->GetRunAwayLimitLine())- player_->transform.translate.z;
+				float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
+				transform.translate.z -= tmp;
 			}
 			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 		}
