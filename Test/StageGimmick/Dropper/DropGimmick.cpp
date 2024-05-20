@@ -24,7 +24,7 @@ void DropperBall::Initialize(const Vector3& pos) {
 	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 	Vector3 modelSize = model_->GetModel()->GetMeshes().at(0).minVertex - model_->GetModel()->GetMeshes().at(0).maxVertex;
-	collider_->SetSize({ transform.scale.x* modelSize .x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z});
+	collider_->SetSize({ transform.scale.x * modelSize.x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetCollisionMask(~CollisionAttribute::DropGimmickDropperBall);
@@ -46,7 +46,7 @@ void DropperBall::Update() {
 }
 
 void DropperBall::UpdateTransform() {
-	transform.UpdateMatrix(); 
+	transform.UpdateMatrix();
 	collider_->SetCenter(transform.worldMatrix.GetTranslate());
 	collider_->SetOrientation(transform.rotate);
 	Vector3 modelSize = model_->GetModel()->GetMeshes().at(0).minVertex - model_->GetModel()->GetMeshes().at(0).maxVertex;
@@ -79,8 +79,8 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 
 void Switch::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
-	
-	desc_= desc;
+
+	desc_ = desc;
 
 	transform.scale = desc.desc.transform.scale;
 	transform.rotate = desc.desc.transform.rotate;
@@ -88,7 +88,7 @@ void Switch::Initialize(const Desc& desc) {
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
-	
+
 	isPushed_ = false;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -119,10 +119,12 @@ void Switch::UpdateTransform() {
 
 void Switch::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
-		// 落下しているとき
-		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-			player_->GetVelocity().y <= 0.0f) {
-			isPushed_ = true;
+		if (Character::currentCharacterState_ == Character::State::kRunAway) {
+			// 落下しているとき
+			if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
+				player_->GetVelocity().y <= 0.0f) {
+				isPushed_ = true;
+			}
 		}
 	}
 }
@@ -178,8 +180,8 @@ void DropGimmick::Initialize(const Desc& desc) {
 		dropper->Initialize(dropperDesc);
 		dropper_.emplace_back(std::move(dropper));
 	}
-	for (auto& switchDesc: desc.switchDesc) {
-		Switch* button= new Switch();
+	for (auto& switchDesc : desc.switchDesc) {
+		Switch* button = new Switch();
 		button->SetPlayer(player_);
 		button->Initialize(switchDesc);
 		switch_.emplace_back(std::move(button));
@@ -189,7 +191,7 @@ void DropGimmick::Initialize(const Desc& desc) {
 
 void DropGimmick::Update() {
 	bool isAllSwich = true;
-	for (auto& button: switch_) {
+	for (auto& button : switch_) {
 		button->Update();
 		if (!button->GetIsPushed()) {
 			isAllSwich = false;
@@ -198,7 +200,7 @@ void DropGimmick::Update() {
 	for (auto& ball : dropperBall_) {
 		ball->Update();
 	}
-	for (auto& dropper:dropper_) {
+	for (auto& dropper : dropper_) {
 		dropper->Update();
 	}
 	if (!isCreate_ && isAllSwich) {
