@@ -23,7 +23,7 @@ void BossHP::Update() {
 			playerHitDamage_ = hp;
 			if (ImGui::Button("Save")) {
 				JSON_OPEN("Resources/Data/Boss/BossHP.json");
-				JSON_OBJECT("Player");
+				JSON_OBJECT("BossHP");
 				JSON_SAVE(ballHitDamage_);
 				JSON_SAVE(playerHitDamage_);
 				JSON_CLOSE();

@@ -22,7 +22,7 @@ void DropperBall::Initialize(const Vector3& pos) {
 	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
 	random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
 	random_.y = rnd_.NextFloatRange(30.0f, 40.0f);
-
+	isAlive_ = true;
 	time_ = 0.0f;
 	setPos_ = Vector3::zero;
 #pragma region コライダー
@@ -81,6 +81,7 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 	else if (collisionInfo.collider->GetName() == "Boss") {
 		if (Character::currentCharacterState_ == Character::State::kChase &&
 			state_ == State::kShot) {
+			boss_->GetBossHP()->AddBallHitHP();
 			isAlive_ = false;
 		}
 	}

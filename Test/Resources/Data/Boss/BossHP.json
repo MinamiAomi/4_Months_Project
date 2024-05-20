@@ -1,3 +1,6 @@
 {
-    "BossHP": {}
+    "BossHP": {
+        "ballHitDamage_": 1,
+        "playerHitDamage_": 5
+    }
 }
