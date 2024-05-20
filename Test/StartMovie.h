@@ -17,4 +17,6 @@ public:
 	void Reset() override;
 private:
 	void UpdateInitialize();
+	Vector3 lerpCenterPos_;
+	Vector3 whileVec_;
 };

@@ -22,6 +22,7 @@ void CameraManager::Initialize(const Player* player,const Boss* boss) {
 	state_ = State::kStageCamera;
 
 	isMove_ = true;
+	isDebug_ = false;
 }
 
 void CameraManager::Update() {
@@ -32,8 +33,14 @@ void CameraManager::Update() {
 		state_ = kMovieCamera;
 	}
 	if (Movie::isPlaying == false && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		stageCamera_->SetRenderManager();
-		state_ = kStageCamera;
+		if (isDebug_ == true) {
+			debugCamera_->SetRenderManager();
+			state_ = kDebugCamera;
+		}
+		else {
+			stageCamera_->SetRenderManager();
+			state_ = kStageCamera;
+		}
 	}
 
 #ifdef _DEBUG
@@ -47,12 +54,14 @@ void CameraManager::Update() {
 			{
 				stageCamera_->SetRenderManager();
 				stageCamera_->transform.translate.z += distance_;
+				isDebug_ = false;
 			}
 			break;
 			case CameraManager::kDebugCamera:
 			{
 				debugCamera_->SetCamera(stageCamera_->GetCamera());
 				debugCamera_->SetRenderManager();
+				isDebug_ = true;
 			}
 			break;
 			case CameraManager::kMovieCamera:
