@@ -99,7 +99,7 @@ void RenderManager::Render() {
         modelSorter_.Sort(*camera);;
         // 影、スペキュラ
         assert(!lightManager_.GetDirectionalLight().empty());
-        //raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
+        raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
         geometryRenderingPass_.Render(commandContext_, *camera, modelSorter_);
 #ifdef ENABLE_IMGUI
         if (useEdge) {
@@ -109,7 +109,7 @@ void RenderManager::Render() {
         }
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-        //lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+        lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
 #ifdef _DEBUG
         commandContext_.TransitionResource(lightingRenderingPass_.GetResult(), D3D12_RESOURCE_STATE_RENDER_TARGET);
