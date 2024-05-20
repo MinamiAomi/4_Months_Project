@@ -8,6 +8,8 @@
 #include "GameSpeed.h"
 #include "Player/Player.h"
 #include "CameraManager/CameraManager.h"
+#include "Math/Camera.h"
+
 
 void Boss::Initialize() {
 #pragma endregion

@@ -71,6 +71,8 @@ void RenderManager::Initialize() {
 
     chaseEffect_.Initialize(&lightingRenderingPass_.GetResult());
 
+    whiteFilter_.Initialize(temporaryScreenBuffer_);
+
     auto imguiManager = ImGuiManager::GetInstance();
     imguiManager->Initialize(window->GetHWND(), swapChainBuffer.GetRTVFormat());
     imguiManager->NewFrame();
@@ -166,6 +168,7 @@ void RenderManager::Render() {
     commandContext_.SetRenderTarget(temporaryScreenBuffer_.GetRTV());
     commandContext_.SetViewportAndScissorRect(0, 0, temporaryScreenBuffer_.GetWidth(), temporaryScreenBuffer_.GetHeight());
     postEffect_.Render(commandContext_, fxaa_.GetResult());
+    whiteFilter_.Render(commandContext_);
     
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(temporaryScreenBuffer_.GetWidth()), float(temporaryScreenBuffer_.GetHeight()));
     
