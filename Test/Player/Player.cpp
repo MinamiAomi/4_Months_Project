@@ -266,6 +266,7 @@ void Player::UpdateTransform() {
     collider_->SetCenter(translate);
     collider_->SetOrientation(rotate);
     model_->SetWorldMatrix(transform.worldMatrix);
+    collider_->DebugDraw();
 }
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {

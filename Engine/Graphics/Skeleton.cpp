@@ -56,13 +56,13 @@ void Skeleton::Update() {
     updated_ = true;
 }
 
-void Skeleton::DebugDraw(const Matrix4x4& worldMatrix) {
+void Skeleton::DebugDraw(const Matrix4x4& worldMatrix, const Vector4& color) {
     auto& lineDrawer = RenderManager::GetInstance()->GetLineDrawer();
     for (Joint& joint : joints_) {
         if (joint.parent) {
-            Vector3 start = joint.skeletonSpaceMatrix.GetTranslate() * worldMatrix;
-            Vector3 end = joints_[*joint.parent].skeletonSpaceMatrix.GetTranslate() * worldMatrix;
-            lineDrawer.AddLine(start, end);
+            Vector3 start = joint.skeletonSpaceMatrix.GetTranslate() * Matrix4x4::MakeScaling({ -1.0f, 1.0f, -1.0f }) * worldMatrix;
+            Vector3 end = joints_[*joint.parent].skeletonSpaceMatrix.GetTranslate() * Matrix4x4::MakeScaling({ -1.0f, 1.0f, -1.0f }) * worldMatrix;
+            lineDrawer.AddLine(start, end, color);
         }
     }
 }

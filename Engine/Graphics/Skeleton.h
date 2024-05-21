@@ -35,7 +35,7 @@ public:
 
     void ApplyAnimation(const AnimationSet& animation, float animationTime);
     void Update();
-    void DebugDraw(const Matrix4x4& worldMatrix);
+    void DebugDraw(const Matrix4x4& worldMatrix, const Vector4& color = Vector4::one);
 
     const Joint& GetRootJoint() const { return joints_.at(root_); }
     const Joint& GetJoint(const std::string& name) const { return joints_.at(jointMap_.at(name)); }
