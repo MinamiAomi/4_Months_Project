@@ -350,6 +350,9 @@
     <ClCompile Include="Boss\BossUI\BossUI.cpp">
       <Filter>Game\Object\Boss\BossUI</Filter>
     </ClCompile>
+    <ClCompile Include="GameStartMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -565,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="StageGimmick\Dropper\DropGimmickManager.h">
       <Filter>Game\Object\StageGimmick\Dopper</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStartMovie.h">
+      <Filter>Game\Object\Movie</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

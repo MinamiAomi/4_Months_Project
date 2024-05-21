@@ -23,5 +23,4 @@ public:
 private:
 	void UpdateInitialize();
 	Vector3 savePlayerPos_;
-	int shakeFrame_ = kShakeFrame;
 };

@@ -10,6 +10,8 @@ class CommandContext;
 class PostEffect {
 public:
 
+    static float blurT_ ;
+
     void Initialize(ColorBuffer& target);
     void Render(CommandContext& commandContext, ColorBuffer& texture);
     void RenderAddTexture(CommandContext& commandContext, ColorBuffer& texture);
