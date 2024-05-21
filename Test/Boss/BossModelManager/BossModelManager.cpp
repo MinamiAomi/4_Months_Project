@@ -3,9 +3,10 @@
 #include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Framework/ResourceManager.h"
+#include "Graphics/RenderManager.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
-#include "Graphics/RenderManager.h"
+
 
 
 namespace BossParts {
@@ -39,11 +40,11 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	skeleton_ = std::make_shared<Skeleton>();
 	skeleton_->Create(models_.at(BossParts::Parts::kBoss_2)->GetModel()->GetModel());
 	time_ = 0.0f;
-	skeleton_->ApplyAnimation(animation_->GetAnimation("move"), time_);
+	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
 	models_.at(BossParts::Parts::kBoss_2)->GetModel()->SetSkeleton(skeleton_);
 
 
-	auto& joint = skeleton_->GetJoint("upperArm");
+	auto& joint = skeleton_->GetJoint("nitoukin_L");
 	assert(joint.parent);
 	Matrix4x4 wordMatrix = joint.skeletonSpaceMatrix * Transform->worldMatrix;
 	Matrix4x4 parentMatrix = skeleton_->GetJoint(*joint.parent).skeletonSpaceMatrix * Transform->worldMatrix;
@@ -68,15 +69,16 @@ void BossModelManager::Initialize(const Transform* Transform) {
 void BossModelManager::Update(const Matrix4x4& worldMat) {
 	time_ += 1.0f / 120.0f;
 	time_ = std::fmod(time_, 1.0f);
-	skeleton_->ApplyAnimation(animation_->GetAnimation("move"), time_);
+	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
 	skeleton_->Update();
 
-	auto& joint = skeleton_->GetJoint("upperArm");
+	auto& joint = skeleton_->GetJoint("nitoukin_L");
 	assert(joint.parent);
 	Matrix4x4 wordMatrix = joint.skeletonSpaceMatrix * worldMat;
 	Matrix4x4 parentMatrix = skeleton_->GetJoint(*joint.parent).skeletonSpaceMatrix * worldMat;
 	Vector3 born = (parentMatrix.GetTranslate() - wordMatrix.GetTranslate());
-
+	RenderManager::GetInstance()->GetLineDrawer().AddLine(parentMatrix.GetTranslate(), wordMatrix.GetTranslate());
+	
 	for (auto& model : models_) {
 		model->Update();
 	}

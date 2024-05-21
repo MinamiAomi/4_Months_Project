@@ -117,7 +117,7 @@ void Boss::Update() {
 	}
 	UpdateTransform();
 	state_->Update();
-	bossModelManager_->Update();
+	bossModelManager_->Update(transform.worldMatrix);
 	bossUI_->Update();
 	bossHP_->Update();
 }

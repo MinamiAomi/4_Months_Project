@@ -6,7 +6,6 @@
 
 #include "Collision/Collider.h"
 
-#include "Graphics/Model.h"
 #include "BossModelManager/BossModelManager.h"
 #include "BossStateManager/BossStateManager.h"
 #include "BossHP/BossHP.h"

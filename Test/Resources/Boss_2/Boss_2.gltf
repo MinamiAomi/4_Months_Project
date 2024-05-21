@@ -2214,7 +2214,7 @@
 					}
 				}
 			],
-			"name":"metarigAction",
+			"name":"move",
 			"samplers":[
 				{
 					"input":131,
