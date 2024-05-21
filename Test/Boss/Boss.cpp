@@ -55,6 +55,8 @@ void Boss::Initialize() {
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
 	collider_->SetIsActive(true);
 #pragma endregion
+
+	isFirstHit_ = false;
 }
 
 void Boss::Update() {
@@ -99,12 +101,17 @@ void Boss::Update() {
 	{
 		if (Character::nextCharacterState_ == Character::State::kChase) {
 			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
-			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
+			if (transform.rotate != Quaternion::MakeForYAxis(180.0f * Math::ToRadian)) {
+				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
+			}
+			
 
 		}
 		else {
-			//transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetRunAwayLimitLine(), Character::GetSceneChangeTime());
-			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
+			if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
+				//transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetRunAwayLimitLine(), Character::GetSceneChangeTime());
+				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
+			}
 		}
 	}
 	break;
@@ -113,7 +120,6 @@ void Boss::Update() {
 	}
 	UpdateTransform();
 	state_->Update();
-	bossModelManager_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
 }
@@ -129,6 +135,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.UpdateMatrix();
 	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	bossHP_->Reset();
+
 }
 
 void Boss::UpdateTransform() {
@@ -138,15 +145,20 @@ void Boss::UpdateTransform() {
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
+	bossModelManager_->Update();
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 	state_->OnCollision(collisionInfo);
 	if (collisionInfo.collider->GetName() == "Player") {
+		
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			isAlive_ = false;
+			//二回目でゲームクリア
+			if (isFirstHit_ == true) {
+				isAlive_ = false;
+			}
 		}
 		break;
 		case Character::State::kRunAway:
@@ -157,7 +169,10 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		default:
 			break;
 		}
+		//一回目
+		isFirstHit_ = true;
 	}
+
 	if (collisionInfo.collider->GetName() == "DropGimmickBall") {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:

@@ -8,6 +8,7 @@ const wchar_t kPostEffectVertexShader[] = L"ScreenQuadVS.hlsl";
 const wchar_t kPostEffectPixelShader[] = L"PostEffectPS.hlsl";
 const wchar_t kPostEffectOtherPixelShader[] = L"PostEffectOtherPS.hlsl";
 const wchar_t kPostEffectAddPixelShader[] = L"PostEffectAddPS.hlsl";
+float PostEffect::blurT_ = 0.0f;
 
 void PostEffect::Initialize(ColorBuffer& target) {
     targetTexture_ = &target;
@@ -66,20 +67,24 @@ void PostEffect::Initialize(ColorBuffer& target) {
 }
 
 void PostEffect::Render(CommandContext& commandContext, ColorBuffer& texture) {
-    struct Constant {
-        Vector2 center;
-        float blurWidth;
-    } constant;
-    constant.center = { 0.5f, 0.5f };
-    constant.blurWidth = 0.005f;
+   
+        struct Constant {
+            Vector2 center;
+            float blurWidth;
+        } constant;
+        blurT_ = std::clamp(blurT_, 0.0f, 1.0f);
+        float blurWidth = std::lerp(0.0f, 0.005f, blurT_);
+        constant.center = { 0.5f, 0.5f };
+        constant.blurWidth = blurWidth;
 
-    commandContext.TransitionResource(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-    commandContext.SetRootSignature(rootSignature_);
-    commandContext.SetPipelineState(pipelineState_);
-    commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    commandContext.SetDynamicConstantBufferView(0, sizeof(constant), &constant);
-    commandContext.SetDescriptorTable(1, texture.GetSRV());
-    commandContext.Draw(3);
+        commandContext.TransitionResource(texture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+        commandContext.SetRootSignature(rootSignature_);
+        commandContext.SetPipelineState(pipelineState_);
+        commandContext.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        commandContext.SetDynamicConstantBufferView(0, sizeof(constant), &constant);
+        commandContext.SetDescriptorTable(1, texture.GetSRV());
+        commandContext.Draw(3);
+   
 }
 
 void PostEffect::RenderAddTexture(CommandContext& commandContext, ColorBuffer& texture) {
