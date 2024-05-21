@@ -28,7 +28,7 @@ VSOutput main(VSInput input) {
     float3 localNormal = input.normal.xyz;
         
     float4 worldPosition = mul(localPosition, g_Scene.worldMatrix);
-    output.svPosition = mul(worldPosition, mul(g_Scene.viewMatrix, g_Scene.projectionMatrix));
+    output.svPosition = mul(worldPosition, mul(g_Scene.viewMatrix, g_Scene.projectionMatrix)).xyww;
     output.worldPosition = worldPosition.xyz;
     output.normal = mul(localNormal, (float3x3) g_Scene.worldInverseTransposeMatrix);
     output.texcoord = input.texcoord;
