@@ -19,7 +19,6 @@ void PlayerUI::Initialize() {
 	revengeBarGage_ = CreateSprite(revengeBarGageData_, "RevengeBar_RevengeGauge");
 	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "RevengeBar_Flame");
 
-	revengeCircleGage_ = CreateSprite(revengeCircleGageData_, "RevengeBar_WeaponGauge");
 
 	tutorial1_ = CreateSprite(tutorial1Data_, "tutorial1");
 	tutorial2_ = CreateSprite(tutorial2Data_, "tutorial2");
@@ -39,8 +38,6 @@ void PlayerUI::Update() {
 			DrawImGui(revengeBarGageData_, "revengeBarGageData_", revengeBarGage_.get());
 			DrawImGui(revengeBarGageBaseData_, "revengeBarGageBaseData_", revengeBarGageBase_.get());
 
-			DrawImGui(revengeCircleGageData_, "revengeCircleGageData_", revengeCircleGage_.get());
-			//DrawImGui(revengeCircleGageBaseData_, "revengeCircleGageBaseData_", revengeCircleGageBase_.get());
 
 			DrawImGui(hpBaseSpriteData_, "hpBaseSpriteData_", hpBaseSprit_.get());
 
@@ -93,7 +90,6 @@ void PlayerUI::UpdateHP() {
 void PlayerUI::UpdateRevengeGage() {
 	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
 	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
-	float circleT = playerRevengeGage_->GetCurrentRevengeCircleGage() / PlayerRevengeGage::kMaxRevengeCircle;
 #pragma region Bar
 	revengeBarGage_->SetPosition(
 		{
@@ -120,13 +116,6 @@ void PlayerUI::UpdateRevengeGage() {
 		}
 	);
 #pragma endregion
-
-	revengeCircleGage_->SetScale(
-		{
-		std::lerp(0.0f, revengeCircleGageData_.scale.x,circleT),
-		std::lerp(0.0f, revengeCircleGageData_.scale.y,circleT)
-		}
-	);
 
 	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
 		tutorial1_->SetIsActive(false);
@@ -174,11 +163,6 @@ void PlayerUI::LoadJson() {
 	JSON_ROOT();
 
 	// 円
-	JSON_OBJECT("revengeCircleGageData_");
-	revengeCircleGageData_.Load();
-	JSON_ROOT();
-
-	// 円
 	JSON_OBJECT("tutorial1Data_");
 	tutorial1Data_.Load();
 	JSON_ROOT();
@@ -223,10 +207,6 @@ void PlayerUI::SaveJson() {
 	// 棒
 	JSON_OBJECT("revengeBarGageBaseData_");
 	revengeBarGageBaseData_.Save();
-	JSON_ROOT();
-	// 円
-	JSON_OBJECT("revengeCircleGageData_");
-	revengeCircleGageData_.Save();
 	JSON_ROOT();
 	// 円
 	JSON_OBJECT("tutorial1Data_");

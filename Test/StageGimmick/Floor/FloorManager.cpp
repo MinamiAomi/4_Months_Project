@@ -23,7 +23,7 @@ void FloorManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void FloorManager::Create(const StageGimmick::Desc& desc) {
+void FloorManager::Create(const Floor::Desc& desc) {
 	Floor* floor = new Floor();
 	floor->SetCamera(camera_);
 	floor->SetPlayer(player_);
@@ -59,7 +59,9 @@ void FloorManager::LoadJson(uint32_t stageIndex) {
 	for (const auto& obj : root["objects"]) {
 		if (obj.contains("gimmick") &&
 			obj["gimmick"]["type"] == "Floor") {
-			Create(StageGimmick::GetDesc(obj));
+			Floor::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
+			Create(desc);
 		}
 	}
 }

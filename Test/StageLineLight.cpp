@@ -85,7 +85,7 @@ void StageLineLight::Update() {
 
 void StageLineLight::UpdateTransform() {
 	if (player_) {
-		transform.translate.z = player_->GetWorldMatrix().GetTranslate().z;
+		transform.translate.z = player_->transform.worldMatrix.GetTranslate().z;
 	}
 	transform.UpdateMatrix();
 	originTransform_.UpdateMatrix();

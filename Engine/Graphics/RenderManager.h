@@ -8,7 +8,6 @@
 #include "Core/DepthBuffer.h"
 #include "Raytracing/RaytracingRenderer.h"
 #include "RaymarchingRenderer.h"
-#include "ModelRenderer.h"
 #include "Bloom.h"
 #include "FXAA.h"
 #include "ParticleRenderer.h"
@@ -18,14 +17,16 @@
 #include "LightManager.h"
 #include "ComputeShader.h"
 #include "Transition.h"
-
+#include "ModelSorter.h"
+#include "SkinningManager.h"
 #include "GeometryRenderingPass.h"
 #include "LightingRenderingPass.h"
-
+#include "LineDrawer.h"
 #include "App/SkyRenderer.h"
 #include "App/Fog.h"
 #include "Edge.h"
 #include "ChaseEffect.h"
+#include "WhiteFilter.h"
 
 #ifdef _DEBUG
 #define SHADER_DIRECTORY "../Engine/Graphics/Shader"
@@ -47,7 +48,10 @@ public:
     void SetUseSky(bool useSky) { useSky_ = useSky; }
     LightManager& GetLightManager() { return lightManager_; }
     Bloom& GetBloom() { return bloom_; }
-    Transition& GetTransition() { return transition_; }
+    Transition& GetTransition() { return transition_; }  
+    SkinningManager& GetSkinningManager() { return skinningManager_; }
+    LineDrawer& GetLineDrawer() { return lineDrawer_; }
+
 
 private:
     RenderManager() = default;
@@ -58,10 +62,15 @@ private:
     SwapChain swapChain_;
     CommandContext commandContext_;
 
+    ColorBuffer temporaryScreenBuffer_;
+
     SpriteRenderer spriteRenderer_;
 
+    ModelSorter modelSorter_;
+    SkinningManager skinningManager_;
     GeometryRenderingPass geometryRenderingPass_;
     LightingRenderingPass lightingRenderingPass_;
+    LineDrawer lineDrawer_;
 
     RaytracingRenderer raytracingRenderer_;
     //RaymarchingRenderer raymarchingRenderer_;
@@ -72,7 +81,9 @@ private:
     ChaseEffect chaseEffect_;
     FXAA fxaa_;
     PostEffect postEffect_;
-    PostEffect edgeMultiply_;
+    PostEffect lightingPassPostEffect_;
+
+    WhiteFilter whiteFilter_;
 
     ColorBuffer skyTexture_;
     SkyRenderer skyRenderer_;

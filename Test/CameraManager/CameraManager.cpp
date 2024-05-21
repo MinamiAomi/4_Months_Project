@@ -5,10 +5,14 @@
 #include "GameSpeed.h"
 #include "Boss/Boss.h"
 #include "Player/Player.h"
+#include "Engine/Graphics/RenderManager.h"
+#include "Movie.h"
+#include "Scene/SceneManager.h"
 
 void CameraManager::Initialize(const Player* player,const Boss* boss) {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	stageCamera_ = std::make_unique<StageCamera>();
+	movieCamera_ = std::make_shared<Camera>();
 
 	stageCamera_->SetPlayer(player);
 	stageCamera_->SetBoss(boss);
@@ -18,9 +22,27 @@ void CameraManager::Initialize(const Player* player,const Boss* boss) {
 	state_ = State::kStageCamera;
 
 	isMove_ = true;
+	isDebug_ = false;
 }
 
 void CameraManager::Update() {
+
+	//カメラ制御  これのせいでデバックカメラできません
+	if (Movie::isPlaying == true) {
+		RenderManager::GetInstance()->SetCamera(movieCamera_);
+		state_ = kMovieCamera;
+	}
+	if (Movie::isPlaying == false && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+		if (isDebug_ == true) {
+			debugCamera_->SetRenderManager();
+			state_ = kDebugCamera;
+		}
+		else {
+			stageCamera_->SetRenderManager();
+			state_ = kStageCamera;
+		}
+	}
+
 #ifdef _DEBUG
 	if (ImGui::BeginMenu("CameraManager")) {
 		const char* items[] = { "Stage Camera", "Debug Camera" };
@@ -32,12 +54,19 @@ void CameraManager::Update() {
 			{
 				stageCamera_->SetRenderManager();
 				stageCamera_->transform.translate.z += distance_;
+				isDebug_ = false;
 			}
 			break;
 			case CameraManager::kDebugCamera:
 			{
 				debugCamera_->SetCamera(stageCamera_->GetCamera());
 				debugCamera_->SetRenderManager();
+				isDebug_ = true;
+			}
+			break;
+			case CameraManager::kMovieCamera:
+			{
+				RenderManager::GetInstance()->SetCamera(movieCamera_);
 			}
 			break;
 			}

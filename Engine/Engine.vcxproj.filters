@@ -252,9 +252,6 @@
     <ClCompile Include="Graphics\Core\ReleasedObjectTracker.cpp">
       <Filter>Graphics\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\ModelRenderer.cpp">
-      <Filter>Graphics\Standard</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\DefaultTextures.cpp">
       <Filter>Graphics\Standard</Filter>
     </ClCompile>
@@ -272,9 +269,6 @@
     </ClCompile>
     <ClCompile Include="Scene\SceneTransition.cpp">
       <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\AnimationNode.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\GeometryRenderingPass.cpp">
       <Filter>Graphics\Standard</Filter>
@@ -316,6 +310,30 @@
       <Filter>Graphics\App</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\ChaseEffect.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="File\JsonConverter.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Skeleton.cpp">
+      <Filter>Graphics\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SkinCluster.cpp">
+      <Filter>Graphics\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SkinningManager.cpp">
+      <Filter>Graphics\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\LineDrawer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\Debug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ModelSorter.cpp">
+      <Filter>Graphics\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\WhiteFilter.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -554,9 +572,6 @@
     <ClInclude Include="Graphics\Core\ReleasedObjectTracker.h">
       <Filter>Graphics\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\ModelRenderer.h">
-      <Filter>Graphics\Standard</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\DefaultTextures.h">
       <Filter>Graphics\Standard</Filter>
     </ClInclude>
@@ -574,9 +589,6 @@
     </ClInclude>
     <ClInclude Include="Scene\SceneTransition.h">
       <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\AnimationNode.h">
-      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\GeometryRenderingPass.h">
       <Filter>Graphics\Standard</Filter>
@@ -624,6 +636,30 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Edge.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="File\JsonConverter.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Skeleton.h">
+      <Filter>Graphics\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\SkinCluster.h">
+      <Filter>Graphics\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\SkinningManager.h">
+      <Filter>Graphics\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\LineDrawer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Node.h">
+      <Filter>Graphics\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ModelSorter.h">
+      <Filter>Graphics\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\WhiteFilter.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -745,6 +781,9 @@
     <None Include="Graphics\Shader\App\FogCS.hlsl">
       <Filter>Graphics\Shader\App</Filter>
     </None>
+    <None Include="Graphics\Shader\Standard\SkinningCS.hlsl">
+      <Filter>Graphics\Shader\Standard</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -759,6 +798,9 @@
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Graphics\Shader\ChaseEffectPS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\WhiteFilterPS.hlsl">
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
   </ItemGroup>

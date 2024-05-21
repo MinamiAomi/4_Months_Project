@@ -3,7 +3,7 @@
 #include "Framework/ResourceManager.h"
 #include "Player/Player.h"
 
-void Skydome::Initialize(const Player* player) {
+void Skydome::Initialize(Player* player) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("skydome"));
 	model_->SetIsActive(true);

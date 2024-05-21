@@ -15,12 +15,15 @@
 class Block :
 	public GameObject {
 public:
-	void Initialize(const StageGimmick::Desc& desc);
+	struct Desc {
+		StageGimmick::Desc desc;
+	};
+	void Initialize(const Desc& desc);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	void GetCamera(const Camera* camera) { camera_ = camera; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);

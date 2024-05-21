@@ -23,9 +23,9 @@ void BlockManager::Reset(uint32_t stageIndex) {
 	LoadJson(stageIndex);
 }
 
-void BlockManager::Create(const StageGimmick::Desc& desc) {
+void BlockManager::Create(const Block::Desc& desc) {
 	Block* block = new Block();
-	block->GetCamera(camera_);
+	block->SetCamera(camera_);
 	block->SetPlayer(player_);
 	block->Initialize(desc);
 	blocks_.emplace_back(std::move(block));
@@ -59,7 +59,9 @@ void BlockManager::LoadJson(uint32_t stageIndex) {
 	for (const auto& obj : root["objects"]) {
 		if (obj.contains("gimmick") &&
 			obj["gimmick"]["type"] == "Block") {
-			Create(StageGimmick::GetDesc(obj));
+			Block::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
+			Create(desc);
 		}
 	}
 }

@@ -7,6 +7,7 @@
 
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
+#include "Graphics/Skeleton.h"
 
 namespace BossParts {
 	enum Parts {
@@ -15,6 +16,8 @@ namespace BossParts {
 		kLeftArm,
 		kFloorAll,
 		kLongDistanceAttack,
+
+		kBoss_2,
 
 		kCount,
 	};
@@ -50,6 +53,11 @@ private:
 	std::string name_;
 };
 
+class Boss_2:public BossModel {
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+};
+
 class Body :public BossModel {
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
@@ -79,9 +87,20 @@ class BossModelManager {
 public:
 
 	void Initialize(const Transform* Transform);
-	void Update();
+	void Update(const Matrix4x4& worldMat);
 
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }
 private:
+	struct BossArm {
+		std::unique_ptr<BoxCollider> upperArm;
+		std::unique_ptr<BoxCollider> lowerArm;
+		std::unique_ptr<BoxCollider> hand;
+		std::unique_ptr<BoxCollider> finger;
+	};
+
+	BossArm bossLeftArm_;
 	std::array<std::unique_ptr<BossModel>, BossParts::Parts::kCount> models_;
+	std::shared_ptr<Animation> animation_;
+	std::shared_ptr<Skeleton> skeleton_;
+	float time_;
 };

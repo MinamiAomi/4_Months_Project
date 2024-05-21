@@ -3,8 +3,11 @@
 #include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Framework/ResourceManager.h"
+#include "Graphics/RenderManager.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
+
+
 
 namespace BossParts {
 	// 実際の定義
@@ -14,6 +17,7 @@ namespace BossParts {
 		"bossLeftArm",
 		"bossFloorAll",
 		"bossLongDistanceAttack",
+		"boss_2"
 	};
 }
 
@@ -23,18 +27,62 @@ void BossModelManager::Initialize(const Transform* Transform) {
 	models_.at(BossParts::Parts::kLeftArm) = std::make_unique<LeftArm>();
 	models_.at(BossParts::Parts::kFloorAll) = std::make_unique<FloorAll>();
 	models_.at(BossParts::Parts::kLongDistanceAttack) = std::make_unique<LongDistanceAttack>();
+	models_.at(BossParts::Parts::kBoss_2) = std::make_unique<Boss_2>();
+
 
 	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
 		model->Initialize(i);
 		i++;
 	}
+
+	animation_ = ResourceManager::GetInstance()->FindAnimation("boss_2");
+	skeleton_ = std::make_shared<Skeleton>();
+	skeleton_->Create(models_.at(BossParts::Parts::kBoss_2)->GetModel()->GetModel());
+	time_ = 0.0f;
+	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
+	models_.at(BossParts::Parts::kBoss_2)->GetModel()->SetSkeleton(skeleton_);
+
+
+	auto& joint = skeleton_->GetJoint("nitoukin_L");
+	assert(joint.parent);
+	Matrix4x4 wordMatrix = joint.skeletonSpaceMatrix * Transform->worldMatrix;
+	Matrix4x4 parentMatrix = skeleton_->GetJoint(*joint.parent).skeletonSpaceMatrix * Transform->worldMatrix;
+	Vector3 born = (parentMatrix.GetTranslate() - wordMatrix.GetTranslate());
+	bossLeftArm_.upperArm = std::make_unique<BoxCollider>();
+	bossLeftArm_.upperArm->SetName("bossLeftArm");
+	bossLeftArm_.upperArm->SetCenter(born * 0.5f);
+	bossLeftArm_.upperArm->SetOrientation(Quaternion::MakeLookRotation(born.Normalized()));
+	bossLeftArm_.upperArm->SetSize({ 5.0f,5.0f, born.z });
+	bossLeftArm_.upperArm->SetCollisionAttribute(CollisionAttribute::Boss);
+	bossLeftArm_.upperArm->SetCollisionMask(~CollisionAttribute::Boss);
+	bossLeftArm_.upperArm->SetIsActive(true);
+
+
+	models_.at(BossParts::Parts::kBody)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kRightArm)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kLeftArm)->SetIsAlive(false);
+	//models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+	//models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
-void BossModelManager::Update() {
+void BossModelManager::Update(const Matrix4x4& worldMat) {
+	time_ += 1.0f / 120.0f;
+	time_ = std::fmod(time_, 1.0f);
+	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
+	skeleton_->Update();
+
+	auto& joint = skeleton_->GetJoint("nitoukin_L");
+	assert(joint.parent);
+	Matrix4x4 wordMatrix = joint.skeletonSpaceMatrix * worldMat;
+	Matrix4x4 parentMatrix = skeleton_->GetJoint(*joint.parent).skeletonSpaceMatrix * worldMat;
+	Vector3 born = (parentMatrix.GetTranslate() - wordMatrix.GetTranslate());
+	RenderManager::GetInstance()->GetLineDrawer().AddLine(parentMatrix.GetTranslate(), wordMatrix.GetTranslate());
+	
 	for (auto& model : models_) {
 		model->Update();
 	}
+	skeleton_->DebugDraw(models_.at(BossParts::Parts::kBoss_2)->transform.worldMatrix);
 }
 
 void BossModel::Initialize(uint32_t index) {
@@ -125,5 +173,9 @@ void FloorAll::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void LongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void Boss_2::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }

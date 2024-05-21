@@ -11,11 +11,7 @@
 #include "Math/Transform.h"
 #include "Math/Random.h"
 
-#include "StageGimmick/Block/BlockManager.h"
-#include "StageGimmick/Floor/FloorManager.h"
-#include "StageGimmick/FireBar/FireBarManager.h"
-#include "StageGimmick/Pendulum/PendulumManager.h"
-#include "StageGimmick/StageObject/StageObjectManager.h"
+#include "StageLoop/StageLoop.h"
 #include "Boss/Boss.h"
 #include "CameraManager/CameraManager.h"
 #include "DebugCamera.h"
@@ -30,8 +26,11 @@
 #include "SkyBlock.h"
 #include "UI.h"
 #include "CutIn.h"
-#include "StageGimmick/RevengeCoin/RevengeCoinManager.h"
 #include "Trap/TrapManager.h"
+#include "Pause.h"
+#include "StartMovie.h"
+#include "GameClearMovie.h"
+#include "GameOverMovie.h"
 
 class GameScene :
 	public BaseScene {
@@ -47,35 +46,32 @@ private:
 	std::shared_ptr<DirectionalLight> directionalLight_;
 
 #pragma region 
-	std::unique_ptr<EditorManager> editorManager_;
+	//std::unique_ptr<EditorManager> editorManager_;
 	bool isMove_;
 #pragma endregion
-#pragma region 
-	std::unique_ptr<BlockManager> blockManager_;
-	std::unique_ptr<FireBarManager> fireBarManager_;
-	std::unique_ptr<FloorManager> floorManager_;
-	std::unique_ptr<PendulumManager> pendulumManager_;
-	std::unique_ptr<RevengeCoinManager> revengeCoinManager_;
-	std::unique_ptr<StageObjectManager> stageObjectManager_;
-	std::unique_ptr<TrapManager> trapManager_;
-#pragma endregion
+
+	std::unique_ptr<StageLoop> stageLoop_;
 
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<PlayerDustParticle> playerDustParticle_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<Skydome> skydome_;
-	std::unique_ptr<StageLineLight> stageRightLight;
-	std::unique_ptr<StageLineLight> stageLeftLight;
 
-	std::unique_ptr<StageLineLight> stageUpRightLight;
-	std::unique_ptr<StageLineLight> stageUpLeftLight;
+	std::array<std::unique_ptr<StageLineLight>, 4> stageLineLights_;
 
 	std::unique_ptr<StageBlockManager> stageBlockManager_;
 	std::unique_ptr<SkyBlockManager> skyBlockManager_;
 
 	std::unique_ptr<UI> ui_;
 	std::unique_ptr<CutIn> cutIn_;
+	std::unique_ptr<Pause> pause_;
+
+	Movie* currentMovie_ = nullptr;
+
+	std::unique_ptr<StartMovie> startMovie_;
+	std::unique_ptr<GameClearMovie> gameClearMovie_;
+	std::unique_ptr<GameOverMovie> gameOverMovie_;
 #pragma endregion
 
 	AudioSource bgm_;

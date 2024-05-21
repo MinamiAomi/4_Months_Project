@@ -10,88 +10,75 @@
 #include "Input/Input.h"
 #include "Scene/SceneManager.h"
 #include "Framework/ResourceManager.h"
+#include "TitleScene.h"
 
 void GameScene::OnInitialize() {
+
 	cameraManager_ = std::make_unique<CameraManager>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 	directionalLight_->direction = Vector3(0.1f, -1.0f, 0.3f).Normalized();
 
-	editorManager_ = std::make_unique<EditorManager>();
-	isMove_ = true;
+	stageLoop_ = std::make_unique<StageLoop>();
 
-	blockManager_ = std::make_unique<BlockManager>();
-	fireBarManager_ = std::make_unique<FireBarManager>();
-	floorManager_ = std::make_unique<FloorManager>();
-	pendulumManager_ = std::make_unique<PendulumManager>();
-	revengeCoinManager_ = std::make_unique<RevengeCoinManager>();
-	stageObjectManager_ = std::make_unique<StageObjectManager>();
-	trapManager_ = std::make_unique<TrapManager>();
+	//editorManager_ = std::make_unique<EditorManager>();
+	isMove_ = true;
 
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
-	cameraManager_->Initialize(player_.get(), boss_.get());
 
-	blockManager_->SetCamera(cameraManager_->GetCamera().get());
-	blockManager_->SetPlayer(player_.get());
-	fireBarManager_->SetCamera(cameraManager_->GetCamera().get());
-	fireBarManager_->SetPlayer(player_.get());
-	floorManager_->SetCamera(cameraManager_->GetCamera().get());
-	floorManager_->SetPlayer(player_.get());
-	pendulumManager_->SetCamera(cameraManager_->GetCamera().get());
-	pendulumManager_->SetPlayer(player_.get());
-	revengeCoinManager_->SetCamera(cameraManager_->GetCamera().get());
-	revengeCoinManager_->SetPlayer(player_.get());
-	stageObjectManager_->SetCamera(cameraManager_->GetCamera().get());
-	stageObjectManager_->SetPlayer(player_.get());
-	trapManager_->SetCamera(cameraManager_->GetCamera().get());
-	trapManager_->SetPlayer(player_.get());
-
-	blockManager_->Initialize(0);
-	fireBarManager_->Initialize(0);
-	floorManager_->Initialize(0);
-	revengeCoinManager_->Initialize(0);
-	pendulumManager_->Initialize(0);
-	stageObjectManager_->Initialize(0);
-	trapManager_->Initialize();
-
-	player_->SetTrapManager(trapManager_.get());
+	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
 	player_->SetStageCamera(cameraManager_->GetStageCamera());
 	player_->Initialize();
+
+	cameraManager_->Initialize(player_.get(), boss_.get());
+	startMovie_ = std::make_unique<StartMovie>();
+	startMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
+	gameClearMovie_ = std::make_unique<GameClearMovie>();
+	gameClearMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
+	gameOverMovie_ = std::make_unique<GameOverMovie>();
+	gameOverMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
+
+	currentMovie_ = startMovie_.get();
+	Movie::isPlaying = true;
 
 	boss_->SetPlayer(player_.get());
 	boss_->SetCamera(cameraManager_->GetCamera().get());
 	boss_->Initialize();
 
-	stageRightLight = std::make_unique<StageLineLight>();
-	stageRightLight->Initialize(false, false);
-	stageRightLight->SetPlayer(player_.get());
-
-	stageLeftLight = std::make_unique<StageLineLight>();
-	stageLeftLight->Initialize(true, false);
-	stageLeftLight->SetPlayer(player_.get());
+	stageLoop_->SetPlayer(player_.get());
+	stageLoop_->SetBoss(boss_.get());
+	stageLoop_->SetCamera(cameraManager_->GetCamera().get());
+	stageLoop_->Initialize();
 
 	stageBlockManager_ = std::make_unique<StageBlockManager>();
 	stageBlockManager_->SetBoss(boss_.get());
 	stageBlockManager_->Initialize();
 
-	stageUpLeftLight = std::make_unique<StageLineLight>();
-	stageUpLeftLight->Initialize(true, true);
-	stageUpLeftLight->SetPlayer(player_.get());
 
-	stageUpRightLight = std::make_unique<StageLineLight>();
-	stageUpRightLight->Initialize(false, true);
-	stageUpRightLight->SetPlayer(player_.get());
+	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {
+		stageLineLight = std::make_unique<StageLineLight>();
+		stageLineLight->SetPlayer(player_.get());
+	}
 
-	editorManager_->SetCamera(cameraManager_->GetCamera().get());
+	stageLineLights_[0]->Initialize(false, false);
+	stageLineLights_[1]->Initialize(true, false);
+	stageLineLights_[2]->Initialize(true, true);
+	stageLineLights_[3]->Initialize(false, true);
+
+	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {
+		stageLineLight->Update();
+	}
+
+	//editorManager_->SetCamera(cameraManager_->GetCamera().get());
 	skyBlockManager_ = std::make_unique<SkyBlockManager>();
 	skyBlockManager_->SetBoss(boss_.get());
 	skyBlockManager_->Initialize();
 
-	editorManager_->SetPlayer(player_.get());
-	editorManager_->SetBoss(boss_.get());
-	editorManager_->Initialize(blockManager_.get(), fireBarManager_.get(), floorManager_.get(), pendulumManager_.get(), boss_->GetAttackTriggerManager().get());
+	//editorManager_->SetPlayer(player_.get());
+	//editorManager_->SetBoss(boss_.get());
+	//editorManager_->Initialize(stageLoop_->GetBlockManager().get(), stageLoop_->GetFireBarManager().get(), stageLoop_->GetFloorManager().get(), stageLoop_->GetPendulumManager().get(), stageLoop_->GetBossAttackTriggerManager().get());
 
 	playerDustParticle_ = std::make_unique<PlayerDustParticle>();
 	playerDustParticle_->SetPlayer(player_.get());
@@ -108,141 +95,182 @@ void GameScene::OnInitialize() {
 	// ikkaideke
 	Initialize();
 
-    chaseBGM_ = ResourceManager::GetInstance()->FindSound("chaseBGM");
-    revengeBGM_ = ResourceManager::GetInstance()->FindSound("revengeBGM");
-    bgm_ = chaseBGM_;
-    bgm_.SetVolume(0.1f);
-    bgm_.Play(true);
+	chaseBGM_ = ResourceManager::GetInstance()->FindSound("chaseBGM");
+	revengeBGM_ = ResourceManager::GetInstance()->FindSound("revengeBGM");
+	bgm_ = chaseBGM_;
+	bgm_.SetVolume(0.1f);
+	bgm_.Play(true);
+
+	pause_ = std::make_unique<Pause>();
+	pause_->Initialize();
 }
 
 void GameScene::OnUpdate() {
-	if (!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 
-		directionalLight_->DrawImGui("directionalLight");
+	//ライティングされなくなるからこれだけ
+	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {
+		stageLineLight->Update();
+	}
 
-        if (Character::currentCharacterState_ == Character::State::kScneChange) {
-            switch (Character::nextCharacterState_) {
-            case Character::State::kChase: {
-                bgm_.Stop();
-                bgm_ = revengeBGM_;
-                bgm_.Play(true);
-                bgm_.SetVolume(0.1f);
-            break;
-            }
-            case Character::State::kRunAway: {
-                bgm_.Stop();
-                bgm_ = chaseBGM_;
-                bgm_.Play(true);
-                bgm_.SetVolume(0.1f);
-                break;
-            }
-            default:
-                break;
-            }
-        }
+	pause_->Update();
+	ui_->Update();
 
-		blockManager_->Update();
-		stageBlockManager_->Update();
-		fireBarManager_->Update();
-		floorManager_->Update();
-		revengeCoinManager_->Update();
-		pendulumManager_->Update();
-		stageObjectManager_->Update();
-		editorManager_->Update();
-		trapManager_->Update();
+	if (!pause_->GetIsPause()) {
 
+		//gameClear
+		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_C)) {
+			Movie::isPlaying = true;
+			currentMovie_ = gameClearMovie_.get();
+		}
+		//gameOver
+		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_K)) {
+			Movie::isPlaying = true;
+			currentMovie_ = gameOverMovie_.get();
+		}
 
-		player_->Update();
-		stageRightLight->Update();
-		stageLeftLight->Update();
-		stageUpRightLight->Update();
-		stageUpLeftLight->Update();
-		boss_->Update();
-
-		skyBlockManager_->Update();
-
-		ui_->Update();
-		cutIn_->Update();
-
-		// 当たり判定を取る
-
-		CollisionManager::GetInstance()->CheckCollision();
-
-		cameraManager_->Update();
-		GameSpeed::Update();
-		Character::Update();
+		if (currentMovie_) {
+			currentMovie_->Update();
+			if (Movie::isPlaying == false) {
+				currentMovie_->Reset();
+				currentMovie_ = nullptr;
+				if (!player_->GetIsAlive()) {
+					SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+				}
+				if (!boss_->GetIsAlive()) {
+					SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+				}
+			}
+		}
 
 
+		if (!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 
-		//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
-		playerDustParticle_->Update();
+			directionalLight_->DrawImGui("directionalLight");
+
+			if (Character::currentCharacterState_ == Character::State::kScneChange) {
+				switch (Character::nextCharacterState_) {
+				case Character::State::kChase:
+				{
+					bgm_.Stop();
+					bgm_ = revengeBGM_;
+					bgm_.Play(true);
+					bgm_.SetVolume(0.1f);
+					break;
+				}
+				case Character::State::kRunAway:
+				{
+					bgm_.Stop();
+					bgm_ = chaseBGM_;
+					bgm_.Play(true);
+					bgm_.SetVolume(0.1f);
+					break;
+				}
+				default:
+					break;
+				}
+			}
+
+			stageLoop_->Update();
+
+			//ムービー中動いてほしくないもの
+			if (!Movie::isPlaying && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+				player_->Update();
+				boss_->Update();
+				stageBlockManager_->Update();
+			}
+
+			skyBlockManager_->Update();
+
+			cutIn_->Update();
+
+			// 当たり判定を取る
+
+			CollisionManager::GetInstance()->CheckCollision();
+
+			cameraManager_->Update();
+			GameSpeed::Update();
+			Character::Update();
+
+
+
+			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
+			playerDustParticle_->Update();
 #ifdef _DEBUG
-		if (ImGui::Checkbox("Move", &isMove_)) {
+			//editorManager_->Update();
+			if (ImGui::Checkbox("Move", &isMove_)) {
+				player_->SetIsMove(isMove_);
+				boss_->SetIsMove(isMove_);
+				cameraManager_->SetIsMove(isMove_);
+				stageBlockManager_->SetIsMove(isMove_);
+			}
 			player_->SetIsMove(isMove_);
 			boss_->SetIsMove(isMove_);
 			cameraManager_->SetIsMove(isMove_);
 			stageBlockManager_->SetIsMove(isMove_);
-		}
-		player_->SetIsMove(isMove_);
-		boss_->SetIsMove(isMove_);
-		cameraManager_->SetIsMove(isMove_);
-		stageBlockManager_->SetIsMove(isMove_);
 
-		if (ImGui::BeginMenu("CharacterState")) {
-			const char* items[] = { "Chase", "RunAway" };
-			static int selectedItem = static_cast<int>(Character::currentCharacterState_);
-			if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
-				Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
-				switch (Character::currentCharacterState_) {
-				case Character::State::kChase:
-				{
-					Character::SetNextScene(Character::State::kChase);
+			if (ImGui::BeginMenu("CharacterState")) {
+				const char* items[] = { "Chase", "RunAway" };
+				static int selectedItem = static_cast<int>(Character::currentCharacterState_);
+				if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+					Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
+					switch (Character::currentCharacterState_) {
+					case Character::State::kChase:
+					{
+						Character::SetNextScene(Character::State::kChase);
+					}
+					break;
+					case Character::State::kRunAway:
+					{
+						Character::SetNextScene(Character::State::kRunAway);
+					}
+					break;
+					}
 				}
-				break;
-				case Character::State::kRunAway:
-				{
-					Character::SetNextScene(Character::State::kRunAway);
-				}
-				break;
-				}
+				ImGui::EndMenu();
 			}
-			ImGui::EndMenu();
-		}
-		if (ImGui::Button("Reset") ||
-			Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-			player_->Reset();
-			cameraManager_->Reset();
-			boss_->Reset(0);
-			stageBlockManager_->Reset();
-			skyBlockManager_->Reset();
-			blockManager_->Reset(0);
-			fireBarManager_->Reset(0);
-			revengeCoinManager_->Reset(0);
-			floorManager_->Reset(0);
-			pendulumManager_->Reset(0);
-			trapManager_->Reset();
-			Character::currentCharacterState_ = Character::kRunAway;
-		}
+			if (ImGui::Button("Reset") ||
+				Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+				player_->Reset();
+				cameraManager_->Reset();
+				boss_->Reset(0);
+				stageBlockManager_->Reset();
+				skyBlockManager_->Reset();
+				stageLoop_->Reset();
+			}
+			// シーン変更
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
+				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
+			}
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				) {
+				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
+			}
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_O) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				) {
+				SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+			}
+			if ((Input::GetInstance()->IsKeyTrigger(DIK_P) &&
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				) {
+				SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+			}
 #endif // _DEBUG
-		if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-			player_->Reset();
-			cameraManager_->Reset();
-			stageBlockManager_->Reset();
-			boss_->Reset(0);
-			blockManager_->Reset(0);
-			fireBarManager_->Reset(0);
-			revengeCoinManager_->Reset(0);
-			floorManager_->Reset(0);
-			pendulumManager_->Reset(0);
-			trapManager_->Reset();
-			Character::currentCharacterState_ = Character::kRunAway;
-		}
-		
-		if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
-		}
-		if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+				player_->Reset();
+				cameraManager_->Reset();
+				stageBlockManager_->Reset();
+				boss_->Reset(0);
+				stageLoop_->Reset();
+			}
+			//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+			//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+			//}
+			//if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
+			//    SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
+			//}
 		}
 	}
 
@@ -255,21 +283,15 @@ void GameScene::Initialize() {
 
 	directionalLight_->DrawImGui("directionalLight");
 
-	blockManager_->Update();
+	stageLoop_->Update();
+	
 	stageBlockManager_->Update();
-	fireBarManager_->Update();
-	revengeCoinManager_->Update();
-	floorManager_->Update();
-	pendulumManager_->Update();
-	stageObjectManager_->Update();
-	editorManager_->Update();
-
-
+	
 	player_->Update();
-	stageRightLight->Update();
-	stageLeftLight->Update();
-	stageUpRightLight->Update();
-	stageUpLeftLight->Update();
+	//ライティングされなくなるからこれだけ
+	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {
+		stageLineLight->Update();
+	}
 	boss_->Update();
 
 	skyBlockManager_->Update();
@@ -284,73 +306,6 @@ void GameScene::Initialize() {
 
 	//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 	playerDustParticle_->Update();
-#ifdef _DEBUG
-	if (ImGui::Checkbox("Move", &isMove_)) {
-		player_->SetIsMove(isMove_);
-		boss_->SetIsMove(isMove_);
-		cameraManager_->SetIsMove(isMove_);
-		stageBlockManager_->SetIsMove(isMove_);
-	}
-	player_->SetIsMove(isMove_);
-	boss_->SetIsMove(isMove_);
-	cameraManager_->SetIsMove(isMove_);
-	stageBlockManager_->SetIsMove(isMove_);
 
-	if (ImGui::BeginMenu("CharacterState")) {
-		const char* items[] = { "Chase", "RunAway" };
-		static int selectedItem = static_cast<int>(Character::currentCharacterState_);
-		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
-			Character::currentCharacterState_ = static_cast<Character::State>(selectedItem);
-			switch (Character::currentCharacterState_) {
-			case Character::State::kChase:
-			{
-				Character::currentCharacterState_ = Character::State::kChase;
-			}
-			break;
-			case Character::State::kRunAway:
-			{
-				Character::currentCharacterState_ = Character::State::kRunAway;
-			}
-			break;
-			}
-		}
-		ImGui::EndMenu();
-	}
-	if (ImGui::Button("Reset") ||
-		Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-		player_->Reset();
-		cameraManager_->Reset();
-		boss_->Reset(0);
-		stageBlockManager_->Reset();
-		skyBlockManager_->Reset();
-		blockManager_->Reset(0);
-		fireBarManager_->Reset(0);
-		revengeCoinManager_->Reset(0);
-		floorManager_->Reset(0);
-		pendulumManager_->Reset(0);
-		trapManager_->Reset();
-
-
-	}
-#endif // _DEBUG
-	if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-		player_->Reset();
-		cameraManager_->Reset();
-		stageBlockManager_->Reset();
-		boss_->Reset(0);
-		blockManager_->Reset(0);
-		fireBarManager_->Reset(0);
-		floorManager_->Reset(0);
-		revengeCoinManager_->Reset(0);
-		pendulumManager_->Reset(0);
-		trapManager_->Reset();
-
-	}
-	if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
-	}
-	if (!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
-		SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
-	}
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }

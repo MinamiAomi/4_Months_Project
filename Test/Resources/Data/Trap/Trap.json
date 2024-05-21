@@ -1,6 +1,6 @@
 {
     "Trap": {
-        "desc_.dropVelocity": 0.10000000149011612,
+        "desc_.dropVelocity": 0.30000001192092896,
         "desc_.offset": 25.0,
         "desc_.shotVelocity": 1.0,
         "offset_": 0.5,

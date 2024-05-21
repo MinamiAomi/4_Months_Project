@@ -8,6 +8,7 @@
 #include "../Model.h"
 #include "../DefaultTextures.h"
 #include "../Core/SamplerManager.h"
+#include "../RenderManager.h"
 
 #define PRIMARY_RAY_ATTRIBUTE (1 << 0)
 #define SHADOW_RAY_ATTRIBUTE  (1 << 1)
@@ -197,10 +198,11 @@ bool RaytracingRenderer::BuildScene(CommandContext& commandContext) {
 
         auto model = instance->GetModel();
         auto& desc = instanceDescs.emplace_back();
+        Matrix4x4 mat = Matrix4x4::MakeRotationY(180.0f * Math::ToRadian) * instance->GetWorldMatrix();
 
         for (uint32_t y = 0; y < 3; ++y) {
             for (uint32_t x = 0; x < 4; ++x) {
-                desc.Transform[y][x] = instance->GetWorldMatrix().m[x][y];
+                desc.Transform[y][x] = mat.m[x][y];
             }
         }
         desc.InstanceID = instance->ReciveShadow() ? 1 : 0;
@@ -211,6 +213,13 @@ bool RaytracingRenderer::BuildScene(CommandContext& commandContext) {
         desc.InstanceContributionToHitGroupIndex = 0;
         desc.Flags = D3D12_RAYTRACING_INSTANCE_FLAG_NONE;
         desc.AccelerationStructure = model->GetBLAS().GetGPUVirtualAddress();
+        auto skeleton = instance->GetSkeleton().get();
+        if (skeleton) {
+            auto skinCluster = RenderManager::GetInstance()->GetSkinningManager().GetSkinCluster(skeleton);
+            if (skinCluster) {
+                desc.AccelerationStructure = skinCluster->GetSkinnedBLAS().GetGPUVirtualAddress();
+            }
+        }
         drawCount++;
     }
 

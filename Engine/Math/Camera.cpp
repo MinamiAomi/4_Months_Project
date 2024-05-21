@@ -17,7 +17,14 @@ Camera::Camera(ProjectionType projectionType) {
 
 void Camera::UpdateMatrices() {
     if (needUpdateing_) {
-        viewMatrix_ = Matrix4x4::MakeAffineInverse(Matrix4x4::MakeRotation(rotate_), position_);
+
+        Vector3 position = position_;
+        if (shakeValue_) {
+            position = rnd_.NextVector3Range(-shakeValue_.value(), shakeValue_.value()) + position_;
+            shakeValue_.reset();
+        }
+       
+        viewMatrix_ = Matrix4x4::MakeAffineInverse(Matrix4x4::MakeRotation(rotate_), position);
 
         switch (projectionType_)
         {
@@ -50,4 +57,9 @@ void Camera::SetOrthographic(float width, float height, float nearClip, float fa
     farClip_ = farClip;
     projectionType_ = Orthographic;
     needUpdateing_ = true;
+}
+
+void Camera::Shake(const Vector3& shakeValue)
+{
+    shakeValue_ = shakeValue;
 }

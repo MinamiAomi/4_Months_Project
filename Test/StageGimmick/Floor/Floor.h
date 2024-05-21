@@ -15,11 +15,9 @@ class Floor :
 	public GameObject {
 public:
 	struct Desc {
-		Vector3 translate;
-		Vector3 rotate;
-		Vector3	scale;
+		StageGimmick::Desc desc;
 	};
-	void Initialize(const StageGimmick::Desc& desc);
+	void Initialize(const Desc& desc);
 	void Update();
 
 	void SetPlayer(const Player* player) { player_ = player; }

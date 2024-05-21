@@ -57,10 +57,6 @@ private:
 	std::unique_ptr<Sprite> revengeBarGageBase_;
 	SpriteData revengeBarGageBaseData_;
 
-	// 円のとこ
-	std::unique_ptr<Sprite> revengeCircleGage_;
-	SpriteData revengeCircleGageData_;
-
 	// tutorial
 	std::unique_ptr<Sprite> tutorial1_;
 	SpriteData tutorial1Data_;
