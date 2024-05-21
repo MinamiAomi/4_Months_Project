@@ -30,6 +30,7 @@ public:
     Collider();
     virtual ~Collider();
 
+    virtual void DebugDraw(const Vector4& color = Vector4::one) = 0;
     virtual bool IsCollision(Collider* collider, CollisionInfo& collisionInfo) = 0;
     virtual bool IsCollision(SphereCollider* collider, CollisionInfo& collisionInfo) = 0;
     virtual bool IsCollision(BoxCollider* collider, CollisionInfo& collisionInfo) = 0;
@@ -63,6 +64,7 @@ class SphereCollider :
     public Collider {
     friend class BoxCollider;
 public:
+    void DebugDraw(const Vector4& color = Vector4::one) override;
     bool IsCollision(Collider* collider, CollisionInfo& collisionInfo) override;
     bool IsCollision(SphereCollider* collider, CollisionInfo& collisionInfo) override;
     bool IsCollision(BoxCollider* collider, CollisionInfo& collisionInfo) override;
@@ -80,6 +82,7 @@ class BoxCollider :
     public Collider {
     friend class SphereCollider;
 public:
+    void DebugDraw(const Vector4& color = Vector4::one) override;
     bool IsCollision(Collider* other, CollisionInfo& collisionInfo) override;
     bool IsCollision(SphereCollider* other, CollisionInfo& collisionInfo) override;  
     bool IsCollision(BoxCollider* other, CollisionInfo& collisionInfo) override;

@@ -55,6 +55,7 @@ void BarChildren::UpdateTransform() {
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
+	collider_->DebugDraw();
 }
 
 void BarChildren::OnCollision(const CollisionInfo& collisionInfo) {
@@ -229,5 +230,6 @@ void FireBar::UpdateTransform() {
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
+	collider_->DebugDraw();
 }
 

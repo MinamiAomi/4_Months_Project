@@ -8,6 +8,7 @@
 #include "Model.h"
 
 #ifdef ENABLE_IMGUI
+static bool enableDebugDraw = false;
 static bool useBloom = true;
 static bool useEdge = true;
 static bool useFog = true;
@@ -114,10 +115,13 @@ void RenderManager::Render() {
         lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
 #ifdef _DEBUG
-        commandContext_.TransitionResource(lightingRenderingPass_.GetResult(), D3D12_RESOURCE_STATE_RENDER_TARGET);
-        commandContext_.SetRenderTarget(lightingRenderingPass_.GetResult().GetRTV());
-        commandContext_.SetViewportAndScissorRect(0, 0, lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
-        lineDrawer_.Render(commandContext_, *camera);
+        if (enableDebugDraw) {
+            commandContext_.TransitionResource(lightingRenderingPass_.GetResult(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+            commandContext_.SetRenderTarget(lightingRenderingPass_.GetResult().GetRTV());
+            commandContext_.SetViewportAndScissorRect(0, 0, lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+            lineDrawer_.Render(commandContext_, *camera);
+        }
+        lineDrawer_.Clear();
 #endif // _DEBUG
 
 
@@ -189,6 +193,7 @@ void RenderManager::Render() {
     auto io = ImGui::GetIO();
     ImGui::Text("Framerate : %f", io.Framerate);
     ImGui::Text("FrameCount : %d", frameCount_);
+    ImGui::Checkbox("DebugDraw", &enableDebugDraw);
     ImGui::Checkbox("Sky", &useSky_);
     if (ImGui::TreeNode("Bloom")) {
         float knee = bloom_.GetKnee();
