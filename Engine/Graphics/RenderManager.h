@@ -26,6 +26,7 @@
 #include "App/Fog.h"
 #include "Edge.h"
 #include "ChaseEffect.h"
+#include "WhiteFilter.h"
 
 #ifdef _DEBUG
 #define SHADER_DIRECTORY "../Engine/Graphics/Shader"
@@ -81,6 +82,8 @@ private:
     FXAA fxaa_;
     PostEffect postEffect_;
     PostEffect lightingPassPostEffect_;
+
+    WhiteFilter whiteFilter_;
 
     ColorBuffer skyTexture_;
     SkyRenderer skyRenderer_;

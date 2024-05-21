@@ -8,6 +8,8 @@
 #include "GameSpeed.h"
 #include "Player/Player.h"
 #include "CameraManager/CameraManager.h"
+#include "Math/Camera.h"
+
 
 void Boss::Initialize() {
 #pragma endregion
@@ -101,7 +103,10 @@ void Boss::Update() {
 
 		}
 		else {
-			//transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetRunAwayLimitLine(), Character::GetSceneChangeTime());
+			if (player_->transform.translate.z<=transform.translate.z - player_->GetRunAwayLimitLine()) {
+				float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
+				transform.translate.z -= tmp;
+			}
 			transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 		}
 	}
@@ -144,7 +149,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			isAlive_ = false;
+			bossHP_->AddPlayerHitHP();
 		}
 		break;
 		case Character::State::kRunAway:
@@ -156,23 +161,24 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 	}
-	if (collisionInfo.collider->GetName() == "DropGimmickBall") {
-		switch (Character::currentCharacterState_) {
-		case Character::State::kChase:
-		{
-			bossHP_->AddHP(-1);
-			if (bossHP_ < 0) {
-				isAlive_ = false;
-			}
-		}
-		break;
-		case Character::State::kRunAway:
-		{
+	// Ball側に持たせた
+	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {
+	//	switch (Character::currentCharacterState_) {
+	//	case Character::State::kChase:
+	//	{
+	//		bossHP_->AddBallHitHP();
+	//		if (bossHP_ < 0) {
+	//			isAlive_ = false;
+	//		}
+	//	}
+	//	break;
+	//	case Character::State::kRunAway:
+	//	{
 
-		}
-		break;
-		default:
-			break;
-		}
-	}
+	//	}
+	//	break;
+	//	default:
+	//		break;
+	//	}
+	//}
 }

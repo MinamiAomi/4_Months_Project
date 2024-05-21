@@ -1,6 +1,7 @@
 {
   "Animation": {
-    "boss_2" : "Boss_2/Boss_2.gltf"
+    "boss_2" : "Boss_2/Boss_2.gltf",
+    "player": "Player/player.gltf"
   },
   "Sound": {
       "jump": "SE/jump.wav",

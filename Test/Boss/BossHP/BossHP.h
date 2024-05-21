@@ -11,7 +11,8 @@ public:
 
 	void Reset();
 
-	void AddHP(int32_t add) { currentHP_ += add; }
+	void AddPlayerHitHP() { currentHP_ -= playerHitDamage_; }
+	void AddBallHitHP() { currentHP_ -= ballHitDamage_; }
 
 	const uint32_t GetCurrentHP() const { return currentHP_; }
 private:

@@ -333,6 +333,9 @@
     <ClCompile Include="Graphics\ModelSorter.cpp">
       <Filter>Graphics\Standard</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\WhiteFilter.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene\BaseScene.h">
@@ -656,6 +659,9 @@
     <ClInclude Include="Graphics\ModelSorter.h">
       <Filter>Graphics\Standard</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\WhiteFilter.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Lighting.hlsli">
@@ -789,6 +795,9 @@
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
     <FxCompile Include="Graphics\Shader\ChaseEffectPS.hlsl">
+      <Filter>Graphics\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\Shader\WhiteFilterPS.hlsl">
       <Filter>Graphics\Shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -37,16 +37,16 @@ void Movie::Reset()
 
 void Movie::ZoomInOut(const Vector3& savePos, const Vector3& axis, const float t)
 {
-	float newT = t * 2.0f;
+	float newT = t / 0.3f;
 	newT = std::clamp(newT, 0.0f, 1.0f);
 	if (newT < 1.0f) {
-		Vector3 result = savePos + Vector3::Lerp(newT, { 0.0f,0.0f,0.0f }, axis * 0.5f);
-		camera_->SetPosition(camera_->GetPosition() + result);
+		Vector3 result = savePos + Vector3::Lerp(newT, { 0.0f,0.0f,0.0f }, axis * 7.0f);
+		camera_->SetPosition(result);
 	}
 	else {
-		newT = (t - 0.5f) * 2.0f;
+		newT = (t - 0.3f) / 0.7f;
 		newT = std::clamp(newT, 0.0f, 1.0f);
-		Vector3 result = savePos + Vector3::Lerp(newT, axis * 0.5f,{ 0.0f,0.0f,0.0f });
-		camera_->SetPosition(camera_->GetPosition() + result);
+		Vector3 result = savePos + Vector3::Lerp(newT, axis * 7.0f,{ 0.0f,0.0f,0.0f });
+		camera_->SetPosition(result);
 	}
 }

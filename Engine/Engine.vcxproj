@@ -259,6 +259,7 @@
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\Timer.cpp" />
     <ClCompile Include="Graphics\Transition.cpp" />
+    <ClCompile Include="Graphics\WhiteFilter.cpp" />
     <ClCompile Include="Input\Input.cpp" />
     <ClCompile Include="Math\Camera.cpp" />
     <ClCompile Include="Math\Color.cpp" />
@@ -390,6 +391,7 @@
     <ClInclude Include="Graphics\SpriteRenderer.h" />
     <ClInclude Include="Graphics\Timer.h" />
     <ClInclude Include="Graphics\Transition.h" />
+    <ClInclude Include="Graphics\WhiteFilter.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Math\Camera.h" />
     <ClInclude Include="Math\Color.h" />
@@ -707,6 +709,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Graphics\Shader\WhiteFilterPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <None Include="Graphics\Shader\App\FogCS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>

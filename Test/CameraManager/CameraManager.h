@@ -28,6 +28,9 @@ public:
 	Camera* GetMovieCamera() { return movieCamera_.get(); }
 	void SetState(State state) { state_ = state; }
 	const std::shared_ptr<Camera>& GetCamera() const;
+	const std::shared_ptr<Camera>& GetDebugCamera() {
+		return debugCamera_->GetCamera();
+	}
 	//const std::shared_ptr<Camera>& GetCamera() const;
 private:
 	std::unique_ptr<DebugCamera> debugCamera_;
