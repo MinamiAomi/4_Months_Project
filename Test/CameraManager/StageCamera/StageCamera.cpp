@@ -39,7 +39,6 @@ void StageCamera::Update() {
 			transform.UpdateMatrix();
 		}
 		float posZ = std::lerp(transform.translate.z,player_->transform.worldMatrix.GetTranslate().z, 0.8f);
-		//posZ = std::max(posZ, transform.translate.z);
 		camera_->SetPosition(
 			{
 			transform.translate.x + cameraParam_.at(Character::State::kChase).offset.x,
