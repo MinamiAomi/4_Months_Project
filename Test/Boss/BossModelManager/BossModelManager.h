@@ -1,9 +1,11 @@
 #pragma once
 #include "Collision/GameObject.h"
 
+#include <map>
 #include <array>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
@@ -35,7 +37,7 @@ public:
 	const Vector3& GetOffset()const { return offset_; }
 	void SetColliderIsAlive(bool flag) { collider_->SetIsActive(flag); }
 	void SetModelIsAlive(bool flag) { model_->SetIsActive(flag); }
-	void SetIsAlive(bool flag) { 
+	void SetIsAlive(bool flag) {
 		SetColliderIsAlive(flag);
 		SetModelIsAlive(flag);
 	}
@@ -53,7 +55,7 @@ private:
 	std::string name_;
 };
 
-class Boss_2:public BossModel {
+class Boss_2 :public BossModel {
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
@@ -91,14 +93,13 @@ public:
 
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }
 private:
-	struct BossArm {
-		std::unique_ptr<BoxCollider> upperArm;
-		std::unique_ptr<BoxCollider> lowerArm;
-		std::unique_ptr<BoxCollider> hand;
-		std::unique_ptr<BoxCollider> finger;
+	struct Parts {
+		std::map<std::string, std::unique_ptr<BoxCollider>> parts;
+		void UpdateCollider(const Matrix4x4& worldMat, const std::shared_ptr<Skeleton>& skeleton);
+		void InitializeCollider(const Matrix4x4& worldMat, const std::shared_ptr<Skeleton>& skeleton, std::vector<std::string> nameList, std::string colliderName);
 	};
 
-	BossArm bossLeftArm_;
+	Parts bossLeftArm_;
 	std::array<std::unique_ptr<BossModel>, BossParts::Parts::kCount> models_;
 	std::shared_ptr<Animation> animation_;
 	std::shared_ptr<Skeleton> skeleton_;
