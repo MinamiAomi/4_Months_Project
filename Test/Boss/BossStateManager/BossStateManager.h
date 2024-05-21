@@ -5,7 +5,6 @@
 #include <array>
 
 #include "Math/MathUtils.h"
-#include "Collision/Collider.h"
 
 class Boss;
 class BossState;

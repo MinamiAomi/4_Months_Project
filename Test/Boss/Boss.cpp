@@ -47,13 +47,14 @@ void Boss::Initialize() {
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
-	// ）
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
 	collider_->SetIsActive(true);
+
+
 #pragma endregion
 
 	isFirstHit_ = false;
@@ -108,8 +109,11 @@ void Boss::Update() {
 
 		}
 		else {
+			if (player_->transform.translate.z<=transform.translate.z - player_->GetRunAwayLimitLine()) {
+				float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
+				transform.translate.z -= tmp;
+			}
 			if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
-				//transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetRunAwayLimitLine(), Character::GetSceneChangeTime());
 				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 			}
 		}
@@ -145,7 +149,7 @@ void Boss::UpdateTransform() {
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
-	bossModelManager_->Update();
+	bossModelManager_->Update(transform.worldMatrix);
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
@@ -159,6 +163,8 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			if (isFirstHit_ == true) {
 				isAlive_ = false;
 			}
+			bossHP_->AddPlayerHitHP();
+
 		}
 		break;
 		case Character::State::kRunAway:
@@ -172,24 +178,24 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		//一回目
 		isFirstHit_ = true;
 	}
+	
+	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {
+	//	switch (Character::currentCharacterState_) {
+	//	case Character::State::kChase:
+	//	{
+	//		bossHP_->AddBallHitHP();
+	//		if (bossHP_ < 0) {
+	//			isAlive_ = false;
+	//		}
+	//	}
+	//	break;
+	//	case Character::State::kRunAway:
+	//	{
 
-	if (collisionInfo.collider->GetName() == "DropGimmickBall") {
-		switch (Character::currentCharacterState_) {
-		case Character::State::kChase:
-		{
-			bossHP_->AddHP(-1);
-			if (bossHP_ < 0) {
-				isAlive_ = false;
-			}
-		}
-		break;
-		case Character::State::kRunAway:
-		{
-
-		}
-		break;
-		default:
-			break;
-		}
-	}
+	//	}
+	//	break;
+	//	default:
+	//		break;
+	//	}
+	//}
 }

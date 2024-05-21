@@ -1,7 +1,7 @@
 {
     "PlayerRevengeGage": {
         "addCoin_": 10.0,
-        "addGageBar_": 0.03500000014901161,
+        "addGageBar_": 0.10000000149011612,
         "addGageCircle_": 0.10000000149011612,
         "addGage_": 10.0,
         "subGageBar_": 0.20000000298023224,

@@ -3,6 +3,7 @@
 #include <array>
 
 #include "CollisionManager.h"
+#include "Graphics/RenderManager.h"
 
 #include <limits>
 
@@ -69,6 +70,12 @@ bool Collider::CanCollision(Collider* other) const {
 
 bool Collider::CanCollision(uint32_t mask) const {
     return (this->collisionAttribute_ & mask);
+}
+
+void SphereCollider::DebugDraw(const Vector4& color) {
+    auto& lineDrawer = RenderManager::GetInstance()->GetLineDrawer();
+    lineDrawer;
+    color;
 }
 
 bool SphereCollider::IsCollision(Collider* other, CollisionInfo& collisionInfo) {
@@ -144,6 +151,17 @@ bool SphereCollider::RayCast(const Vector3& origin, const Vector3& diff, uint32_
     }
     nearest.nearest = distance / diff.Length();
     return true;
+}
+
+void BoxCollider::DebugDraw(const Vector4& color) {
+    auto& lineDrawer = RenderManager::GetInstance()->GetLineDrawer();
+    auto vertices1 = GetVertices(this->obb_);
+    for (uint32_t i = 0; i < 4; ++i) {
+        uint32_t j = (i + 1) % 4;
+        lineDrawer.AddLine(vertices1[i], vertices1[j], color);
+        lineDrawer.AddLine(vertices1[i], vertices1[i + 4], color);
+        lineDrawer.AddLine(vertices1[i + 4], vertices1[j + 4], color);
+    }
 }
 
 bool BoxCollider::IsCollision(Collider* other, CollisionInfo& collisionInfo) {

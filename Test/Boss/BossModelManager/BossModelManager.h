@@ -87,10 +87,18 @@ class BossModelManager {
 public:
 
 	void Initialize(const Transform* Transform);
-	void Update();
+	void Update(const Matrix4x4& worldMat);
 
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }
 private:
+	struct BossArm {
+		std::unique_ptr<BoxCollider> upperArm;
+		std::unique_ptr<BoxCollider> lowerArm;
+		std::unique_ptr<BoxCollider> hand;
+		std::unique_ptr<BoxCollider> finger;
+	};
+
+	BossArm bossLeftArm_;
 	std::array<std::unique_ptr<BossModel>, BossParts::Parts::kCount> models_;
 	std::shared_ptr<Animation> animation_;
 	std::shared_ptr<Skeleton> skeleton_;

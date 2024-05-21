@@ -69,5 +69,8 @@ void LineDrawer::Render(CommandContext& commandContext, const Camera& camera) {
     commandContext.SetDynamicConstantBufferView(0, sizeof(viewProjectionMatrix), &viewProjectionMatrix);
     commandContext.SetDynamicVertexBuffer(0, vertices_.size(), sizeof(vertices_[0]), vertices_.data());
     commandContext.Draw((UINT)vertices_.size());
+}
+
+void LineDrawer::Clear() {
     vertices_.clear();
 }

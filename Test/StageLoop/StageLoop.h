@@ -43,7 +43,7 @@ private:
 	const Boss* boss_;
 	const Camera* camera_;
 	Player* player_;
-	static const uint32_t kCreateStageNum = 1;
+	static const uint32_t kCreateStageNum = 5;
 
 	struct Desc {
 		std::vector<BeltConveyor::Desc>beltConveyorDesc;

@@ -64,6 +64,7 @@ void StageObject::UpdateTransform() {
 			collider_->SetIsActive(false);
 		}
 	}
+	collider_->DebugDraw();
 }
 
 //void StageObject::OnCollision(const CollisionInfo& collisionInfo) {}
