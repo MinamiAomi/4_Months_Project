@@ -38,12 +38,13 @@ void StageCamera::Update() {
 			transform.translate.z += GameSpeed::GetGameSpeed();
 			transform.UpdateMatrix();
 		}
-		float posZ = std::lerp(transform.translate.z,player_->transform.worldMatrix.GetTranslate().z, 0.8f);
+		float t = std::clamp((boss_->transform.translate.z - player_->transform.translate.z) / player_->GetChaseLimitLine(),0.0f,1.0f);
+		float offsetZ = std::lerp(cameraParam_.at(Character::State::kChase).offset.z * -1.0f, cameraParam_.at(Character::State::kChase).offset.z, t);
 		camera_->SetPosition(
 			{
 			transform.translate.x + cameraParam_.at(Character::State::kChase).offset.x,
 			transform.translate.y + cameraParam_.at(Character::State::kChase).offset.y,
-			posZ + cameraParam_.at(Character::State::kChase).offset.z
+			transform.translate.z + offsetZ
 			});
 		camera_->SetRotate(Quaternion::MakeFromEulerAngle(cameraParam_.at(Character::State::kChase).eulerAngle * Math::ToRadian));
 	}
