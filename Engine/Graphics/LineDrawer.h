@@ -21,6 +21,7 @@ public:
     void Initialize(DXGI_FORMAT rtvFormat);
     void AddLine(const Vector3& start, const Vector3& end, const Vector4& color = Vector4::one);
     void Render(CommandContext& commandContext, const Camera& camera);
+    void Clear();
 
 private:
     RootSignature rootSignature_;

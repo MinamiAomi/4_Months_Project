@@ -213,13 +213,13 @@ bool RaytracingRenderer::BuildScene(CommandContext& commandContext) {
         desc.InstanceContributionToHitGroupIndex = 0;
         desc.Flags = D3D12_RAYTRACING_INSTANCE_FLAG_NONE;
         desc.AccelerationStructure = model->GetBLAS().GetGPUVirtualAddress();
-      /*  auto skeleton = instance->GetSkeleton().get();
+        auto skeleton = instance->GetSkeleton().get();
         if (skeleton) {
             auto skinCluster = RenderManager::GetInstance()->GetSkinningManager().GetSkinCluster(skeleton);
             if (skinCluster) {
-                desc.AccelerationStructure = skinCluster->.GetVertexBufferView();
+                desc.AccelerationStructure = skinCluster->GetSkinnedBLAS().GetGPUVirtualAddress();
             }
-        }*/
+        }
         drawCount++;
     }
 

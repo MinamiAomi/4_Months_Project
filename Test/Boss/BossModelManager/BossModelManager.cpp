@@ -82,6 +82,7 @@ void BossModelManager::Update(const Matrix4x4& worldMat) {
 	for (auto& model : models_) {
 		model->Update();
 	}
+	skeleton_->DebugDraw(models_.at(BossParts::Parts::kBoss_2)->transform.worldMatrix);
 }
 
 void BossModel::Initialize(uint32_t index) {
