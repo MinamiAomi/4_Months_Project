@@ -53,6 +53,7 @@
         "revengeCoin": "RevengeCoin/revengeCoin.gltf",
         "switch": "DropGimmick/switch.gltf",
         "dropper": "DropGimmick/dropper.gltf",
+        "beltConveyor": "BeltConveyor/beltConveyor.gltf",
         "dropBall": "DropGimmick/ball.gltf"
     }
 }
