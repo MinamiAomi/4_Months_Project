@@ -13,8 +13,14 @@ void BlockManager::Initialize(uint32_t stageIndex) {
 }
 
 void BlockManager::Update() {
-	for (auto& block : blocks_) {
-		block->Update();
+	for (auto it = blocks_.begin(); it != blocks_.end(); ) {
+		(*it)->Update();
+		if (!(*it)->GetIsAlive()) {
+			it = blocks_.erase(it);
+		}
+		else {
+			++it;
+		}
 	}
 }
 

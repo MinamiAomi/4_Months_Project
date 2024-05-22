@@ -20,7 +20,7 @@ void Block::Initialize(const Desc& desc) {
 
 	onPlayer_ = false;
 	onceOnPlayer_ = false;
-
+	isAlive_ = true;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -45,6 +45,9 @@ void Block::Update() {
 			transform.translate.y -= 0.05f;
 		}
 		transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
+		if (transform.translate.y <= (-transform.scale.y * 0.5f) - 3.0f) {
+			isAlive_ = false;
+		}
 		UpdateTransform();
 		onPlayer_ = false;
 		// 雑カリング

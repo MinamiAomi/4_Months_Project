@@ -24,6 +24,7 @@ public:
 	void SetPlayer(const Player* player) { player_ = player; }
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }
+	bool GetIsAlive() { return isAlive_; }
 private:
 	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
@@ -41,6 +42,7 @@ private:
 
 	StageGimmick::Desc desc_;
 
+	bool isAlive_;
 	bool onPlayer_;
 	bool onceOnPlayer_;
 };
