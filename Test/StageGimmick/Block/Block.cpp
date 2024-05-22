@@ -50,6 +50,7 @@ void Block::Update() {
 		// 雑カリング
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
+		collider_->DebugDraw();
 	}
 	else {
 		model_->SetIsActive(false);

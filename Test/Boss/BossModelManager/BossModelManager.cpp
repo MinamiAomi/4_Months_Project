@@ -12,22 +12,16 @@
 namespace BossParts {
 	// 実際の定義
 	std::array<std::string, Parts::kCount> partsName_ = {
-		"bossBody",
-		"bossRightArm",
-		"bossLeftArm",
+		"boss_2",
 		"bossFloorAll",
 		"bossLongDistanceAttack",
-		"boss_2"
 	};
 }
 
 void BossModelManager::Initialize(const Transform* Transform) {
-	models_.at(BossParts::Parts::kBody) = std::make_unique<Body>();
-	models_.at(BossParts::Parts::kRightArm) = std::make_unique<RightArm>();
-	models_.at(BossParts::Parts::kLeftArm) = std::make_unique<LeftArm>();
 	models_.at(BossParts::Parts::kFloorAll) = std::make_unique<FloorAll>();
 	models_.at(BossParts::Parts::kLongDistanceAttack) = std::make_unique<LongDistanceAttack>();
-	models_.at(BossParts::Parts::kBoss_2) = std::make_unique<Boss_2>();
+	models_.at(BossParts::Parts::kBossBody) = std::make_unique<BossBody>();
 
 
 	for (uint32_t i = 0; auto & model : models_) {
@@ -38,30 +32,28 @@ void BossModelManager::Initialize(const Transform* Transform) {
 
 	animation_ = ResourceManager::GetInstance()->FindAnimation("boss_2");
 	skeleton_ = std::make_shared<Skeleton>();
-	skeleton_->Create(models_.at(BossParts::Parts::kBoss_2)->GetModel()->GetModel());
+	skeleton_->Create(models_.at(BossParts::Parts::kBossBody)->GetModel()->GetModel());
 	time_ = 0.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
-	models_.at(BossParts::Parts::kBoss_2)->GetModel()->SetSkeleton(skeleton_);
+	models_.at(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(skeleton_);
 
 
 	std::vector<std::string> partsName = {
 		"nitoukin_R",
 		"ude_R",
-		"tekibi_R",
+		"tekubi_R",
 		"te_R",
 
 	};
 	bossLeftArm_.InitializeCollider(Transform->worldMatrix, skeleton_,partsName,"bossLeftHand");
 	
-	models_.at(BossParts::Parts::kBody)->SetIsAlive(false);
-	models_.at(BossParts::Parts::kRightArm)->SetIsAlive(false);
-	models_.at(BossParts::Parts::kLeftArm)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kBossBody)->SetColliderIsCollision(false);
 	//models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
 	//models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
 void BossModelManager::Update(const Matrix4x4& worldMat) {
-	time_ += 1.0f / 120.0f;
+	time_ += 1.0f / 180.0f;
 	time_ = std::fmod(time_, 1.0f);
 	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
 	skeleton_->Update();
@@ -71,7 +63,7 @@ void BossModelManager::Update(const Matrix4x4& worldMat) {
 	for (auto& model : models_) {
 		model->Update();
 	}
-	skeleton_->DebugDraw(models_.at(BossParts::Parts::kBoss_2)->transform.worldMatrix);
+	skeleton_->DebugDraw(models_.at(BossParts::Parts::kBossBody)->transform.worldMatrix);
 }
 void BossModel::Initialize(uint32_t index) {
 	name_ = BossParts::partsName_.at(index);
@@ -141,18 +133,10 @@ void BossModel::DrawImGui() {
 		ImGui::EndMenu();
 	}
 	ImGui::End();
+	collider_->DebugDraw();
 #endif // _DEBUG
 }
-
-void Body::OnCollision(const CollisionInfo& collisionInfo) {
-	collisionInfo;
-}
-
-void RightArm::OnCollision(const CollisionInfo& collisionInfo) {
-	collisionInfo;
-}
-
-void LeftArm::OnCollision(const CollisionInfo& collisionInfo) {
+void BossBody::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
@@ -161,10 +145,6 @@ void FloorAll::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void LongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
-	collisionInfo;
-}
-
-void Boss_2::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
@@ -193,3 +173,4 @@ void BossModelManager::Parts::InitializeCollider(const Matrix4x4& worldMat, cons
 	}
 	UpdateCollider(worldMat, skeleton);
 }
+

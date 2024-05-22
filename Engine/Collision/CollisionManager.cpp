@@ -50,6 +50,7 @@ bool CollisionManager::RayCast(const Vector3& origin, const Vector3& diff, uint3
     tmpNearest.nearest = 1.1f;
 
     for (auto collider : colliders_) {
+        if (!collider->isActive_) { continue; }
         RayCastInfo info{};
         info.nearest = FLT_MAX;
         if (collider->RayCast(origin, diff, mask, info)) {

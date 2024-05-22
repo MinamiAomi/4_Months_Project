@@ -13,14 +13,9 @@
 
 namespace BossParts {
 	enum Parts {
-		kBody,
-		kRightArm,
-		kLeftArm,
+		kBossBody,
 		kFloorAll,
 		kLongDistanceAttack,
-
-		kBoss_2,
-
 		kCount,
 	};
 	extern std::array<std::string, Parts::kCount> partsName_;
@@ -41,6 +36,9 @@ public:
 		SetColliderIsAlive(flag);
 		SetModelIsAlive(flag);
 	}
+	void SetColliderIsCollision(bool flag){
+		SetColliderIsAlive(flag);
+	}
 	const std::unique_ptr<ModelInstance>& GetModel()const { return model_; }
 	const std::unique_ptr<BoxCollider>& GetCollider()const { return collider_; }
 private:
@@ -55,25 +53,11 @@ private:
 	std::string name_;
 };
 
-class Boss_2 :public BossModel {
+class BossBody :public BossModel {
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
 
-class Body :public BossModel {
-private:
-	void OnCollision(const CollisionInfo& collisionInfo) override;
-};
-
-class RightArm :public BossModel {
-private:
-	void OnCollision(const CollisionInfo& collisionInfo) override;
-};
-
-class LeftArm :public BossModel {
-private:
-	void OnCollision(const CollisionInfo& collisionInfo) override;
-};
 
 class FloorAll :public BossModel {
 private:

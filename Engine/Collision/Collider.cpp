@@ -272,29 +272,29 @@ bool BoxCollider::RayCast(const Vector3& origin, const Vector3& diff, uint32_t m
     if (!CanCollision(mask)) { return false; }
 
     Math::OBB& obb = this->obb_;
-    // obbのローカル空間で衝突判定を行う
     Matrix4x4 obbRotateMatrix = Matrix4x4().SetXAxis(obb.orientations[0]).SetYAxis(obb.orientations[1]).SetZAxis(obb.orientations[2]);
     Matrix4x4 obbWorldInverse = Matrix4x4::MakeAffineInverse(obbRotateMatrix, obb.center);
     Vector3 halfSize = obb.size * 0.5f;
     Math::AABB aabbInOBBLocal{ -halfSize, halfSize };
 
-    Vector3 originInOBBLocal = origin * obbWorldInverse;
-    Vector3 diffInOBBLocal = ((origin + diff) * obbWorldInverse) - originInOBBLocal;
+    Vector3 originInOBBLocal = obbWorldInverse.ApplyTransformWDivide(origin);
+    Vector3 diffInOBBLocal = obbWorldInverse.ApplyTransformWDivide(diff);
 
+    auto calcT = [](float origin, float diff, float min, float max, float& tMin, float& tMax) {
+        if (diff == 0.0f) {
+            tMin = (min - origin > 0.0f) ? std::numeric_limits<float>::infinity() : -std::numeric_limits<float>::infinity();
+            tMax = (max - origin > 0.0f) ? std::numeric_limits<float>::infinity() : -std::numeric_limits<float>::infinity();
+        }
+        else {
+            tMin = (min - origin) / diff;
+            tMax = (max - origin) / diff;
+        }
+        };
 
-    float tXMin = (aabbInOBBLocal.min.x - originInOBBLocal.x) / diffInOBBLocal.x;
-    float tXMax = (aabbInOBBLocal.max.x - originInOBBLocal.x) / diffInOBBLocal.x;
-    float tYMin = (aabbInOBBLocal.min.y - originInOBBLocal.y) / diffInOBBLocal.y;
-    float tYMax = (aabbInOBBLocal.max.y - originInOBBLocal.y) / diffInOBBLocal.y;
-    float tZMin = (aabbInOBBLocal.min.z - originInOBBLocal.z) / diffInOBBLocal.z;
-    float tZMax = (aabbInOBBLocal.max.z - originInOBBLocal.z) / diffInOBBLocal.z;
-
-    // 軸に平行かついずれかがmin/maxと一致
-    if (std::isnan(tXMin) || std::isnan(tXMax) ||
-        std::isnan(tYMin) || std::isnan(tYMax) ||
-        std::isnan(tZMin) || std::isnan(tZMax)) {
-        return true;
-    }
+    float tXMin, tXMax, tYMin, tYMax, tZMin, tZMax;
+    calcT(originInOBBLocal.x, diffInOBBLocal.x, aabbInOBBLocal.min.x, aabbInOBBLocal.max.x, tXMin, tXMax);
+    calcT(originInOBBLocal.y, diffInOBBLocal.y, aabbInOBBLocal.min.y, aabbInOBBLocal.max.y, tYMin, tYMax);
+    calcT(originInOBBLocal.z, diffInOBBLocal.z, aabbInOBBLocal.min.z, aabbInOBBLocal.max.z, tZMin, tZMax);
 
     float tNearX = (std::min)(tXMin, tXMax);
     float tFarX = (std::max)(tXMin, tXMax);
@@ -306,11 +306,11 @@ bool BoxCollider::RayCast(const Vector3& origin, const Vector3& diff, uint32_t m
     float tMin = (std::max)((std::max)(tNearX, tNearY), tNearZ);
     float tMax = (std::min)((std::min)(tFarX, tFarY), tFarZ);
 
-    if (tMin > tMax) { return false; }
-    // 始点側は判定無し
-    if (tMin < 0.0f && tMax < 0.0f) { return false; }
+    if (tMin > tMax || tMax < 0.0f) {
+        return false;
+    }
 
-    nearest.nearest = tMin;
-
+    nearest.nearest = tMin < 0.0f ? tMax : tMin;
+    nearest.collider = this;
     return true;
 }

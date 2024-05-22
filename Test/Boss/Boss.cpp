@@ -36,8 +36,8 @@ void Boss::Initialize() {
 	bossModelManager_->Initialize(&transform);
 
 	// 隠す
-	bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
-	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);
+	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
+	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);*/
 	isMove_ = true;
 
 #pragma region コライダー
@@ -47,7 +47,7 @@ void Boss::Initialize() {
 	collider_->SetCenter(transform.translate);
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
-	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
+	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
@@ -150,6 +150,7 @@ void Boss::UpdateTransform() {
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
 	bossModelManager_->Update(transform.worldMatrix);
+	collider_->DebugDraw();
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
@@ -159,11 +160,12 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			//二回目でゲームクリア
-			if (isFirstHit_ == true) {
-				isAlive_ = false;
-			}
+			////二回目でゲームクリア
+			//if (isFirstHit_ == true) {
+			//	isAlive_ = false;
+			//}
 			bossHP_->AddPlayerHitHP();
+			Character::SetNextScene(Character::State::kRunAway);
 
 		}
 		break;
@@ -175,8 +177,8 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		default:
 			break;
 		}
-		//一回目
-		isFirstHit_ = true;
+		////一回目
+		//isFirstHit_ = true;
 	}
 	
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {

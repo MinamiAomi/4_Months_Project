@@ -162,14 +162,7 @@ void BossStateManager::DrawImGui() {
 
 void BossStateRoot::Initialize() {
 	SetDesc();
-	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
-	leftArmTransform.translate = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->GetOffset();
-	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(Vector3::zero);
-	leftArmTransform.rotate = Quaternion::identity;
-	auto& rightArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->transform;
-	rightArmTransform.translate = manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->GetOffset();
-	manager_.boss.GetModel()->GetModel(BossParts::Parts::kRightArm)->SetRotate(Vector3::zero);
-	rightArmTransform.rotate = Quaternion::identity;
+
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
 	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
@@ -187,8 +180,6 @@ void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
 
 void BossStateHook::Initialize() {
 	SetDesc();
-	initialPosition_ = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform.translate;
-	initialRotate_ = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->GetRotate();
 	attackState_ = kChage;
 	
 	time_ = 0.0f;
@@ -220,36 +211,17 @@ void BossStateHook::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void BossStateHook::ChargeUpdate() {
-	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
+
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
-	leftArmTransform.translate.x = std::lerp(initialPosition_.x, data_.startPosition.x, t);
-	leftArmTransform.translate.y = std::lerp(initialPosition_.y, data_.startPosition.y, t);
-	leftArmTransform.translate.z = std::lerp(initialPosition_.z, data_.startPosition.z, t);
-	Vector3 rotate{};
-	rotate.x = std::lerp(initialRotate_.x, data_.startRotate.x, t);
-	rotate.y = std::lerp(initialRotate_.y, data_.startRotate.y, t);
-	rotate.z = std::lerp(initialRotate_.z, data_.startRotate.z, t);
-	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
-
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
 	}
 }
 void BossStateHook::AttackUpdate() {
-	auto& leftArmTransform = manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->transform;
 	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
-	leftArmTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
-	leftArmTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
-	leftArmTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
-	Vector3 rotate{};
-	rotate.x = std::lerp(data_.startRotate.x, data_.endRotate.x, t);
-	rotate.y = std::lerp(data_.startRotate.y, data_.endRotate.y, t);
-	rotate.z = std::lerp(data_.startRotate.z, data_.endRotate.z, t);
-	manager_.boss.GetModel()->GetModel(BossParts::Parts::kLeftArm)->SetRotate(rotate);
-
 	if (t >= 1.0f) {
 		manager_.ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	}

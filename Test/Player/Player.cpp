@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include "Engine/Graphics/RenderManager.h"
 #include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Graphics/ImGuiManager.h"
@@ -8,6 +9,7 @@
 #include "Framework/ResourceManager.h"
 #include "Input/Input.h"
 #include "Trap/TrapManager.h"
+#include "Collision/CollisionManager.h"
 
 void Player::Initialize() {
 #pragma region パラメーター
@@ -271,11 +273,12 @@ void Player::UpdateTransform() {
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
+    
     if (collisionInfo.collider->GetName() == "Boss") {
         switch (Character::currentCharacterState_) {
         case Character::State::kChase:
         {
-
+           
         }
         break;
         case Character::State::kRunAway:
@@ -331,7 +334,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
         //	transform.SetParent(&nextParent->transform);
         //}
     }
-    else if (collisionInfo.collider->GetName() == "bossLeftArm" ||
+    else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
         collisionInfo.collider->GetName() == "bossFloorAll" ||
         collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
         isHit_ = true;
@@ -356,6 +359,15 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
         playerRevengeGage_->AddGage();
     }
 
+    RayCastInfo rayCastInfo{};
+    if (CollisionManager::GetInstance()->RayCast(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), ~CollisionAttribute::Player, &rayCastInfo)) {
+    RenderManager::GetInstance()->GetLineDrawer().AddLine(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f),Vector4(1.0f,0.0f,0.0f,1.0f));
+
+    }
+    else {
+
+    RenderManager::GetInstance()->GetLineDrawer().AddLine(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f),Vector4(0.0f,0.0f,1.0f,1.0f));
+    }
 }
 
 void Player::Move() {

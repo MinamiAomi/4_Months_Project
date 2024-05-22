@@ -42,10 +42,10 @@ void StageObject::UpdateTransform() {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	Math::Sphere model{}, camera{};
 	model.center = (transform.worldMatrix.GetTranslate());
-	model.radius = ((std::max)(modelSize.z * transform.scale.z,std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
+	model.radius = ((std::max)(modelSize.z * transform.scale.z, std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
 	camera.center = (camera_->GetPosition());
 	camera.radius = (camera_->GetFarClip());
-	if (Math::IsCollision(model,camera)) {
+	if (Math::IsCollision(model, camera)) {
 		transform.UpdateMatrix();
 		if (colliderDesc_) {
 			collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
@@ -56,6 +56,7 @@ void StageObject::UpdateTransform() {
 		model_->SetIsActive(true);
 		if (colliderDesc_) {
 			collider_->SetIsActive(true);
+			collider_->DebugDraw();
 		}
 	}
 	else {
@@ -64,7 +65,6 @@ void StageObject::UpdateTransform() {
 			collider_->SetIsActive(false);
 		}
 	}
-	collider_->DebugDraw();
 }
 
 //void StageObject::OnCollision(const CollisionInfo& collisionInfo) {}
