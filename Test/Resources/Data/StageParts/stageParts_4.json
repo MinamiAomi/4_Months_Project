@@ -1278,6 +1278,466 @@
         },
         {
             "type": "MESH",
+            "name": "スイッチ.014",
+            "transform": {
+                "translate": [
+                    0.7782135009765625,
+                    1.2080856561660767,
+                    136.91929626464844
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 41
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.014",
+            "transform": {
+                "translate": [
+                    1.1614294052124023,
+                    35.13273239135742,
+                    94.72502899169922
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 41
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.015",
+            "transform": {
+                "translate": [
+                    0.7782135009765625,
+                    1.2080856561660767,
+                    52.60907745361328
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 42
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.015",
+            "transform": {
+                "translate": [
+                    1.1614294052124023,
+                    35.13273239135742,
+                    10.414810180664062
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 42
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.016",
+            "transform": {
+                "translate": [
+                    -13.810840606689453,
+                    1.2080856561660767,
+                    -31.701141357421875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 43
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.016",
+            "transform": {
+                "translate": [
+                    1.1614294052124023,
+                    35.13273239135742,
+                    -73.8954086303711
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 43
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.017",
+            "transform": {
+                "translate": [
+                    12.954092979431152,
+                    1.2080856561660767,
+                    -121.38370513916016
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 44
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.017",
+            "transform": {
+                "translate": [
+                    1.1614294052124023,
+                    35.13273239135742,
+                    -158.20562744140625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 44
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.018",
+            "transform": {
+                "translate": [
+                    13.570544242858887,
+                    1.2080856561660767,
+                    -206.54373168945312
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 45
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.018",
+            "transform": {
+                "translate": [
+                    1.1614294052124023,
+                    35.13273239135742,
+                    -250.9075927734375
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 45
+            }
+        },
+        {
+            "type": "MESH",
             "name": "たてもの３.035",
             "transform": {
                 "translate": [
