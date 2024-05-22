@@ -61,6 +61,7 @@
         ]
     },
     "StateHook": {
+        "jsonData_.attackData.allFrame": 300.0,
         "jsonData_.attackData.attackEasingTime": 45.0,
         "jsonData_.attackData.chargeEasingTime": 45.0,
         "jsonData_.attackData.easingTime": 30.0,

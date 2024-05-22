@@ -12,12 +12,7 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.rootData.velocity);
 	JSON_ROOT();
 	JSON_OBJECT("StateHook");
-	JSON_LOAD(jsonData_.attackData.startPosition);
-	JSON_LOAD(jsonData_.attackData.endPosition);
-	JSON_LOAD(jsonData_.attackData.startRotate);
-	JSON_LOAD(jsonData_.attackData.endRotate);
-	JSON_LOAD(jsonData_.attackData.chargeEasingTime);
-	JSON_LOAD(jsonData_.attackData.attackEasingTime);
+	JSON_LOAD(jsonData_.attackData.allFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateLowerAttack");
 	JSON_LOAD(jsonData_.lowerAttackData.startPosition);
@@ -34,7 +29,6 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.insideAttackData.attackEasingTime);
 	JSON_ROOT();
 	JSON_CLOSE();
-	jsonData_.attackData.velocity = jsonData_.rootData.velocity;
 	jsonData_.lowerAttackData.velocity = jsonData_.rootData.velocity;
 	jsonData_.insideAttackData.velocity = jsonData_.rootData.velocity;
 	state_ = State::kRoot;
@@ -64,7 +58,7 @@ void BossStateManager::DrawImGui() {
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
-		const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack"};
+		const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack" };
 		static int selectedItem = static_cast<int>(state_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 			state_ = static_cast<State>(selectedItem);
@@ -96,16 +90,7 @@ void BossStateManager::DrawImGui() {
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("Hook")) {
-			ImGui::DragFloat3("startPosition", &jsonData_.attackData.startPosition.x, 0.1f);
-			ImGui::DragFloat3("endPosition", &jsonData_.attackData.endPosition.x, 0.1f);
-			Vector3 rotate = jsonData_.attackData.startRotate * Math::ToDegree;
-			ImGui::DragFloat3("startRotate", &rotate.x, 0.1f);
-			jsonData_.attackData.startRotate = rotate * Math::ToRadian;
-			rotate = jsonData_.attackData.endRotate * Math::ToDegree;
-			ImGui::DragFloat3("endRotate", &rotate.x, 0.1f);
-			jsonData_.attackData.endRotate = rotate * Math::ToRadian;
-			ImGui::DragFloat("chargeEasingTime", &jsonData_.attackData.chargeEasingTime, 0.1f);
-			ImGui::DragFloat("attackEasingTime", &jsonData_.attackData.attackEasingTime, 0.1f);
+			ImGui::DragFloat("全体フレーム", &jsonData_.attackData.allFrame, 0.1f, 0.0f);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("LowerAttack")) {
@@ -131,13 +116,8 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.rootData.velocity);
 			JSON_ROOT();
 			JSON_OBJECT("StateHook");
-			JSON_SAVE(jsonData_.attackData.startPosition);
-			JSON_SAVE(jsonData_.attackData.endPosition);
-			JSON_SAVE(jsonData_.attackData.startRotate);
-			JSON_SAVE(jsonData_.attackData.endRotate);
-			JSON_SAVE(jsonData_.attackData.chargeEasingTime);
-			JSON_SAVE(jsonData_.attackData.attackEasingTime);
-			JSON_ROOT(); 
+			JSON_SAVE(jsonData_.attackData.allFrame);
+			JSON_ROOT();
 			JSON_OBJECT("StateLowerAttack");
 			JSON_SAVE(jsonData_.lowerAttackData.startPosition);
 			JSON_SAVE(jsonData_.lowerAttackData.endPosition);
@@ -171,8 +151,7 @@ void BossStateRoot::SetDesc() {
 	velocity_ = manager_.jsonData_.rootData.velocity;
 }
 
-void BossStateRoot::Update() {
-}
+void BossStateRoot::Update() {}
 
 void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
@@ -180,8 +159,7 @@ void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
 
 void BossStateHook::Initialize() {
 	SetDesc();
-	attackState_ = kChage;
-	
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(0).SetIsCollision(true);
 	time_ = 0.0f;
 }
 
@@ -190,51 +168,23 @@ void BossStateHook::SetDesc() {
 }
 
 void BossStateHook::Update() {
-	switch (attackState_) {
-	case BossState::kChage:
-	{
-		ChargeUpdate();
-	}
-	break;
-	case BossState::kAttack:
-	{
-		AttackUpdate();
-	}
-	break;
-	default:
-		break;
-	}
-}
+	float t = time_ / data_.allFrame;
+	auto& parts = manager_.boss.GetModel()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(0);
+	parts.skeleton->ApplyAnimation(parts.animation->GetAnimation("armAttack"), t);
+	parts.skeleton->Update();
 
-void BossStateHook::OnCollision(const CollisionInfo& collisionInfo) {
-	collisionInfo;
-}
+	parts.UpdateCollider(manager_.boss.GetModel()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix);
 
-void BossStateHook::ChargeUpdate() {
-
-	float t = time_ / data_.chargeEasingTime;
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(parts.skeleton);
 	time_ += 1.0f;
 	if (t >= 1.0f) {
-		attackState_ = kAttack;
-		time_ = 0.0f;
-	}
-}
-void BossStateHook::AttackUpdate() {
-	float t = time_ / data_.attackEasingTime;
-	time_ += 1.0f;
-	if (t >= 1.0f) {
+		manager_.boss.GetModel()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(0).SetIsCollision(false);
+	manager_.boss.GetModel()->GetModel(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(nullptr);
 		manager_.ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
 	}
 }
 
-
-void BossStateRainOfArrow::Initialize() {}
-
-void BossStateRainOfArrow::SetDesc() {}
-
-void BossStateRainOfArrow::Update() {}
-
-void BossStateRainOfArrow::OnCollision(const CollisionInfo& collisionInfo) {
+void BossStateHook::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
@@ -356,12 +306,36 @@ void BossStateInsideAttack::AttackUpdate() {
 	}
 }
 
-void BossStateArmHammer::Initialize() {}
+void BossStateBeamRightAttack::Initialize() {
+	SetDesc();
+	attackState_ = kChage;
+	time_ = 0.0f;
+}
 
-void BossStateArmHammer::SetDesc() {}
+void BossStateBeamRightAttack::SetDesc() {
 
-void BossStateArmHammer::Update() {}
+}
 
-void BossStateArmHammer::OnCollision(const CollisionInfo& collisionInfo) {
+void BossStateBeamRightAttack::Update() {}
+
+void BossStateBeamRightAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
+
+void BossStateBeamRightAttack::ChargeUpdate() {}
+
+void BossStateBeamRightAttack::AttackUpdate() {}
+
+void BossStateBeamLeftAttack::Initialize() {}
+
+void BossStateBeamLeftAttack::SetDesc() {}
+
+void BossStateBeamLeftAttack::Update() {}
+
+void BossStateBeamLeftAttack::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void BossStateBeamLeftAttack::ChargeUpdate() {}
+
+void BossStateBeamLeftAttack::AttackUpdate() {}

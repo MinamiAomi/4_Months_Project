@@ -30,14 +30,6 @@ void BossModelManager::Initialize(const Transform* Transform) {
 		i++;
 	}
 
-	animation_ = ResourceManager::GetInstance()->FindAnimation("boss_2");
-	skeleton_ = std::make_shared<Skeleton>();
-	skeleton_->Create(models_.at(BossParts::Parts::kBossBody)->GetModel()->GetModel());
-	time_ = 0.0f;
-	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
-	models_.at(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(skeleton_);
-
-
 	std::vector<std::string> partsName = {
 		"nitoukin_R",
 		"ude_R",
@@ -45,25 +37,14 @@ void BossModelManager::Initialize(const Transform* Transform) {
 		"te_R",
 
 	};
-	bossLeftArm_.InitializeCollider(Transform->worldMatrix, skeleton_,partsName,"bossLeftHand");
-	
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName,"bossLeftHand");
 	models_.at(BossParts::Parts::kBossBody)->SetColliderIsCollision(false);
-	//models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
-	//models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
-void BossModelManager::Update(const Matrix4x4& worldMat) {
-	time_ += 1.0f / 180.0f;
-	time_ = std::fmod(time_, 1.0f);
-	skeleton_->ApplyAnimation(animation_->GetAnimation("armAttack"), time_);
-	skeleton_->Update();
-
-	bossLeftArm_.UpdateCollider(worldMat,skeleton_);
-
+void BossModelManager::Update() {
 	for (auto& model : models_) {
 		model->Update();
 	}
-	skeleton_->DebugDraw(models_.at(BossParts::Parts::kBossBody)->transform.worldMatrix);
 }
 void BossModel::Initialize(uint32_t index) {
 	name_ = BossParts::partsName_.at(index);
@@ -90,11 +71,24 @@ void BossModel::Initialize(uint32_t index) {
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
 	collider_->SetIsActive(true);
 #pragma endregion
+
+
 }
 
 void BossModel::Update() {
 	DrawImGui();
 	UpdateTransform();
+}
+
+void BossModel::AddAnimation(std::vector<std::string> nameList, std::string colliderName) {
+#pragma region アニメーション
+	Parts parts{};
+	parts.animation = ResourceManager::GetInstance()->FindAnimation(name_);
+	parts.skeleton = std::make_shared<Skeleton>();
+	parts.skeleton->Create(model_->GetModel());
+	parts.InitializeCollider(nameList,colliderName);
+	parts_.emplace_back(std::move(parts));
+#pragma endregion
 }
 
 void BossModel::UpdateTransform() {
@@ -148,7 +142,13 @@ void LongDistanceAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	collisionInfo;
 }
 
-void BossModelManager::Parts::UpdateCollider(const Matrix4x4& worldMat, const std::shared_ptr<Skeleton>& skeleton) {
+void BossModel::Parts::SetIsCollision(bool flag) {
+	for (auto& part : parts) {
+		part.second->SetIsActive(flag);
+	}
+}
+
+void BossModel::Parts::UpdateCollider(const Matrix4x4& worldMat) {
 	for (auto& part : parts) {
 		auto joint = skeleton->GetJoint(part.first);
 		assert(joint.parent.has_value());
@@ -163,14 +163,13 @@ void BossModelManager::Parts::UpdateCollider(const Matrix4x4& worldMat, const st
 	}
 }
 
-void BossModelManager::Parts::InitializeCollider(const Matrix4x4& worldMat, const std::shared_ptr<Skeleton>& skeleton, std::vector<std::string> nameList, std::string colliderName) {
+void BossModel::Parts::InitializeCollider(std::vector<std::string> nameList, std::string colliderName) {
 	for (auto& string : nameList) {
 		parts[string]=std::make_unique<BoxCollider>();
 		parts[string]->SetName(colliderName);
 		parts[string]->SetCollisionAttribute(CollisionAttribute::Boss);
 		parts[string]->SetCollisionMask(~CollisionAttribute::Boss);
-		parts[string]->SetIsActive(true);
+		parts[string]->SetIsActive(false);
 	}
-	UpdateCollider(worldMat, skeleton);
 }
 

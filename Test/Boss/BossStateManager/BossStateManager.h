@@ -4,6 +4,7 @@
 #include <memory>
 #include <array>
 
+#include "Graphics/Skeleton.h"
 #include "Math/MathUtils.h"
 
 class Boss;
@@ -48,13 +49,7 @@ class BossStateHook :
 	public BossState {
 public:
 	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
-		Vector3 startRotate;
-		Vector3 endRotate;
-		float attackEasingTime;
-		float chargeEasingTime;
-		float velocity;
+		float allFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -62,13 +57,8 @@ public:
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 private:
-	void ChargeUpdate();
-	void AttackUpdate();
 	JsonData data_;
 	float time_;
-	// このstateに入った時の位置->アタックが始まる位置
-	Vector3 initialPosition_;
-	Vector3 initialRotate_;
 };
 
 class BossStateLowerAttack :
@@ -117,52 +107,47 @@ private:
 	float time_;
 };
 
-class BossStateRainOfArrow :
+class BossStateBeamRightAttack:
 	public BossState {
 public:
 	struct JsonData {
 		Vector3 startPosition;
 		Vector3 endPosition;
-		Vector3 startRotate;
-		Vector3 endRotate;
-		float easingTime;
-		float velocity;
+		Vector3 scale;
+		float attackEasingTime;
+		float chargeEasingTime;
 	};
 	using BossState::BossState;
 	void Initialize() override;
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
-
 private:
-	JsonData data_;
-	
+	void ChargeUpdate();
+	void AttackUpdate();
 	float time_;
 };
 
-class BossStateArmHammer :
+class BossStateBeamLeftAttack :
 	public BossState {
 public:
 	struct JsonData {
 		Vector3 startPosition;
 		Vector3 endPosition;
-		Vector3 startRotate;
-		Vector3 endRotate;
-		float easingTime;
-		float velocity;
+		Vector3 scale;
+		float attackEasingTime;
+		float chargeEasingTime;
 	};
 	using BossState::BossState;
 	void Initialize() override;
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
-
 private:
-	JsonData data_;
+	void ChargeUpdate();
+	void AttackUpdate();
 	float time_;
 };
-
-
 
 class BossStateManager {
 public:
@@ -171,9 +156,8 @@ public:
 		kHook,
 		kLowerAttack,
 		kInsideAttack,
-		kRainOfArrow,
-		kArmHammer,
-
+		kBeamRightAttack,
+		kBeamAttack,
 	};
 
 	struct JsonData {
@@ -181,6 +165,8 @@ public:
 		BossStateHook::JsonData attackData;
 		BossStateLowerAttack::JsonData lowerAttackData;
 		BossStateInsideAttack::JsonData insideAttackData;
+		BossStateBeamRightAttack::JsonData beamRightAttackData;
+		BossStateBeamLeftAttack::JsonData beamLeftAttackData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();

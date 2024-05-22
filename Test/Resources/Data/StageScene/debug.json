@@ -736,6 +736,52 @@
                     1.0
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "HookTrigger.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    93.58625030517578
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "bosstrigger",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 0
+            }
         }
     ]
 }

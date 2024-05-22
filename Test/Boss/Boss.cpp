@@ -149,7 +149,7 @@ void Boss::UpdateTransform() {
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
-	bossModelManager_->Update(transform.worldMatrix);
+	bossModelManager_->Update();
 	collider_->DebugDraw();
 }
 

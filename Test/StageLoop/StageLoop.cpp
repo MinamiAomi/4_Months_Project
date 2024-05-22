@@ -82,301 +82,301 @@ void StageLoop::Reset() {
 }
 
 void StageLoop::LoadJson() {
-	//static std::string directoryPath = "Resources/Data/StageScene/debug.json";
+	static std::string directoryPath = "Resources/Data/StageScene/debug.json";
 
-	//Desc jsonData{};
-	//std::vector<Switch::Desc> switchDesc{};
-	//std::vector<Dropper::Desc> dropperDesc{};
-
-	//std::ifstream ifs(directoryPath);
-	//if (!ifs.is_open()) {
-	//	return;
-	//}
-	//// JSONをパースしてルートオブジェクトを取得
-	//nlohmann::json root;
-	//ifs >> root;
-	//ifs.close();
-	//// "objects"配列からオブジェクトを処理
-	//for (const auto& obj : root["objects"]) {
-	//	// Block
-	//	if (obj.contains("gimmick")) {
-	//		if (obj["gimmick"]["type"] == "Block") {
-	//			Block::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			jsonData.blockDesc.emplace_back(desc);
-	//		}
-	//		else if (obj["gimmick"]["type"] == "Trigger") {
-	//			BossAttackTrigger::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			const auto& gimmick = obj["gimmick"];
-	//			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-	//			jsonData.bossAttackTrigger.emplace_back(desc);
-
-	//		}
-	//		// FireBar
-	//		else if (obj["gimmick"]["type"] == "FireBar") {
-	//			FireBar::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			const auto& gimmick = obj["gimmick"];
-	//			desc.barDesc.length = gimmick["length"];
-	//			desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
-	//			desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
-	//			jsonData.fireBarDesc.emplace_back(desc);
-	//		}
-	//		// Floor
-	//		else if (obj["gimmick"]["type"] == "Floor") {
-	//			Floor::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			jsonData.floorDesc.emplace_back(desc);
-	//		}
-	//		// Pendulam
-	//		else if (obj["gimmick"]["type"] == "Pendulum") {
-	//			Pendulum::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			const auto& gimmick = obj["gimmick"];
-	//			desc.length = gimmick["length"];
-	//			desc.angle = gimmick["angle"] * Math::ToRadian;
-	//			desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
-	//			desc.gravity = gimmick["gravity"];
-	//			desc.stickScale = gimmick["stickScale"];
-	//			desc.ballScale = gimmick["ballScale"];
-	//			jsonData.pendulumDesc.emplace_back(desc);
-	//		}
-	//		// RevengeCoin
-	//		else if (obj["gimmick"]["type"] == "RevengeCoin") {
-	//			RevengeCoin::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			jsonData.revengeCoinDesc.emplace_back(desc);
-	//		}
-	//		// BeltConveyor
-	//		else if (obj["gimmick"]["type"] == "BeltConveyor") {
-	//			BeltConveyor::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			const auto& gimmick = obj["gimmick"];
-	//			desc.velocity = gimmick["beltConveyorVelocity"];
-	//			jsonData.beltConveyorDesc.emplace_back(desc);
-	//		}
-	//		// DroppGimmick
-	//		else if (obj["gimmick"]["type"] == "DropGimmickSwitch") {
-	//			Switch::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			const auto& gimmick = obj["gimmick"];
-	//			desc.index = gimmick["dropGimmickIndex"];
-	//			switchDesc.emplace_back(desc);
-	//		}
-	//		else if (obj["gimmick"]["type"] == "DropGimmickDropper") {
-	//			Dropper::Desc desc{};
-	//			desc.desc = StageGimmick::GetDesc(obj);
-	//			const auto& gimmick = obj["gimmick"];
-	//			desc.index = gimmick["dropGimmickIndex"];
-	//			dropperDesc.emplace_back(desc);
-	//		}
-	//	}
-	//	// StageArea
-	//	else if (obj["file_name"] == "stageArea") {
-	//		if (obj.contains("collider")) {
-	//			const auto& collider = obj["collider"];
-	//			jsonData.stageSize = { collider["size"][2] };
-	//		}
-
-	//	}
-	//	// StageObject
-	//	else if (!obj.contains("gimmick")) {
-	//		StageObject::Desc desc{};
-	//		desc.desc = StageGimmick::GetDesc(obj);
-	//		jsonData.stageObjectDesc.emplace_back(desc);
-	//	}
-	//}
-	//// DropGimmickのソート
-	//// １ステージにおけるスイッチのタイプの数
-	//for (uint32_t i = 0; i < 10; i++) {
-	//	DropGimmick::Desc dropGimmickDesc{};
-	//	for (auto& desc : switchDesc) {
-	//		if (desc.index == i) {
-	//			dropGimmickDesc.switchDesc.emplace_back(desc);
-	//		}
-	//	}
-	//	for (auto& desc : dropperDesc) {
-	//		if (desc.index == i) {
-	//			dropGimmickDesc.dropperDesc.emplace_back(desc);
-	//		}
-	//	}
-	//	if (!dropGimmickDesc.switchDesc.empty() &&
-	//		!dropGimmickDesc.dropperDesc.empty()) {
-	//		jsonData.dropGimmickDesc.emplace_back(dropGimmickDesc);
-	//	}
-	//}
-
-	//stageData_.emplace_back(jsonData);
-
-
-	static std::string directoryPath = "Resources/Data/StageParts/";
-
-	// パターンに一致するファイルを見つける正規表現パターン
-	std::regex pattern("stageParts_([0-9]+)");
-
-	std::map<uint32_t, Desc> stageData{};
-
+	Desc jsonData{};
 	std::vector<Switch::Desc> switchDesc{};
 	std::vector<Dropper::Desc> dropperDesc{};
 
-	// ディレクトリ内のファイルを検索し、パターンに一致するファイルを読み込む
-	for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
-		if (std::filesystem::is_regular_file(entry.path())) {
-			std::string fileName = entry.path().stem().string();
-			std::smatch match;
-			if (std::regex_match(fileName, match, pattern)) {
-				Desc jsonData{};
-				std::ifstream ifs(entry.path());
-				if (!ifs.is_open()) {
-					return;
-				}
-				// JSONをパースしてルートオブジェクトを取得
-				nlohmann::json root;
-				ifs >> root;
-				ifs.close();
-
-				// "objects"配列からオブジェクトを処理
-				for (const auto& obj : root["objects"]) {
-					// Block
-					if (obj.contains("gimmick")) {
-						if (obj["gimmick"]["type"] == "Block") {
-							Block::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							jsonData.blockDesc.emplace_back(desc);
-						}
-						else if (obj["gimmick"]["type"] == "Trigger") {
-							BossAttackTrigger::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-							jsonData.bossAttackTrigger.emplace_back(desc);
-
-						}// Trigger
-						else if (obj["gimmick"]["type"] == "Trigger") {
-							BossAttackTrigger::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-							jsonData.bossAttackTrigger.emplace_back(desc);
-
-						}
-						// FireBar
-						else if (obj["gimmick"]["type"] == "FireBar") {
-							FireBar::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.barDesc.length = gimmick["length"];
-							desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
-							desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
-							jsonData.fireBarDesc.emplace_back(desc);
-						}
-						// Floor
-						else if (obj["gimmick"]["type"] == "Floor") {
-							Floor::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							jsonData.floorDesc.emplace_back(desc);
-						}
-						// Pendulam
-						else if (obj["gimmick"]["type"] == "Pendulum") {
-							Pendulum::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.length = gimmick["length"];
-							desc.angle = gimmick["angle"] * Math::ToRadian;
-							desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
-							desc.gravity = gimmick["gravity"];
-							desc.stickScale = gimmick["stickScale"];
-							desc.ballScale = gimmick["ballScale"];
-							jsonData.pendulumDesc.emplace_back(desc);
-						}
-						// RevengeCoin
-						else if (obj["gimmick"]["type"] == "RevengeCoin") {
-							RevengeCoin::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							jsonData.revengeCoinDesc.emplace_back(desc);
-						}
-						// BeltConveyor
-						else if (obj["gimmick"]["type"] == "BeltConveyor") {
-							BeltConveyor::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.velocity = gimmick["beltConveyorVelocity"];
-							jsonData.beltConveyorDesc.emplace_back(desc);
-						}
-						// DroppGimmick
-						else if (obj["gimmick"]["type"] == "DropGimmickSwitch") {
-							Switch::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.index = gimmick["dropGimmickIndex"];
-							switchDesc.emplace_back(desc);
-						}
-						else if (obj["gimmick"]["type"] == "DropGimmickDropper") {
-							Dropper::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.index = gimmick["dropGimmickIndex"];
-							dropperDesc.emplace_back(desc);
-						}
-					}
-					// StageArea
-					else if (obj["file_name"] == "stageArea") {
-						if (obj.contains("collider")) {
-							const auto& collider = obj["collider"];
-							jsonData.stageSize = { collider["size"][2] };
-						}
-
-					}
-					// StageObject
-					else if (!obj.contains("gimmick")) {
-						StageObject::Desc desc{};
-						desc.desc = StageGimmick::GetDesc(obj);
-						jsonData.stageObjectDesc.emplace_back(desc);
-					}
-
-
-				}
-				// DropGimmickのソート
-				// １ステージにおけるスイッチのタイプの数
-				for (uint32_t i = 0; i < 10; i++) {
-					DropGimmick::Desc dropGimmickDesc{};
-					for (auto& desc : switchDesc) {
-						if (desc.index == i) {
-							dropGimmickDesc.switchDesc.emplace_back(desc);
-						}
-					}
-					for (auto& desc : dropperDesc) {
-						if (desc.index == i) {
-							dropGimmickDesc.dropperDesc.emplace_back(desc);
-						}
-					}
-					if (!dropGimmickDesc.switchDesc.empty() &&
-						!dropGimmickDesc.dropperDesc.empty()) {
-						jsonData.dropGimmickDesc.emplace_back(dropGimmickDesc);
-					}
-				}
-
-				// 正規表現にマッチした部分を数値に変換してステージ番号として使う
-				uint32_t index = std::stoi(match[1].str());
-				stageData[index] = jsonData;
+	std::ifstream ifs(directoryPath);
+	if (!ifs.is_open()) {
+		return;
+	}
+	// JSONをパースしてルートオブジェクトを取得
+	nlohmann::json root;
+	ifs >> root;
+	ifs.close();
+	// "objects"配列からオブジェクトを処理
+	for (const auto& obj : root["objects"]) {
+		// Block
+		if (obj.contains("gimmick")) {
+			if (obj["gimmick"]["type"] == "Block") {
+				Block::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				jsonData.blockDesc.emplace_back(desc);
 			}
+			else if (obj["gimmick"]["type"] == "Trigger") {
+				BossAttackTrigger::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+				jsonData.bossAttackTrigger.emplace_back(desc);
+
+			}
+			// FireBar
+			else if (obj["gimmick"]["type"] == "FireBar") {
+				FireBar::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.barDesc.length = gimmick["length"];
+				desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
+				desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
+				jsonData.fireBarDesc.emplace_back(desc);
+			}
+			// Floor
+			else if (obj["gimmick"]["type"] == "Floor") {
+				Floor::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				jsonData.floorDesc.emplace_back(desc);
+			}
+			// Pendulam
+			else if (obj["gimmick"]["type"] == "Pendulum") {
+				Pendulum::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.length = gimmick["length"];
+				desc.angle = gimmick["angle"] * Math::ToRadian;
+				desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
+				desc.gravity = gimmick["gravity"];
+				desc.stickScale = gimmick["stickScale"];
+				desc.ballScale = gimmick["ballScale"];
+				jsonData.pendulumDesc.emplace_back(desc);
+			}
+			// RevengeCoin
+			else if (obj["gimmick"]["type"] == "RevengeCoin") {
+				RevengeCoin::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				jsonData.revengeCoinDesc.emplace_back(desc);
+			}
+			// BeltConveyor
+			else if (obj["gimmick"]["type"] == "BeltConveyor") {
+				BeltConveyor::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.velocity = gimmick["beltConveyorVelocity"];
+				jsonData.beltConveyorDesc.emplace_back(desc);
+			}
+			// DroppGimmick
+			else if (obj["gimmick"]["type"] == "DropGimmickSwitch") {
+				Switch::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.index = gimmick["dropGimmickIndex"];
+				switchDesc.emplace_back(desc);
+			}
+			else if (obj["gimmick"]["type"] == "DropGimmickDropper") {
+				Dropper::Desc desc{};
+				desc.desc = StageGimmick::GetDesc(obj);
+				const auto& gimmick = obj["gimmick"];
+				desc.index = gimmick["dropGimmickIndex"];
+				dropperDesc.emplace_back(desc);
+			}
+		}
+		// StageArea
+		else if (obj["file_name"] == "stageArea") {
+			if (obj.contains("collider")) {
+				const auto& collider = obj["collider"];
+				jsonData.stageSize = { collider["size"][2] };
+			}
+
+		}
+		// StageObject
+		else if (!obj.contains("gimmick")) {
+			StageObject::Desc desc{};
+			desc.desc = StageGimmick::GetDesc(obj);
+			jsonData.stageObjectDesc.emplace_back(desc);
+		}
+	}
+	// DropGimmickのソート
+	// １ステージにおけるスイッチのタイプの数
+	for (uint32_t i = 0; i < 10; i++) {
+		DropGimmick::Desc dropGimmickDesc{};
+		for (auto& desc : switchDesc) {
+			if (desc.index == i) {
+				dropGimmickDesc.switchDesc.emplace_back(desc);
+			}
+		}
+		for (auto& desc : dropperDesc) {
+			if (desc.index == i) {
+				dropGimmickDesc.dropperDesc.emplace_back(desc);
+			}
+		}
+		if (!dropGimmickDesc.switchDesc.empty() &&
+			!dropGimmickDesc.dropperDesc.empty()) {
+			jsonData.dropGimmickDesc.emplace_back(dropGimmickDesc);
 		}
 	}
 
-	// キーを番号でソートするための一時的なベクターを作成
-	std::vector<uint32_t> sortedKeys;
-	for (const auto& pair : stageData) {
-		sortedKeys.push_back(pair.first);
-	}
+	stageData_.emplace_back(jsonData);
 
-	// 番号でソート
-	std::sort(sortedKeys.begin(), sortedKeys.end());
 
-	// ソートされたキーの順序に従ってstageData_を再構築
-	for (const auto& key : sortedKeys) {
-		stageData_.emplace_back(stageData[key]);
-	}
+	//static std::string directoryPath = "Resources/Data/StageParts/";
+
+	//// パターンに一致するファイルを見つける正規表現パターン
+	//std::regex pattern("stageParts_([0-9]+)");
+
+	//std::map<uint32_t, Desc> stageData{};
+
+	//std::vector<Switch::Desc> switchDesc{};
+	//std::vector<Dropper::Desc> dropperDesc{};
+
+	//// ディレクトリ内のファイルを検索し、パターンに一致するファイルを読み込む
+	//for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+	//	if (std::filesystem::is_regular_file(entry.path())) {
+	//		std::string fileName = entry.path().stem().string();
+	//		std::smatch match;
+	//		if (std::regex_match(fileName, match, pattern)) {
+	//			Desc jsonData{};
+	//			std::ifstream ifs(entry.path());
+	//			if (!ifs.is_open()) {
+	//				return;
+	//			}
+	//			// JSONをパースしてルートオブジェクトを取得
+	//			nlohmann::json root;
+	//			ifs >> root;
+	//			ifs.close();
+
+	//			// "objects"配列からオブジェクトを処理
+	//			for (const auto& obj : root["objects"]) {
+	//				// Block
+	//				if (obj.contains("gimmick")) {
+	//					if (obj["gimmick"]["type"] == "Block") {
+	//						Block::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						jsonData.blockDesc.emplace_back(desc);
+	//					}
+	//					else if (obj["gimmick"]["type"] == "Trigger") {
+	//						BossAttackTrigger::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+	//						jsonData.bossAttackTrigger.emplace_back(desc);
+
+	//					}// Trigger
+	//					else if (obj["gimmick"]["type"] == "Trigger") {
+	//						BossAttackTrigger::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+	//						jsonData.bossAttackTrigger.emplace_back(desc);
+
+	//					}
+	//					// FireBar
+	//					else if (obj["gimmick"]["type"] == "FireBar") {
+	//						FireBar::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.barDesc.length = gimmick["length"];
+	//						desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
+	//						desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
+	//						jsonData.fireBarDesc.emplace_back(desc);
+	//					}
+	//					// Floor
+	//					else if (obj["gimmick"]["type"] == "Floor") {
+	//						Floor::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						jsonData.floorDesc.emplace_back(desc);
+	//					}
+	//					// Pendulam
+	//					else if (obj["gimmick"]["type"] == "Pendulum") {
+	//						Pendulum::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.length = gimmick["length"];
+	//						desc.angle = gimmick["angle"] * Math::ToRadian;
+	//						desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
+	//						desc.gravity = gimmick["gravity"];
+	//						desc.stickScale = gimmick["stickScale"];
+	//						desc.ballScale = gimmick["ballScale"];
+	//						jsonData.pendulumDesc.emplace_back(desc);
+	//					}
+	//					// RevengeCoin
+	//					else if (obj["gimmick"]["type"] == "RevengeCoin") {
+	//						RevengeCoin::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						jsonData.revengeCoinDesc.emplace_back(desc);
+	//					}
+	//					// BeltConveyor
+	//					else if (obj["gimmick"]["type"] == "BeltConveyor") {
+	//						BeltConveyor::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.velocity = gimmick["beltConveyorVelocity"];
+	//						jsonData.beltConveyorDesc.emplace_back(desc);
+	//					}
+	//					// DroppGimmick
+	//					else if (obj["gimmick"]["type"] == "DropGimmickSwitch") {
+	//						Switch::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.index = gimmick["dropGimmickIndex"];
+	//						switchDesc.emplace_back(desc);
+	//					}
+	//					else if (obj["gimmick"]["type"] == "DropGimmickDropper") {
+	//						Dropper::Desc desc{};
+	//						desc.desc = StageGimmick::GetDesc(obj);
+	//						const auto& gimmick = obj["gimmick"];
+	//						desc.index = gimmick["dropGimmickIndex"];
+	//						dropperDesc.emplace_back(desc);
+	//					}
+	//				}
+	//				// StageArea
+	//				else if (obj["file_name"] == "stageArea") {
+	//					if (obj.contains("collider")) {
+	//						const auto& collider = obj["collider"];
+	//						jsonData.stageSize = { collider["size"][2] };
+	//					}
+
+	//				}
+	//				// StageObject
+	//				else if (!obj.contains("gimmick")) {
+	//					StageObject::Desc desc{};
+	//					desc.desc = StageGimmick::GetDesc(obj);
+	//					jsonData.stageObjectDesc.emplace_back(desc);
+	//				}
+
+
+	//			}
+	//			// DropGimmickのソート
+	//			// １ステージにおけるスイッチのタイプの数
+	//			for (uint32_t i = 0; i < 10; i++) {
+	//				DropGimmick::Desc dropGimmickDesc{};
+	//				for (auto& desc : switchDesc) {
+	//					if (desc.index == i) {
+	//						dropGimmickDesc.switchDesc.emplace_back(desc);
+	//					}
+	//				}
+	//				for (auto& desc : dropperDesc) {
+	//					if (desc.index == i) {
+	//						dropGimmickDesc.dropperDesc.emplace_back(desc);
+	//					}
+	//				}
+	//				if (!dropGimmickDesc.switchDesc.empty() &&
+	//					!dropGimmickDesc.dropperDesc.empty()) {
+	//					jsonData.dropGimmickDesc.emplace_back(dropGimmickDesc);
+	//				}
+	//			}
+
+	//			// 正規表現にマッチした部分を数値に変換してステージ番号として使う
+	//			uint32_t index = std::stoi(match[1].str());
+	//			stageData[index] = jsonData;
+	//		}
+	//	}
+	//}
+
+	//// キーを番号でソートするための一時的なベクターを作成
+	//std::vector<uint32_t> sortedKeys;
+	//for (const auto& pair : stageData) {
+	//	sortedKeys.push_back(pair.first);
+	//}
+
+	//// 番号でソート
+	//std::sort(sortedKeys.begin(), sortedKeys.end());
+
+	//// ソートされたキーの順序に従ってstageData_を再構築
+	//for (const auto& key : sortedKeys) {
+	//	stageData_.emplace_back(stageData[key]);
+	//}
 
 }
 
