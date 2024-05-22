@@ -15,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u30b9\u30a4\u30c3\u30c1"
+			"name":"\u30b9\u30a4\u30c3\u30c1.014"
 		}
 	],
 	"materials":[
@@ -33,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.381",
+			"name":"\u7acb\u65b9\u4f53.512",
 			"primitives":[
 				{
 					"attributes":{

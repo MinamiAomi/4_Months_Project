@@ -15,12 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u30c0\u30af\u30c8\uff08\u4eee\uff09",
-			"translation":[
-				62.46633529663086,
-				35.13273239135742,
-				0
-			]
+			"name":"\u30c0\u30af\u30c8\uff08\u4eee\uff09.015"
 		}
 	],
 	"materials":[
@@ -38,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.382",
+			"name":"\u7acb\u65b9\u4f53.514",
 			"primitives":[
 				{
 					"attributes":{
