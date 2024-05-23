@@ -20,7 +20,7 @@ void DropperBall::Initialize(const Vector3& pos) {
 	state_ = kDrop;
 
 	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
-	random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
+	//random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
 	random_.y = rnd_.NextFloatRange(30.0f, 40.0f);
 	isAlive_ = true;
 	time_ = 0.0f;
@@ -61,7 +61,7 @@ void DropperBall::Update() {
 			transform.translate = Vector3::QuadraticBezierCurve(
 				time_ / kMax,
 				setPos_,
-				setPos_ + random_ + Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
+				setPos_ + random_ - Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
 				boss_->transform.worldMatrix.GetTranslate());
 			time_ += 1.0f;
 			if (time_ >= kMax) {
