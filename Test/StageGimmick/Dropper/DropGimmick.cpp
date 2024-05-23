@@ -20,7 +20,6 @@ void DropperBall::Initialize(const Vector3& pos) {
 	state_ = kDrop;
 
 	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
-	//random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
 	random_.y = rnd_.NextFloatRange(30.0f, 40.0f);
 	isAlive_ = true;
 	time_ = 0.0f;

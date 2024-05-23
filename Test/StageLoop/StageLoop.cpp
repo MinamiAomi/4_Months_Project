@@ -49,7 +49,7 @@ void StageLoop::Initialize() {
 
 	LoadJson();
 
-	InitializeCreateStage(0);
+	InitializeCreateStage(2);
 
 	isCreateStage_ = false;
 }
@@ -59,7 +59,7 @@ void StageLoop::Update() {
 		Character::nextCharacterState_ == Character::State::kRunAway &&
 		!isCreateStage_) {
 		isCreateStage_ = true;
-		CreateStage();
+		CreateStage(2);
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
