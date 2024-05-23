@@ -339,7 +339,7 @@ void StageLoop::LoadJson() {
 				}
 				// DropGimmickのソート
 				// １ステージにおけるスイッチのタイプの数
-				for (uint32_t i = 0; i < 10; i++) {
+				for (uint32_t i = 0; i < 100; i++) {
 					DropGimmick::Desc dropGimmickDesc{};
 					for (auto& desc : switchDesc) {
 						if (desc.index == i) {

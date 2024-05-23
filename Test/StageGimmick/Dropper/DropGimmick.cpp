@@ -42,24 +42,40 @@ void DropperBall::Initialize(const Vector3& pos) {
 }
 
 void DropperBall::Update() {
-	switch (state_) {
-	case DropperBall::kDrop:
-		transform.translate.y -= 0.5f;
-		break;
-	case DropperBall::kShot:
-		static const float kMax = 60.0f;
-		transform.translate = Vector3::QuadraticBezierCurve(
-			time_ / kMax,
-			setPos_,
-			setPos_ + random_ + Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
-			boss_->transform.worldMatrix.GetTranslate());
-		time_ += 1.0f;
-		if (time_>= kMax) {
-			isAlive_ = false;
+	camera_;
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	Math::Sphere model{}, camera{};
+	model.center = (transform.worldMatrix.GetTranslate());
+	model.radius = ((std::max)(modelSize.z * transform.scale.z, std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
+	camera.center = (camera_->GetPosition());
+	camera.radius = (camera_->GetFarClip());
+	if (Math::IsCollision(model, camera)) {
+		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+		switch (state_) {
+		case DropperBall::kDrop:
+			transform.translate.y -= 0.5f;
+			break;
+		case DropperBall::kShot:
+			static const float kMax = 60.0f;
+			transform.translate = Vector3::QuadraticBezierCurve(
+				time_ / kMax,
+				setPos_,
+				setPos_ + random_ + Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
+				boss_->transform.worldMatrix.GetTranslate());
+			time_ += 1.0f;
+			if (time_ >= kMax) {
+				isAlive_ = false;
+			}
+			break;
 		}
-		break;
+		UpdateTransform();
 	}
-	UpdateTransform();
+	else {
+		model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
+	
 }
 
 void DropperBall::UpdateTransform() {
@@ -125,7 +141,22 @@ void Switch::Initialize(const Desc& desc) {
 
 void Switch::Update() {
 	camera_;
-	UpdateTransform();
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	Math::Sphere model{}, camera{};
+	model.center = (transform.worldMatrix.GetTranslate());
+	model.radius = ((std::max)(modelSize.z * transform.scale.z, std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
+	camera.center = (camera_->GetPosition());
+	camera.radius = (camera_->GetFarClip());
+	if (Math::IsCollision(model, camera)) {
+		transform.UpdateMatrix();
+		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+		UpdateTransform();
+	}
+	else {
+		model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
 }
 
 void Switch::UpdateTransform() {
@@ -176,7 +207,22 @@ void Dropper::Initialize(const Desc& desc) {
 
 void Dropper::Update() {
 	camera_;
-	UpdateTransform();
+	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	Math::Sphere model{}, camera{};
+	model.center = (transform.worldMatrix.GetTranslate());
+	model.radius = ((std::max)(modelSize.z * transform.scale.z, std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
+	camera.center = (camera_->GetPosition());
+	camera.radius = (camera_->GetFarClip());
+	if (Math::IsCollision(model, camera)) {
+		transform.UpdateMatrix();
+		model_->SetIsActive(true);
+		collider_->SetIsActive(true);
+		UpdateTransform();
+	}
+	else {
+		model_->SetIsActive(false);
+		collider_->SetIsActive(false);
+	}
 }
 
 void Dropper::UpdateTransform() {
@@ -195,6 +241,7 @@ void Dropper::OnCollision(const CollisionInfo& collisionInfo) {
 void DropGimmick::Initialize(const Desc& desc) {
 	for (auto& dropperDesc : desc.dropperDesc) {
 		Dropper* dropper = new Dropper();
+		dropper->SetCamera(camera_);
 		dropper->SetPlayer(player_);
 		dropper->SetBoss(boss_);
 		dropper->Initialize(dropperDesc);
@@ -202,6 +249,7 @@ void DropGimmick::Initialize(const Desc& desc) {
 	}
 	for (auto& switchDesc : desc.switchDesc) {
 		Switch* button = new Switch();
+		button->SetCamera(camera_);
 		button->SetPlayer(player_);
 		button->SetBoss(boss_);
 		button->Initialize(switchDesc);
