@@ -126,7 +126,7 @@ void Boss::Update() {
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
-	if (bossHP_->GetCurrentHP() < 0) {
+	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
 	}
 }
