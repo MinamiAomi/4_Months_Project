@@ -65,26 +65,32 @@ void BossAttackTrigger::SetIsAlive(bool flag) {
 }
 
 void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Boss" &&
-		boss_->GetStateManager()->GetState() == BossStateManager::State::kRoot &&
-		Character::currentCharacterState_ == Character::kRunAway &&
-		!isCollision_) {
-		isCollision_ = true;
-		switch (desc_.state) {
-		case BossStateManager::kRoot:
-			boss_->GetStateManager()->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
-			break;
-		case BossStateManager::kHook:
-			boss_->GetStateManager()->ChangeState<BossStateHook>(BossStateManager::State::kHook);
-			break;
-		case BossStateManager::kLowerAttack:
-			boss_->GetStateManager()->ChangeState<BossStateLowerAttack>(BossStateManager::State::kLowerAttack);
-			break;
-		case BossStateManager::kInsideAttack:
-			boss_->GetStateManager()->ChangeState<BossStateInsideAttack>(BossStateManager::State::kInsideAttack);
-			break;
-		default:
-			break;
+	if (collisionInfo.collider->GetName() == "Boss")
+		if (boss_->GetStateManager()->GetState() == BossStateManager::State::kRoot &&
+			!isCollision_) {
+			if (Character::currentCharacterState_ == Character::kRunAway) {
+				switch (desc_.state) {
+				case BossStateManager::kRoot:
+					boss_->GetStateManager()->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+					break;
+				case BossStateManager::kHook:
+					boss_->GetStateManager()->ChangeState<BossStateHook>(BossStateManager::State::kHook);
+					break;
+				case BossStateManager::kLowerAttack:
+					boss_->GetStateManager()->ChangeState<BossStateLowerAttack>(BossStateManager::State::kLowerAttack);
+					break;
+				case BossStateManager::kInsideAttack:
+					boss_->GetStateManager()->ChangeState<BossStateInsideAttack>(BossStateManager::State::kInsideAttack);
+					break;
+				default:
+					break;
+				}
+
+			}
+			else {
+
+			}
+			isCollision_ = true;
+
 		}
-	}
 }

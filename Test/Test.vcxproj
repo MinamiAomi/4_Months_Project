@@ -46,6 +46,7 @@
     <ClCompile Include="GameOverMovie.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameSpeed.cpp" />
+    <ClCompile Include="GameStartMovie.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="Movie.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="GameOverMovie.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameSpeed.h" />
+    <ClInclude Include="GameStartMovie.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Movie.h" />

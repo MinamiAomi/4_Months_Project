@@ -6,7 +6,6 @@
 
 #include "Collision/Collider.h"
 
-#include "Graphics/Model.h"
 #include "BossModelManager/BossModelManager.h"
 #include "BossStateManager/BossStateManager.h"
 #include "BossHP/BossHP.h"
@@ -19,10 +18,12 @@ class Boss :
 public:
 	void Initialize();
 	void Update();
+	void UpdateTransform();
 
 	void Reset(uint32_t stageIndex);
 	void SetIsMove(bool flag) { isMove_ = flag; }
 	bool GetIsMove() { return isMove_; }
+	bool GetIsFirstHit() { return isFirstHit_; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetPlayer(const Player* player) { player_ = player; }
 	const bool GetIsAlive() const { return isAlive_; }
@@ -31,7 +32,6 @@ public:
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
 	const std::unique_ptr<BossHP>& GetBossHP()const { return bossHP_; }
 private:
-	void UpdateTransform();
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Camera* camera_;
@@ -55,4 +55,5 @@ private:
 
 	bool isMove_;
 	bool isAlive_;
+	bool isFirstHit_;
 };

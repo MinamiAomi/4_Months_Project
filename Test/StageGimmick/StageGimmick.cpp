@@ -11,7 +11,8 @@ StageGimmick::Desc StageGimmick::GetDesc(const nlohmann::json& obj) {
 	desc.transform.rotate = transform["rotate"].get<Quaternion>();
 	desc.transform.translate = transform["translate"].get<Vector3>();
 
-	if (obj.contains("collider")) {
+	if (obj.contains("collider") &&
+		obj["collider"]["type"] == "BOX") {
 		desc.collider = Collider{};
 		const auto& collider = obj["collider"];
 		desc.collider->center = { collider["center"][0], collider["center"][1], collider["center"][2] };

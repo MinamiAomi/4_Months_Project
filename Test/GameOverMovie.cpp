@@ -69,7 +69,6 @@ void GameOverMovie::Update() {
 void GameOverMovie::Reset()
 {
 	Movie::Reset();
-	shakeFrame_ = kShakeFrame;
 }
 
 void GameOverMovie::UpdateInitialize()

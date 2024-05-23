@@ -2,7 +2,7 @@
     "Boss": {
         "offset_": [
             0.0,
-            7.0,
+            0.0,
             60.0
         ],
         "velocity_": [
@@ -61,6 +61,7 @@
         ]
     },
     "StateHook": {
+        "jsonData_.attackData.allFrame": 300.0,
         "jsonData_.attackData.attackEasingTime": 45.0,
         "jsonData_.attackData.chargeEasingTime": 45.0,
         "jsonData_.attackData.easingTime": 30.0,
@@ -168,5 +169,6 @@
             0.0
         ]
     },
-    "boss_2": {}
+    "boss_2": {},
+    "boss_2bossFloorAll": {}
 }
