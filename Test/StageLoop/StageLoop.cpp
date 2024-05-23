@@ -49,7 +49,7 @@ void StageLoop::Initialize() {
 
 	LoadJson();
 
-	InitializeCreateStage();
+	InitializeCreateStage(0);
 
 	isCreateStage_ = false;
 }
@@ -380,14 +380,19 @@ void StageLoop::LoadJson() {
 
 }
 
-void StageLoop::InitializeCreateStage(uint32_t stageIndex) {
+void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 	Clear();
 
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
+	uint32_t stageIndex;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
-		if (stageIndex == (uint32_t)-1) {
+		// 指定がなければランダム
+		if (stageInputIndex == (uint32_t)-1) {
 			stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		}
+		else {
+			stageIndex = stageInputIndex;
 		}
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
