@@ -50,7 +50,7 @@
         ]
     },
     "StateHook": {
-        "jsonData_.attackData.allFrame": 150.0,
+        "jsonData_.attackData.allFrame": 200.0,
         "jsonData_.attackData.attackEasingTime": 45.0,
         "jsonData_.attackData.chargeEasingTime": 45.0,
         "jsonData_.attackData.easingTime": 30.0,
@@ -90,7 +90,7 @@
         ],
         "jsonData_.insideAttackData.position": [
             0.0,
-            0.0,
+            -0.30000001192092896,
             -60.0
         ],
         "jsonData_.insideAttackData.scale": [
@@ -124,8 +124,8 @@
         ]
     },
     "StateLowerAttack": {
-        "jsonData_.lowerAttackData.attackEasingTime": 30.0,
-        "jsonData_.lowerAttackData.chargeEasingTime": 45.0,
+        "jsonData_.lowerAttackData.attackEasingTime": 10.0,
+        "jsonData_.lowerAttackData.chargeEasingTime": 60.0,
         "jsonData_.lowerAttackData.endPosition": [
             0.0,
             0.0,
@@ -134,12 +134,12 @@
         "jsonData_.lowerAttackData.position": [
             0.0,
             0.0,
-            -50.0
+            -60.0
         ],
         "jsonData_.lowerAttackData.scale": [
-            1.0,
-            1.0,
-            1.0
+            1.5,
+            0.4000000059604645,
+            1.5
         ],
         "jsonData_.lowerAttackData.startPosition": [
             0.0,
@@ -148,7 +148,7 @@
         ]
     },
     "StateRoot": {
-        "jsonData_.rootData.allFrame": 240.0,
+        "jsonData_.rootData.allFrame": 300.0,
         "jsonData_.rootData.velocity": 0.25
     },
     "bollLongDistanceAttack": {},
