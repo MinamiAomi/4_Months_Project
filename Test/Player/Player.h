@@ -96,6 +96,8 @@ private:
 	float beltConveyorVelocity_;
 	float animationTime_;
 	AnimationType animationType_;
+	float fromTransitionAnimationTime_;
+	bool animationTransition_;
 	// ステージギミックにヒットした
 	bool isHit_;
 	bool preIsHit_;

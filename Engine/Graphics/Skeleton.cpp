@@ -78,3 +78,17 @@ void Skeleton::ApplyAnimation(const AnimationSet& animation, float animationTime
         }
     }
 }
+
+void Skeleton::ApplyAnimationTransition(const AnimationSet& from, float fromTime, const AnimationSet& to, float toTime, float animationTime) {
+    for (Joint& joint : joints_) {
+        auto fromIt = from.nodeAnimations.find(joint.name);
+        auto toIt = to.nodeAnimations.find(joint.name);
+        if (fromIt != from.nodeAnimations.end() && toIt != to.nodeAnimations.end()) {
+            const NodeAnimation& fromNodeAnimation = (*fromIt).second;
+            const NodeAnimation& toNodeAnimation = (*toIt).second;
+            joint.transform.translate = Vector3::Lerp(animationTime, CalculateValue(fromNodeAnimation.translate, fromTime), CalculateValue(toNodeAnimation.translate, toTime));
+            joint.transform.rotate = Quaternion::Slerp(animationTime, CalculateValue(fromNodeAnimation.rotate, fromTime), CalculateValue(toNodeAnimation.rotate, toTime));
+            joint.transform.scale = Vector3::Lerp(animationTime, CalculateValue(fromNodeAnimation.scale, fromTime), CalculateValue(toNodeAnimation.scale, toTime));
+        }
+    }
+}
