@@ -32,7 +32,6 @@ namespace Character {
 	float GetSceneChangeT()
 	{
 		if (currentCharacterState_ == kScneChange) {
-		
 				float time = 0.0f;
 				switch (nextCharacterState_) {
 				case kChase:
@@ -63,8 +62,12 @@ namespace Character {
 		time_ = 0.0f;
 	}
 
-	bool IsSceneChange() {
+	bool IsInSceneChange() {
 		return currentCharacterState_ == kScneChange && preCharacterState_ != kScneChange;
+	}
+
+	bool IsOutSceneChange() {
+		return currentCharacterState_ != kScneChange && preCharacterState_ == kScneChange;
 	}
 
 	void LoadJson() {
@@ -84,6 +87,7 @@ namespace Character {
 	}
 
 	void Update() {
+		preCharacterState_ = currentCharacterState_;
 		if (currentCharacterState_ == kScneChange) {
 			time_ += 1.0f;
 			float time = 0.0f;
@@ -103,7 +107,6 @@ namespace Character {
 				currentCharacterState_ = nextCharacterState_;
 			}
 		}
-		preCharacterState_ = currentCharacterState_;
 #ifdef _DEBUG
 		if (ImGui::BeginMenu("Character")) {
 			ImGui::DragFloat("toChaseTime_", &toChaseTime_);

@@ -200,6 +200,8 @@ void BossStateRoot::Initialize() {
 	time_ = 0.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->SetIsAlive(false);
 }
 
 void BossStateRoot::SetDesc() {
@@ -358,11 +360,11 @@ void BossStateInsideAttack::ChargeUpdate() {
 	skeleton->ApplyAnimation(parts.animation->GetAnimation("razerAttack"), t);
 	skeleton->Update();
 	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
-	
+
 	auto& laserTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->transform;
-	laserTransform.scale = Vector3::Lerp(t, Vector3::zero, Vector3::one);
-	laserTransform.scale = Vector3(10.0f,10.0f,10.0f);
-	laserTransform.translate = Vector3(0.0f,0.0f,-50.0f);
+	laserTransform.scale = Vector3::Lerp(t, Vector3(1.0f,0.0f,1.0f), Vector3::one);
+	Vector3 modelSize = (manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
+	laserTransform.translate = Vector3::Lerp(t, { 0.0f,modelSize.y,modelSize.z }, Vector3::zero);
 	if (t >= 1.0f) {
 		auto& longDistanceAttackTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform;
 		longDistanceAttackTransform.translate = data_.position;

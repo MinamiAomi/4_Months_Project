@@ -1290,7 +1290,7 @@
                 "translate": [
                     0.0,
                     0.0,
-                    104.37892150878906
+                    49.18870544433594
                 ],
                 "rotate": [
                     0.0,
@@ -1372,6 +1372,98 @@
             },
             "gimmick": {
                 "type": "Block"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "bossHook.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    132.3428955078125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "box",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 0
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "bossInside.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -70.43051147460938
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "box",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 1
             }
         }
     ]

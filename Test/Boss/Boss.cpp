@@ -80,13 +80,16 @@ void Boss::Update() {
 	}
 	ImGui::End();
 #endif // _DEBUG
-	if (Character::IsSceneChange()) {
+	if (Character::IsInSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
-
+	
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
+		if (Character::IsOutSceneChange()) {
+			transform.rotate = Quaternion::MakeForYAxis(1800.0f * Math::ToRadian);
+		}
 		if (isMove_) {
 			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
@@ -94,6 +97,9 @@ void Boss::Update() {
 	break;
 	case Character::State::kRunAway:
 	{
+		if (Character::IsOutSceneChange()) {
+			transform.rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
+		}
 		if (isMove_) {
 			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
@@ -116,9 +122,7 @@ void Boss::Update() {
 			}
 			if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
 				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
-				if (Character::GetSceneChangeTime() == 0.0f && Character::preCharacterState_ == Character::State::kScneChange) {
-					transform.rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
-				}
+				
 			}
 		}
 	}
@@ -130,6 +134,7 @@ void Boss::Update() {
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
+	bossModelManager_->Update();
 	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
 	}
@@ -156,7 +161,6 @@ void Boss::UpdateTransform() {
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
-	bossModelManager_->Update();
 	collider_->DebugDraw();
 }
 

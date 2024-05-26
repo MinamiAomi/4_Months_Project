@@ -25,7 +25,9 @@ namespace Character {
 	// この関数を使いセットすること
 	void SetNextScene(const Character::State& scene);
 	// シーンチェンジに入った瞬間true
-	bool IsSceneChange();
+	bool IsInSceneChange();
+	// シーンチェンジを出た瞬間true
+	bool IsOutSceneChange();
 	void LoadJson();
 	void SaveJson();
 	void Update();

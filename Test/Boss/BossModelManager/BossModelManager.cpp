@@ -69,6 +69,8 @@ void BossModel::Initialize(Player* player, uint32_t index) {
 	model_->SetIsActive(false);
 
 	transform.translate = offset_;
+	transform.rotate = Quaternion::identity;
+	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
 	player_ = player;
 #pragma region コライダー
