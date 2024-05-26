@@ -17,6 +17,7 @@ namespace BossParts {
 		kFloorAll,
 		kLongDistanceAttack,
 		kBeamAttack,
+		kLaser,
 		kCount,
 	};
 	extern std::array<std::string, Parts::kCount> partsName_;
@@ -83,6 +84,7 @@ public:
 		kHook,
 		kArmHammer,
 		kLazerAttack,
+		kShotAttack,
 	};
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
@@ -105,6 +107,13 @@ public:
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
+
+class Laser :public BossModel {
+public:
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+};
+
 
 
 class BossModelManager {

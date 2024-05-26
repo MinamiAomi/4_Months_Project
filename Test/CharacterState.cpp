@@ -13,7 +13,6 @@ namespace Character {
 
 	float GetSceneChangeTime() {
 		if (currentCharacterState_ == kScneChange) {
-			time_ += 1.0f;
 			float time = 0.0f;
 			switch (nextCharacterState_) {
 			case kChase:
@@ -25,11 +24,6 @@ namespace Character {
 			default:
 				break;
 			}
-			time = std::clamp(time, 0.0f, 1.0f);
-			if (time >= 1.0f) {
-				time_ = 0.0f;
-				currentCharacterState_ = nextCharacterState_;
-			}
 			return time;
 		}
 		return 0.0f;
@@ -39,7 +33,6 @@ namespace Character {
 	{
 		if (currentCharacterState_ == kScneChange) {
 		
-				time_ += 1.0f;
 				float time = 0.0f;
 				switch (nextCharacterState_) {
 				case kChase:
@@ -50,11 +43,6 @@ namespace Character {
 					break;
 				default:
 					break;
-				}
-				time = std::clamp(time, 0.0f, 1.0f);
-				if (time >= 1.0f) {
-					time_ = 0.0f;
-					currentCharacterState_ = nextCharacterState_;
 				}
 				return time;
 			

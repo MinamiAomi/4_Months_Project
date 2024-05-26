@@ -33,7 +33,7 @@ void Boss::Initialize() {
 	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
-	bossModelManager_->Initialize(&transform,player_);
+	bossModelManager_->Initialize(&transform, player_);
 
 	// 隠す
 	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
@@ -106,16 +106,19 @@ void Boss::Update() {
 			if (transform.rotate != Quaternion::MakeForYAxis(180.0f * Math::ToRadian)) {
 				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
 			}
-			
+
 
 		}
 		else {
-			if (player_->transform.translate.z<=transform.translate.z - player_->GetRunAwayLimitLine()) {
+			if (player_->transform.translate.z <= transform.translate.z - player_->GetRunAwayLimitLine()) {
 				float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
 				transform.translate.z -= tmp;
 			}
 			if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
 				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
+				if (Character::GetSceneChangeTime() == 0.0f && Character::preCharacterState_ == Character::State::kScneChange) {
+					transform.rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
+				}
 			}
 		}
 	}
@@ -160,7 +163,7 @@ void Boss::UpdateTransform() {
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 	state_->OnCollision(collisionInfo);
 	if (collisionInfo.collider->GetName() == "Player") {
-		
+
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
@@ -184,7 +187,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		////一回目
 		//isFirstHit_ = true;
 	}
-	
+
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {
 	//	switch (Character::currentCharacterState_) {
 	//	case Character::State::kChase:

@@ -17,6 +17,7 @@ namespace BossParts {
 		"bossFloorAll",
 		"bossLongDistanceAttack",
 		"bossBeamAttack",
+		"bossLaser",
 	};
 }
 
@@ -25,6 +26,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 	models_.at(BossParts::Parts::kLongDistanceAttack) = std::make_unique<LongDistanceAttack>();
 	models_.at(BossParts::Parts::kBeamAttack) = std::make_unique<BeamAttack>();
 	models_.at(BossParts::Parts::kBossBody) = std::make_unique<BossBody>();
+	models_.at(BossParts::Parts::kLaser) = std::make_unique<Laser>();
 
 
 	for (uint32_t i = 0; auto & model : models_) {
@@ -39,6 +41,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "move");
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");
 	partsName = {
 		"nitoukin_R",
 		"ude_R",
@@ -47,7 +50,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 
 	};
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "bossLeftHand");
-	models_.at(BossParts::Parts::kBossBody)->SetColliderIsAlive(false);
+	models_.at(BossParts::Parts::kBossBody)->SetModelIsAlive(true);
 }
 
 void BossModelManager::Update() {
@@ -63,7 +66,7 @@ void BossModel::Initialize(Player* player, uint32_t index) {
 	JSON_CLOSE();
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(name_));
-	model_->SetIsActive(true);
+	model_->SetIsActive(false);
 
 	transform.translate = offset_;
 	transform.UpdateMatrix();
@@ -79,7 +82,7 @@ void BossModel::Initialize(Player* player, uint32_t index) {
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
-	collider_->SetIsActive(true);
+	collider_->SetIsActive(false);
 #pragma endregion
 
 
@@ -195,4 +198,8 @@ void BeamAttack::OnCollision(const CollisionInfo& collisionInfo) {
 			player_->HitDamage(1);
 		}
 	}
+}
+
+void Laser::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
 }

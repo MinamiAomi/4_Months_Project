@@ -67,12 +67,10 @@ class BossStateLowerAttack :
 	public BossState {
 public:
 	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
+		Vector3 position;
 		Vector3 scale;
 		float attackEasingTime;
 		float chargeEasingTime;
-		float velocity;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -90,12 +88,10 @@ class BossStateInsideAttack :
 	public BossState {
 public:
 	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
+		Vector3 position;
 		Vector3 scale;
 		float attackEasingTime;
 		float chargeEasingTime;
-		float velocity;
 	};
 	using BossState::BossState;
 	void Initialize() override;
