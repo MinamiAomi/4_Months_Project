@@ -13,7 +13,7 @@ void BeltConveyor::Initialize(const Desc& desc) {
 	transform.translate = desc.desc.transform.translate;
 
 	desc_ = desc;
-
+	radian_ = 0.0f;
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
 
@@ -35,6 +35,8 @@ void BeltConveyor::Initialize(const Desc& desc) {
 void BeltConveyor::Update() {
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
 		transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
+		radian_ += desc_.velocity*0.1f;
+		transform.rotate = Quaternion::MakeForXAxis(radian_);
 		UpdateTransform();
 		// 雑カリング
 		model_->SetIsActive(true);
@@ -49,7 +51,7 @@ void BeltConveyor::Update() {
 void BeltConveyor::UpdateTransform() {
 	transform.UpdateMatrix();
 	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
-	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
+	collider_->SetOrientation(desc_.desc.collider->rotate);
 	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	Matrix4x4 modelMatrix = Matrix4x4::MakeAffineTransform(transform.scale, transform.rotate* Quaternion::MakeForYAxis(90.0f * Math::ToRadian),transform.translate);
 	model_->SetWorldMatrix(modelMatrix);

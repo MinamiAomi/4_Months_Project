@@ -1465,6 +1465,98 @@
                 "type": "Trigger",
                 "state": 1
             }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.001",
+            "transform": {
+                "translate": [
+                    -10.225241661071777,
+                    -8.839277267456055,
+                    -54.47491455078125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    14.0,
+                    14.0,
+                    14.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": -0.10000000149011612
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.002",
+            "transform": {
+                "translate": [
+                    7.052966117858887,
+                    -8.70012378692627,
+                    -54.47491455078125
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    14.0,
+                    14.0,
+                    14.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
+            }
         }
     ]
 }
