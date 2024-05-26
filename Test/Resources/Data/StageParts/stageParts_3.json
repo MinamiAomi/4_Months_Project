@@ -1461,8 +1461,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -1512,8 +1512,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -1563,8 +1563,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -1614,8 +1614,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -1665,8 +1665,8 @@
             "gimmick": {
                 "type": "Pendulum",
                 "length": 15,
-                "angle": 45,
-                "initializeAngle": 45,
+                "angle": 20,
+                "initializeAngle": 5,
                 "gravity": 0.02,
                 "stickScale": 1,
                 "ballScale": 1
@@ -2272,52 +2272,6 @@
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.010",
-            "transform": {
-                "translate": [
-                    0.0,
-                    15.813758850097656,
-                    264.3826599121094
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    18.837787628173828,
-                    24.59412956237793,
-                    1.0
-                ]
-            },
-            "file_name": "a",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "Trigger",
-                "state": 0
-            }
-        },
-        {
-            "type": "EMPTY",
             "name": "ボストリガーLower.009",
             "transform": {
                 "translate": [
@@ -2369,7 +2323,7 @@
                 "translate": [
                     0.0,
                     15.813758850097656,
-                    -38.98564147949219
+                    -60.209659576416016
                 ],
                 "rotate": [
                     0.0,
@@ -2451,17 +2405,17 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 2
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.020",
+            "name": "ボストリガーLower.010",
             "transform": {
                 "translate": [
                     0.0,
                     15.813758850097656,
-                    215.52316284179688
+                    219.16143798828125
                 ],
                 "rotate": [
                     0.0,
@@ -2497,7 +2451,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 2
             }
         }
     ]
