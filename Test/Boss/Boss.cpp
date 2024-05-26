@@ -88,7 +88,7 @@ void Boss::Update() {
 	case Character::State::kChase:
 	{
 		if (Character::IsOutSceneChange()) {
-			transform.rotate = Quaternion::MakeForYAxis(1800.0f * Math::ToRadian);
+			transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
 		}
 		if (isMove_) {
 			transform.translate.z += GameSpeed::GetGameSpeed();

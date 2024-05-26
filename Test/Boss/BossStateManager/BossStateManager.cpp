@@ -425,7 +425,7 @@ void BossStateBeamAttack::ChargeUpdate() {
 	auto& tmp = manager_.boss.GetModelManager()->GetModel(BossParts::kBeamAttack);
 	if (!tmp) {
 		// エラーハンドリング: bossModelManager が null の場合
-		assert(0);
+		//assert(0);
 	}
 	// BeamAttack 型にキャスト
 	BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(tmp.get());

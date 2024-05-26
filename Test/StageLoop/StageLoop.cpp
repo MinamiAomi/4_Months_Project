@@ -408,7 +408,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 		// 指定がなければランダム
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
 		}
 		else {
 			stageIndex = stageInputIndex;
