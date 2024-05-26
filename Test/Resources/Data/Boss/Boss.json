@@ -120,16 +120,16 @@
     },
     "StateLowerAttack": {
         "jsonData_.lowerAttackData.attackEasingTime": 30.0,
-        "jsonData_.lowerAttackData.chargeEasingTime": 60.0,
+        "jsonData_.lowerAttackData.chargeEasingTime": 45.0,
         "jsonData_.lowerAttackData.endPosition": [
             0.0,
             -6.0,
             -50.0
         ],
         "jsonData_.lowerAttackData.scale": [
-            40.0,
-            4.0,
-            60.0
+            1.0,
+            1.0,
+            1.0
         ],
         "jsonData_.lowerAttackData.startPosition": [
             0.0,
@@ -138,7 +138,7 @@
         ]
     },
     "StateRoot": {
-        "jsonData_.rootData.allFrame": 120.0,
+        "jsonData_.rootData.allFrame": 240.0,
         "jsonData_.rootData.velocity": 0.25
     },
     "bollLongDistanceAttack": {},

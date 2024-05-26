@@ -37,6 +37,8 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 	models_.at(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(models_.at(BossParts::Parts::kBossBody)->GetSkeleton());
 	std::vector<std::string> partsName;
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "move");
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
 	partsName = {
 		"nitoukin_R",
 		"ude_R",
@@ -45,7 +47,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 
 	};
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "bossLeftHand");
-	models_.at(BossParts::Parts::kBossBody)->SetColliderIsCollision(false);
+	models_.at(BossParts::Parts::kBossBody)->SetColliderIsAlive(false);
 }
 
 void BossModelManager::Update() {

@@ -53,9 +53,6 @@ public:
 		SetColliderIsAlive(flag);
 		SetModelIsAlive(flag);
 	}
-	void SetColliderIsCollision(bool flag) {
-		SetColliderIsAlive(flag);
-	}
 	const std::unique_ptr<ModelInstance>& GetModel()const { return model_; }
 	const std::unique_ptr<BoxCollider>& GetCollider()const { return collider_; }
 
@@ -84,6 +81,8 @@ public:
 	enum {
 		kRoot,
 		kHook,
+		kArmHammer,
+		kLazerAttack,
 	};
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;

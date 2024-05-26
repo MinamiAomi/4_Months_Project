@@ -229,7 +229,7 @@ void BossStateRoot::OnCollision(const CollisionInfo& collisionInfo) {
 
 void BossStateHook::Initialize() {
 	SetDesc();
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(0).SetIsCollision(true);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kHook).SetIsCollision(true);
 	time_ = 0.0f;
 }
 
@@ -241,15 +241,15 @@ void BossStateHook::Update() {
 	float t = time_ / data_.allFrame;
 	auto& skeleton = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
 	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kHook);
-	skeleton->ApplyAnimation(parts.animation->GetAnimation("armAttack"), t);
+	skeleton->ApplyAnimation(parts.animation->GetAnimation("bossLeftHand"), t);
 	skeleton->Update();
 
 	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
 
 	time_ += 1.0f;
 	if (t >= 1.0f) {
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(0).SetIsCollision(false);
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(nullptr);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kHook).SetIsCollision(false);
+		//manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(nullptr);
 		manager_.ChangeState(BossStateManager::State::kRoot);
 	}
 }
@@ -267,7 +267,6 @@ void BossStateLowerAttack::Initialize() {
 void BossStateLowerAttack::SetDesc() {
 	data_ = manager_.jsonData_.lowerAttackData;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.scale = data_.scale;
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetModelIsAlive(true);
 }
 
 void BossStateLowerAttack::Update() {
@@ -295,6 +294,14 @@ void BossStateLowerAttack::ChargeUpdate() {
 	auto& floorAllTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform;
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
+
+	auto& skeleton = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kArmHammer);
+	skeleton->ApplyAnimation(parts.animation->GetAnimation("armHammer"), t);
+	skeleton->Update();
+
+	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
+
 	floorAllTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
 	floorAllTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
 	floorAllTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
@@ -302,7 +309,7 @@ void BossStateLowerAttack::ChargeUpdate() {
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetColliderIsAlive(true);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(true);
 	}
 }
 
@@ -326,7 +333,7 @@ void BossStateInsideAttack::Initialize() {
 void BossStateInsideAttack::SetDesc() {
 	data_ = manager_.jsonData_.insideAttackData;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.scale = data_.scale;
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetModelIsAlive(true);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 }
 
 void BossStateInsideAttack::Update() {
@@ -357,11 +364,16 @@ void BossStateInsideAttack::ChargeUpdate() {
 	longDistanceAttackTransform.translate.x = std::lerp(data_.startPosition.x, data_.endPosition.x, t);
 	longDistanceAttackTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
 	longDistanceAttackTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
+	auto& skeleton = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kLazerAttack);
+	skeleton->ApplyAnimation(parts.animation->GetAnimation("razerAttack"), t);
+	skeleton->Update();
 
+	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetColliderIsAlive(true);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(true);
 	}
 }
 
@@ -386,6 +398,7 @@ void BossStateBeamAttack::SetDesc() {
 	data_ = manager_.jsonData_.beamAttackData;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetModelIsAlive(true);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(false);
 }
 
 void BossStateBeamAttack::Update() {

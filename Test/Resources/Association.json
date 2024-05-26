@@ -33,7 +33,7 @@
         "boss_2": "Boss_2/Boss_2.gltf",
         "bossRightArm": "Boss/RightArm/rightArm.gltf",
         "bossLeftArm": "Boss/LeftArm/leftArm.gltf",
-        "bossFloorAll": "Boss/FloorAll/floorAll.obj",
+        "bossFloorAll": "Boss/FloorAll/spikeEffect.gltf",
         "bossLongDistanceAttack": "Boss/LongDistanceAttack/longDistanceAttack.obj",
         "bossBeamAttack": "Boss/BeamAttack/BeamAttack.obj",
         "floor": "Floor/floor.gltf",

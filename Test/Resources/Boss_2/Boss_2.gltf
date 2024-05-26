@@ -806,7 +806,7 @@
 					}
 				}
 			],
-			"name":"[\u4fdd\u7559\u30a2\u30af\u30b7\u30e7\u30f3].003",
+			"name":"bossLeftHand",
 			"samplers":[
 				{
 					"input":15,
@@ -1497,7 +1497,7 @@
 					}
 				}
 			],
-			"name":"[\u4fdd\u7559\u30a2\u30af\u30b7\u30e7\u30f3].004",
+			"name":"armHammer",
 			"samplers":[
 				{
 					"input":74,
@@ -4297,7 +4297,7 @@
 					}
 				}
 			],
-			"name":"move",
+			"name":"premove",
 			"samplers":[
 				{
 					"input":15,
