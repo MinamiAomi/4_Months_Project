@@ -7,6 +7,7 @@
 #include "Graphics/Skeleton.h"
 #include "Math/MathUtils.h"
 
+class Player;
 class Boss;
 class BossState;
 struct CollisionInfo;
@@ -27,13 +28,14 @@ public:
 protected:
 	BossStateManager& manager_;
 	AttackState attackState_;
+	float time_;
 };
 
 class BossStateRoot :
 	public BossState {
 public:
 	struct JsonData {
-		float velocity;
+		float allFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -42,7 +44,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 
 private:
-	float velocity_;
+	JsonData data_;
 };
 
 class BossStateHook :
@@ -58,7 +60,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 private:
 	JsonData data_;
-	float time_;
+	
 };
 
 class BossStateLowerAttack :
@@ -107,7 +109,7 @@ private:
 	float time_;
 };
 
-class BossStateBeamRightAttack:
+class BossStateBeamAttack:
 	public BossState {
 public:
 	struct JsonData {
@@ -125,27 +127,7 @@ public:
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
-	float time_;
-};
-
-class BossStateBeamLeftAttack :
-	public BossState {
-public:
-	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
-		Vector3 scale;
-		float attackEasingTime;
-		float chargeEasingTime;
-	};
-	using BossState::BossState;
-	void Initialize() override;
-	void SetDesc() override;
-	void Update() override;
-	void OnCollision(const CollisionInfo& collisionInfo) override;
-private:
-	void ChargeUpdate();
-	void AttackUpdate();
+	JsonData data_;
 	float time_;
 };
 
@@ -156,7 +138,6 @@ public:
 		kHook,
 		kLowerAttack,
 		kInsideAttack,
-		kBeamRightAttack,
 		kBeamAttack,
 	};
 
@@ -165,8 +146,7 @@ public:
 		BossStateHook::JsonData attackData;
 		BossStateLowerAttack::JsonData lowerAttackData;
 		BossStateInsideAttack::JsonData insideAttackData;
-		BossStateBeamRightAttack::JsonData beamRightAttackData;
-		BossStateBeamLeftAttack::JsonData beamLeftAttackData;
+		BossStateBeamAttack::JsonData beamAttackData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();
@@ -177,16 +157,10 @@ public:
 	const State GetState()const { return state_; }
 
 	const JsonData& GetData() { return jsonData_; }
-	template<class T>
-	void ChangeState(const BossStateManager::State& state) {
-		state_ = state;
-		static_assert(std::is_base_of_v<BossState, T>, "Not inherited.");
-		standbyState_ = std::make_unique<T>(*this);
-	}
+	void ChangeState(const BossStateManager::State& state);
 
 	Boss& boss;
 	JsonData jsonData_;
-
 private:
 	std::unique_ptr<BossState> activeState_;
 	std::unique_ptr<BossState> standbyState_;

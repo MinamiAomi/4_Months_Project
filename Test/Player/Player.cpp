@@ -260,6 +260,26 @@ void Player::Reset() {
 	playerRevengeGage_->Reset();
 }
 
+void Player::HitDamage(uint32_t damage) {
+	isHit_ = true;
+
+	if (invincibleTime_ == 0) {
+		if (damage != (uint32_t)-1) {
+			invincibleTime_ = maxInvincibleTime_;
+			if (playerHP_->GetCurrentHP() > 0) {
+				int tmp = damage;
+				playerHP_->AddHP(-tmp);
+			}
+		}
+		else {
+			velocity_ = Vector3::zero;
+			acceleration_.y = hitJump_;
+			invincibleTime_ = maxInvincibleTime_;
+			isHit_ = true;
+		}
+	}
+}
+
 void Player::UpdateTransform() {
 	transform.UpdateMatrix();
 	Vector3 scale, translate;
@@ -286,13 +306,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			if (!isHit_) {
 				acceleration_.z -= knockBack_;
 			}
-			isHit_ = true;
-			if (invincibleTime_ == 0) {
-				invincibleTime_ = maxInvincibleTime_;
-				if (playerHP_->GetCurrentHP() > 0) {
-					playerHP_->AddHP(-1);
-				}
-			}
+			HitDamage(1);
 		}
 		break;
 		default:
@@ -337,23 +351,12 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 	else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
 		collisionInfo.collider->GetName() == "bossFloorAll" ||
 		collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
-		isHit_ = true;
-		if (invincibleTime_ == 0) {
-			invincibleTime_ = maxInvincibleTime_;
-			if (playerHP_->GetCurrentHP() > 0) {
-				playerHP_->AddHP(-1);
-			}
-		}
+		HitDamage(1);
 	}
 	else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
 		collisionInfo.collider->GetName() == "PendulumBall") &&
 		!isHit_) {
-		if (invincibleTime_ == 0) {
-			velocity_ = Vector3::zero;
-			acceleration_.y = hitJump_;
-			invincibleTime_ = maxInvincibleTime_;
-			isHit_ = true;
-		}
+		HitDamage();
 	}
 	else if (collisionInfo.collider->GetName() == "RevengeCoin") {
 		playerRevengeGage_->AddGage();

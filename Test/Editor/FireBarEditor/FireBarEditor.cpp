@@ -146,11 +146,6 @@ void FireBarEditor::SaveFile(uint32_t stageName) {
 	//file.close();
 }
 
-void FireBarEditor::LoadFile(uint32_t stageName) {
-	stageName;
-	fireBarManager_->LoadJson(stageName);
-}
-
 void FireBarEditor::Clear() {
 	fireBarManager_->Clear();
 }

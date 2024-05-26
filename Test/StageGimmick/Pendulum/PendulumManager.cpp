@@ -7,9 +7,8 @@
 
 #include "Externals/nlohmann/json.hpp"
 
-void PendulumManager::Initialize(uint32_t stageIndex) {
+void PendulumManager::Initialize() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void PendulumManager::Update() {
@@ -18,9 +17,8 @@ void PendulumManager::Update() {
 	}
 }
 
-void PendulumManager::Reset(uint32_t stageIndex) {
+void PendulumManager::Reset() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void PendulumManager::Create(Pendulum::Desc desc) {
@@ -40,36 +38,6 @@ void PendulumManager::DeletePendulum(Pendulum* block) {
 	// block が見つかった場合は削除する
 	if (it != pendulums_.end()) {
 		pendulums_.erase(it);
-	}
-}
-
-void PendulumManager::LoadJson(uint32_t stageIndex) {
-	stageIndex;
-	std::ifstream ifs(StageGimmick::stageScenePath_);
-	if (!ifs.is_open()) {
-		return;
-	}
-
-	// JSONをパースしてルートオブジェクトを取得
-	nlohmann::json root;
-	ifs >> root;
-	ifs.close();
-
-	// "objects"配列から"Block"オブジェクトを処理
-	for (const auto& obj : root["objects"]) {
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Pendulum") {
-			Pendulum::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.length = gimmick["length"];
-			desc.angle = gimmick["angle"] * Math::ToRadian;
-			desc.initializeAngle = gimmick["initializeAngle"] * Math::ToRadian;
-			desc.gravity = gimmick["gravity"];
-			desc.stickScale = gimmick["stickScale"];
-			desc.ballScale = gimmick["ballScale"];
-			Create(desc);
-		}
 	}
 }
 

@@ -35,6 +35,7 @@
         "bossLeftArm": "Boss/LeftArm/leftArm.gltf",
         "bossFloorAll": "Boss/FloorAll/floorAll.obj",
         "bossLongDistanceAttack": "Boss/LongDistanceAttack/longDistanceAttack.obj",
+        "bossBeamAttack": "Boss/BeamAttack/BeamAttack.obj",
         "floor": "Floor/floor.gltf",
         "player": "Player/player.gltf",
         "block": "Block/Block.gltf",

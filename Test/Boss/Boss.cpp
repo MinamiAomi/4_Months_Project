@@ -21,7 +21,7 @@ void Boss::Initialize() {
 
 	state_ = std::make_unique<BossStateManager>(*this);
 	state_->Initialize();
-	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+	state_->ChangeState(BossStateManager::State::kRoot);
 
 	bossHP_ = std::make_unique<BossHP>();
 	bossHP_->Initialize();
@@ -33,7 +33,7 @@ void Boss::Initialize() {
 	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
-	bossModelManager_->Initialize(&transform);
+	bossModelManager_->Initialize(&transform,player_);
 
 	// 隠す
 	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
@@ -65,6 +65,7 @@ void Boss::Update() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat4("Rotate", &transform.rotate.x);
 		ImGui::DragFloat3("offset_", &offset_.x);
 		toCameraVector_ = camera_->GetPosition() - transform.worldMatrix.GetTranslate();
 		ImGui::Text("boss to camera Vector3  %f,%f,%f", toCameraVector_.x, toCameraVector_.y, toCameraVector_.z);
@@ -140,7 +141,7 @@ void Boss::Reset(uint32_t stageIndex) {
 
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
-	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+	state_->ChangeState(BossStateManager::State::kRoot);
 	bossHP_->Reset();
 
 }

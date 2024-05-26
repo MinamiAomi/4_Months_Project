@@ -7,9 +7,8 @@
 
 #include "Externals/nlohmann/json.hpp"
 
-void FloorManager::Initialize(uint32_t stageIndex) {
+void FloorManager::Initialize() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void FloorManager::Update() {
@@ -18,9 +17,8 @@ void FloorManager::Update() {
 	}
 }
 
-void FloorManager::Reset(uint32_t stageIndex) {
+void FloorManager::Reset() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void FloorManager::Create(const Floor::Desc& desc) {
@@ -43,28 +41,6 @@ void FloorManager::DeleteFloor(Floor* block) {
 	}
 }
 
-void FloorManager::LoadJson(uint32_t stageIndex) {
-	stageIndex;
-	std::ifstream ifs(StageGimmick::stageScenePath_);
-	if (!ifs.is_open()) {
-		return;
-	}
-
-	// JSONをパースしてルートオブジェクトを取得
-	nlohmann::json root;
-	ifs >> root;
-	ifs.close();
-
-	// "objects"配列から"Block"オブジェクトを処理
-	for (const auto& obj : root["objects"]) {
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Floor") {
-			Floor::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			Create(desc);
-		}
-	}
-}
 
 void FloorManager::Clear() {
 	floors_.clear();

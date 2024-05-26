@@ -7,9 +7,8 @@
 
 #include "Externals/nlohmann/json.hpp"
 
-void FireBarManager::Initialize(uint32_t stageIndex) {
-	fireBars_.clear();
-	LoadJson(stageIndex);
+void FireBarManager::Initialize() {
+	Clear();
 }
 
 void FireBarManager::Update() {
@@ -18,9 +17,8 @@ void FireBarManager::Update() {
 	}
 }
 
-void FireBarManager::Reset(uint32_t stageIndex) {
+void FireBarManager::Reset() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void FireBarManager::Create(const FireBar::Desc& desc) {
@@ -40,33 +38,6 @@ void FireBarManager::DeleteFireBar(FireBar* block) {
 	// block が見つかった場合は削除する
 	if (it != fireBars_.end()) {
 		fireBars_.erase(it);
-	}
-}
-
-void FireBarManager::LoadJson(uint32_t stageIndex) {
-	stageIndex;
-	std::ifstream ifs(StageGimmick::stageScenePath_);
-	if (!ifs.is_open()) {
-		return;
-	}
-
-	// JSONをパースしてルートオブジェクトを取得
-	nlohmann::json root;
-	ifs >> root;
-	ifs.close();
-
-	// "objects"配列から"Block"オブジェクトを処理
-	for (const auto& obj : root["objects"]) {
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "FireBar") {
-			FireBar::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.barDesc.length = gimmick["length"];
-			desc.barDesc.barInitialAngle = gimmick["initializeAngle"] * Math::ToRadian;
-			desc.barDesc.rotateVelocity = gimmick["angularVelocity"] * Math::ToRadian;
-			Create(desc);
-		}
 	}
 }
 

@@ -8,9 +8,9 @@
 
 class PendulumManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
 	void Create(Pendulum::Desc desc);
 
@@ -18,8 +18,6 @@ public:
 
 	const std::list<std::unique_ptr<Pendulum>>& GetPendulums() const { return pendulums_; }
 	void DeletePendulum(Pendulum* block);
-
-	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
 

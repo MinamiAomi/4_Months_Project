@@ -17,7 +17,6 @@ public:
 
 	void SetPendulumManager(PendulumManager* pendulumManager) { pendulumManager_ = pendulumManager; }
 	void SaveFile(uint32_t stageName);
-	void LoadFile(uint32_t stageName);
 	void Clear();
 
 

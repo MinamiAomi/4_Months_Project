@@ -8,9 +8,9 @@
 
 class RevengeCoinManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
 	void Create(const RevengeCoin::Desc& desc);
 
@@ -18,9 +18,6 @@ public:
 
 	const std::list<std::unique_ptr<RevengeCoin>>& GetBlocks() const { return revengeCoins_; }
 	void Delete(RevengeCoin* revengeCoin);
-
-	void LoadJson(uint32_t stageIndex);
-
 	void Clear();
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }

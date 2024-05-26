@@ -52,6 +52,7 @@ private:
 		std::vector<FireBar::Desc>fireBarDesc;
 		std::vector<Floor::Desc>floorDesc;
 		std::vector<DropGimmick::Desc>dropGimmickDesc;
+		std::vector<DropperBall::Desc>dropGimmickBallDesc;
 		std::vector<Pendulum::Desc>pendulumDesc;
 		std::vector<RevengeCoin::Desc>revengeCoinDesc;
 		std::vector<StageObject::Desc>stageObjectDesc;

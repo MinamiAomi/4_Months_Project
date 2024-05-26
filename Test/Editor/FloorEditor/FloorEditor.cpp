@@ -147,10 +147,6 @@ void FloorEditor::SaveFile(uint32_t stageName) {
 	file.close();*/
 }
 
-void FloorEditor::LoadFile(uint32_t stageName) {
-	floorManager_->LoadJson(stageName);
-}
-
 void FloorEditor::Clear() {
 	floorManager_->Clear();
 }

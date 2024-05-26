@@ -41,6 +41,10 @@
                     -0.0,
                     1.0
                 ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
             }
         },
         {
@@ -88,7 +92,7 @@
                 "type": "FireBar",
                 "length": 3,
                 "initializeAngle": 0,
-                "angularVelocity": -1.0
+                "angularVelocity": 1.0
             }
         },
         {
@@ -188,7 +192,7 @@
                 "translate": [
                     0.0,
                     15.0,
-                    -13.313873291015625
+                    -13.313871383666992
                 ],
                 "rotate": [
                     0.0,
@@ -413,10 +417,6 @@
                     -0.0,
                     1.0
                 ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
             }
         },
         {
@@ -564,7 +564,7 @@
                 "translate": [
                     -1.2873921394348145,
                     10.0,
-                    -3.1105499267578125
+                    -3.1105480194091797
                 ],
                 "rotate": [
                     0.0,
@@ -610,7 +610,7 @@
                 "translate": [
                     -11.391221046447754,
                     10.0,
-                    -5.723491668701172
+                    -5.723493576049805
                 ],
                 "rotate": [
                     0.0,
@@ -739,12 +739,507 @@
         },
         {
             "type": "MESH",
-            "name": "HookTrigger.001",
+            "name": "ボール.001",
+            "transform": {
+                "translate": [
+                    0.769108772277832,
+                    0.9497573375701904,
+                    93.78425598144531
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.002",
+            "transform": {
+                "translate": [
+                    -13.726140022277832,
+                    0.9497573375701904,
+                    48.1159782409668
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.004",
+            "transform": {
+                "translate": [
+                    0.29126930236816406,
+                    0.9497573375701904,
+                    -80.67778015136719
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.005",
+            "transform": {
+                "translate": [
+                    12.82730770111084,
+                    0.9497573375701904,
+                    45.37730407714844
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.006",
+            "transform": {
+                "translate": [
+                    -8.804789543151855,
+                    0.9497573375701904,
+                    45.37730407714844
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.007",
+            "transform": {
+                "translate": [
+                    -5.324794292449951,
+                    0.9497573375701904,
+                    27.34081268310547
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.008",
+            "transform": {
+                "translate": [
+                    0.29126930236816406,
+                    0.9497573375701904,
+                    -105.75494384765625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.009",
+            "transform": {
+                "translate": [
+                    9.250849723815918,
+                    0.9497573375701904,
+                    -129.97918701171875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.010",
+            "transform": {
+                "translate": [
+                    -4.749150276184082,
+                    0.9497573375701904,
+                    -129.97918701171875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.011",
+            "transform": {
+                "translate": [
+                    -0.3692021369934082,
+                    0.9497573375701904,
+                    -141.51426696777344
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ボール.012",
+            "transform": {
+                "translate": [
+                    -0.3692021369934082,
+                    0.9497573375701904,
+                    -108.4765625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ball",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickBall"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "bossBeam.001",
             "transform": {
                 "translate": [
                     0.0,
                     0.0,
-                    93.58625030517578
+                    -19.11322784423828
                 ],
                 "rotate": [
                     0.0,
@@ -758,7 +1253,7 @@
                     1.0
                 ]
             },
-            "file_name": "bosstrigger",
+            "file_name": "box",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -780,7 +1275,103 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 3,
+                "beamVector": [
+                    1.0,
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "bossLower.001",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    104.37892150878906
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    20.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "box",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Trigger",
+                "state": 2
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "block",
+            "transform": {
+                "translate": [
+                    12.509271621704102,
+                    1.58381986618042,
+                    -64.78040313720703
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    4.0,
+                    5.0,
+                    50.0
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Block"
             }
         }
     ]

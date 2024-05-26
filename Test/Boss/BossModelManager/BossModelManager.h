@@ -16,17 +16,18 @@ namespace BossParts {
 		kBossBody,
 		kFloorAll,
 		kLongDistanceAttack,
+		kBeamAttack,
 		kCount,
 	};
 	extern std::array<std::string, Parts::kCount> partsName_;
 }
 
+class Player;
 class BossModel :
 	public GameObject {
 public:
 	struct Parts {
 		std::shared_ptr<Animation> animation;
-		std::shared_ptr<Skeleton> skeleton;
 		std::map<std::string, std::unique_ptr<BoxCollider>> parts;
 
 		Parts() = default;
@@ -36,11 +37,11 @@ public:
 		Parts& operator=(Parts&&) = default; // デフォルトの移動代入演算子
 
 		void SetIsCollision(bool flag);
-		void UpdateCollider(const Matrix4x4& worldMat);
+		void UpdateCollider(const Matrix4x4& worldMat,const Skeleton& skeleton);
 		void InitializeCollider(std::vector<std::string> nameList, std::string colliderName);
 	};
 
-	void Initialize(uint32_t index);
+	void Initialize(Player* player,uint32_t index);
 	void Update();
 
 	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
@@ -58,14 +59,18 @@ public:
 	const std::unique_ptr<ModelInstance>& GetModel()const { return model_; }
 	const std::unique_ptr<BoxCollider>& GetCollider()const { return collider_; }
 
-	void AddAnimation( std::vector<std::string> nameList, std::string colliderName);
+	void AddAnimation(std::vector<std::string> nameList, std::string colliderName);
 
 	Parts& GetAnimation(uint32_t index) { return parts_.at(index); }
-private:
+	std::shared_ptr<Skeleton>& GetSkeleton() { return skeleton_; }
+	void CreateSkeleton();
+protected:
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
 	void UpdateTransform();
 	void DrawImGui();
-
+	Player* player_;
+	std::shared_ptr<Animation> rootAnimation_;
+	std::shared_ptr<Skeleton> skeleton_;
 	std::vector<Parts> parts_;
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;
@@ -75,6 +80,11 @@ private:
 };
 
 class BossBody :public BossModel {
+public:
+	enum {
+		kRoot,
+		kHook,
+	};
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
@@ -90,9 +100,17 @@ private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 };
 
+class BeamAttack :public BossModel {
+public:
+	Vector3 vector_;
+private:
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+};
+
+
 class BossModelManager {
 public:
-	void Initialize(const Transform* Transform);
+	void Initialize(const Transform* Transform,Player* player);
 	void Update();
 
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }

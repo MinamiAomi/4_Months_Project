@@ -18,6 +18,7 @@ public:
 	struct Desc {
 		StageGimmick::Desc desc;
 		BossStateManager::State state;
+		Vector3 vector;
 	};
 	void Initialize(const Desc& desc);
 	void Update();

@@ -16,7 +16,6 @@ public:
 
 	void SetFloorManager(FloorManager* floorManager) { floorManager_ = floorManager; }
 	void SaveFile(uint32_t stageName);
-	void LoadFile(uint32_t stageName);
 	void Clear();
 private:
 	static const std::string kModelName;

@@ -10,16 +10,15 @@
 
 class DropGimmickManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
 	void Create(const DropGimmick::Desc& desc);
+	void Create(const DropperBall::Desc& desc);
 
 	const std::list<std::unique_ptr<DropGimmick>>& GetDropGimmicks() const { return dropGimmicks_; }
 	void Delete(DropGimmick* block);
-
-	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
 
@@ -31,4 +30,5 @@ private:
 	const Player* player_;
 	const Boss* boss_;
 	std::list<std::unique_ptr<DropGimmick>> dropGimmicks_;
+	std::unique_ptr<DropperBallManager> dropperBallManager_;
 };
