@@ -297,29 +297,6 @@
         },
         {
             "type": "MESH",
-            "name": "bakudan.001",
-            "transform": {
-                "translate": [
-                    0.0,
-                    2.4719109535217285,
-                    -117.61337280273438
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "dropBall"
-        },
-        {
-            "type": "MESH",
             "name": "たてもの３.039",
             "transform": {
                 "translate": [
@@ -728,8 +705,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -774,8 +750,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -820,8 +795,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -866,8 +840,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -912,8 +885,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -958,8 +930,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -1004,8 +975,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         },
         {
@@ -1050,8 +1020,7 @@
                 ]
             },
             "gimmick": {
-                "type": "Trigger",
-                "state": 0
+                "type": "BossHookAttackTrigger"
             }
         }
     ]
