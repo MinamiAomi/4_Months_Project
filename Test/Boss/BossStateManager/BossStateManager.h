@@ -6,6 +6,7 @@
 
 #include "Graphics/Skeleton.h"
 #include "Math/MathUtils.h"
+#include "Math/Random.h"
 
 class Player;
 class Boss;
@@ -29,6 +30,7 @@ protected:
 	BossStateManager& manager_;
 	AttackState attackState_;
 	float time_;
+	Random::RandomNumberGenerator rnd_;
 };
 
 class BossStateRoot :
@@ -132,8 +134,8 @@ public:
 	enum State {
 		kRoot,
 		kHook,
-		kLowerAttack,
 		kInsideAttack,
+		kLowerAttack,
 		kBeamAttack,
 	};
 

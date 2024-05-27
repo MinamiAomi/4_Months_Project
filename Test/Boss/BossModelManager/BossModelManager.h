@@ -46,7 +46,7 @@ public:
 	void Update();
 
 	void SetRotate(const Vector3& rotate) { rotate_ = rotate; }
-	const Vector3& GetRotate() const { return rotate_; }
+	Vector3& GetRotate() { return rotate_; }
 	const Vector3& GetOffset()const { return offset_; }
 	void SetColliderIsAlive(bool flag) { collider_->SetIsActive(flag); }
 	void SetModelIsAlive(bool flag) { model_->SetIsActive(flag); }
@@ -120,6 +120,7 @@ class BossModelManager {
 public:
 	void Initialize(const Transform* Transform,Player* player);
 	void Update();
+	void Reset();
 
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }
 private:

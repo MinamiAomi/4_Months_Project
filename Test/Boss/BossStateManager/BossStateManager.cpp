@@ -296,7 +296,6 @@ void BossStateLowerAttack::ChargeUpdate() {
 	skeleton->Update();
 
 	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
-
 	if (t >= 1.0f) {
 		auto& floorAllTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform;
 		floorAllTransform.translate = data_.position;
@@ -310,8 +309,13 @@ void BossStateLowerAttack::AttackUpdate() {
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
+	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetRotate();
+	rotate.y += 1.0f;
 	if (t >= 1.0f) {
+		rotate.y = 0.0f;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::identity;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 		manager_.ChangeState(BossStateManager::State::kRoot);
 	}
@@ -362,7 +366,7 @@ void BossStateInsideAttack::ChargeUpdate() {
 	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
 
 	auto& laserTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->transform;
-	laserTransform.scale = Vector3::Lerp(t, Vector3(1.0f,0.0f,1.0f), Vector3::one);
+	laserTransform.scale = Vector3::Lerp(t, Vector3(1.0f, 0.0f, 1.0f), Vector3::one);
 	Vector3 modelSize = (manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
 	laserTransform.translate = Vector3::Lerp(t, { 0.0f,modelSize.y,modelSize.z }, Vector3::zero);
 	if (t >= 1.0f) {
@@ -378,10 +382,14 @@ void BossStateInsideAttack::AttackUpdate() {
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetRotate();
+	rotate.y += 1.0f;
 	if (t >= 1.0f) {
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->SetIsAlive(false);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.rotate = Quaternion::identity;
+		rotate.y = 0.0f;
 		manager_.ChangeState(BossStateManager::State::kRoot);
 	}
 }

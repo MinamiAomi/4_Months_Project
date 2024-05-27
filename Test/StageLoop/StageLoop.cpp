@@ -227,9 +227,6 @@ void StageLoop::LoadJson() {
 
 	std::map<uint32_t, Desc> stageData{};
 
-	std::vector<Switch::Desc> switchDesc{};
-	std::vector<Dropper::Desc> dropperDesc{};
-
 	// ディレクトリ内のファイルを検索し、パターンに一致するファイルを読み込む
 	for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
 		if (std::filesystem::is_regular_file(entry.path())) {
@@ -246,6 +243,9 @@ void StageLoop::LoadJson() {
 				ifs >> root;
 				ifs.close();
 
+				std::vector<Switch::Desc> switchDesc{};
+				std::vector<Dropper::Desc> dropperDesc{};
+				
 				// "objects"配列からオブジェクトを処理
 				for (const auto& obj : root["objects"]) {
 					// Block
@@ -255,14 +255,7 @@ void StageLoop::LoadJson() {
 							desc.desc = StageGimmick::GetDesc(obj);
 							jsonData.blockDesc.emplace_back(desc);
 						}
-						else if (obj["gimmick"]["type"] == "Trigger") {
-							BossAttackTrigger::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-							jsonData.bossAttackTrigger.emplace_back(desc);
-
-						}// Trigger
+						// Trigger
 						else if (obj["gimmick"]["type"] == "Trigger") {
 							BossAttackTrigger::Desc desc{};
 							desc.desc = StageGimmick::GetDesc(obj);
@@ -438,14 +431,20 @@ void StageLoop::Clear() {
 	//trapManager_->Clear();
 }
 
-void StageLoop::CreateStage(uint32_t stageIndex) {
+void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	Clear();
 
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
+	uint32_t stageIndex;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 
-		stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		if (stageInputIndex == (uint32_t)-1) {
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
+		}
+		else {
+			stageIndex = stageInputIndex;
+		}
 
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう

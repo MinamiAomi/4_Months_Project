@@ -30,11 +30,11 @@ void Boss::Initialize() {
 	bossUI_->SetBossHP(bossHP_.get());
 	bossUI_->Initialize();
 
-	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform, player_);
 
+	Reset(0);
 	// 隠す
 	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
 	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);*/
@@ -48,7 +48,7 @@ void Boss::Initialize() {
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z });
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 5.0f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -151,6 +151,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.UpdateMatrix();
 	state_->ChangeState(BossStateManager::State::kRoot);
 	bossHP_->Reset();
+	bossModelManager_->Reset();
 
 }
 
@@ -176,6 +177,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			//	isAlive_ = false;
 			//}
 			bossHP_->AddPlayerHitHP();
+			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 			Character::SetNextScene(Character::State::kRunAway);
 
 		}
