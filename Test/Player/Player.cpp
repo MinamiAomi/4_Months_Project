@@ -45,7 +45,7 @@ void Player::Initialize() {
 	playerUI_->SetPlayerHP(playerHP_.get());
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->Initialize();
-	playerRevengeGage_->Initialize();
+	playerRevengeGage_->Initialize(boss_);
 
 	bulletManager_->Initialize();
 
@@ -125,11 +125,13 @@ void Player::Update() {
 		// 無敵
 		Invincible();
 
-		// リベンジゲージ
-		playerRevengeGage_->Update();
+        // リベンジゲージ
+      
+          playerRevengeGage_->Update();
+        
 
-		// HP
-		playerHP_->Update();
+        // HP
+        playerHP_->Update();
 
 		// UIアップデート
 		playerUI_->Update();

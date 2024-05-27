@@ -18,6 +18,7 @@ namespace Character {
 	extern float time_;
 	extern float toChaseTime_;
 	extern float toRunAwayTime_;
+	extern bool isEndFirstChange_;
 
 	float GetSceneChangeTime();
 

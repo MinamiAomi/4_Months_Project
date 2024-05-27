@@ -81,8 +81,8 @@
         ]
     },
     "StateInsideAttack": {
-        "jsonData_.insideAttackData.attackEasingTime": 60.0,
-        "jsonData_.insideAttackData.chargeEasingTime": 90.0,
+        "jsonData_.insideAttackData.attackEasingTime": 30.0,
+        "jsonData_.insideAttackData.chargeEasingTime": 120.0,
         "jsonData_.insideAttackData.endPosition": [
             0.0,
             -6.0,
@@ -124,8 +124,8 @@
         ]
     },
     "StateLowerAttack": {
-        "jsonData_.lowerAttackData.attackEasingTime": 10.0,
-        "jsonData_.lowerAttackData.chargeEasingTime": 60.0,
+        "jsonData_.lowerAttackData.attackEasingTime": 30.0,
+        "jsonData_.lowerAttackData.chargeEasingTime": 90.0,
         "jsonData_.lowerAttackData.endPosition": [
             0.0,
             0.0,
@@ -138,7 +138,7 @@
         ],
         "jsonData_.lowerAttackData.scale": [
             1.5,
-            0.4000000059604645,
+            0.6000000238418579,
             1.5
         ],
         "jsonData_.lowerAttackData.startPosition": [
