@@ -23,7 +23,8 @@ public:
 	void Reset(uint32_t stageIndex);
 	void SetIsMove(bool flag) { isMove_ = flag; }
 	bool GetIsMove() { return isMove_; }
-	bool GetIsFirstHit() { return isFirstHit_; }
+	bool GetIsFirstHit() const  { return isFirstHit_; }
+	void SetIsEndFirstHitMovie(bool flag) { isEndFirstHitMovie_ = flag; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetPlayer(const Player* player) { player_ = player; }
 	const bool GetIsAlive() const { return isAlive_; }
@@ -56,4 +57,5 @@ private:
 	bool isMove_;
 	bool isAlive_;
 	bool isFirstHit_;
+	bool isEndFirstHitMovie_;
 };

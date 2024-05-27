@@ -6,6 +6,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "Input/Input.h"
 
+
 float GameClearMovie::t_ = 0.0f;
 
 void GameClearMovie::Update() {

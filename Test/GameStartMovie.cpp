@@ -37,7 +37,7 @@ void GameStartMovie::Update() {
 		}
 	}
 
-	player_->UpdateTransform();
+	
 	boss_->UpdateTransform();
 	camera_->UpdateMatrices();
 	frame_++;
