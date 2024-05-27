@@ -51,7 +51,7 @@ void StageLoop::Initialize() {
 
 	LoadJson();
 
-	InitializeCreateStage(5);
+	InitializeCreateStage(0);
 
 	isCreateStage_ = false;
 }
