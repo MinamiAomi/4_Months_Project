@@ -10,6 +10,7 @@ namespace Character {
 	float time_;
 	float toChaseTime_;
 	float toRunAwayTime_;
+	bool isEndFirstChange_;
 
 	float GetSceneChangeTime() {
 		if (currentCharacterState_ == kScneChange) {
@@ -105,6 +106,7 @@ namespace Character {
 			if (time >= 1.0f) {
 				time_ = 0.0f;
 				currentCharacterState_ = nextCharacterState_;
+				isEndFirstChange_ = true;
 			}
 		}
 #ifdef _DEBUG

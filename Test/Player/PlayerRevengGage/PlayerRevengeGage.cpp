@@ -3,12 +3,13 @@
 #include "Input/Input.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
+#include "Boss/Boss.h"
 
 const float PlayerRevengeGage::kMaxRevengeBar = 100.0f;
 
-void PlayerRevengeGage::Initialize() {
+void PlayerRevengeGage::Initialize(const Boss* boss) {
 	Reset();
-
+	boss_ = boss;
 	JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 	JSON_OBJECT("PlayerRevengeGage");
 	JSON_LOAD(addCoin_);
@@ -22,7 +23,9 @@ void PlayerRevengeGage::Update() {
 	case Character::State::kChase:
 	{
 		if (isMove_) {
-			currentRevengeBarGage_ -= subGageBar_;
+			if (boss_->GetIsFirstHit()) {
+				currentRevengeBarGage_ -= subGageBar_;
+			}
 		}
 		if (currentRevengeBarGage_ <= 0) {
 			currentRevengeBarGage_ = 0.0f;

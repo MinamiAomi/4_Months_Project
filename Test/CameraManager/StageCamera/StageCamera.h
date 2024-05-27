@@ -42,5 +42,6 @@ private:
 	std::array<CameraParameter, Character::State::kCount> cameraParam_;
 
 	Vector3 easingStartPosition_;
+	Vector3 easingStartOffset_;
 	bool isMove_;
 };
