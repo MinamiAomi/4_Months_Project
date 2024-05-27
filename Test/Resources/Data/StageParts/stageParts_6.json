@@ -3,7 +3,7 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Floor.041",
+            "name": "Floor.035",
             "transform": {
                 "translate": [
                     0.0,
@@ -45,7 +45,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.042",
+            "name": "Floor.036",
             "transform": {
                 "translate": [
                     0.0,
@@ -87,7 +87,7 @@
         },
         {
             "type": "EMPTY",
-            "name": "ステージエリア１.002",
+            "name": "ステージエリア１.001",
             "transform": {
                 "translate": [
                     0.0,
@@ -129,7 +129,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.043",
+            "name": "Floor.037",
             "transform": {
                 "translate": [
                     0.0,
@@ -171,7 +171,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.044",
+            "name": "Floor.038",
             "transform": {
                 "translate": [
                     0.0,
@@ -213,7 +213,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.045",
+            "name": "Floor.039",
             "transform": {
                 "translate": [
                     0.0,
@@ -255,7 +255,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.046",
+            "name": "Floor.040",
             "transform": {
                 "translate": [
                     0.0,
@@ -297,72 +297,7 @@
         },
         {
             "type": "MESH",
-            "name": "bakudan.002",
-            "transform": {
-                "translate": [
-                    0.0,
-                    2.8240771293640137,
-                    105.49932098388672
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "dropBall"
-        },
-        {
-            "type": "MESH",
-            "name": "Floor.047",
-            "transform": {
-                "translate": [
-                    1.4395561218261719,
-                    -4.955606460571289,
-                    107.4744644165039
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    12.309999465942383,
-                    0.20000004768371582
-                ]
-            },
-            "file_name": "floor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    100.32999420166016,
-                    1.0099999904632568,
-                    35.90999984741211
-                ],
-                "rotate": [
-                    0.0,
-                    -0.7071067690849304,
-                    -0.0,
-                    0.7071067690849304
-                ]
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "たてもの３.044",
+            "name": "たてもの３.039",
             "transform": {
                 "translate": [
                     90.0,
@@ -385,7 +320,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの３.045",
+            "name": "たてもの３.040",
             "transform": {
                 "translate": [
                     -90.0,
@@ -408,7 +343,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.051",
+            "name": "たてもの２.047",
             "transform": {
                 "translate": [
                     -90.0,
@@ -431,7 +366,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.052",
+            "name": "たてもの２.048",
             "transform": {
                 "translate": [
                     90.0,
@@ -454,7 +389,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.075",
+            "name": "たてもの.067",
             "transform": {
                 "translate": [
                     -90.0,
@@ -477,7 +412,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.078",
+            "name": "たてもの.068",
             "transform": {
                 "translate": [
                     -90.0,
@@ -500,7 +435,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.081",
+            "name": "たてもの.069",
             "transform": {
                 "translate": [
                     90.0,
@@ -523,7 +458,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.082",
+            "name": "たてもの.070",
             "transform": {
                 "translate": [
                     90.0,
@@ -546,7 +481,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの３.046",
+            "name": "たてもの３.041",
             "transform": {
                 "translate": [
                     90.0,
@@ -569,7 +504,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの３.047",
+            "name": "たてもの３.042",
             "transform": {
                 "translate": [
                     -90.0,
@@ -592,7 +527,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.053",
+            "name": "たてもの２.049",
             "transform": {
                 "translate": [
                     -90.0,
@@ -615,7 +550,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.054",
+            "name": "たてもの２.050",
             "transform": {
                 "translate": [
                     90.0,
@@ -638,7 +573,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.083",
+            "name": "たてもの.071",
             "transform": {
                 "translate": [
                     -90.0,
@@ -661,7 +596,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.084",
+            "name": "たてもの.072",
             "transform": {
                 "translate": [
                     -90.0,
@@ -684,7 +619,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.085",
+            "name": "たてもの.073",
             "transform": {
                 "translate": [
                     90.0,
@@ -707,7 +642,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.086",
+            "name": "たてもの.074",
             "transform": {
                 "translate": [
                     90.0,
@@ -730,7 +665,7 @@
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.040",
+            "name": "ボストリガーLower.031",
             "transform": {
                 "translate": [
                     0.0,
@@ -770,17 +705,18 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.041",
+            "name": "ボストリガーLower.032",
             "transform": {
                 "translate": [
                     0.0,
                     15.813758850097656,
-                    90.408203125
+                    99.9528579711914
                 ],
                 "rotate": [
                     0.0,
@@ -815,12 +751,13 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.042",
+            "name": "ボストリガーLower.033",
             "transform": {
                 "translate": [
                     0.0,
@@ -860,12 +797,13 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.043",
+            "name": "ボストリガーLower.034",
             "transform": {
                 "translate": [
                     0.0,
@@ -905,12 +843,13 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.044",
+            "name": "ボストリガーLower.035",
             "transform": {
                 "translate": [
                     0.0,
@@ -950,12 +889,13 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.045",
+            "name": "ボストリガーLower.036",
             "transform": {
                 "translate": [
                     0.0,
@@ -995,12 +935,13 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.046",
+            "name": "ボストリガーLower.037",
             "transform": {
                 "translate": [
                     0.0,
@@ -1040,12 +981,13 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.047",
+            "name": "ボストリガーLower.038",
             "transform": {
                 "translate": [
                     0.0,
@@ -1085,7 +1027,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 1
             }
         }
     ]
