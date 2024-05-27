@@ -171,10 +171,10 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			////二回目でゲームクリア
-			//if (isFirstHit_ == true) {
-			//	isAlive_ = false;
-			//}
+			//二回目でゲームクリア
+			if (isFirstHit_ == true) {
+				isAlive_ = false;
+			}
 			bossHP_->AddPlayerHitHP();
 			Character::SetNextScene(Character::State::kRunAway);
 
@@ -188,8 +188,8 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		default:
 			break;
 		}
-		////一回目
-		//isFirstHit_ = true;
+		//一回目
+		isFirstHit_ = true;
 	}
 
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {
