@@ -48,7 +48,7 @@ void Boss::Initialize() {
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z });
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 5.0f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -171,10 +171,10 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			//二回目でゲームクリア
-			if (isFirstHit_ == true) {
-				isAlive_ = false;
-			}
+			////二回目でゲームクリア
+			//if (isFirstHit_ == true) {
+			//	isAlive_ = false;
+			//}
 			bossHP_->AddPlayerHitHP();
 			Character::SetNextScene(Character::State::kRunAway);
 
@@ -188,8 +188,8 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		default:
 			break;
 		}
-		//一回目
-		isFirstHit_ = true;
+		////一回目
+		//isFirstHit_ = true;
 	}
 
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {

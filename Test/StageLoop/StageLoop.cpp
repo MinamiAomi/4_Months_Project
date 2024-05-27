@@ -255,14 +255,7 @@ void StageLoop::LoadJson() {
 							desc.desc = StageGimmick::GetDesc(obj);
 							jsonData.blockDesc.emplace_back(desc);
 						}
-						else if (obj["gimmick"]["type"] == "Trigger") {
-							BossAttackTrigger::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-							jsonData.bossAttackTrigger.emplace_back(desc);
-
-						}// Trigger
+						// Trigger
 						else if (obj["gimmick"]["type"] == "Trigger") {
 							BossAttackTrigger::Desc desc{};
 							desc.desc = StageGimmick::GetDesc(obj);
@@ -445,7 +438,7 @@ void StageLoop::CreateStage(uint32_t stageIndex) {
 	float distance = 0.0f;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 
-		stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
 
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
