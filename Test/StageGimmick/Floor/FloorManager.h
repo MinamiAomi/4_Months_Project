@@ -12,11 +12,11 @@ public:
 	void Update();
 	void Reset();
 
-	void Create(const Floor::Desc& desc);
+	void Create(const Floor::Desc& desc, uint32_t index);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<Floor>>& GetFloors() const { return floors_; }
+	std::list<std::unique_ptr<Floor>>& GetFloors() { return floors_; }
 	void DeleteFloor(Floor* block);
 	void Clear();
 

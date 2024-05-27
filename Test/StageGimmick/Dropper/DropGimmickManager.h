@@ -14,10 +14,11 @@ public:
 	void Update();
 	void Reset();
 
-	void Create(const DropGimmick::Desc& desc);
-	void Create(const DropperBall::Desc& desc);
+	void Create(const DropGimmick::Desc& desc, uint32_t index);
+	void Create(const DropperBall::Desc& desc, uint32_t index);
 
-	const std::list<std::unique_ptr<DropGimmick>>& GetDropGimmicks() const { return dropGimmicks_; }
+	std::list<std::unique_ptr<DropGimmick>>& GetDropGimmicks() { return dropGimmicks_; }
+	std::unique_ptr<DropperBallManager>& GetDropperBallManager() { return dropperBallManager_; }
 	void Delete(DropGimmick* block);
 
 	void Clear();

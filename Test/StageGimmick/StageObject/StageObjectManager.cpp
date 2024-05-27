@@ -20,10 +20,12 @@ void StageObjectManager::Reset() {
 	Clear();
 }
 
-void StageObjectManager::Create(const StageObject::Desc& desc) {
+void StageObjectManager::Create(const StageObject::Desc& desc, uint32_t index) {
 	StageObject* stageObject = new StageObject();
 	stageObject->SetCamera(camera_);
 	stageObject->Initialize(desc);
+	stageObject->stageGimmickNumber = index;
+
 	stageObjects_.emplace_back(std::move(stageObject));
 }
 

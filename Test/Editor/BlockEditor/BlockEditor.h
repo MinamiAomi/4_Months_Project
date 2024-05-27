@@ -16,7 +16,6 @@ public:
 
 	void SetBlockManager(BlockManager* blockManager) { blockManager_ = blockManager; }
 	void SaveFile(uint32_t stageName);
-	void LoadFile(uint32_t stageName);
 	void Clear();
 private:
 	static const std::string kModelName;

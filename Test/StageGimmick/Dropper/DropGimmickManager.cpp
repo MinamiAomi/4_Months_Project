@@ -26,18 +26,19 @@ void DropGimmickManager::Reset() {
 	Clear();
 }
 
-void DropGimmickManager::Create(const DropGimmick::Desc& desc) {
+void DropGimmickManager::Create(const DropGimmick::Desc& desc, uint32_t index) {
 	DropGimmick* dropGimmick = new DropGimmick();
 	dropGimmick->SetCamera(camera_);
 	dropGimmick->SetPlayer(player_);
 	dropGimmick->SetBoss(boss_);
 	dropGimmick->SetDropperBallManager(dropperBallManager_.get());
 	dropGimmick->Initialize(desc);
+	dropGimmick->stageGimmickNumber=index;
 	dropGimmicks_.emplace_back(std::move(dropGimmick));
 }
 
-void DropGimmickManager::Create(const DropperBall::Desc& desc) {
-	dropperBallManager_->Create(desc);
+void DropGimmickManager::Create(const DropperBall::Desc& desc, uint32_t index) {
+	dropperBallManager_->Create(desc,index);
 }
 
 void DropGimmickManager::Delete(DropGimmick* block) {

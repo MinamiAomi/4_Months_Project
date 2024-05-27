@@ -12,7 +12,7 @@
 #include "Player/Player.h"
 
 class Floor :
-	public GameObject {
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;

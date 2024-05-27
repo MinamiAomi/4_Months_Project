@@ -273,16 +273,17 @@ void DropGimmick::Update() {
 		for (auto& dropper : dropper_) {
 			DropperBall::Desc desc{};
 			desc.desc.transform.translate = dropper->transform.worldMatrix.GetTranslate();
-			dropperBallManager_->Create(desc);
+			dropperBallManager_->Create(desc,0);
 		}
 	}
 }
 
-void DropperBallManager::Create(const DropperBall::Desc& desc) {
+void DropperBallManager::Create(const DropperBall::Desc& desc, uint32_t index) {
 	DropperBall* ball = new DropperBall();
 	ball->SetPlayer(player_);
 	ball->SetCamera(camera_);
 	ball->SetBoss(boss_);
+	ball->stageGimmickNumber=index;
 	ball->Initialize(desc);
 	dropperBalls_.emplace_back(std::move(ball));
 }
@@ -298,6 +299,18 @@ void DropperBallManager::Update() {
 		}
 	}
 
+}
+
+void DropperBallManager::Delete(DropperBall* ball) {
+	// block がリスト内に存在するかを確認し、存在する場合はそのイテレータを取得する
+	auto it = std::find_if(dropperBalls_.begin(), dropperBalls_.end(), [ball](const auto& ptr) {
+		return ptr.get() == ball;
+		});
+
+	// block が見つかった場合は削除する
+	if (it != dropperBalls_.end()) {
+		dropperBalls_.erase(it);
+	}
 }
 
 void DropperBallManager::Reset() {

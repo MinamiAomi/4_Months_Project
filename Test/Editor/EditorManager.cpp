@@ -86,8 +86,6 @@ void EditorManager::Update() {
 		if (ImGui::Button("Load")) {
 			blockEditor_->Clear();
 			fireBarEditor_->Clear();
-			blockEditor_->LoadFile(stageIndex_);
-			bossAttackTriggerEditor_->LoadFile(stageIndex_);
 		}
 		ImGui::TreePop();
 	}
