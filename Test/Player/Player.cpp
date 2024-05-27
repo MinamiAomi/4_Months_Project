@@ -126,9 +126,9 @@ void Player::Update() {
         Invincible();
 
         // リベンジゲージ
-        if (boss_->GetIsFirstHit()) {
-            playerRevengeGage_->Update();
-        }
+      
+          playerRevengeGage_->Update();
+        
 
         // HP
         playerHP_->Update();
