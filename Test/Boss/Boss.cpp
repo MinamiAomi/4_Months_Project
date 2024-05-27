@@ -30,11 +30,11 @@ void Boss::Initialize() {
 	bossUI_->SetBossHP(bossHP_.get());
 	bossUI_->Initialize();
 
-	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform, player_);
 
+	Reset(0);
 	// 隠す
 	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
 	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);*/
@@ -151,6 +151,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.UpdateMatrix();
 	state_->ChangeState(BossStateManager::State::kRoot);
 	bossHP_->Reset();
+	bossModelManager_->Reset();
 
 }
 
@@ -176,6 +177,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			//	isAlive_ = false;
 			//}
 			bossHP_->AddPlayerHitHP();
+			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 			Character::SetNextScene(Character::State::kRunAway);
 
 		}

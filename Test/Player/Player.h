@@ -26,11 +26,13 @@ public:
 	void AnimationUpdate();
 	void UpdateTransform();
 
+	void SceneChangeUpdate();
+
 	void Reset();
 
 	void HitDamage(uint32_t damege = (uint32_t)- 1);
 
-	const PlayerRevengeGage& GetRevengeGage() const { return *playerRevengeGage_.get(); }
+	PlayerRevengeGage* GetRevengeGage() { return playerRevengeGage_.get(); }
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	Matrix4x4& GetWorldMatrix() { return transform.worldMatrix; }
 	Transform& GetTransform() { return transform; }
@@ -102,6 +104,7 @@ private:
 	bool isHit_;
 	bool preIsHit_;
 
+	bool isSceneChangeInvincible_;
 	// JumpSE
 	std::unique_ptr<AudioSource> jumpSE_;
 	std::unique_ptr<AudioSource> revengeSE_;

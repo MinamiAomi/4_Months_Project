@@ -39,9 +39,6 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 	models_.at(BossParts::Parts::kBossBody)->GetModel()->SetSkeleton(models_.at(BossParts::Parts::kBossBody)->GetSkeleton());
 	std::vector<std::string> partsName;
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "move");
-	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
-	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
-	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");
 	partsName = {
 		"nitoukin_R",
 		"ude_R",
@@ -50,6 +47,9 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 
 	};
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "bossLeftHand");
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
+	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");
 	models_.at(BossParts::Parts::kBossBody)->SetModelIsAlive(true);
 }
 
@@ -57,7 +57,15 @@ void BossModelManager::Update() {
 	for (auto& model : models_) {
 		model->Update();
 	}
+	models_.at(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kHook).UpdateCollider(models_.at(BossParts::Parts::kBossBody)->transform.worldMatrix, *models_.at(BossParts::Parts::kBossBody)->GetSkeleton());
 }
+void BossModelManager::Reset() {
+	models_.at(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
+	models_.at(BossParts::Parts::kLaser)->SetIsAlive(false);
+}
+
 void BossModel::Initialize(Player* player, uint32_t index) {
 	name_ = BossParts::partsName_.at(index);
 	JSON_OPEN("Resources/Data/Boss/Boss.json");

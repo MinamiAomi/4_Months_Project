@@ -16,6 +16,7 @@ public:
 	void AddGage();
 
 	const float GetCurrentRevengeBarGage()const { return currentRevengeBarGage_; }
+	void SetCurrentRevengeBarGage(float gage) { currentRevengeBarGage_ = gage; }
 private:
 	float addCoin_;
 	float addGageBar_;

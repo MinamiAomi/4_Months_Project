@@ -120,6 +120,7 @@ class BossModelManager {
 public:
 	void Initialize(const Transform* Transform,Player* player);
 	void Update();
+	void Reset();
 
 	const std::unique_ptr<BossModel>& GetModel(BossParts::Parts parts) { return models_.at(parts); }
 private:
