@@ -81,8 +81,8 @@
         ]
     },
     "StateInsideAttack": {
-        "jsonData_.insideAttackData.attackEasingTime": 60.0,
-        "jsonData_.insideAttackData.chargeEasingTime": 90.0,
+        "jsonData_.insideAttackData.attackEasingTime": 30.0,
+        "jsonData_.insideAttackData.chargeEasingTime": 120.0,
         "jsonData_.insideAttackData.endPosition": [
             0.0,
             -6.0,
