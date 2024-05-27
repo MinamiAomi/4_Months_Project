@@ -45,7 +45,7 @@ void Player::Initialize() {
 	playerUI_->SetPlayerHP(playerHP_.get());
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->Initialize();
-	playerRevengeGage_->Initialize();
+	playerRevengeGage_->Initialize(boss_);
 
 	bulletManager_->Initialize();
 

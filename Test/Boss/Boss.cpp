@@ -177,10 +177,9 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			////二回目でゲームクリア
-			bossHP_->AddPlayerHitHP();
 			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 			if (isFirstHit_ && !Movie::isPlaying) {
+				bossHP_->AddPlayerHitHP();
 				Character::SetNextScene(Character::State::kRunAway);
 			}
 

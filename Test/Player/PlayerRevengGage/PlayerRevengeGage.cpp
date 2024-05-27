@@ -7,7 +7,7 @@
 
 const float PlayerRevengeGage::kMaxRevengeBar = 100.0f;
 
-void PlayerRevengeGage::Initialize(Boss* boss) {
+void PlayerRevengeGage::Initialize(const Boss* boss) {
 	Reset();
 	boss_ = boss;
 	JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
@@ -23,7 +23,9 @@ void PlayerRevengeGage::Update() {
 	case Character::State::kChase:
 	{
 		if (isMove_) {
-			currentRevengeBarGage_ -= subGageBar_;
+			if (boss_->GetIsFirstHit()) {
+				currentRevengeBarGage_ -= subGageBar_;
+			}
 		}
 		if (currentRevengeBarGage_ <= 0) {
 			currentRevengeBarGage_ = 0.0f;

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <algorithm>
+#include <climits>
 
 class BossHP {
 public:

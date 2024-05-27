@@ -10,7 +10,7 @@ class PlayerRevengeGage {
 public:
 	static const float kMaxRevengeBar;
 
-	void Initialize(Boss* boss);
+	void Initialize(const Boss* boss);
 	void Update();
 	void Reset();
 	void SetIsMove(bool flag) { isMove_ = flag; }
