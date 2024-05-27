@@ -25,6 +25,8 @@ public:
 	virtual	void SetDesc() = 0;
 	virtual void Update() = 0;
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
+	virtual AnimationSet* GetAnimation() const = 0;
+	virtual float GetAnimationTime() const = 0;
 	BossStateManager& GetManager() { return manager_; }
 protected:
 	BossStateManager& manager_;
@@ -44,6 +46,8 @@ public:
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
+	AnimationSet* GetAnimation() const override;
+	float GetAnimationTime() const override;
 
 private:
 	JsonData data_;
@@ -60,6 +64,8 @@ public:
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
+	AnimationSet* GetAnimation() const override;
+	float GetAnimationTime() const override;
 private:
 	JsonData data_;
 	
@@ -79,6 +85,8 @@ public:
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
+	AnimationSet* GetAnimation() const override;
+	float GetAnimationTime() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -100,6 +108,8 @@ public:
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
+	AnimationSet* GetAnimation() const override;
+	float GetAnimationTime() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -122,6 +132,8 @@ public:
 	void SetDesc() override;
 	void Update() override;
 	void OnCollision(const CollisionInfo& collisionInfo) override;
+	AnimationSet* GetAnimation() const override;
+	float GetAnimationTime() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -162,5 +174,7 @@ public:
 private:
 	std::unique_ptr<BossState> activeState_;
 	std::unique_ptr<BossState> standbyState_;
+	AnimationSet* prevAnimation_;
+	float prevAnimationTime_;
 	State state_;
 };

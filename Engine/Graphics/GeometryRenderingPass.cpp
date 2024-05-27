@@ -83,6 +83,7 @@ void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
         pipelineStateDesc.BlendState = Helper::BlendDisable;
         pipelineStateDesc.DepthStencilState = Helper::DepthStateReadWrite;
         pipelineStateDesc.RasterizerState = Helper::RasterizerDefault;
+        pipelineStateDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
         pipelineStateDesc.NumRenderTargets = 3;
         pipelineStateDesc.RTVFormats[0] = albedo_.GetRTVFormat();
         pipelineStateDesc.RTVFormats[1] = metallicRoughness_.GetRTVFormat();
