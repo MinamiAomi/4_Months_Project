@@ -134,8 +134,8 @@ public:
 	enum State {
 		kRoot,
 		kHook,
-		kLowerAttack,
 		kInsideAttack,
+		kLowerAttack,
 		kBeamAttack,
 	};
 

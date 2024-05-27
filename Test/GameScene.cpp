@@ -189,6 +189,7 @@ void GameScene::OnUpdate() {
 				boss_->Update();
 				stageBlockManager_->Update();
 			}
+			player_->SceneChangeUpdate();
 
 			skyBlockManager_->Update();
 
