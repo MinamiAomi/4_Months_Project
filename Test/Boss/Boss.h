@@ -26,17 +26,17 @@ public:
 	bool GetIsFirstHit() const  { return isFirstHit_; }
 	void SetIsEndFirstHitMovie(bool flag) { isEndFirstHitMovie_ = flag; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
-	void SetPlayer(const Player* player) { player_ = player; }
+	void SetPlayer(Player* player) { player_ = player; }
 	const bool GetIsAlive() const { return isAlive_; }
 
-	const std::unique_ptr<BossModelManager>& GetModel() const { return bossModelManager_; }
+	const std::unique_ptr<BossModelManager>& GetModelManager() const { return bossModelManager_; }
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
 	const std::unique_ptr<BossHP>& GetBossHP()const { return bossHP_; }
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	const Camera* camera_;
-	const Player* player_;
+	Player* player_;
 
 	std::unique_ptr<BoxCollider> collider_;
 

@@ -36,4 +36,6 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 
 	Desc desc_;
+
+	float radian_;
 };

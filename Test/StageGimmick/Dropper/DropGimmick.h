@@ -17,6 +17,9 @@ class Boss;
 class DropperBall :
 	public GameObject {
 public:
+	struct Desc {
+		StageGimmick::Desc desc;
+	};
 	enum State {
 		kDrop,
 		kStay,
@@ -25,7 +28,7 @@ public:
 		kCount,
 	};
 
-	void Initialize(const Vector3& pos);
+	void Initialize(const Desc& desc);
 	void Update();
 
 	bool GetIsAlive() { return isAlive_; }
@@ -110,6 +113,24 @@ private:
 	Desc desc_;
 };
 
+class DropperBallManager {
+public:
+	void Create(const DropperBall::Desc& desc);
+	void Update();
+
+	void Reset();
+
+	void SetPlayer(const Player* player) { player_ = player; }
+	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetCamera(const Camera* camera) { camera_ = camera; }
+private:
+	const Player* player_;
+	const Boss* boss_;
+	const Camera* camera_;
+
+	std::vector<std::unique_ptr<DropperBall>>dropperBalls_;
+};
+
 class DropGimmick {
 public:
 	struct Desc {
@@ -122,13 +143,14 @@ public:
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
+	void SetDropperBallManager(DropperBallManager* dropperBallManager) { dropperBallManager_ = dropperBallManager; }
 private:
 	const Player* player_;
 	const Boss* boss_;
 	const Camera* camera_;
+	DropperBallManager* dropperBallManager_;
 
 	std::vector<std::unique_ptr<Switch>>switch_;
 	std::vector<std::unique_ptr<Dropper>>dropper_;
-	std::list<std::unique_ptr<DropperBall>> dropperBall_;
 	bool isCreate_;
 };

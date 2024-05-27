@@ -34,6 +34,7 @@ public:
     void Create(const std::shared_ptr<Model>& model);
 
     void ApplyAnimation(const AnimationSet& animation, float animationTime);
+    void ApplyAnimationTransition(const AnimationSet& from, float formTime, const AnimationSet& to, float toTime, float animationTime);
     void Update();
     void DebugDraw(const Matrix4x4& worldMatrix, const Vector4& color = Vector4::one);
 

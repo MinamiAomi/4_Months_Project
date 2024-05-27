@@ -8,9 +8,9 @@
 
 class FireBarManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
 	void Create(const FireBar::Desc& desc);
 
@@ -18,8 +18,6 @@ public:
 
 	const std::list<std::unique_ptr<FireBar>>& GetFireBars() const { return fireBars_; }
 	void DeleteFireBar(FireBar* block);
-
-	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
 

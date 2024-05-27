@@ -8,6 +8,7 @@
 #include "CameraManager/CameraManager.h"
 #include "Player/Player.h"
 #include "CharacterState.h"
+#include "File/JsonConverter.h"
 
 
 void StageLoop::Initialize() {
@@ -36,6 +37,7 @@ void StageLoop::Initialize() {
 	dropGimmickManager_->SetCamera(camera_);
 	dropGimmickManager_->SetPlayer(player_);
 	dropGimmickManager_->SetBoss(boss_);
+	dropGimmickManager_->Initialize();
 	pendulumManager_->SetCamera(camera_);
 	pendulumManager_->SetPlayer(player_);
 	revengeCoinManager_->SetCamera(camera_);
@@ -49,7 +51,7 @@ void StageLoop::Initialize() {
 
 	LoadJson();
 
-	InitializeCreateStage(0);
+	InitializeCreateStage(5);
 
 	isCreateStage_ = false;
 }
@@ -110,6 +112,9 @@ void StageLoop::LoadJson() {
 	//			desc.desc = StageGimmick::GetDesc(obj);
 	//			const auto& gimmick = obj["gimmick"];
 	//			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+	//			if (gimmick.contains("beamVector")) {
+	//				desc.vector = gimmick["beamVector"].get<Vector3>();;
+	//			}
 	//			jsonData.bossAttackTrigger.emplace_back(desc);
 
 	//		}
@@ -171,6 +176,11 @@ void StageLoop::LoadJson() {
 	//			desc.index = gimmick["dropGimmickIndex"];
 	//			dropperDesc.emplace_back(desc);
 	//		}
+	//		else if (obj["gimmick"]["type"] == "DropGimmickBall") {
+	//			DropperBall::Desc desc{};
+	//			desc.desc = StageGimmick::GetDesc(obj);
+	//			jsonData.dropGimmickBallDesc.emplace_back(desc);
+	//		}
 	//	}
 	//	// StageArea
 	//	else if (obj["file_name"] == "stageArea") {
@@ -217,9 +227,6 @@ void StageLoop::LoadJson() {
 
 	std::map<uint32_t, Desc> stageData{};
 
-	std::vector<Switch::Desc> switchDesc{};
-	std::vector<Dropper::Desc> dropperDesc{};
-
 	// ディレクトリ内のファイルを検索し、パターンに一致するファイルを読み込む
 	for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
 		if (std::filesystem::is_regular_file(entry.path())) {
@@ -236,6 +243,9 @@ void StageLoop::LoadJson() {
 				ifs >> root;
 				ifs.close();
 
+				std::vector<Switch::Desc> switchDesc{};
+				std::vector<Dropper::Desc> dropperDesc{};
+				
 				// "objects"配列からオブジェクトを処理
 				for (const auto& obj : root["objects"]) {
 					// Block
@@ -245,19 +255,15 @@ void StageLoop::LoadJson() {
 							desc.desc = StageGimmick::GetDesc(obj);
 							jsonData.blockDesc.emplace_back(desc);
 						}
+						// Trigger
 						else if (obj["gimmick"]["type"] == "Trigger") {
 							BossAttackTrigger::Desc desc{};
 							desc.desc = StageGimmick::GetDesc(obj);
 							const auto& gimmick = obj["gimmick"];
 							desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-							jsonData.bossAttackTrigger.emplace_back(desc);
-
-						}// Trigger
-						else if (obj["gimmick"]["type"] == "Trigger") {
-							BossAttackTrigger::Desc desc{};
-							desc.desc = StageGimmick::GetDesc(obj);
-							const auto& gimmick = obj["gimmick"];
-							desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
+							if (gimmick.contains("beamVector")) {
+								desc.vector = gimmick["beamVector"].get<Vector3>();;
+							}
 							jsonData.bossAttackTrigger.emplace_back(desc);
 
 						}
@@ -319,6 +325,11 @@ void StageLoop::LoadJson() {
 							desc.index = gimmick["dropGimmickIndex"];
 							dropperDesc.emplace_back(desc);
 						}
+						else if (obj["gimmick"]["type"] == "DropGimmickBall") {
+							DropperBall::Desc desc{};
+							desc.desc = StageGimmick::GetDesc(obj);
+							jsonData.dropGimmickBallDesc.emplace_back(desc);
+						}
 					}
 					// StageArea
 					else if (obj["file_name"] == "stageArea") {
@@ -339,21 +350,22 @@ void StageLoop::LoadJson() {
 				}
 				// DropGimmickのソート
 				// １ステージにおけるスイッチのタイプの数
-				for (uint32_t i = 0; i < 100; i++) {
-					DropGimmick::Desc dropGimmickDesc{};
-					for (auto& desc : switchDesc) {
-						if (desc.index == i) {
-							dropGimmickDesc.switchDesc.emplace_back(desc);
-						}
-					}
-					for (auto& desc : dropperDesc) {
-						if (desc.index == i) {
-							dropGimmickDesc.dropperDesc.emplace_back(desc);
-						}
-					}
-					if (!dropGimmickDesc.switchDesc.empty() &&
-						!dropGimmickDesc.dropperDesc.empty()) {
-						jsonData.dropGimmickDesc.emplace_back(dropGimmickDesc);
+				std::unordered_map<uint32_t, DropGimmick::Desc> groupedDesc;
+
+				// switchDescをindexでグループ化
+				for (const auto& desc : switchDesc) {
+					groupedDesc[desc.index].switchDesc.emplace_back(desc);
+				}
+
+				// dropperDescをindexでグループ化
+				for (const auto& desc : dropperDesc) {
+					groupedDesc[desc.index].dropperDesc.emplace_back(desc);
+				}
+
+				// groupedDescからjsonData.dropGimmickDescを作成
+				for (auto& [index, dropGimmickDesc] : groupedDesc) {
+					if (!dropGimmickDesc.switchDesc.empty() && !dropGimmickDesc.dropperDesc.empty()) {
+						jsonData.dropGimmickDesc.emplace_back(std::move(dropGimmickDesc));
 					}
 				}
 
@@ -389,7 +401,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 		// 指定がなければランダム
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
 		}
 		else {
 			stageIndex = stageInputIndex;
@@ -419,14 +431,20 @@ void StageLoop::Clear() {
 	//trapManager_->Clear();
 }
 
-void StageLoop::CreateStage(uint32_t stageIndex) {
+void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	Clear();
 
 	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
+	uint32_t stageIndex;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 
-		stageIndex = rnd_.NextUIntRange(0, uint32_t(stageData_.size() - 1));
+		if (stageInputIndex == (uint32_t)-1) {
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
+		}
+		else {
+			stageIndex = stageInputIndex;
+		}
 
 		if (stageIndices.empty()) {
 			// ぎりぎりすぎないよう
@@ -474,6 +492,11 @@ void StageLoop::CreateStageObject(const Desc& stageData, float distance) {
 		for (auto& dropperDesc : mutableDesc.dropperDesc) {
 			dropperDesc.desc.transform.translate.z += distance;
 		}
+		dropGimmickManager_->Create(mutableDesc);
+	}
+	for (auto& desc : stageData.dropGimmickBallDesc) {
+		DropperBall::Desc mutableDesc = desc;
+		mutableDesc.desc.transform.translate.z += distance;
 		dropGimmickManager_->Create(mutableDesc);
 	}
 	for (auto& desc : stageData.pendulumDesc) {

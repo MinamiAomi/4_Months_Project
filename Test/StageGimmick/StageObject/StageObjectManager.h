@@ -6,9 +6,9 @@
 
 class StageObjectManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
 	void Create(const StageObject::Desc& desc);
 
@@ -16,8 +16,6 @@ public:
 
 	const std::list<std::unique_ptr<StageObject>>& GetStageObjects() const { return stageObjects_; }
 	void Delete(StageObject* stageObject);
-
-	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
 

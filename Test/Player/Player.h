@@ -28,6 +28,8 @@ public:
 
 	void Reset();
 
+	void HitDamage(uint32_t damege = (uint32_t)- 1);
+
 	const PlayerRevengeGage& GetRevengeGage() const { return *playerRevengeGage_.get(); }
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	Matrix4x4& GetWorldMatrix() { return transform.worldMatrix; }
@@ -94,6 +96,8 @@ private:
 	float beltConveyorVelocity_;
 	float animationTime_;
 	AnimationType animationType_;
+	float fromTransitionAnimationTime_;
+	bool animationTransition_;
 	// ステージギミックにヒットした
 	bool isHit_;
 	bool preIsHit_;

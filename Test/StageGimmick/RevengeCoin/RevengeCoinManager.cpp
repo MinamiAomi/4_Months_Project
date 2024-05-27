@@ -7,9 +7,8 @@
 
 #include "Externals/nlohmann/json.hpp"
 
-void RevengeCoinManager::Initialize(uint32_t stageIndex) {
+void RevengeCoinManager::Initialize() {
 	revengeCoins_.clear();
-	LoadJson(stageIndex);
 }
 
 void RevengeCoinManager::Update() {
@@ -18,9 +17,8 @@ void RevengeCoinManager::Update() {
 	}
 }
 
-void RevengeCoinManager::Reset(uint32_t stageIndex) {
+void RevengeCoinManager::Reset() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void RevengeCoinManager::Create(const RevengeCoin::Desc& desc) {
@@ -40,29 +38,6 @@ void RevengeCoinManager::Delete(RevengeCoin* revengeCoin) {
 	// block が見つかった場合は削除する
 	if (it != revengeCoins_.end()) {
 		revengeCoins_.erase(it);
-	}
-}
-
-void RevengeCoinManager::LoadJson(uint32_t stageIndex) {
-	stageIndex;
-	std::ifstream ifs(StageGimmick::stageScenePath_);
-	if (!ifs.is_open()) {
-		return;
-	}
-
-	// JSONをパースしてルートオブジェクトを取得
-	nlohmann::json root;
-	ifs >> root;
-	ifs.close();
-
-	// "objects"配列から"Block"オブジェクトを処理
-	for (const auto& obj : root["objects"]) {
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "RevengeCoin") {
-			RevengeCoin::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			Create(desc);
-		}
 	}
 }
 

@@ -164,10 +164,6 @@ void PendulumEditor::SaveFile(uint32_t stageName) {
 	file.close();*/
 }
 
-void PendulumEditor::LoadFile(uint32_t stageName) {
-	pendulumManager_->LoadJson(stageName);
-}
-
 void PendulumEditor::Clear() {
 	pendulumManager_->Clear();
 }

@@ -399,282 +399,6 @@
         },
         {
             "type": "MESH",
-            "name": "ベルトコンベア.001",
-            "transform": {
-                "translate": [
-                    0.0,
-                    0.004260198213160038,
-                    114.86477661132812
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "beltConveyor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    11.0,
-                    3.0,
-                    15.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "ベルトコンベア.002",
-            "transform": {
-                "translate": [
-                    -10.372745513916016,
-                    0.004260198213160038,
-                    162.87753295898438
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "beltConveyor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    11.0,
-                    3.0,
-                    15.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "ベルトコンベア.003",
-            "transform": {
-                "translate": [
-                    10.304231643676758,
-                    0.004260198213160038,
-                    162.87753295898438
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "beltConveyor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    11.0,
-                    3.0,
-                    15.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "ベルトコンベア.004",
-            "transform": {
-                "translate": [
-                    -11.0,
-                    0.004260198213160038,
-                    27.261064529418945
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "beltConveyor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    11.0,
-                    3.0,
-                    15.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "ベルトコンベア.005",
-            "transform": {
-                "translate": [
-                    0.0,
-                    0.004260198213160038,
-                    49.62424087524414
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "beltConveyor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    11.0,
-                    3.0,
-                    15.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "ベルトコンベア.006",
-            "transform": {
-                "translate": [
-                    11.0,
-                    0.004260198213160038,
-                    69.62423706054688
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "beltConveyor",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    11.0,
-                    3.0,
-                    15.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "BeltConveyor",
-                "beltConveyorVelocity": 0.1
-            }
-        },
-        {
-            "type": "MESH",
             "name": "Floor.028",
             "transform": {
                 "translate": [
@@ -852,7 +576,7 @@
                 "translate": [
                     10.342829704284668,
                     0.0,
-                    137.32763671875
+                    150.25396728515625
                 ],
                 "rotate": [
                     0.0,
@@ -861,9 +585,9 @@
                     1.0
                 ],
                 "scale": [
+                    1.5,
                     1.0,
-                    1.0,
-                    1.0
+                    1.5
                 ]
             },
             "file_name": "switch",
@@ -1165,6 +889,144 @@
             "gimmick": {
                 "type": "DropGimmickSwitch",
                 "dropGimmickIndex": 14
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.001",
+            "transform": {
+                "translate": [
+                    -0.9595201015472412,
+                    -5.3187336921691895,
+                    47.124183654785156
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    5.0,
+                    -0.0
+                ],
+                "size": [
+                    14.180000305175781,
+                    2.5299999713897705,
+                    12.670000076293945
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.002",
+            "transform": {
+                "translate": [
+                    -16.084779739379883,
+                    -5.3187336921691895,
+                    25.32227325439453
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    5.0,
+                    -0.0
+                ],
+                "size": [
+                    14.180000305175781,
+                    2.5299999713897705,
+                    12.670000076293945
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.003",
+            "transform": {
+                "translate": [
+                    13.776381492614746,
+                    -5.3187336921691895,
+                    70.0993881225586
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    5.0,
+                    -0.0
+                ],
+                "size": [
+                    14.180000305175781,
+                    2.5299999713897705,
+                    12.670000076293945
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
             }
         },
         {
@@ -1578,7 +1440,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 2
             }
         },
         {
@@ -1670,7 +1532,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 1
             }
         },
         {
@@ -1808,7 +1670,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 1
             }
         },
         {
@@ -1854,7 +1716,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 1
             }
         },
         {
@@ -1900,7 +1762,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 1
             }
         }
     ]

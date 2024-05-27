@@ -22,7 +22,7 @@ void Boss::Initialize() {
 
 	state_ = std::make_unique<BossStateManager>(*this);
 	state_->Initialize();
-	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+	state_->ChangeState(BossStateManager::State::kRoot);
 
 	bossHP_ = std::make_unique<BossHP>();
 	bossHP_->Initialize();
@@ -34,7 +34,7 @@ void Boss::Initialize() {
 	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
-	bossModelManager_->Initialize(&transform);
+	bossModelManager_->Initialize(&transform, player_);
 
 	// 隠す
 	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
@@ -50,7 +50,7 @@ void Boss::Initialize() {
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z });
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 5.0f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(~CollisionAttribute::Boss);
@@ -67,6 +67,7 @@ void Boss::Update() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
 		ImGui::DragFloat3("Pos", &transform.translate.x);
+		ImGui::DragFloat4("Rotate", &transform.rotate.x);
 		ImGui::DragFloat3("offset_", &offset_.x);
 		toCameraVector_ = camera_->GetPosition() - transform.worldMatrix.GetTranslate();
 		ImGui::Text("boss to camera Vector3  %f,%f,%f", toCameraVector_.x, toCameraVector_.y, toCameraVector_.z);
@@ -81,13 +82,16 @@ void Boss::Update() {
 	}
 	ImGui::End();
 #endif // _DEBUG
-	if (Character::IsSceneChange()) {
+	if (Character::IsInSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
-
+	
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
+		if (Character::IsOutSceneChange()) {
+			transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
+		}
 		if (isMove_) {
 			transform.translate.z += GameSpeed::GetGameSpeed();
 		}
@@ -95,6 +99,9 @@ void Boss::Update() {
 	break;
 	case Character::State::kRunAway:
 	{
+		if (Character::IsOutSceneChange()) {
+			transform.rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
+		}
 		if (isMove_) {
 			transform.translate.z -= GameSpeed::GetGameSpeed();
 		}
@@ -118,6 +125,7 @@ void Boss::Update() {
 				}
 				if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
 					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
+
 				}
 			}
 		}
@@ -130,6 +138,10 @@ void Boss::Update() {
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
+	bossModelManager_->Update();
+	if (bossHP_->GetCurrentHP() <= 0) {
+		isAlive_ = false;
+	}
 }
 
 void Boss::Reset(uint32_t stageIndex) {
@@ -142,7 +154,7 @@ void Boss::Reset(uint32_t stageIndex) {
 
 	transform.scale = Vector3::one;
 	transform.UpdateMatrix();
-	state_->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+	state_->ChangeState(BossStateManager::State::kRoot);
 	bossHP_->Reset();
 
 }
@@ -154,14 +166,13 @@ void Boss::UpdateTransform() {
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
-	bossModelManager_->Update();
 	collider_->DebugDraw();
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 	state_->OnCollision(collisionInfo);
 	if (collisionInfo.collider->GetName() == "Player") {
-		
+
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
@@ -184,7 +195,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		//一回目
 		isFirstHit_ = true;
 	}
-	
+
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {
 	//	switch (Character::currentCharacterState_) {
 	//	case Character::State::kChase:

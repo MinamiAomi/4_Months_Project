@@ -11,34 +11,23 @@
             0.25
         ]
     },
-    "StateAtacck": {
-        "jsonData_.attackData.attackEasingTime": 30.0,
-        "jsonData_.attackData.chargeEasingTime": 45.0,
-        "jsonData_.attackData.easingTime": 30.0,
-        "jsonData_.attackData.endPosition": [
-            1.5,
-            -0.30000001192092896,
-            0.0
-        ],
-        "jsonData_.attackData.endRotate": [
-            1.5707963705062866,
-            2.094395160675049,
-            0.0
-        ],
-        "jsonData_.attackData.rotate": [
-            1.5707963705062866,
+    "StateBeamAttack": {
+        "jsonData_.beamAttackData.attackEasingTime": 60.0,
+        "jsonData_.beamAttackData.chargeEasingTime": 90.0,
+        "jsonData_.beamAttackData.endPosition": [
             0.0,
-            0.0
-        ],
-        "jsonData_.attackData.startPosition": [
-            1.5,
-            -0.30000001192092896,
-            0.0
-        ],
-        "jsonData_.attackData.startRotate": [
-            1.5707963705062866,
             0.0,
-            0.0
+            50.0
+        ],
+        "jsonData_.beamAttackData.scale": [
+            30.0,
+            30.0,
+            100.0
+        ],
+        "jsonData_.beamAttackData.startPosition": [
+            -40.0,
+            0.0,
+            50.0
         ]
     },
     "StateFloorAll": {
@@ -61,7 +50,7 @@
         ]
     },
     "StateHook": {
-        "jsonData_.attackData.allFrame": 300.0,
+        "jsonData_.attackData.allFrame": 200.0,
         "jsonData_.attackData.attackEasingTime": 45.0,
         "jsonData_.attackData.chargeEasingTime": 45.0,
         "jsonData_.attackData.easingTime": 30.0,
@@ -99,10 +88,15 @@
             -6.0,
             -55.0
         ],
+        "jsonData_.insideAttackData.position": [
+            0.0,
+            -0.30000001192092896,
+            -60.0
+        ],
         "jsonData_.insideAttackData.scale": [
-            30.0,
-            3.0,
-            30.0
+            1.0,
+            1.0,
+            1.0
         ],
         "jsonData_.insideAttackData.startPosition": [
             -40.0,
@@ -130,17 +124,22 @@
         ]
     },
     "StateLowerAttack": {
-        "jsonData_.lowerAttackData.attackEasingTime": 30.0,
+        "jsonData_.lowerAttackData.attackEasingTime": 10.0,
         "jsonData_.lowerAttackData.chargeEasingTime": 60.0,
         "jsonData_.lowerAttackData.endPosition": [
             0.0,
-            -6.0,
+            0.0,
             -50.0
         ],
+        "jsonData_.lowerAttackData.position": [
+            0.0,
+            0.0,
+            -60.0
+        ],
         "jsonData_.lowerAttackData.scale": [
-            40.0,
-            4.0,
-            60.0
+            1.5,
+            0.4000000059604645,
+            1.5
         ],
         "jsonData_.lowerAttackData.startPosition": [
             0.0,
@@ -149,11 +148,14 @@
         ]
     },
     "StateRoot": {
+        "jsonData_.rootData.allFrame": 300.0,
         "jsonData_.rootData.velocity": 0.25
     },
     "bollLongDistanceAttack": {},
+    "bossBeamAttack": {},
     "bossBody": {},
     "bossFloorAll": {},
+    "bossLaser": {},
     "bossLeftArm": {
         "offset_": [
             20.0,

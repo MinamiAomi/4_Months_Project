@@ -7,12 +7,12 @@
 #include "Player/Player.h"
 #include "Boss/Boss.h"
 
-void DropperBall::Initialize(const Vector3& pos) {
+void DropperBall::Initialize(const Desc& desc) {
 	model_ = std::make_unique<ModelInstance>();
 
 	transform.scale = Vector3::one;
 	transform.rotate = Quaternion::identity;
-	transform.translate = pos;
+	transform.translate = desc.desc.transform.translate;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("dropBall"));
 	model_->SetIsActive(true);
@@ -20,7 +20,6 @@ void DropperBall::Initialize(const Vector3& pos) {
 	state_ = kDrop;
 
 	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
-	random_.z = rnd_.NextFloatRange(-5.0f, 5.0f);
 	random_.y = rnd_.NextFloatRange(30.0f, 40.0f);
 	isAlive_ = true;
 	time_ = 0.0f;
@@ -42,7 +41,6 @@ void DropperBall::Initialize(const Vector3& pos) {
 }
 
 void DropperBall::Update() {
-	camera_;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	Math::Sphere model{}, camera{};
 	model.center = (transform.worldMatrix.GetTranslate());
@@ -61,7 +59,7 @@ void DropperBall::Update() {
 			transform.translate = Vector3::QuadraticBezierCurve(
 				time_ / kMax,
 				setPos_,
-				setPos_ + random_ + Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f),
+				Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f) - setPos_ + random_,
 				boss_->transform.worldMatrix.GetTranslate());
 			time_ += 1.0f;
 			if (time_ >= kMax) {
@@ -75,7 +73,7 @@ void DropperBall::Update() {
 		model_->SetIsActive(false);
 		collider_->SetIsActive(false);
 	}
-	
+
 }
 
 void DropperBall::UpdateTransform() {
@@ -266,27 +264,42 @@ void DropGimmick::Update() {
 			isAllSwich = false;
 		}
 	}
-	for (auto it = dropperBall_.begin(); it != dropperBall_.end(); ) {
-		if (!(*it)->GetIsAlive()) {
-			it = dropperBall_.erase(it); // eraseは次のイテレータを返す
-		}
-		else {
-			(*it)->Update();
-			++it;
-		}
-	}
+	
 	for (auto& dropper : dropper_) {
 		dropper->Update();
 	}
 	if (!isCreate_ && isAllSwich) {
 		isCreate_ = true;
 		for (auto& dropper : dropper_) {
-			DropperBall* ball = new DropperBall();
-			ball->SetPlayer(player_);
-			ball->SetCamera(camera_);
-			ball->SetBoss(boss_);
-			ball->Initialize(dropper->transform.worldMatrix.GetTranslate());
-			dropperBall_.emplace_back(std::move(ball));
+			DropperBall::Desc desc{};
+			desc.desc.transform.translate = dropper->transform.worldMatrix.GetTranslate();
+			dropperBallManager_->Create(desc);
 		}
 	}
+}
+
+void DropperBallManager::Create(const DropperBall::Desc& desc) {
+	DropperBall* ball = new DropperBall();
+	ball->SetPlayer(player_);
+	ball->SetCamera(camera_);
+	ball->SetBoss(boss_);
+	ball->Initialize(desc);
+	dropperBalls_.emplace_back(std::move(ball));
+}
+
+void DropperBallManager::Update() {
+	for (auto it = dropperBalls_.begin(); it != dropperBalls_.end(); ) {
+		if (!(*it)->GetIsAlive()) {
+			it = dropperBalls_.erase(it); // eraseは次のイテレータを返す
+		}
+		else {
+			(*it)->Update();
+			++it;
+		}
+	}
+
+}
+
+void DropperBallManager::Reset() {
+	dropperBalls_.clear();
 }

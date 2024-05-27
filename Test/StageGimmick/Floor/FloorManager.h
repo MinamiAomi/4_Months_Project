@@ -8,9 +8,9 @@
 
 class FloorManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
 	void Create(const Floor::Desc& desc);
 
@@ -18,9 +18,6 @@ public:
 
 	const std::list<std::unique_ptr<Floor>>& GetFloors() const { return floors_; }
 	void DeleteFloor(Floor* block);
-
-	void LoadJson(uint32_t stageIndex);
-
 	void Clear();
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }

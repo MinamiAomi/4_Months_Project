@@ -17,7 +17,6 @@ public:
 
 	void SetFireManager(FireBarManager* fireBarManager) { fireBarManager_ = fireBarManager; }
 	void SaveFile(uint32_t stageName);
-	void LoadFile(uint32_t stageName);
 	void Clear();
 
 	void SetPlayer(const Player* player) { player_ = player; }

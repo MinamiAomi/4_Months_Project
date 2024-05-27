@@ -28,7 +28,7 @@ void StageCamera::Initialize() {
 }
 
 void StageCamera::Update() {
-	if (Character::IsSceneChange()) {
+	if (Character::IsInSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
 	switch (Character::currentCharacterState_) {

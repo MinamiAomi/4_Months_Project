@@ -14,7 +14,6 @@ namespace Character {
 
 	float GetSceneChangeTime() {
 		if (currentCharacterState_ == kScneChange) {
-			time_ += 1.0f;
 			float time = 0.0f;
 			switch (nextCharacterState_) {
 			case kChase:
@@ -26,12 +25,6 @@ namespace Character {
 			default:
 				break;
 			}
-			time = std::clamp(time, 0.0f, 1.0f);
-			if (time >= 1.0f) {
-				time_ = 0.0f;
-				currentCharacterState_ = nextCharacterState_;
-				isEndFirstChange_ = true;
-			}
 			return time;
 		}
 		return 0.0f;
@@ -40,8 +33,6 @@ namespace Character {
 	float GetSceneChangeT()
 	{
 		if (currentCharacterState_ == kScneChange) {
-		
-				time_ += 1.0f;
 				float time = 0.0f;
 				switch (nextCharacterState_) {
 				case kChase:
@@ -52,12 +43,6 @@ namespace Character {
 					break;
 				default:
 					break;
-				}
-				time = std::clamp(time, 0.0f, 1.0f);
-				if (time >= 1.0f) {
-					time_ = 0.0f;
-					currentCharacterState_ = nextCharacterState_;
-					isEndFirstChange_ = true;
 				}
 				return time;
 			
@@ -78,8 +63,12 @@ namespace Character {
 		time_ = 0.0f;
 	}
 
-	bool IsSceneChange() {
+	bool IsInSceneChange() {
 		return currentCharacterState_ == kScneChange && preCharacterState_ != kScneChange;
+	}
+
+	bool IsOutSceneChange() {
+		return currentCharacterState_ != kScneChange && preCharacterState_ == kScneChange;
 	}
 
 	void LoadJson() {
@@ -99,6 +88,7 @@ namespace Character {
 	}
 
 	void Update() {
+		preCharacterState_ = currentCharacterState_;
 		if (currentCharacterState_ == kScneChange) {
 			time_ += 1.0f;
 			float time = 0.0f;
@@ -119,7 +109,6 @@ namespace Character {
 				isEndFirstChange_ = true;
 			}
 		}
-		preCharacterState_ = currentCharacterState_;
 #ifdef _DEBUG
 		if (ImGui::BeginMenu("Character")) {
 			ImGui::DragFloat("toChaseTime_", &toChaseTime_);

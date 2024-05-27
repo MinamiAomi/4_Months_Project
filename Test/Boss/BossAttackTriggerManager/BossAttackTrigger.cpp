@@ -65,22 +65,23 @@ void BossAttackTrigger::SetIsAlive(bool flag) {
 }
 
 void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Boss")
+	if (collisionInfo.collider->GetName() == "Boss") {
+
 		if (boss_->GetStateManager()->GetState() == BossStateManager::State::kRoot &&
 			!isCollision_) {
 			if (Character::currentCharacterState_ == Character::kRunAway) {
 				switch (desc_.state) {
 				case BossStateManager::kRoot:
-					boss_->GetStateManager()->ChangeState<BossStateRoot>(BossStateManager::State::kRoot);
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kRoot);
 					break;
 				case BossStateManager::kHook:
-					boss_->GetStateManager()->ChangeState<BossStateHook>(BossStateManager::State::kHook);
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kHook);
 					break;
 				case BossStateManager::kLowerAttack:
-					boss_->GetStateManager()->ChangeState<BossStateLowerAttack>(BossStateManager::State::kLowerAttack);
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kLowerAttack);
 					break;
 				case BossStateManager::kInsideAttack:
-					boss_->GetStateManager()->ChangeState<BossStateInsideAttack>(BossStateManager::State::kInsideAttack);
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kInsideAttack);
 					break;
 				default:
 					break;
@@ -88,9 +89,39 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 
 			}
 			else {
+				switch (desc_.state) {
 
+				case BossStateManager::kBeamAttack:
+				{
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kBeamAttack);
+
+					// BossModelManager を取得
+					BossModelManager* bossModelManager = boss_->GetModelManager().get();
+					if (!bossModelManager) {
+						// エラーハンドリング: bossModelManager が null の場合
+						assert(0);
+					}
+
+					// kBeamAttack モデルを取得
+					auto& model = bossModelManager->GetModel(BossParts::kBeamAttack);
+
+					// BeamAttack 型にキャスト
+					BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(model.get());
+					if (beamAttackModel) {
+						// vector_ にアクセス
+						Vector3 vector = beamAttackModel->vector_ = desc_.vector;
+						// 必要な操作を行う
+
+					}
+				}
+				break;
+				default:
+					break;
+				}
 			}
 			isCollision_ = true;
 
 		}
+	}
+
 }
