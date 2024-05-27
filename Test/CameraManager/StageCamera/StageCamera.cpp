@@ -28,9 +28,7 @@ void StageCamera::Initialize() {
 }
 
 void StageCamera::Update() {
-	if (Character::IsInSceneChange()) {
-		easingStartPosition_ = transform.translate;
-	}
+	
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
@@ -66,11 +64,17 @@ void StageCamera::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
+
+
 		float t = Character::GetSceneChangeTime();
 		Vector3 offset{}, rotate{};
 		switch (Character::nextCharacterState_) {
 		case Character::State::kChase:
 		{
+
+			if (Character::IsInSceneChange()) {
+				easingStartPosition_ = transform.translate;
+			}
 
 			transform.translate.z = std::lerp(easingStartPosition_.z,player_->transform.worldMatrix.GetTranslate().z, t);
 			offset = {
@@ -88,11 +92,17 @@ void StageCamera::Update() {
 		break;
 		case Character::State::kRunAway:
 		{
+
+			if (Character::IsInSceneChange()) {
+				easingStartPosition_ = transform.translate;
+				easingStartOffset_ = camera_->GetPosition() - transform.translate;
+			}
+
 			transform.translate.z = std::lerp(easingStartPosition_.z, boss_->transform.worldMatrix.GetTranslate().z, t);
 			offset = {
-			std::lerp(cameraParam_.at(Character::State::kChase).offset.x, cameraParam_.at(Character::State::kRunAway).offset.x, t),
-			std::lerp(cameraParam_.at(Character::State::kChase).offset.y, cameraParam_.at(Character::State::kRunAway).offset.y, t),
-			std::lerp(cameraParam_.at(Character::State::kChase).offset.z, cameraParam_.at(Character::State::kRunAway).offset.z, t),
+			std::lerp(easingStartOffset_.x, cameraParam_.at(Character::State::kRunAway).offset.x, t),
+			std::lerp(easingStartOffset_.y, cameraParam_.at(Character::State::kRunAway).offset.y, t),
+			std::lerp(easingStartOffset_.z, cameraParam_.at(Character::State::kRunAway).offset.z, t),
 			};
 			rotate = {
 			std::lerp(cameraParam_.at(Character::State::kChase).eulerAngle.x, cameraParam_.at(Character::State::kRunAway).eulerAngle.x, t),

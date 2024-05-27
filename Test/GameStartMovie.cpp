@@ -6,6 +6,8 @@
 #include "Graphics/ImGuiManager.h"
 #include "Input/Input.h"
 #include "CharacterState.h"
+#include "Graphics/PostEffect.h"
+
 
 void GameStartMovie::Update() {
 	player_->GetModelInstance().SetColor({1.0f,1.0f,1.0f});
@@ -14,22 +16,24 @@ void GameStartMovie::Update() {
 		isInitialize_ = true;
 		player_->GetTransform().rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
 		closePos_ = { 0.0f,19.0f,-77.0f };
-		saveCameraPos_ = stageCamera_->GetCamera()->GetPosition();
+ 		saveCameraPos_ = stageCamera_->GetCamera()->GetPosition();
 	}	
 
 	//近づく
-	float t = float(frame_) / kCloseFrame;
+ 	float t = float(frame_) / kCloseFrame;
 	t = std::clamp(t, 0.0f, 1.0f);
 	if (t < 1.0f) {
-		camera_->SetPosition(Vector3::Lerp(t, saveCameraPos_, boss_->transform.worldMatrix.GetTranslate() + closePos_));
+		camera_->SetPosition(Vector3::Lerp(t, stageCamera_->GetCamera()->GetPosition(), boss_->transform.worldMatrix.GetTranslate() + closePos_));
+		PostEffect::blurT_ = 1.0f - t;
 	}
 	else {
 		//咆哮 カメラ戻る
+		PostEffect::blurT_ = 0.0f;
 		t = float(frame_ - kCloseFrame) / kRoarFrame;
 		t = std::clamp(t, 0.0f, 1.0f);
 		if (t < 1.0f) {
 			camera_->Shake({ 0.5f,0.5f,0.5f });
-			camera_->SetPosition(Vector3::Lerp(t, boss_->transform.worldMatrix.GetTranslate() + closePos_, saveCameraPos_));
+			camera_->SetPosition(Vector3::Lerp(t, boss_->transform.worldMatrix.GetTranslate() + closePos_, stageCamera_->GetCamera()->GetPosition()));
 			boss_->transform.rotate = Quaternion::MakeForYAxis(std::lerp(180.0f * Math::ToRadian, 0.0f, t));
 		}
 		else {
@@ -38,7 +42,7 @@ void GameStartMovie::Update() {
 	}
 
 	
-	boss_->UpdateTransform();
+ 	boss_->UpdateTransform();
 	camera_->UpdateMatrices();
 	frame_++;
 

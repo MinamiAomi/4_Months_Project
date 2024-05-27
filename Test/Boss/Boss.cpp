@@ -138,7 +138,6 @@ void Boss::Update() {
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
-	bossModelManager_->Update();
 	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
 	}
@@ -167,6 +166,7 @@ void Boss::UpdateTransform() {
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
 	collider_->DebugDraw();
+	bossModelManager_->Update();
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {

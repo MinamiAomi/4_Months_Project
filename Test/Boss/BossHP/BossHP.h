@@ -11,12 +11,18 @@ public:
 
 	void Reset();
 
-	void AddPlayerHitHP() { currentHP_ -= playerHitDamage_; }
-	void AddBallHitHP() { currentHP_ -= ballHitDamage_; }
+	void AddPlayerHitHP() {
+		currentHP_ -= playerHitDamage_; 
+		currentHP_ = std::clamp(currentHP_, 0, INT_MAX);
+	}
+	void AddBallHitHP() { 
+		currentHP_ -= ballHitDamage_;
+		currentHP_ = std::clamp(currentHP_, 0, INT_MAX);
+	}
 
 	const uint32_t GetCurrentHP() const { return currentHP_; }
 private:
-	uint32_t currentHP_;
+	int32_t currentHP_;
 
 	uint32_t ballHitDamage_;
 	uint32_t playerHitDamage_;

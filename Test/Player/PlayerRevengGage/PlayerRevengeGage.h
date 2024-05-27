@@ -4,11 +4,13 @@
 
 #include "CharacterState.h"
 
+class Boss;
+
 class PlayerRevengeGage {
 public:
 	static const float kMaxRevengeBar;
 
-	void Initialize();
+	void Initialize(Boss* boss);
 	void Update();
 	void Reset();
 	void SetIsMove(bool flag) { isMove_ = flag; }
@@ -17,6 +19,9 @@ public:
 
 	const float GetCurrentRevengeBarGage()const { return currentRevengeBarGage_; }
 private:
+
+	const Boss* boss_ = nullptr;
+
 	float addCoin_;
 	float addGageBar_;
 	float subGageBar_;

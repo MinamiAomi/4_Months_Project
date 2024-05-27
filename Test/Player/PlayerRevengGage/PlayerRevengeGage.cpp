@@ -3,12 +3,13 @@
 #include "Input/Input.h"
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
+#include "Boss/Boss.h"
 
 const float PlayerRevengeGage::kMaxRevengeBar = 100.0f;
 
-void PlayerRevengeGage::Initialize() {
+void PlayerRevengeGage::Initialize(Boss* boss) {
 	Reset();
-
+	boss_ = boss;
 	JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 	JSON_OBJECT("PlayerRevengeGage");
 	JSON_LOAD(addCoin_);
