@@ -56,7 +56,7 @@ private:
 };
 
 class Pendulum :
-	public GameObject {
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;

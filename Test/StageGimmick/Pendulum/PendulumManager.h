@@ -12,11 +12,11 @@ public:
 	void Update();
 	void Reset();
 
-	void Create(Pendulum::Desc desc);
+	void Create(Pendulum::Desc desc, uint32_t index);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<Pendulum>>& GetPendulums() const { return pendulums_; }
+	std::list<std::unique_ptr<Pendulum>>& GetPendulums() { return pendulums_; }
 	void DeletePendulum(Pendulum* block);
 
 	void Clear();

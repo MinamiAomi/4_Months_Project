@@ -7,9 +7,8 @@
 
 #include "Externals/nlohmann/json.hpp"
 
-void BlockManager::Initialize(uint32_t stageIndex) {
+void BlockManager::Initialize() {
 	blocks_.clear();
-	LoadJson(stageIndex);
 }
 
 void BlockManager::Update() {
@@ -24,15 +23,15 @@ void BlockManager::Update() {
 	}
 }
 
-void BlockManager::Reset(uint32_t stageIndex) {
+void BlockManager::Reset() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
-void BlockManager::Create(const Block::Desc& desc) {
+void BlockManager::Create(const Block::Desc& desc,uint32_t index) {
 	Block* block = new Block();
 	block->SetCamera(camera_);
 	block->SetPlayer(player_);
+	block->stageGimmickNumber = index;
 	block->Initialize(desc);
 	blocks_.emplace_back(std::move(block));
 }
@@ -49,28 +48,6 @@ void BlockManager::DeleteBlock(Block* block) {
 	}
 }
 
-void BlockManager::LoadJson(uint32_t stageIndex) {
-	stageIndex;
-	std::ifstream ifs(StageGimmick::stageScenePath_);
-	if (!ifs.is_open()) {
-		return;
-	}
-
-	// JSONをパースしてルートオブジェクトを取得
-	nlohmann::json root;
-	ifs >> root;
-	ifs.close();
-
-	// "objects"配列から"Block"オブジェクトを処理
-	for (const auto& obj : root["objects"]) {
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Block") {
-			Block::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			Create(desc);
-		}
-	}
-}
 
 
 void BlockManager::Clear() {

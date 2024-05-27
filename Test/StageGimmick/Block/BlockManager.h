@@ -8,18 +8,16 @@
 
 class BlockManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
-	void Create(const Block::Desc& desc);
+	void Create(const Block::Desc& desc, uint32_t index);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<Block>>& GetBlocks() const { return blocks_; }
+	std::list<std::unique_ptr<Block>>& GetBlocks() { return blocks_; }
 	void DeleteBlock(Block* block);
-
-	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
 

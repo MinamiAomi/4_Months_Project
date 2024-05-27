@@ -26,6 +26,11 @@ namespace StageGimmick {
 		std::string name;
 	};
 
+	class StageGimmickNumber {
+	public:
+		uint32_t stageGimmickNumber;
+	};
+
 	static const std::string stageScenePath_ = "Resources/Data/StageScene/stageScene.json";
 	//static const std::string stageScenePath_ = "Resources/Data/StageScene/debug.json";
 

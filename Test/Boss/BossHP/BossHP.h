@@ -1,23 +1,25 @@
 #pragma once
 
 #include <cstdint>
+#include <algorithm>
+#include <climits>
 
 class BossHP {
 public:
-	static const uint32_t kMaxHP = 20;
+	static const int32_t kMaxHP = 20;
 
 	void Initialize();
 	void Update();
 
 	void Reset();
 
-	void AddPlayerHitHP() { currentHP_ -= playerHitDamage_; }
-	void AddBallHitHP() { currentHP_ -= ballHitDamage_; }
+	void AddPlayerHitHP();
+	void AddBallHitHP();
 
-	const uint32_t GetCurrentHP() const { return currentHP_; }
+	const int32_t GetCurrentHP() const { return currentHP_; }
 private:
-	uint32_t currentHP_;
+	int32_t currentHP_;
 
-	uint32_t ballHitDamage_;
-	uint32_t playerHitDamage_;
+	int32_t ballHitDamage_;
+	int32_t playerHitDamage_;
 };

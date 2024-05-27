@@ -10,11 +10,11 @@ public:
 	void Update();
 	void Reset();
 
-	void Create(const StageObject::Desc& desc);
+	void Create(const StageObject::Desc& desc, uint32_t index);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<StageObject>>& GetStageObjects() const { return stageObjects_; }
+	std::list<std::unique_ptr<StageObject>>& GetStageObjects() { return stageObjects_; }
 	void Delete(StageObject* stageObject);
 
 	void Clear();

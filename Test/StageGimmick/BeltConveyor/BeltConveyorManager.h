@@ -8,18 +8,16 @@
 
 class BeltConveyorManager {
 public:
-	void Initialize(uint32_t stageIndex);
+	void Initialize();
 	void Update();
-	void Reset(uint32_t stageIndex);
+	void Reset();
 
-	void Create(const BeltConveyor::Desc& desc);
+	void Create(const BeltConveyor::Desc& desc, uint32_t index);
 
 	void SetPlayer(Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<BeltConveyor>>& GetBlocks() const { return beltConveyor_; }
+	std::list<std::unique_ptr<BeltConveyor>>& GetBlocks() { return beltConveyor_; }
 	void Delete(BeltConveyor* beltConveyor);
-
-	void LoadJson(uint32_t stageIndex);
 
 	void Clear();
 

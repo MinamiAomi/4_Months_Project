@@ -21,11 +21,12 @@ void FloorManager::Reset() {
 	Clear();
 }
 
-void FloorManager::Create(const Floor::Desc& desc) {
+void FloorManager::Create(const Floor::Desc& desc, uint32_t index) {
 	Floor* floor = new Floor();
 	floor->SetCamera(camera_);
 	floor->SetPlayer(player_);
 	floor->Initialize(desc);
+	floor->stageGimmickNumber=index;
 	floors_.emplace_back(std::move(floor));
 }
 

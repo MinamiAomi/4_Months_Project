@@ -179,9 +179,9 @@ void BossAttackTriggerEditor::SaveFile(uint32_t stageName) {
 	//file.close();
 }
 
-void BossAttackTriggerEditor::LoadFile(uint32_t stageName) {
-	bossAttackTriggerManager_->LoadJson(stageName);
-}
+//void BossAttackTriggerEditor::LoadFile(uint32_t stageName) {
+//	bossAttackTriggerManager_->LoadJson(stageName);
+//}
 
 void BossAttackTriggerEditor::Clear() {
 	bossAttackTriggerManager_->Clear();

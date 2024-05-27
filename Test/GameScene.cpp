@@ -107,6 +107,8 @@ void GameScene::OnInitialize() {
 	pause_->Initialize();
 
 	gameStartMovie_->ResetIsEnd();
+
+	Character::isEndFirstChange_ = false;
 }
 
 void GameScene::OnUpdate() {
