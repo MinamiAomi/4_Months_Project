@@ -11,6 +11,7 @@
 #include "Scene/SceneManager.h"
 #include "Framework/ResourceManager.h"
 #include "TitleScene.h"
+#include "Debug/Debug.h"
 
 void GameScene::OnInitialize() {
 
@@ -196,8 +197,10 @@ void GameScene::OnUpdate() {
 			cutIn_->Update();
 
 			// 当たり判定を取る
-
-			CollisionManager::GetInstance()->CheckCollision();
+			auto time = Debug::ElapsedTime([&]() {
+				CollisionManager::GetInstance()->CheckCollision();
+				});
+			Debug::Log(std::format("Collision : {}\n", time));
 
 			cameraManager_->Update();
 			GameSpeed::Update();
