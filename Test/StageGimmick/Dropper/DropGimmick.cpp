@@ -59,7 +59,7 @@ void DropperBall::Update() {
 			transform.translate = Vector3::QuadraticBezierCurve(
 				time_ / kMax,
 				setPos_,
-				Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z * 0.5f) - setPos_ + random_,
+				Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z+((setPos_.z-boss_->transform.worldMatrix.GetTranslate().z)*0.5f)) + random_,
 				boss_->transform.worldMatrix.GetTranslate());
 			time_ += 1.0f;
 			if (time_ >= kMax) {
