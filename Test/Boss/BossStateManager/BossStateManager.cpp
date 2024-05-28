@@ -306,7 +306,7 @@ void BossStateLowerAttack::ChargeUpdate() {
 }
 
 void BossStateLowerAttack::AttackUpdate() {
-	float t = time_ / data_.chargeEasingTime;
+	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
@@ -460,7 +460,7 @@ void BossStateBeamAttack::ChargeUpdate() {
 }
 
 void BossStateBeamAttack::AttackUpdate() {
-	float t = time_ / data_.chargeEasingTime;
+	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	if (t >= 1.0f) {

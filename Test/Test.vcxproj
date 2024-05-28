@@ -55,6 +55,7 @@
     <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
     <ClCompile Include="Player\PlayerBullet\BulletManager.cpp" />
     <ClCompile Include="Player\PlayerBullet\PlayerBullet.cpp" />
+    <ClCompile Include="Player\PlayerHanmmer\PlayerHammer.cpp" />
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="Player\PlayerAttack\PlayerAttackManager.h" />
     <ClInclude Include="Player\PlayerBullet\BulletManager.h" />
     <ClInclude Include="Player\PlayerBullet\PlayerBullet.h" />
+    <ClInclude Include="Player\PlayerHanmmer\PlayerHammer.h" />
     <ClInclude Include="Player\PlayerHP\PlayerHP.h" />
     <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
