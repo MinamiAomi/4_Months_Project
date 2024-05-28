@@ -3,7 +3,142 @@
     "objects": [
         {
             "type": "MESH",
-            "name": "Floor.035",
+            "name": "block.061",
+            "transform": {
+                "translate": [
+                    0.49062442779541016,
+                    2.0070700645446777,
+                    205.4596710205078
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    10.214694023132324,
+                    8.779204368591309,
+                    14.524188995361328
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    0.7600002288818359,
+                    0.9800000190734863,
+                    0.8500001430511475
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Block"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "block.062",
+            "transform": {
+                "translate": [
+                    -8.838964462280273,
+                    2.0070700645446777,
+                    238.44728088378906
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    10.214694023132324,
+                    8.779204368591309,
+                    14.524188995361328
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    0.7600002288818359,
+                    0.9800000190734863,
+                    0.8500001430511475
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Block"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "block.063",
+            "transform": {
+                "translate": [
+                    10.28675651550293,
+                    2.0070700645446777,
+                    238.44728088378906
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    10.214694023132324,
+                    8.779204368591309,
+                    14.524188995361328
+                ]
+            },
+            "file_name": "block",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    0.7600002288818359,
+                    0.9800000190734863,
+                    0.8500001430511475
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Block"
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Floor.020",
             "transform": {
                 "translate": [
                     0.0,
@@ -45,7 +180,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.036",
+            "name": "Floor.021",
             "transform": {
                 "translate": [
                     0.0,
@@ -86,8 +221,92 @@
             }
         },
         {
+            "type": "MESH",
+            "name": "飛び石.033",
+            "transform": {
+                "translate": [
+                    11.0,
+                    0.0,
+                    26.923044204711914
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "stones",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    10.920000076293945,
+                    2.380000114440918,
+                    16.610000610351562
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "飛び石.037",
+            "transform": {
+                "translate": [
+                    -11.0,
+                    0.0,
+                    69.62423706054688
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "stones",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    10.920000076293945,
+                    2.380000114440918,
+                    16.610000610351562
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            }
+        },
+        {
             "type": "EMPTY",
-            "name": "ステージエリア１.001",
+            "name": "ステージエリア１",
             "transform": {
                 "translate": [
                     0.0,
@@ -129,7 +348,58 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.037",
+            "name": "振り子バー.001",
+            "transform": {
+                "translate": [
+                    2.7549638748168945,
+                    18.0,
+                    149.62423706054688
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Pendulum",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "Pendulum",
+                "length": 15,
+                "angle": 20,
+                "initializeAngle": 5,
+                "gravity": 0.02,
+                "stickScale": 1,
+                "ballScale": 1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Floor.028",
             "transform": {
                 "translate": [
                     0.0,
@@ -171,7 +441,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.038",
+            "name": "Floor.032",
             "transform": {
                 "translate": [
                     0.0,
@@ -213,7 +483,7 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.039",
+            "name": "Floor.033",
             "transform": {
                 "translate": [
                     0.0,
@@ -255,12 +525,12 @@
         },
         {
             "type": "MESH",
-            "name": "Floor.040",
+            "name": "ダクト（仮）.001",
             "transform": {
                 "translate": [
-                    0.0,
-                    0.0,
-                    48.03047180175781
+                    10.342829704284668,
+                    35.13273239135742,
+                    123.3380126953125
                 ],
                 "rotate": [
                     0.0,
@@ -274,7 +544,7 @@
                     1.0
                 ]
             },
-            "file_name": "floor",
+            "file_name": "dropper",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -283,21 +553,485 @@
                     -0.0
                 ],
                 "size": [
-                    100.32999420166016,
                     2.0,
-                    35.90999984741211
+                    2.0,
+                    2.0
                 ],
                 "rotate": [
                     0.0,
-                    -0.7071067690849304,
                     -0.0,
-                    0.7071067690849304
+                    -0.0,
+                    1.0
                 ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 11
             }
         },
         {
             "type": "MESH",
-            "name": "たてもの３.039",
+            "name": "スイッチ.001",
+            "transform": {
+                "translate": [
+                    10.342829704284668,
+                    0.0,
+                    150.25396728515625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.5,
+                    1.0,
+                    1.5
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 11
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    35.13273239135742,
+                    -8.89666748046875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 12
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.002",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    5.0929412841796875
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 12
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.003",
+            "transform": {
+                "translate": [
+                    9.716134071350098,
+                    35.13273239135742,
+                    -107.29261779785156
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 13
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.003",
+            "transform": {
+                "translate": [
+                    9.716134071350098,
+                    0.0,
+                    -93.30302429199219
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 13
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.004",
+            "transform": {
+                "translate": [
+                    0.0,
+                    35.13273239135742,
+                    -205.80557250976562
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 14
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.004",
+            "transform": {
+                "translate": [
+                    0.0,
+                    0.0,
+                    -191.81597900390625
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 14
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.001",
+            "transform": {
+                "translate": [
+                    -0.9595201015472412,
+                    -5.3187336921691895,
+                    47.124183654785156
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    5.0,
+                    -0.0
+                ],
+                "size": [
+                    14.180000305175781,
+                    2.5299999713897705,
+                    12.670000076293945
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.002",
+            "transform": {
+                "translate": [
+                    -16.084779739379883,
+                    -5.3187336921691895,
+                    25.32227325439453
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    5.0,
+                    -0.0
+                ],
+                "size": [
+                    14.180000305175781,
+                    2.5299999713897705,
+                    12.670000076293945
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ベルトコンベア・新.003",
+            "transform": {
+                "translate": [
+                    13.776381492614746,
+                    -5.3187336921691895,
+                    70.0993881225586
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "beltConveyor",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    5.0,
+                    -0.0
+                ],
+                "size": [
+                    14.180000305175781,
+                    2.5299999713897705,
+                    12.670000076293945
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "BeltConveyor",
+                "beltConveyorVelocity": 0.1
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "たてもの３.018",
             "transform": {
                 "translate": [
                     90.0,
@@ -320,7 +1054,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの３.040",
+            "name": "たてもの３.019",
             "transform": {
                 "translate": [
                     -90.0,
@@ -343,7 +1077,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.047",
+            "name": "たてもの２.026",
             "transform": {
                 "translate": [
                     -90.0,
@@ -366,7 +1100,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.048",
+            "name": "たてもの２.027",
             "transform": {
                 "translate": [
                     90.0,
@@ -389,7 +1123,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.067",
+            "name": "たてもの.029",
             "transform": {
                 "translate": [
                     -90.0,
@@ -412,7 +1146,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.068",
+            "name": "たてもの.030",
             "transform": {
                 "translate": [
                     -90.0,
@@ -435,7 +1169,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.069",
+            "name": "たてもの.033",
             "transform": {
                 "translate": [
                     90.0,
@@ -458,7 +1192,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.070",
+            "name": "たてもの.034",
             "transform": {
                 "translate": [
                     90.0,
@@ -481,7 +1215,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの３.041",
+            "name": "たてもの３.031",
             "transform": {
                 "translate": [
                     90.0,
@@ -504,7 +1238,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの３.042",
+            "name": "たてもの３.032",
             "transform": {
                 "translate": [
                     -90.0,
@@ -527,7 +1261,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.049",
+            "name": "たてもの２.039",
             "transform": {
                 "translate": [
                     -90.0,
@@ -550,7 +1284,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの２.050",
+            "name": "たてもの２.040",
             "transform": {
                 "translate": [
                     90.0,
@@ -573,7 +1307,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.071",
+            "name": "たてもの.054",
             "transform": {
                 "translate": [
                     -90.0,
@@ -596,7 +1330,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.072",
+            "name": "たてもの.055",
             "transform": {
                 "translate": [
                     -90.0,
@@ -619,7 +1353,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.073",
+            "name": "たてもの.057",
             "transform": {
                 "translate": [
                     90.0,
@@ -642,7 +1376,7 @@
         },
         {
             "type": "MESH",
-            "name": "たてもの.074",
+            "name": "たてもの.058",
             "transform": {
                 "translate": [
                     90.0,
@@ -665,7 +1399,7 @@
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.031",
+            "name": "ボストリガーLower.004",
             "transform": {
                 "translate": [
                     0.0,
@@ -706,17 +1440,17 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 2
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.032",
+            "name": "ボストリガーLower.006",
             "transform": {
                 "translate": [
                     0.0,
                     15.813758850097656,
-                    99.9528579711914
+                    90.408203125
                 ],
                 "rotate": [
                     0.0,
@@ -752,12 +1486,12 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 1
+                "state": 0
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.033",
+            "name": "ボストリガーLower.013",
             "transform": {
                 "translate": [
                     0.0,
@@ -798,12 +1532,12 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 1
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.034",
+            "name": "ボストリガーLower.014",
             "transform": {
                 "translate": [
                     0.0,
@@ -844,12 +1578,12 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 1
+                "state": 0
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.035",
+            "name": "ボストリガーLower.015",
             "transform": {
                 "translate": [
                     0.0,
@@ -895,7 +1629,7 @@
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.036",
+            "name": "ボストリガーLower.016",
             "transform": {
                 "translate": [
                     0.0,
@@ -941,7 +1675,7 @@
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.037",
+            "name": "ボストリガーLower.017",
             "transform": {
                 "translate": [
                     0.0,
@@ -982,12 +1716,12 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 0
+                "state": 1
             }
         },
         {
             "type": "EMPTY",
-            "name": "ボストリガーLower.038",
+            "name": "ボストリガーLower.018",
             "transform": {
                 "translate": [
                     0.0,
