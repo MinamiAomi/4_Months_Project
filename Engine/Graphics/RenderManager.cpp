@@ -7,6 +7,8 @@
 #include "Math/Color.h"
 #include "Model.h"
 
+#include "Debug/Debug.h"
+
 #ifdef ENABLE_IMGUI
 static bool enableDebugDraw = false;
 static bool useBloom = true;
@@ -103,7 +105,26 @@ void RenderManager::Render() {
         // 影、スペキュラ
         assert(!lightManager_.GetDirectionalLight().empty());
         raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
-        geometryRenderingPass_.Render(commandContext_, *camera, modelSorter_);
+        
+
+#ifdef ENABLE_IMGUI
+        if (!enableDebugDraw) {
+#endif // ENABLE_IMGUI
+            geometryRenderingPass_.Render(commandContext_, *camera, modelSorter_);
+#ifdef ENABLE_IMGUI
+        }
+        else {
+            commandContext_.TransitionResource(geometryRenderingPass_.GetAlbedo(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+            commandContext_.TransitionResource(geometryRenderingPass_.GetMetallicRoughness(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+            commandContext_.TransitionResource(geometryRenderingPass_.GetNormal(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+            commandContext_.TransitionResource(geometryRenderingPass_.GetDepth(), D3D12_RESOURCE_STATE_DEPTH_WRITE);
+
+            commandContext_.ClearColor(geometryRenderingPass_.GetAlbedo());
+            commandContext_.ClearColor(geometryRenderingPass_.GetMetallicRoughness());
+            commandContext_.ClearColor(geometryRenderingPass_.GetNormal());
+            commandContext_.ClearDepth(geometryRenderingPass_.GetDepth());
+        }
+#endif // ENABLE_IMGUI
 #ifdef ENABLE_IMGUI
         if (useEdge) {
 #endif // ENABLE_IMGUI
@@ -144,7 +165,7 @@ void RenderManager::Render() {
             skyRenderer_.Render(commandContext_, *camera, Matrix4x4::MakeAffineTransform({ skyScale, skyScale, skyScale }, Quaternion::identity, camera->GetPosition()));
 
 #ifdef ENABLE_IMGUI
-            if (useFog) {
+            if (useFog && !enableDebugDraw) {
 #endif // ENABLE_IMGUI
                 fog_.Render(commandContext_, *camera, lightingRenderingPass_.GetResult(), skyTexture_, geometryRenderingPass_.GetDepth());
 #ifdef ENABLE_IMGUI
@@ -250,8 +271,10 @@ void RenderManager::Render() {
     commandContext_.Finish(false);
 
     graphics_->GetReleasedObjectTracker().FrameIncrementForRelease();
-
-    timer_.KeepFrameRate(60);
+    auto time = Debug::ElapsedTime([&]() {
+        timer_.KeepFrameRate(60);
+        });
+    Debug::Log(std::format("eeee {}\n", time));
 
     imguiManager->NewFrame();
     // ライトをリセット
