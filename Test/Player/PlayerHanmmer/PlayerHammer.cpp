@@ -2,6 +2,7 @@
 #include "Player/Player.h"
 #include "Framework/ResourceManager.h"
 #include "Player/Player.h"
+#include "CharacterState.h"
 
 void PlayerHammer::Initialize(const Player* player) {
 	player_ = player;
