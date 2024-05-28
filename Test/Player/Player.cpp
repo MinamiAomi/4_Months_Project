@@ -34,6 +34,8 @@ void Player::Initialize() {
     model_ = std::make_unique<ModelInstance>();
     model_->SetModel(ResourceManager::GetInstance()->FindModel("player"));
     model_->SetIsActive(true);
+    model_->SetForemostColor({ 0.5f, 0.5f,0.5f });
+    model_->SetForemostDraw(true);
 
     playerHP_ = std::make_unique<PlayerHP>();
     playerUI_ = std::make_unique<PlayerUI>();

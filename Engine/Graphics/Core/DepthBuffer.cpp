@@ -30,6 +30,7 @@ void DepthBuffer::CreateArray(const std::wstring& name, uint32_t width, uint32_t
 void DepthBuffer::CreateViews() {
     D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+    dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
     dsvDesc.Format = Helper::GetDSVFormat(format_);
     srvDesc.Format = Helper::GetDepthFormat(format_);
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -55,15 +56,23 @@ void DepthBuffer::CreateViews() {
         srvDesc.Texture2D.MostDetailedMip = 0;
     }
 
+    D3D12_DEPTH_STENCIL_VIEW_DESC dsvDescs[NumDSVs]{};
+    for (uint32_t i = 0; i < (uint32_t)NumDSVs; ++i) {
+        dsvDescs[i] = dsvDesc;
+    }
+    dsvDescs[ReadOnly].Flags = D3D12_DSV_FLAG_READ_ONLY_DEPTH;
+
     auto graphics = Graphics::GetInstance();
-    if (dsvHandle_.IsNull()) {
-        dsvHandle_ = graphics->AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+    auto device = graphics->GetDevice();
+    for (uint32_t i = 0; i < (uint32_t)NumDSVs; ++i) {
+        if (dsvHandles_[i].IsNull()) {
+            dsvHandles_[i] = graphics->AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+        }
+        device->CreateDepthStencilView(resource_.Get(), &dsvDescs[i], dsvHandles_[i]);
     }
     if (srvHandle_.IsNull()) {
         srvHandle_ = graphics->AllocateDescriptor(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
     }
-
-    auto device = graphics->GetDevice();
-    device->CreateDepthStencilView(resource_.Get(), &dsvDesc, dsvHandle_);
     device->CreateShaderResourceView(resource_.Get(), &srvDesc, srvHandle_);
+
 }

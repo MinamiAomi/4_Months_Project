@@ -24,6 +24,7 @@
 #include "LineDrawer.h"
 #include "App/SkyRenderer.h"
 #include "App/Fog.h"
+#include "App/ForemostRenderer.h"
 #include "Edge.h"
 #include "ChaseEffect.h"
 #include "WhiteFilter.h"
@@ -88,6 +89,7 @@ private:
     ColorBuffer skyTexture_;
     SkyRenderer skyRenderer_;
     Fog fog_;
+    ForemostRenderer foremostRenderer_;
     Matrix4x4 skyTransform_;
 
     Timer timer_;

@@ -67,7 +67,7 @@ void RenderManager::Initialize() {
     skyTexture_.Create(L"SkyTexture", lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM, false);
     skyRenderer_.Initialize(skyTexture_.GetRTVFormat());
     fog_.Initialize();
-
+    foremostRenderer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat(), geometryRenderingPass_.GetDepth().GetFormat());
     edge_.Initialize(&lightingRenderingPass_.GetResult());
 
     chaseEffect_.Initialize(&lightingRenderingPass_.GetResult());
@@ -113,6 +113,12 @@ void RenderManager::Render() {
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
         lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+
+        commandContext_.TransitionResource(geometryRenderingPass_.GetDepth(), D3D12_RESOURCE_STATE_DEPTH_READ);
+        commandContext_.TransitionResource(lightingRenderingPass_.GetResult(), D3D12_RESOURCE_STATE_RENDER_TARGET);
+        commandContext_.SetRenderTarget(lightingRenderingPass_.GetResult().GetRTV(), geometryRenderingPass_.GetDepth().GetDSV(DepthBuffer::ReadOnly));
+        commandContext_.SetViewportAndScissorRect(0, 0, lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+        foremostRenderer_.Render(commandContext_, *camera, modelSorter_);
 
 #ifdef _DEBUG
         if (enableDebugDraw) {

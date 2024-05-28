@@ -199,6 +199,7 @@
     </ClCompile>
     <ClCompile Include="Graphics\Animation.cpp" />
     <ClCompile Include="Graphics\App\Fog.cpp" />
+    <ClCompile Include="Graphics\App\ForemostRenderer.cpp" />
     <ClCompile Include="Graphics\App\SkyRenderer.cpp" />
     <ClCompile Include="Graphics\App\Voronoi.cpp" />
     <ClCompile Include="Graphics\Bloom.cpp" />
@@ -328,6 +329,7 @@
     </ClInclude>
     <ClInclude Include="Graphics\Animation.h" />
     <ClInclude Include="Graphics\App\Fog.h" />
+    <ClInclude Include="Graphics\App\ForemostRenderer.h" />
     <ClInclude Include="Graphics\App\SkyRenderer.h" />
     <ClInclude Include="Graphics\App\Voronoi.h" />
     <ClInclude Include="Graphics\Bloom.h" />
@@ -710,6 +712,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shader\Standard\SkinningCS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Graphics\Shader\App\ForemostVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Graphics\Shader\App\ForemostPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Demo|x64'">true</ExcludedFromBuild>

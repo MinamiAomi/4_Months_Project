@@ -86,6 +86,8 @@ public:
     void SetWorldMatrix(const Matrix4x4& worldMatrix) { worldMatrix_ = worldMatrix; }
     void SetColor(const Vector3& color) { color_ = color; }
     void SetAlpha(float alpha) { alpha_ = alpha; }
+    void SetForemostColor(const Vector3& color) { foremostColor_ = color; }
+    void SetForemostDraw(bool foremostDraw) { foremostDraw_ = foremostDraw; }
     void SetReciveShadow(bool reciveShadow) { reciveShadow_ = reciveShadow; }
     void SetCastShadow(bool castShadow) { castShadow_ = castShadow; }
     void SetReflection(bool reflection) { reflection_ = reflection; }
@@ -97,6 +99,8 @@ public:
     const Matrix4x4& GetWorldMatrix() const { return worldMatrix_; }
     const Vector3& GetColor() const { return color_; }
     float GetAlpha() const { return alpha_; }
+    const Vector3& GetForemostColor() const { return foremostColor_; }
+    bool ForemostDraw() const { return foremostDraw_; }
     bool ReciveShadow() const { return reciveShadow_; }
     bool CastShadow() const { return castShadow_; }
     bool Reflection() const { return reflection_; }
@@ -111,7 +115,9 @@ private:
     Matrix4x4 worldMatrix_;
     Vector3 color_ = Vector3::one;
     float alpha_ = 1.0f;
+    Vector3 foremostColor_ = Vector3::one;
 
+    bool foremostDraw_ = false;
     bool reciveShadow_ = true;
     bool castShadow_ = true;
     bool reflection_ = false;

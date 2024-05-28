@@ -35,7 +35,7 @@ void InitializeSurfaceProperties(PSInput input) {
     float4 tmpPosition = float4(xy, depth, 1.0f);
     tmpPosition = mul(tmpPosition, g_Scene.viewProjectionInverseMatrix);
     Position = tmpPosition.xyz / tmpPosition.w;
-    Normal = g_Normal.SampleLevel(g_Sampler, input.texcoord, 0) * 2.0f - 1.0f;
+    Normal = g_Normal.SampleLevel(g_Sampler, input.texcoord, 0).xyz * 2.0f - 1.0f;
     ViewDirection = normalize(g_Scene.cameraPosition - Position);
     Albedo = g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).xyz;
     Metallic = g_MetallicRoughness.SampleLevel(g_Sampler, input.texcoord, 0).x;

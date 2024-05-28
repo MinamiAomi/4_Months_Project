@@ -19,8 +19,10 @@ public:
 
     const std::map<Key, std::vector<ModelInstance*>>& GetModelInstanceMap() const { return modelInstanceMap_; }
     const std::vector<ModelInstance*>& GetDrawModels() const { return drawModels_; }
+    const std::vector<ModelInstance*>& GetForemostDrawModels() const { return foremostDrawModels_; }
 
 private:
     std::map<Key, std::vector<ModelInstance*>> modelInstanceMap_;
     std::vector<ModelInstance*> drawModels_;
+    std::vector<ModelInstance*> foremostDrawModels_;
 };

@@ -3,6 +3,7 @@
 void ModelSorter::Sort(const Camera& camera) {
     modelInstanceMap_.clear();
     drawModels_.clear();
+    foremostDrawModels_.clear();
     camera;
     auto& instanceList = ModelInstance::GetInstanceList();
     size_t numDrawModels = 0;
@@ -10,6 +11,7 @@ void ModelSorter::Sort(const Camera& camera) {
         auto model = instance->GetModel().get();
         auto skeleton = instance->GetSkeleton().get();
         if (!(instance->IsActive() && model != nullptr)) { continue; }
+        if (instance->ForemostDraw()) { foremostDrawModels_.emplace_back(instance); }
         Key key{ model, skeleton };
         modelInstanceMap_[key].emplace_back(instance);
         ++numDrawModels;
