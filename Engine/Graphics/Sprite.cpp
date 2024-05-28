@@ -1,6 +1,7 @@
 #include "Sprite.h"
 
 #include "Core/SamplerManager.h"
+#include "GameWindow.h"
 
 std::shared_ptr<Texture> Texture::Load(const std::filesystem::path& path) {
 		// privateコンストラクタをmake_sharedで呼ぶためのヘルパー
@@ -11,6 +12,8 @@ std::shared_ptr<Texture> Texture::Load(const std::filesystem::path& path) {
 	texture->resource_.CreateFromWICFile(path);
 	return texture;
 }
+
+
 
 const DescriptorHandle& Texture::GetSampler() const {
 	switch (interpolation_) {
@@ -42,4 +45,29 @@ Sprite::Sprite() {
 
 Sprite::~Sprite() {
 	instanceList_.remove(this);
+}
+
+void Sprite::SetPosition(const Vector2& position)
+{
+	GameWindow* w = GameWindow::GetInstance();
+	float y	= position.y / w->GetClientHeight();
+	float x = position.x / w->GetClientWidth();
+	RECT rect;
+	GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
+	float width = float(rect.right - rect.left);
+	float height = float(rect.bottom - rect.top);
+	position_ = { width * x,height * y};
+}
+
+void Sprite::SetScale(const Vector2& scale)
+{
+	GameWindow* w = GameWindow::GetInstance();
+	RECT rect;
+	GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
+	float width = float(rect.right - rect.left);
+	float height = float(rect.bottom - rect.top);
+
+	float x = width / w->GetClientWidth();
+	float y = height / w->GetClientHeight();
+	scale_ = Vector2{ scale.x * x,scale.y * y };
 }

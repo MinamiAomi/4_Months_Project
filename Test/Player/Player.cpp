@@ -80,6 +80,9 @@ void Player::Initialize() {
 	model_->SetSkeleton(skeleton_);
 	animationType_ = IdleAnimation;
 
+	hammer_ = std::make_unique<PlayerHammer>();
+	hammer_->Initialize(this);
+
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
 }
@@ -315,6 +318,7 @@ void Player::UpdateTransform() {
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 	collider_->DebugDraw();
+	hammer_->UpdateTransform();
 }
 
 void Player::SceneChangeUpdate() {
