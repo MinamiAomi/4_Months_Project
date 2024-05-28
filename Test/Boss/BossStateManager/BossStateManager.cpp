@@ -61,9 +61,9 @@ void BossStateManager::OnCollision(const CollisionInfo& collisionInfo) {
 
 void BossStateManager::DrawImGui() {
 #ifdef _DEBUG
-	ImGui::Begin("Editor");
+	ImGui::Begin("Editor"); 
 	if (ImGui::BeginMenu("Boss")) {
-		const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack" ,"BeamAttack" };
+		const char* items[] = { "Root", "Hook" ,"InsideAttack","LowerAttack" ,"BeamAttack" };
 		static int selectedItem = static_cast<int>(state_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 			state_ = static_cast<State>(selectedItem);
@@ -379,7 +379,7 @@ void BossStateInsideAttack::ChargeUpdate() {
 }
 
 void BossStateInsideAttack::AttackUpdate() {
-	float t = time_ / data_.chargeEasingTime;
+	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetRotate();
@@ -391,6 +391,10 @@ void BossStateInsideAttack::AttackUpdate() {
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.rotate = Quaternion::identity;
 		rotate.y = 0.0f;
 		manager_.ChangeState(BossStateManager::State::kRoot);
+	}
+	else {
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.scale= Vector3::one;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(true);
 	}
 }
 

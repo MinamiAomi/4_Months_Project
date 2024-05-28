@@ -13,13 +13,13 @@ void BossHP::Update() {
 	if (ImGui::BeginMenu("Boss")) {
 		if (ImGui::TreeNode("BossHP")) {
 			int hp = int(currentHP_);
-			ImGui::DragInt("HP", &hp,1,0, kMaxHP);
+			ImGui::DragInt("HP", &hp, 1, 0, kMaxHP);
 			currentHP_ = hp;
 			hp = ballHitDamage_;
-			ImGui::DragInt("弾ダメージ量", &hp,1,0);
+			ImGui::DragInt("弾ダメージ量", &hp, 1, 0);
 			ballHitDamage_ = hp;
 			hp = playerHitDamage_;
-			ImGui::DragInt("プレイヤーがヒット時ダメージ量", &hp,1,0);
+			ImGui::DragInt("プレイヤーがヒット時ダメージ量", &hp, 1, 0);
 			playerHitDamage_ = hp;
 			if (ImGui::Button("Save")) {
 				JSON_OPEN("Resources/Data/Boss/BossHP.json");
@@ -44,4 +44,15 @@ void BossHP::Reset() {
 	JSON_LOAD(playerHitDamage_);
 	JSON_CLOSE();
 
+}
+
+void BossHP::AddPlayerHitHP() {
+	currentHP_ -= playerHitDamage_;
+	currentHP_ = std::clamp(currentHP_, 0, kMaxHP);
+
+}
+
+void BossHP::AddBallHitHP() {
+	currentHP_ -= ballHitDamage_;
+	currentHP_ = std::clamp(currentHP_, 0, kMaxHP);
 }

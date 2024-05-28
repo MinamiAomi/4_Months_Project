@@ -21,11 +21,12 @@ void PendulumManager::Reset() {
 	Clear();
 }
 
-void PendulumManager::Create(Pendulum::Desc desc) {
+void PendulumManager::Create(Pendulum::Desc desc, uint32_t index) {
 	Pendulum* pendulum = new Pendulum();
 	pendulum->SetCamera(camera_);
 	pendulum->SetPlayer(player_);
 	pendulum->Initialize(desc);
+	pendulum->stageGimmickNumber = index;
 	pendulums_.emplace_back(std::move(pendulum));
 }
 
