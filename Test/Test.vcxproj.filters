@@ -551,9 +551,6 @@
     <ClInclude Include="Boss\BossHP\BossHP.h">
       <Filter>Game\Object\Boss\BossHP</Filter>
     </ClInclude>
-    <ClInclude Include="Boss\BossUI\BossUI.h">
-      <Filter>Game\Object\Boss\BossUI</Filter>
-    </ClInclude>
     <ClInclude Include="StageGimmick\BeltConveyor\BeltConveyor.h">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClInclude>
@@ -571,6 +568,9 @@
     </ClInclude>
     <ClInclude Include="GameStartMovie.h">
       <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossUI\BossUI.h">
+      <Filter>Game\Object\Boss\BossUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

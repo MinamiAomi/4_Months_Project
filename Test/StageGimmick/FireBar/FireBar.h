@@ -94,12 +94,6 @@ private:
 
 	std::optional<StageGimmick::Collider> colliderDesc_;
 
-	//Vector3 rotate_;
-
-	bool onPlayer_;
-	bool onceOnPlayer_;
-	bool isDown_;
-
 	Desc desc_;
 
 	std::unique_ptr<Bar> bar_;

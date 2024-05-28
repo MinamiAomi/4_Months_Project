@@ -14,7 +14,7 @@ StageBlock::~StageBlock()
 {
 }
 
-void StageBlock::Initialize(const Vector3& pos, const Vector3& direction) {
+void StageBlock::Initialize(const Vector3& pos, const Vector3& direction,int appearTime) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
 	model_->SetIsActive(true);
@@ -22,7 +22,7 @@ void StageBlock::Initialize(const Vector3& pos, const Vector3& direction) {
 	direction_ = direction;
 	transform.translate = pos;
 	transform.rotate = Quaternion::MakeFromTwoVector({0.0f,1.0f,0.0f},direction);
-	appearFrame_ = kAppearFrame;
+	appearFrame_ = appearTime;
 	isDead_ = false;
 	initialState_ = Character::currentCharacterState_;
 }
