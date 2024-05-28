@@ -16,11 +16,10 @@ class StageBlock :
 	public GameObject {
 public:
 
-	static const int kAppearFrame = 20;
 
 	StageBlock();
 	~StageBlock();
-	void Initialize(const Vector3& pos, const Vector3& direction);
+	void Initialize(const Vector3& pos, const Vector3& direction, int appearTime);
 	void Update();
 
 	void SetBoss(const Boss* boss) { boss_ = boss; }
@@ -33,7 +32,7 @@ private:
 	std::unique_ptr<ModelInstance> model_;
 	Vector3 direction_;
 
-	int appearFrame_ = kAppearFrame;
+	int appearFrame_ = 0;
 	bool isDead_ = false;
 	Character::State initialState_;
 	

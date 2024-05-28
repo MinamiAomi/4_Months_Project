@@ -19,20 +19,30 @@ void StageLineLight::Initialize(bool isLeft,bool isUp) {
 
 	lineLight_ = std::make_unique<LineLight>();
 
-	if (isLeft) {
-		transform.translate.x = -32.0f;
-	}
-	else {
-		transform.translate.x = 32.0f;
-	}
 
 	if (isUp) {
 		transform.translate.y = 6.4f;
 		lineLight_->range = 10.5f;
+
+		if (isLeft) {
+			transform.translate.x = -60.0f;
+		}
+		else {
+			transform.translate.x = 60.0f;
+		}
+
 	}
 	else {
 		transform.translate.y = -10.0f;
 		lineLight_->range = 15.0f;
+
+		if (isLeft) {
+			transform.translate.x = -32.0f;
+		}
+		else {
+			transform.translate.x = 32.0f;
+		}
+
 	}
 
 	lineLight_->color = runAwayColor_;
