@@ -42,9 +42,9 @@ public:
     ~Sprite();
 
     void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
-    void SetPosition(const Vector2& position) { position_ = position; }
+    void SetPosition(const Vector2& position);
     void SetRotate(float rotate) { rotate_ = rotate; }
-    void SetScale(const Vector2& scale) { scale_ = scale; }
+    void SetScale(const Vector2& scale);
     void SetAnchor(const Vector2& anchor) { anchor_ = anchor; }
     void SetTexcoordBase(const Vector2& base) { texcoordBase_ = base; }
     void SetTexcoordSize(const Vector2& size) { texcoordSize_ = size; }

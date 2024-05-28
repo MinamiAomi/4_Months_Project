@@ -103,24 +103,24 @@ void SkyRenderer::Render(CommandContext& commandContext, const Camera& camera, M
 	scene.worldMatrix = worldMatrix;
 	scene.worldInverseTransposeMatrix = worldMatrix.Inverse().Transpose();
 	//遷移
-	//if (saveState_ != Character::currentCharacterState_) {
-	//	if (Character::currentCharacterState_ == Character::kChase) {
-	//		//反撃になったら
-	//		t_ += speed_;
-	//		t_ = std::clamp(t_, 0.0f, 1.0f);
-	//		if (t_ >= 1.0f) {
-	//			saveState_ = Character::currentCharacterState_;
-	//		}
-	//	}
-	//	else {
-	//		//逃げる側になったら
-	//		t_ -= speed_;
-	//		t_ = std::clamp(t_, 0.0f, 1.0f);
-	//		if (t_ <= 0.0f) {
-	//			saveState_ = Character::currentCharacterState_;
-	//		}
-	//	}
-	//}
+	if (saveState_ != Character::currentCharacterState_) {
+		if (Character::currentCharacterState_ == Character::kChase) {
+			//反撃になったら
+			t_ += speed_;
+			t_ = std::clamp(t_, 0.0f, 1.0f);
+			if (t_ >= 1.0f) {
+				saveState_ = Character::currentCharacterState_;
+			}
+		}
+		else {
+			//逃げる側になったら
+			t_ -= speed_;
+			t_ = std::clamp(t_, 0.0f, 1.0f);
+			if (t_ <= 0.0f) {
+				saveState_ = Character::currentCharacterState_;
+			}
+		}
+	}
 
 	scene.topColor = Vector3::Lerp(Character::GetSceneChangeTime(), topColor_, oppositionTopColor_);
 	scene.bottomColor = Vector3::Lerp(t_, bottomColor_, oppositionBottomColor_);
