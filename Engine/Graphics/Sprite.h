@@ -41,7 +41,7 @@ public:
     Sprite();
     ~Sprite();
 
-    void SetTexture(const std::shared_ptr<Texture>& texture) { texture_ = texture; }
+    void SetTexture(const std::shared_ptr<Texture>& texture);
     void SetPosition(const Vector2& position);
     void SetRotate(float rotate) { rotate_ = rotate; }
     void SetScale(const Vector2& scale);
