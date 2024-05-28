@@ -12,11 +12,11 @@ public:
 	void Update();
 	void Reset();
 
-	void Create(const RevengeCoin::Desc& desc);
+	void Create(const RevengeCoin::Desc& desc, uint32_t index);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<RevengeCoin>>& GetBlocks() const { return revengeCoins_; }
+	std::list<std::unique_ptr<RevengeCoin>>& GetBlocks() { return revengeCoins_; }
 	void Delete(RevengeCoin* revengeCoin);
 	void Clear();
 

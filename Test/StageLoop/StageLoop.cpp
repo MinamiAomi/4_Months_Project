@@ -48,8 +48,9 @@ void StageLoop::Initialize() {
 	//trapManager_->SetPlayer(player_);
 	//trapManager_->SetBoss(boss_);
 	//trapManager_->Initialize();
-
 	LoadJson();
+
+	stageNum_ = 0;
 
 	InitializeCreateStage(0);
 
@@ -77,9 +78,12 @@ void StageLoop::Update() {
 	//trapManager_->Update();
 	bossAttackTriggerManager_->Update();
 	beltConveyorManager_->Update();
+
 }
 
 void StageLoop::Reset() {
+	stageNum_ = 0;
+
 	InitializeCreateStage();
 }
 
@@ -245,7 +249,7 @@ void StageLoop::LoadJson() {
 
 				std::vector<Switch::Desc> switchDesc{};
 				std::vector<Dropper::Desc> dropperDesc{};
-				
+
 				// "objects"配列からオブジェクトを処理
 				for (const auto& obj : root["objects"]) {
 					// Block
@@ -395,30 +399,36 @@ void StageLoop::LoadJson() {
 void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 	Clear();
 
-	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	uint32_t stageIndex;
+	stageDistance_.clear();
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
+		StageDistance stageDistance{};
 		// 指定がなければランダム
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
 		}
 		else {
 			stageIndex = stageInputIndex;
 		}
-		if (stageIndices.empty()) {
+		if (stageDistance_.empty()) {
 			// ぎりぎりすぎないよう
 			distance = player_->GetWorldMatrix().GetTranslate().z + (stageData_.at(stageIndex).stageSize * 0.5f) - 10.0f;
 		}
 		else {
-			distance += stageData_.at(stageIndices.at(i - 1)).stageSize;
+			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
 		}
-		CreateStageObject(stageData_.at(stageIndex), distance);
-		stageIndices.emplace_back(stageIndex);
+		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
+		stageDistance.distance = distance;
+		stageDistance.stageIndex = stageIndex;
+		stageDistance.stageNum = stageNum_;
+		stageDistance_.emplace_back(stageDistance);
+		stageNum_++;
 	}
 }
 
 void StageLoop::Clear() {
+
 	bossAttackTriggerManager_->Clear();
 	beltConveyorManager_->Clear();
 	blockManager_->Clear();
@@ -428,61 +438,203 @@ void StageLoop::Clear() {
 	dropGimmickManager_->Clear();
 	pendulumManager_->Clear();
 	stageObjectManager_->Clear();
-	//trapManager_->Clear();
+}
+
+void StageLoop::DeleteObject() {
+	uint32_t leaveIndex = 0;
+	bool found = false;
+	// プレイヤーの位置に基づいて leaveIndex を決定
+	for (const auto& stageDistance : stageDistance_) {
+		if (player_->transform.worldMatrix.GetTranslate().z <= stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f &&
+			player_->transform.worldMatrix.GetTranslate().z >= stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f) {
+			leaveIndex = stageDistance.stageNum;
+			found = true;
+			break;
+		}
+	}
+
+	if (found) {
+		// leaveIndex に一致しない要素を削除
+		stageDistance_.erase(
+			std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+				[leaveIndex](const StageDistance& stageDistance) {
+					return stageDistance.stageNum != leaveIndex;
+				}),
+			stageDistance_.end());
+	}
+
+	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
+	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = bossTriggers.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
+
+	auto& beltConveyorManager = beltConveyorManager_->GetBlocks();
+	for (auto it = beltConveyorManager.begin(); it != beltConveyorManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = beltConveyorManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+	auto& blockManager = blockManager_->GetBlocks();
+	for (auto it = blockManager.begin(); it != blockManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = blockManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+	auto& fireBarManager = fireBarManager_->GetFireBars();
+	for (auto it = fireBarManager.begin(); it != fireBarManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = fireBarManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+
+	auto& revengeCoinManager = revengeCoinManager_->GetBlocks();
+	for (auto it = revengeCoinManager.begin(); it != revengeCoinManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = revengeCoinManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+
+	auto& floorManager = floorManager_->GetFloors();
+	for (auto it = floorManager_->GetFloors().begin(); it != floorManager_->GetFloors().end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = floorManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+
+	auto& dropGimmickManager = dropGimmickManager_->GetDropGimmicks();
+	for (auto it = dropGimmickManager.begin(); it != dropGimmickManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = dropGimmickManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+	auto& dropperBallManager = dropGimmickManager_->GetDropperBallManager()->GetDropGimmicks();
+	for (auto it = dropperBallManager.begin(); it != dropperBallManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = dropperBallManager.erase(it);;
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+
+	auto& pendulumManager = pendulumManager_->GetPendulums();
+	for (auto it = pendulumManager.begin(); it != pendulumManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			it = pendulumManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
+
+
+	auto& stageObjectManager = stageObjectManager_->GetStageObjects();
+	for (auto it = stageObjectManager.begin(); it != stageObjectManager.end(); ) {
+		if ((*it)->stageGimmickNumber != leaveIndex) {
+			// イテレータを削除後にインクリメントする
+			it = stageObjectManager.erase(it);
+		}
+		else {
+			// 削除しない場合は通常通りインクリメントする
+			++it;
+		}
+	}
 }
 
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
-	Clear();
+	DeleteObject();
 
-	std::vector<uint32_t> stageIndices{};
 	float distance = 0.0f;
 	uint32_t stageIndex;
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
-
+		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size() - 1));
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
 		}
 		else {
 			stageIndex = stageInputIndex;
 		}
 
-		if (stageIndices.empty()) {
-			// ぎりぎりすぎないよう
-			distance = player_->GetWorldMatrix().GetTranslate().z - stageData_.at(stageIndex).stageSize * 0.5f + 10.0f;
+		// 最初だけ
+		if (i == 0) {
+			distance -= stageDistance_.at(i).distance;
 		}
 		else {
-			distance -= stageData_.at(stageIndices.at(i - 1)).stageSize;
+			distance -= stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
 		}
-		CreateStageObject(stageData_.at(stageIndex), distance);
-		stageIndices.emplace_back(stageIndex);
+
+		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
+		stageDistance.distance = distance;
+		stageDistance.stageIndex = stageIndex;
+		stageDistance.stageNum = stageNum_;
+		stageDistance_.emplace_back(stageDistance);
+		stageNum_++;
 	}
 }
 
-void StageLoop::CreateStageObject(const Desc& stageData, float distance) {
+void StageLoop::CreateStageObject(const Desc& stageData, float distance, uint32_t index) {
 	for (const auto& desc : stageData.blockDesc) {
 		Block::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		blockManager_->Create(mutableDesc);
+		blockManager_->Create(mutableDesc, index);
 	}
 	for (const auto& desc : stageData.beltConveyorDesc) {
 		BeltConveyor::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		beltConveyorManager_->Create(mutableDesc);
+		beltConveyorManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.bossAttackTrigger) {
 		BossAttackTrigger::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		bossAttackTriggerManager_->Create(mutableDesc);
+		bossAttackTriggerManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.fireBarDesc) {
 		FireBar::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		fireBarManager_->Create(mutableDesc);
+		fireBarManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.floorDesc) {
 		Floor::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		floorManager_->Create(mutableDesc);
+		floorManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.dropGimmickDesc) {
 		DropGimmick::Desc mutableDesc = desc;
@@ -492,26 +644,26 @@ void StageLoop::CreateStageObject(const Desc& stageData, float distance) {
 		for (auto& dropperDesc : mutableDesc.dropperDesc) {
 			dropperDesc.desc.transform.translate.z += distance;
 		}
-		dropGimmickManager_->Create(mutableDesc);
+		dropGimmickManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.dropGimmickBallDesc) {
 		DropperBall::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		dropGimmickManager_->Create(mutableDesc);
+		dropGimmickManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.pendulumDesc) {
 		Pendulum::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		pendulumManager_->Create(mutableDesc);
+		pendulumManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.revengeCoinDesc) {
 		RevengeCoin::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		revengeCoinManager_->Create(mutableDesc);
+		revengeCoinManager_->Create(mutableDesc, index);
 	}
 	for (auto& desc : stageData.stageObjectDesc) {
 		StageObject::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
-		stageObjectManager_->Create(mutableDesc);
+		stageObjectManager_->Create(mutableDesc, index);
 	}
 }

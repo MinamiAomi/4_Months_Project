@@ -12,7 +12,7 @@
 
 #include "StageGimmick/StageGimmick.h"
 class BeltConveyor :
-	public GameObject{
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;

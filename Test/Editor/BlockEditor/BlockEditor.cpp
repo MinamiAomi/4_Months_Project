@@ -150,10 +150,6 @@ void BlockEditor::SaveFile(uint32_t stageName) {
 	file.close();*/
 }
 
-void BlockEditor::LoadFile(uint32_t stageName) {
-	blockManager_->LoadJson(stageName);
-}
-
 void BlockEditor::Clear() {
 	blockManager_->Clear();
 }

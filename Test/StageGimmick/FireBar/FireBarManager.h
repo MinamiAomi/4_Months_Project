@@ -12,11 +12,11 @@ public:
 	void Update();
 	void Reset();
 
-	void Create(const FireBar::Desc& desc);
+	void Create(const FireBar::Desc& desc, uint32_t index);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 
-	const std::list<std::unique_ptr<FireBar>>& GetFireBars() const { return fireBars_; }
+	std::list<std::unique_ptr<FireBar>>& GetFireBars() { return fireBars_; }
 	void DeleteFireBar(FireBar* block);
 
 	void Clear();

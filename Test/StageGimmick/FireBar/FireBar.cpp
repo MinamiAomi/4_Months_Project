@@ -133,10 +133,6 @@ void FireBar::Initialize(const Desc& desc) {
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("fireBarCenter"));
 	model_->SetIsActive(true);
 
-	onPlayer_ = false;
-	onceOnPlayer_ = false;
-	isDown_ = false;
-
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -164,26 +160,6 @@ void FireBar::Initialize(const Desc& desc) {
 void FireBar::Update() {
 
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
-		// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
-		if (!onPlayer_ &&
-			onceOnPlayer_) {
-			isDown_ = true;
-		}
-		onPlayer_ = false;
-		// ブロックが下がる
-		if (isDown_) {
-			transform.translate.y -= 0.05f;
-		}
-		// ブロックがおり切ったら
-		if (transform.translate.y <= (-transform.scale.y * 0.5f) - 1.0f) {
-			collider_->SetIsActive(false);
-			model_->SetIsActive(false);
-		}
-		// 一度でもプレイヤーがブロックのうえに乗ったら
-		if (onceOnPlayer_) {
-			bar_->SetIsActive(false);
-		}
-		// 雑カリング
 		model_->SetIsActive(true);
 		collider_->SetIsActive(true);
 		UpdateTransform();
@@ -209,14 +185,7 @@ void FireBar::SetIsActive(bool flag) {
 }
 
 void FireBar::OnCollision(const CollisionInfo& collisionInfo) {
-	if (collisionInfo.collider->GetName() == "Player") {
-		// 落下しているとき
-		if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-			player_->GetVelocity().y <= 0.0f) {
-			onPlayer_ = true;
-			onceOnPlayer_ = true;
-		}
-	}
+
 }
 
 void FireBar::UpdateTransform() {
