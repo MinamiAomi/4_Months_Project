@@ -21,8 +21,8 @@ void PlayerBullet::Initialize() {
 	collider_->SetOrientation(transform.rotate);
 	collider_->SetSize(transform.scale);
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::PlayerBullet);
-	collider_->SetCollisionMask(~CollisionAttribute::Player);
+	//collider_->SetCollisionAttribute(CollisionAttribute::PlayerBullet);
+	//collider_->SetCollisionMask(~CollisionAttribute::Player);
 	collider_->SetIsActive(false);
 #pragma endregion
 }

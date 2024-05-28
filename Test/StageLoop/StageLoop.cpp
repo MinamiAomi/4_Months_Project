@@ -577,13 +577,14 @@ void StageLoop::DeleteObject() {
 			++it;
 		}
 	}
- }
+}
 
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	DeleteObject();
 
 	uint32_t stageIndex;
 	float distance = stageDistance_.at(0).distance;
+
 	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
