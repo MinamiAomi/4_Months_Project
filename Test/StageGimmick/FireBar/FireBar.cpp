@@ -185,7 +185,7 @@ void FireBar::SetIsActive(bool flag) {
 }
 
 void FireBar::OnCollision(const CollisionInfo& collisionInfo) {
-
+	collisionInfo;
 }
 
 void FireBar::UpdateTransform() {
