@@ -154,6 +154,7 @@ bool SphereCollider::RayCast(const Vector3& origin, const Vector3& diff, uint32_
 }
 
 void BoxCollider::DebugDraw(const Vector4& color) {
+    if (!isActive_) { return; }
     auto& lineDrawer = RenderManager::GetInstance()->GetLineDrawer();
     auto vertices1 = GetVertices(this->obb_);
     for (uint32_t i = 0; i < 4; ++i) {
