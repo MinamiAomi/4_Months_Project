@@ -23,7 +23,7 @@ void SkyBlockManager::Initialize() {
 	if (boss_) {
 		for (int i = 0;  std::unique_ptr<SkyBlock>&skyblock : skyBlocks_) {
 			float scale = rng_.NextFloatRange(1.0f, 3.0f);
-			float x = 30.0f + rng_.NextFloatRange(0.0f, 10.0f);
+			float x = 60.0f + rng_.NextFloatRange(0.0f, 10.0f);
 			float y = 3.0f + rng_.NextFloatRange(0.0f, 7.0f);
 			float z = boss_->transform.translate.z + rng_.NextFloatRange(-appearLength , appearLength );
 			skyblock = std::make_unique<SkyBlock>();
@@ -59,10 +59,10 @@ void SkyBlockManager::Appear(SkyBlock& skyBlock)
 		float scale = rng_.NextFloatRange(1.0f, 3.0f);
 		float x;
 		if (skyBlock.transform.translate.x > 0) {
-			x = 30.0f + rng_.NextFloatRange(0.0f, 10.0f);
+			x = 60.0f + rng_.NextFloatRange(0.0f, 10.0f);
 		}
 		else {
-			x = -30.0f + -rng_.NextFloatRange(0.0f, 10.0f);
+			x = -60.0f + -rng_.NextFloatRange(0.0f, 10.0f);
 		}
 		float y = 3.0f + rng_.NextFloatRange(0.0f, 7.0f);
 
