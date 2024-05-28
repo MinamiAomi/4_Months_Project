@@ -406,7 +406,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 		StageDistance stageDistance{};
 		// 指定がなければランダム
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size())-1);
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
 		}
 		else {
 			stageIndex = stageInputIndex;
@@ -463,7 +463,7 @@ void StageLoop::DeleteObject() {
 			stageDistance_.end());
 	}
 
- 	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
+	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
 	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
 		if ((*it)->stageGimmickNumber != leaveIndex) {
 			it = bossTriggers.erase(it);
@@ -582,19 +582,24 @@ void StageLoop::DeleteObject() {
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	DeleteObject();
 
-	float distance = stageDistance_.at(0).distance;
+	float distance = 0.0f;
 	uint32_t stageIndex;
-	for (uint32_t i = 1; i < kCreateStageNum; i++) {
+	for (uint32_t i = 0; i < kCreateStageNum; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size())-1);
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
 		}
 		else {
 			stageIndex = stageInputIndex;
 		}
 
-
-		distance -= stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
+		// 最初だけ
+		if (i == 0) {
+			distance -= stageDistance_.at(i).distance;
+		}
+		else {
+			distance -= stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
+		}
 
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;
