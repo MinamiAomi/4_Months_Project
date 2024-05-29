@@ -3,9 +3,9 @@
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 
-void BossHP::Initialize(Camera* camera) {
+void BossHP::Initialize() {
 	Reset();
-	camera_ = camera;
+	
 }
 
 void BossHP::Update() {

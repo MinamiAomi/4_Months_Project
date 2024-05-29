@@ -10,7 +10,7 @@ class BossHP {
 public:
 	static const int32_t kMaxHP = 20;
 
-	void Initialize(Camera* camera);
+	void Initialize();
 	void Update();
 
 	void Reset();
