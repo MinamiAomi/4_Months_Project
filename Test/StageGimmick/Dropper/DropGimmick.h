@@ -15,7 +15,7 @@ class Camera;
 class Boss;
 
 class DropperBall :
-	public GameObject {
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;
@@ -30,6 +30,7 @@ public:
 
 	void Initialize(const Desc& desc);
 	void Update();
+
 
 	bool GetIsAlive() { return isAlive_; }
 
@@ -80,10 +81,17 @@ private:
 	
 
 	std::unique_ptr<BoxCollider> collider_;
-	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<ModelInstance> switchBase_;
+	std::unique_ptr<ModelInstance> switch_;
+
+	Transform switchTransform_;
+
 	Desc desc_;
 	
 	bool isPushed_;
+
+	// 0~1
+	float time_;
 };
 
 class Dropper :
@@ -95,6 +103,7 @@ public:
 	};
 	void Initialize(const Desc& desc);
 	void Update();
+
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
@@ -115,23 +124,27 @@ private:
 
 class DropperBallManager {
 public:
-	void Create(const DropperBall::Desc& desc);
+	void Create(const DropperBall::Desc& desc, uint32_t index);
 	void Update();
-
+	
 	void Reset();
+	
+	void Delete(DropperBall* ball);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
+	std::list<std::unique_ptr<DropperBall>>& GetDropGimmicks() { return dropperBalls_; }
 private:
 	const Player* player_;
 	const Boss* boss_;
 	const Camera* camera_;
 
-	std::vector<std::unique_ptr<DropperBall>>dropperBalls_;
+	std::list<std::unique_ptr<DropperBall>>dropperBalls_;
 };
 
-class DropGimmick {
+class DropGimmick :
+	public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		std::vector<Switch::Desc> switchDesc;

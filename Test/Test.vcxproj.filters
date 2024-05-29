@@ -136,6 +136,9 @@
     <Filter Include="Game\Object\Movie">
       <UniqueIdentifier>{1c94bd19-6744-4ebd-82d4-96c74029944f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerHanmmer">
+      <UniqueIdentifier>{69463146-7738-48ad-8c63-4a626f132b4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -353,6 +356,18 @@
     <ClCompile Include="GameStartMovie.cpp">
       <Filter>Game\Object\Movie</Filter>
     </ClCompile>
+    <ClCompile Include="Player\PlayerHanmmer\PlayerHammer.cpp">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerHanmmer\PlayerHammerParticle.cpp">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClCompile>
+    <ClCompile Include="HammerMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -551,9 +566,6 @@
     <ClInclude Include="Boss\BossHP\BossHP.h">
       <Filter>Game\Object\Boss\BossHP</Filter>
     </ClInclude>
-    <ClInclude Include="Boss\BossUI\BossUI.h">
-      <Filter>Game\Object\Boss\BossUI</Filter>
-    </ClInclude>
     <ClInclude Include="StageGimmick\BeltConveyor\BeltConveyor.h">
       <Filter>Game\Object\StageGimmick\BeltConveyor</Filter>
     </ClInclude>
@@ -571,6 +583,21 @@
     </ClInclude>
     <ClInclude Include="GameStartMovie.h">
       <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossUI\BossUI.h">
+      <Filter>Game\Object\Boss\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerHanmmer\PlayerHammer.h">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerHanmmer\PlayerHammerParticle.h">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerMovie.h">
+      <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossParticle\BossLineParticle.h">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 #include "Player/Player.h"
 #include "CameraManager/CameraManager.h"
 #include "Math/Camera.h"
+#include "Movie.h"
 
 
 void Boss::Initialize() {
@@ -24,21 +25,23 @@ void Boss::Initialize() {
 	state_->ChangeState(BossStateManager::State::kRoot);
 
 	bossHP_ = std::make_unique<BossHP>();
+	bossHP_->SetCamera(camera_);
 	bossHP_->Initialize();
-
+	
 	bossUI_ = std::make_unique<BossUI>();
 	bossUI_->SetBossHP(bossHP_.get());
 	bossUI_->Initialize();
 
-	Reset(0);
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform, player_);
 
+	Reset(0);
 	// 隠す
 	/*bossModelManager_->GetModel(BossParts::kFloorAll)->SetIsAlive(false);
 	bossModelManager_->GetModel(BossParts::kLongDistanceAttack)->SetIsAlive(false);*/
 	isMove_ = true;
+	isEndFirstHitMovie_ = false;
 
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -48,12 +51,11 @@ void Boss::Initialize() {
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 5.0f});
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 3.0f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
-	collider_->SetCollisionMask(~CollisionAttribute::Boss);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossAttackTrigger);
 	collider_->SetIsActive(true);
-
 
 #pragma endregion
 
@@ -107,22 +109,24 @@ void Boss::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
-		if (Character::nextCharacterState_ == Character::State::kChase) {
-			transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
-			if (transform.rotate != Quaternion::MakeForYAxis(180.0f * Math::ToRadian)) {
-				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
-			}
+		if (Character::isEndFirstChange_) {
+			if (Character::nextCharacterState_ == Character::State::kChase) {
+				transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
+				if (transform.rotate != Quaternion::MakeForYAxis(180.0f * Math::ToRadian)) {
+					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
+				}
 
 
-		}
-		else {
-			if (player_->transform.translate.z <= transform.translate.z - player_->GetRunAwayLimitLine()) {
-				float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
-				transform.translate.z -= tmp;
 			}
-			if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
-				transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
-				
+			else {
+				if (player_->transform.translate.z <= transform.translate.z - player_->GetRunAwayLimitLine()) {
+					float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
+					transform.translate.z -= tmp;
+				}
+				if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
+					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
+
+				}
 			}
 		}
 	}
@@ -130,11 +134,10 @@ void Boss::Update() {
 	default:
 		break;
 	}
-	UpdateTransform();
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
-	bossModelManager_->Update();
+	UpdateTransform();
 	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
 	}
@@ -143,6 +146,7 @@ void Boss::Update() {
 void Boss::Reset(uint32_t stageIndex) {
 	stageIndex;
 	isAlive_ = true;
+	isFirstHit_ = false;
 	// ボスのオフセット今はプレイヤーのチェイスライン
 	transform.translate = Vector3(offset_.x, offset_.y, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine());
 	transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
@@ -151,6 +155,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	transform.UpdateMatrix();
 	state_->ChangeState(BossStateManager::State::kRoot);
 	bossHP_->Reset();
+	bossModelManager_->Reset();
 
 }
 
@@ -162,6 +167,7 @@ void Boss::UpdateTransform() {
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
 	collider_->DebugDraw();
+	bossModelManager_->Update();
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
@@ -171,12 +177,11 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			////二回目でゲームクリア
-			//if (isFirstHit_ == true) {
-			//	isAlive_ = false;
-			//}
-			bossHP_->AddPlayerHitHP();
-			Character::SetNextScene(Character::State::kRunAway);
+			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
+			if (isFirstHit_ && !Movie::isPlaying) {
+				bossHP_->AddPlayerHitHP();
+				Character::SetNextScene(Character::State::kRunAway);
+			}
 
 		}
 		break;
@@ -188,8 +193,8 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		default:
 			break;
 		}
-		////一回目
-		//isFirstHit_ = true;
+		//一回目
+		isFirstHit_ = true;
 	}
 
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {

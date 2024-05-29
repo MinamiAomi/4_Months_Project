@@ -13,7 +13,7 @@
 #include "StageGimmick/StageGimmick.h"
 #include "Math/Camera.h"
 class Block :
-	public GameObject {
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;

@@ -66,124 +66,124 @@ void BossStateManager::OnCollision(const CollisionInfo& collisionInfo) {
 
 void BossStateManager::DrawImGui() {
 #ifdef _DEBUG
-    ImGui::Begin("Editor");
-    if (ImGui::BeginMenu("Boss")) {
-        const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack" ,"BeamAttack" };
-        static int selectedItem = static_cast<int>(state_);
-        if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
-            state_ = static_cast<State>(selectedItem);
-            switch (state_) {
-            case State::kRoot:
-            {
-                ChangeState(State::kRoot);
-            }
-            break;
-            case State::kHook:
-            {
-                ChangeState(State::kHook);
-            }
-            break;
-            case State::kLowerAttack:
-            {
-                ChangeState(State::kLowerAttack);
-            }
-            break;
-            case State::kInsideAttack:
-            {
-                ChangeState(State::kInsideAttack);
-            }
-            break;
-            case State::kBeamAttack:
-            {
-                ChangeState(State::kBeamAttack);
-                // BossModelManager を取得
-                auto& tmp = boss.GetModelManager()->GetModel(BossParts::kBeamAttack);
-                if (!tmp) {
-                    // エラーハンドリング: bossModelManager が null の場合
-                    assert(0);
-                }
-                // BeamAttack 型にキャスト
-                BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(tmp.get());
-                if (beamAttackModel) {
-                    beamAttackModel->vector_ = { 1.0f,0.0f,0.0f };
-                }
-            }
-            break;
-            }
-        }
-        if (ImGui::TreeNode("Root")) {
-            ImGui::DragFloat("全体フレーム", &jsonData_.rootData.allFrame, 0.1f);
-            ImGui::DragFloat("遷移フレーム", &jsonData_.rootData.transitionFrame, 0.1f);
-            ImGui::TreePop();
-        }
-        if (ImGui::TreeNode("Hook")) {
-            ImGui::DragFloat("全体フレーム", &jsonData_.attackData.allFrame, 0.1f, 0.0f);
-            ImGui::DragFloat("遷移フレーム", &jsonData_.attackData.transitionFrame, 0.1f, 0.0f);
-            ImGui::TreePop();
-        }
-        if (ImGui::TreeNode("LowerAttack")) {
-            ImGui::DragFloat3("Position", &jsonData_.lowerAttackData.position.x, 0.1f);
-            ImGui::DragFloat3("scale", &jsonData_.lowerAttackData.scale.x, 0.1f);
-            ImGui::DragFloat("chargeEasingTime", &jsonData_.lowerAttackData.chargeEasingTime, 0.1f);
-            ImGui::DragFloat("attackEasingTime", &jsonData_.lowerAttackData.attackEasingTime, 0.1f);
-            ImGui::DragFloat("遷移フレーム", &jsonData_.lowerAttackData.transitionFrame, 0.1f);
-            ImGui::TreePop();
-        }
-        if (ImGui::TreeNode("InsideAttack")) {
-            ImGui::DragFloat3("Position", &jsonData_.insideAttackData.position.x, 0.1f);
-            ImGui::DragFloat3("scale", &jsonData_.insideAttackData.scale.x, 0.1f);
-            ImGui::DragFloat("chargeEasingTime", &jsonData_.insideAttackData.chargeEasingTime, 0.1f);
-            ImGui::DragFloat("attackEasingTime", &jsonData_.insideAttackData.attackEasingTime, 0.1f);
-            ImGui::DragFloat("遷移フレーム", &jsonData_.insideAttackData.transitionFrame, 0.1f);
-            ImGui::TreePop();
-        }
-        if (ImGui::TreeNode("BeamAttack")) {
-            ImGui::DragFloat3("startPosition", &jsonData_.beamAttackData.startPosition.x, 0.1f);
-            ImGui::DragFloat3("endPosition", &jsonData_.beamAttackData.endPosition.x, 0.1f);
-            ImGui::DragFloat3("scale", &jsonData_.beamAttackData.scale.x, 0.1f);
-            ImGui::DragFloat("chargeEasingTime", &jsonData_.beamAttackData.chargeEasingTime, 0.1f);
-            ImGui::DragFloat("attackEasingTime", &jsonData_.beamAttackData.attackEasingTime, 0.1f);
-            ImGui::DragFloat("遷移フレーム", &jsonData_.beamAttackData.transitionFrame, 0.1f);
-            ImGui::TreePop();
-        }
-        activeState_->SetDesc();
-        if (ImGui::Button("Save")) {
-            JSON_OPEN("Resources/Data/Boss/Boss.json");
-            JSON_OBJECT("StateRoot");
-            JSON_SAVE(jsonData_.rootData.allFrame);
-            JSON_SAVE(jsonData_.rootData.transitionFrame);
-            JSON_ROOT();
-            JSON_OBJECT("StateHook");
-            JSON_SAVE(jsonData_.attackData.allFrame);
-            JSON_SAVE(jsonData_.attackData.transitionFrame);
-            JSON_ROOT();
-            JSON_OBJECT("StateLowerAttack");
-            JSON_SAVE(jsonData_.lowerAttackData.position);
-            JSON_SAVE(jsonData_.lowerAttackData.scale);
-            JSON_SAVE(jsonData_.lowerAttackData.chargeEasingTime);
-            JSON_SAVE(jsonData_.lowerAttackData.attackEasingTime);
-            JSON_SAVE(jsonData_.lowerAttackData.transitionFrame);
-            JSON_ROOT();
-            JSON_OBJECT("StateInsideAttack");
-            JSON_SAVE(jsonData_.insideAttackData.position);
-            JSON_SAVE(jsonData_.insideAttackData.scale);
-            JSON_SAVE(jsonData_.insideAttackData.chargeEasingTime);
-            JSON_SAVE(jsonData_.insideAttackData.attackEasingTime);
-            JSON_SAVE(jsonData_.insideAttackData.transitionFrame);
-            JSON_ROOT();
-            JSON_OBJECT("StateBeamAttack");
-            JSON_SAVE(jsonData_.beamAttackData.startPosition);
-            JSON_SAVE(jsonData_.beamAttackData.endPosition);
-            JSON_SAVE(jsonData_.beamAttackData.scale);
-            JSON_SAVE(jsonData_.beamAttackData.chargeEasingTime);
-            JSON_SAVE(jsonData_.beamAttackData.attackEasingTime);
-            JSON_SAVE(jsonData_.beamAttackData.transitionFrame);
-            JSON_ROOT();
-            JSON_CLOSE();
-        }
-        ImGui::EndMenu();
-    }
-    ImGui::End();
+	ImGui::Begin("Editor"); 
+	if (ImGui::BeginMenu("Boss")) {
+		const char* items[] = { "Root", "Hook" ,"InsideAttack","LowerAttack" ,"BeamAttack" };
+		static int selectedItem = static_cast<int>(state_);
+		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
+			state_ = static_cast<State>(selectedItem);
+			switch (state_) {
+			case State::kRoot:
+			{
+				ChangeState(State::kRoot);
+			}
+			break;
+			case State::kHook:
+			{
+				ChangeState(State::kHook);
+			}
+			break;
+			case State::kLowerAttack:
+			{
+				ChangeState(State::kLowerAttack);
+			}
+			break;
+			case State::kInsideAttack:
+			{
+				ChangeState(State::kInsideAttack);
+			}
+			break;
+			case State::kBeamAttack:
+			{
+				ChangeState(State::kBeamAttack);
+				// BossModelManager を取得
+				auto& tmp = boss.GetModelManager()->GetModel(BossParts::kBeamAttack);
+				if (!tmp) {
+					// エラーハンドリング: bossModelManager が null の場合
+					assert(0);
+				}
+				// BeamAttack 型にキャスト
+				BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(tmp.get());
+				if (beamAttackModel) {
+					beamAttackModel->vector_ = { 1.0f,0.0f,0.0f };
+				}
+			}
+			break;
+			}
+		}
+		if (ImGui::TreeNode("Root")) {
+			ImGui::DragFloat("全体フレーム", &jsonData_.rootData.allFrame, 0.1f);
+      ImGui::DragFloat("遷移フレーム", &jsonData_.rootData.transitionFrame, 0.1f);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Hook")) {
+			ImGui::DragFloat("全体フレーム", &jsonData_.attackData.allFrame, 0.1f, 0.0f);
+      ImGui::DragFloat("遷移フレーム", &jsonData_.attackData.transitionFrame, 0.1f, 0.0f);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("LowerAttack")) {
+			ImGui::DragFloat3("Position", &jsonData_.lowerAttackData.position.x, 0.1f);
+			ImGui::DragFloat3("scale", &jsonData_.lowerAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.lowerAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.lowerAttackData.attackEasingTime, 0.1f);
+      ImGui::DragFloat("遷移フレーム", &jsonData_.lowerAttackData.transitionFrame, 0.1f);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("InsideAttack")) {
+			ImGui::DragFloat3("Position", &jsonData_.insideAttackData.position.x, 0.1f);
+			ImGui::DragFloat3("scale", &jsonData_.insideAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.insideAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.insideAttackData.attackEasingTime, 0.1f);
+      ImGui::DragFloat("遷移フレーム", &jsonData_.insideAttackData.transitionFrame, 0.1f);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("BeamAttack")) {
+			ImGui::DragFloat3("startPosition", &jsonData_.beamAttackData.startPosition.x, 0.1f);
+			ImGui::DragFloat3("endPosition", &jsonData_.beamAttackData.endPosition.x, 0.1f);
+			ImGui::DragFloat3("scale", &jsonData_.beamAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.beamAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.beamAttackData.attackEasingTime, 0.1f);
+      ImGui::DragFloat("遷移フレーム", &jsonData_.beamAttackData.transitionFrame, 0.1f);
+			ImGui::TreePop();
+		}
+		activeState_->SetDesc();
+		if (ImGui::Button("Save")) {
+			JSON_OPEN("Resources/Data/Boss/Boss.json");
+			JSON_OBJECT("StateRoot");
+			JSON_SAVE(jsonData_.rootData.allFrame);
+      JSON_SAVE(jsonData_.rootData.transitionFrame);
+			JSON_ROOT();
+			JSON_OBJECT("StateHook");
+			JSON_SAVE(jsonData_.attackData.allFrame);
+      JSON_SAVE(jsonData_.attackData.transitionFrame);
+			JSON_ROOT();
+			JSON_OBJECT("StateLowerAttack");
+			JSON_SAVE(jsonData_.lowerAttackData.position);
+			JSON_SAVE(jsonData_.lowerAttackData.scale);
+			JSON_SAVE(jsonData_.lowerAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.lowerAttackData.attackEasingTime);
+      JSON_SAVE(jsonData_.lowerAttackData.transitionFrame);
+			JSON_ROOT();
+			JSON_OBJECT("StateInsideAttack");
+			JSON_SAVE(jsonData_.insideAttackData.position);
+			JSON_SAVE(jsonData_.insideAttackData.scale);
+			JSON_SAVE(jsonData_.insideAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.insideAttackData.attackEasingTime);
+      JSON_SAVE(jsonData_.insideAttackData.transitionFrame);
+			JSON_ROOT();
+			JSON_OBJECT("StateBeamAttack");
+			JSON_SAVE(jsonData_.beamAttackData.startPosition);
+			JSON_SAVE(jsonData_.beamAttackData.endPosition);
+			JSON_SAVE(jsonData_.beamAttackData.scale);
+			JSON_SAVE(jsonData_.beamAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.beamAttackData.attackEasingTime);
+      JSON_SAVE(jsonData_.beamAttackData.transitionFrame);
+			JSON_ROOT();
+			JSON_CLOSE();
+		}
+		ImGui::EndMenu();
+	}
+	ImGui::End();
 #endif // _DEBUG
 }
 
@@ -397,19 +397,19 @@ void BossStateLowerAttack::ChargeUpdate() {
 }
 
 void BossStateLowerAttack::AttackUpdate() {
-    float t = time_ / data_.chargeEasingTime;
-    time_ += 1.0f;
-    manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
-    manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
-    auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetRotate();
-    rotate.y += 1.0f;
-    if (t >= 1.0f) {
-        rotate.y = 0.0f;
-        manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
-        manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::identity;
-        manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
-        manager_.ChangeState(BossStateManager::State::kRoot);
-    }
+	float t = time_ / data_.attackEasingTime;
+	time_ += 1.0f;
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
+	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetRotate();
+	rotate.y += 1.0f;
+	if (t >= 1.0f) {
+		rotate.y = 0.0f;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::identity;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
+		manager_.ChangeState(BossStateManager::State::kRoot);
+	}
 }
 
 void BossStateInsideAttack::Initialize() {
@@ -499,7 +499,7 @@ void BossStateInsideAttack::ChargeUpdate() {
 }
 
 void BossStateInsideAttack::AttackUpdate() {
-    float t = time_ / data_.chargeEasingTime;
+    float t = time_ /  data_.attackEasingTime;
     time_ += 1.0f;
     manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
     auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetRotate();
@@ -584,12 +584,12 @@ void BossStateBeamAttack::ChargeUpdate() {
 }
 
 void BossStateBeamAttack::AttackUpdate() {
-    float t = time_ / data_.chargeEasingTime;
-    time_ += 1.0f;
-    manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
-    if (t >= 1.0f) {
-        manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
-        manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
-        manager_.ChangeState(BossStateManager::State::kRoot);
-    }
+	float t = time_ / data_.attackEasingTime;
+	time_ += 1.0f;
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	if (t >= 1.0f) {
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
+		manager_.ChangeState(BossStateManager::State::kRoot);
+	}
 }

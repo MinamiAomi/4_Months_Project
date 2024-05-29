@@ -21,11 +21,12 @@ void RevengeCoinManager::Reset() {
 	Clear();
 }
 
-void RevengeCoinManager::Create(const RevengeCoin::Desc& desc) {
+void RevengeCoinManager::Create(const RevengeCoin::Desc& desc, uint32_t index) {
 	RevengeCoin* revengeCoin = new RevengeCoin();
 	revengeCoin->GetCamera(camera_);
 	revengeCoin->SetPlayer(player_);
 	revengeCoin->Initialize(desc);
+	revengeCoin->stageGimmickNumber=index;
 	revengeCoins_.emplace_back(std::move(revengeCoin));
 }
 

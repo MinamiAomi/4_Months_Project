@@ -4,6 +4,7 @@
 #include "File/JsonHelper.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
+#include "Graphics/PostEffect.h"
 
 bool Movie::isPlaying = false;
 
@@ -42,8 +43,10 @@ void Movie::ZoomInOut(const Vector3& savePos, const Vector3& axis, const float t
 	if (newT < 1.0f) {
 		Vector3 result = savePos + Vector3::Lerp(newT, { 0.0f,0.0f,0.0f }, axis * 7.0f);
 		camera_->SetPosition(result);
+		PostEffect::blurT_ = 1.0f - newT;
 	}
 	else {
+		PostEffect::blurT_ = 0.0f;
 		newT = (t - 0.3f) / 0.7f;
 		newT = std::clamp(newT, 0.0f, 1.0f);
 		Vector3 result = savePos + Vector3::Lerp(newT, axis * 7.0f,{ 0.0f,0.0f,0.0f });

@@ -14,6 +14,7 @@
 #include "PlayerUI/PlayerUI.h"
 #include "PlayerRevengGage/PlayerRevengeGage.h"
 #include "PlayerBullet/BulletManager.h"
+#include "PlayerHanmmer/PlayerHammer.h"
 #include "Audio/AudioSource.h"
 #include "Math/Random.h"
 
@@ -26,11 +27,13 @@ public:
 	void AnimationUpdate();
 	void UpdateTransform();
 
+	void SceneChangeUpdate();
+
 	void Reset();
 
 	void HitDamage(uint32_t damege = (uint32_t)- 1);
 
-	const PlayerRevengeGage& GetRevengeGage() const { return *playerRevengeGage_.get(); }
+	PlayerRevengeGage* GetRevengeGage() { return playerRevengeGage_.get(); }
 	const Vector3& GetLocalPos() const { return transform.translate; }
 	Matrix4x4& GetWorldMatrix() { return transform.worldMatrix; }
 	Transform& GetTransform() { return transform; }
@@ -77,6 +80,7 @@ private:
 	std::unique_ptr<BulletManager> bulletManager_;
 
 	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<PlayerHammer> hammer_;
 	std::shared_ptr<Animation> animation_;
 	std::shared_ptr<Skeleton> skeleton_;
 	//PlayerModel playerModel_;
@@ -102,6 +106,7 @@ private:
 	bool isHit_;
 	bool preIsHit_;
 
+	bool isSceneChangeInvincible_;
 	// JumpSE
 	std::unique_ptr<AudioSource> jumpSE_;
 	std::unique_ptr<AudioSource> revengeSE_;

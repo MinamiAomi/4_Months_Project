@@ -13,7 +13,7 @@
 #include "StageGimmick/StageGimmick.h"
 #include "Math/Camera.h"
 class RevengeCoin :
-	public GameObject {
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;
@@ -42,4 +42,5 @@ private:
 
 	bool isAlive_;
 
+	float time_;
 };

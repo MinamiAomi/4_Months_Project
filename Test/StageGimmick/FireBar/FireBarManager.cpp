@@ -21,11 +21,12 @@ void FireBarManager::Reset() {
 	Clear();
 }
 
-void FireBarManager::Create(const FireBar::Desc& desc) {
+void FireBarManager::Create(const FireBar::Desc& desc, uint32_t index) {
 	FireBar* fireBar = new FireBar();
 	fireBar->SetCamera(camera_);
 	fireBar->SetPlayer(player_);
 	fireBar->Initialize(desc);
+	fireBar->stageGimmickNumber = index;
 	fireBars_.emplace_back(std::move(fireBar));
 }
 

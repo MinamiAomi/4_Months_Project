@@ -56,6 +56,7 @@ private:
 		std::vector<Pendulum::Desc>pendulumDesc;
 		std::vector<RevengeCoin::Desc>revengeCoinDesc;
 		std::vector<StageObject::Desc>stageObjectDesc;
+		// ステージ全体の長さ
 		float stageSize;
 	};
 
@@ -63,12 +64,21 @@ private:
 
 	void InitializeCreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void Clear();
+	void DeleteObject();
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
-	void CreateStageObject(const Desc& stageData, float distance);
+	void CreateStageObject(const Desc& stageData, float distance, uint32_t index);
+
+	struct StageDistance {
+		float distance;
+		uint32_t stageIndex;
+		uint32_t stageNum;
+	};
 
 	std::vector<Desc> stageData_;
+	std::vector<StageDistance> stageDistance_;
 	Random::RandomNumberGenerator rnd_;
 	bool isCreateStage_;
+	uint32_t stageNum_;
 #pragma region
 	std::unique_ptr<BeltConveyorManager> beltConveyorManager_;
 	std::unique_ptr<BlockManager> blockManager_;

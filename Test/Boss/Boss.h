@@ -10,6 +10,7 @@
 #include "BossStateManager/BossStateManager.h"
 #include "BossHP/BossHP.h"
 #include "BossUI/BossUI.h"
+#include "BossParticle/BossLineParticle.h"
 
 class Player;
 class Camera;
@@ -23,8 +24,9 @@ public:
 	void Reset(uint32_t stageIndex);
 	void SetIsMove(bool flag) { isMove_ = flag; }
 	bool GetIsMove() { return isMove_; }
-	bool GetIsFirstHit() { return isFirstHit_; }
-	void SetCamera(const Camera* camera) { camera_ = camera; }
+	bool GetIsFirstHit() const  { return isFirstHit_; }
+	void SetIsEndFirstHitMovie(bool flag) { isEndFirstHitMovie_ = flag; }
+	void SetCamera(Camera* camera) { camera_ = camera; }
 	void SetPlayer(Player* player) { player_ = player; }
 	const bool GetIsAlive() const { return isAlive_; }
 
@@ -34,7 +36,7 @@ public:
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
-	const Camera* camera_;
+	Camera* camera_;
 	Player* player_;
 
 	std::unique_ptr<BoxCollider> collider_;
@@ -47,6 +49,8 @@ private:
 
 	std::unique_ptr<BossUI> bossUI_;
 
+	std::unique_ptr<BossLineParticle> bossLineParticle_;
+
 	Vector3 velocity_;
 	Vector3 offset_;
 	Vector3 easingStartPosition_;
@@ -56,4 +60,5 @@ private:
 	bool isMove_;
 	bool isAlive_;
 	bool isFirstHit_;
+	bool isEndFirstHitMovie_;
 };

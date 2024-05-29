@@ -10,12 +10,10 @@ class BossDustParticle {
 public:
 	static const uint32_t kParticleNum = 50;
 
-	void Initialize();
+	void Initialize(const Boss* boss);
 	void Update();
 
 	void Reset();
-
-	void SetBoss(Boss* boss) { boss_ = boss; }
 
 	struct DustParticle {
 		Transform transform;
@@ -32,7 +30,7 @@ private:
 
 	Random::RandomNumberGenerator rng_;
 
-	Boss* boss_;
+	const Boss* boss_;
 	Transform emitTransform_;
 	std::array<DustParticle, kParticleNum> particles_;
 	float speed_ = 0.1f;

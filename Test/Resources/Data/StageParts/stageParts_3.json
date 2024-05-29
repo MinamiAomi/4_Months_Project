@@ -2405,7 +2405,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 2
+                "state": 1
             }
         },
         {
@@ -2451,7 +2451,7 @@
             },
             "gimmick": {
                 "type": "Trigger",
-                "state": 2
+                "state": 1
             }
         }
     ]

@@ -11,6 +11,7 @@
 #include "Scene/SceneManager.h"
 #include "Framework/ResourceManager.h"
 #include "TitleScene.h"
+#include "Debug/Debug.h"
 
 void GameScene::OnInitialize() {
 
@@ -107,6 +108,8 @@ void GameScene::OnInitialize() {
 	pause_->Initialize();
 
 	gameStartMovie_->ResetIsEnd();
+
+	Character::isEndFirstChange_ = false;
 }
 
 void GameScene::OnUpdate() {
@@ -187,14 +190,17 @@ void GameScene::OnUpdate() {
 				boss_->Update();
 				stageBlockManager_->Update();
 			}
+			player_->SceneChangeUpdate();
 
 			skyBlockManager_->Update();
 
 			cutIn_->Update();
 
 			// 当たり判定を取る
-
-			CollisionManager::GetInstance()->CheckCollision();
+			auto time = Debug::ElapsedTime([&]() {
+				CollisionManager::GetInstance()->CheckCollision();
+				});
+			Debug::Log(std::format("Collision : {}\n", time));
 
 			cameraManager_->Update();
 			GameSpeed::Update();

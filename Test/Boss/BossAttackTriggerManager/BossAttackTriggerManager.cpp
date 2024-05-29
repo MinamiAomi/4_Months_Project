@@ -6,9 +6,8 @@
 #include "StageGimmick/StageGimmick.h"
 #include "CharacterState.h"
 
-void BossAttackTriggerManager::Initialize(uint32_t stageIndex) {
+void BossAttackTriggerManager::Initialize() {
 	bossAttackTriggers_.clear();
-	LoadJson(stageIndex);
 }
 
 void BossAttackTriggerManager::Update() {
@@ -46,11 +45,12 @@ void BossAttackTriggerManager::Update() {
 	}
 }
 
-void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc) {
+void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc , uint32_t index) {
 	BossAttackTrigger* bossAttackTrigger = new BossAttackTrigger();
 	bossAttackTrigger->SetCamera(camera_);
 	bossAttackTrigger->SetBoss(boss_);
 	bossAttackTrigger->Initialize(desc);
+	bossAttackTrigger->stageGimmickNumber=index;
 	bossAttackTriggers_.emplace_back(std::move(bossAttackTrigger));
 }
 
@@ -66,9 +66,8 @@ void BossAttackTriggerManager::Delete(BossAttackTrigger* bossAttackTrigger) {
 	}
 }
 
-void BossAttackTriggerManager::Reset(uint32_t stageIndex) {
+void BossAttackTriggerManager::Reset() {
 	Clear();
-	LoadJson(stageIndex);
 }
 
 void BossAttackTriggerManager::Clear() {
@@ -78,30 +77,5 @@ void BossAttackTriggerManager::Clear() {
 void BossAttackTriggerManager::SetModelIsAlive(bool flag) {
 	for (auto& trigger : bossAttackTriggers_) {
 		trigger->SetIsModelAlive(flag);
-	}
-}
-
-void BossAttackTriggerManager::LoadJson(uint32_t stageIndex) {
-	stageIndex;
-	std::ifstream ifs(StageGimmick::stageScenePath_);
-	if (!ifs.is_open()) {
-		return;
-	}
-
-	// JSONをパースしてルートオブジェクトを取得
-	nlohmann::json root;
-	ifs >> root;
-	ifs.close();
-
-	// "objects"配列から"Block"オブジェクトを処理
-	for (const auto& obj : root["objects"]) {
-		if (obj.contains("gimmick") &&
-			obj["gimmick"]["type"] == "Trigger") {
-			BossAttackTrigger::Desc desc{};
-			desc.desc = StageGimmick::GetDesc(obj);
-			const auto& gimmick = obj["gimmick"];
-			desc.state = static_cast<BossStateManager::State>(gimmick["state"] + 1);
-			Create(desc);
-		}
 	}
 }
