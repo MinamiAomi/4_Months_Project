@@ -25,7 +25,7 @@ public:
 	bool GetIsMove() { return isMove_; }
 	bool GetIsFirstHit() const  { return isFirstHit_; }
 	void SetIsEndFirstHitMovie(bool flag) { isEndFirstHitMovie_ = flag; }
-	void SetCamera(const Camera* camera) { camera_ = camera; }
+	void SetCamera(Camera* camera) { camera_ = camera; }
 	void SetPlayer(Player* player) { player_ = player; }
 	const bool GetIsAlive() const { return isAlive_; }
 
@@ -35,7 +35,7 @@ public:
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
-	const Camera* camera_;
+	Camera* camera_;
 	Player* player_;
 
 	std::unique_ptr<BoxCollider> collider_;
