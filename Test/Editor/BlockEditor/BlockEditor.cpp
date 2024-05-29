@@ -45,8 +45,8 @@ void BlockEditor::Initialize() {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::Block);
-	collider_->SetCollisionMask(~CollisionAttribute::Block);
+	//collider_->SetCollisionAttribute(CollisionAttribute::Block);
+	//collider_->SetCollisionMask(~CollisionAttribute::Block);
 #ifdef _DEBUG
 	collider_->SetIsActive(true);
 #else

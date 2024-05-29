@@ -28,8 +28,8 @@ void RevengeCoin::Initialize(const Desc& desc) {
 	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
 	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::RevengeCoin);
-	collider_->SetCollisionMask(~CollisionAttribute::RevengeCoin);
+	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
