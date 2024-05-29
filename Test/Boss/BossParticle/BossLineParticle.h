@@ -6,9 +6,9 @@
 #include "Math/Transform.h"
 #include "Math/Random.h"
 class Boss;
-class BossDustParticle {
+class BossLineParticle {
 public:
-	static const uint32_t kParticleNum = 50;
+	static const uint32_t kParticleNum = 200;
 
 	void Initialize(const Boss* boss);
 	void Update();
@@ -34,11 +34,13 @@ private:
 	Transform emitTransform_;
 	std::array<DustParticle, kParticleNum> particles_;
 	float speed_ = 0.1f;
-	float scaleSpeed_ = 0.03f;
-	Vector3 initialScale = {0.5f,0.5f,0.5f};
+	float scaleSpeed_ = 0.04f;
+	Vector3 initialScale = {1.5f,1.5f,1.5f};
 	bool isEmit_ = false;
-	uint32_t emitNum_ = 1;
+	uint32_t emitNum_ = 4;
 	Vector3 minDirection_;
 	Vector3 maxDirection_;
+
+	float stageWidth_ = 40.0f;
 	
 };
