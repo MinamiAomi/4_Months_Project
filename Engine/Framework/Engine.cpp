@@ -11,7 +11,7 @@
 
 void Engine::Run(Game* game) {
     auto gameWindow = GameWindow::GetInstance();
-    gameWindow->Initialize(L"AL4", 1920, 1080);
+    gameWindow->Initialize(L"シグルロード", 1920, 1080);
 
     auto graphics = Graphics::GetInstance();
     graphics->Initialize();
