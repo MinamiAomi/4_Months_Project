@@ -58,6 +58,8 @@ private:
 
 	float rotateVelocity_;
 
+	Desc desc_;
+
 	std::vector<std::unique_ptr<BarChildren>> barChildren_;
 };
 
@@ -93,12 +95,6 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 
 	std::optional<StageGimmick::Collider> colliderDesc_;
-
-	//Vector3 rotate_;
-
-	bool onPlayer_;
-	bool onceOnPlayer_;
-	bool isDown_;
 
 	Desc desc_;
 

@@ -43,8 +43,8 @@ void FloorEditor::Initialize() {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::Floor);
-	collider_->SetCollisionMask(~CollisionAttribute::Floor);
+	//collider_->SetCollisionAttribute(CollisionAttribute::Floor);
+	//collider_->SetCollisionMask(~CollisionAttribute::Floor);
 
 #ifdef _DEBUG
 	collider_->SetIsActive(false);

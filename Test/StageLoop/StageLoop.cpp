@@ -406,7 +406,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 		StageDistance stageDistance{};
 		// 指定がなければランダム
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size())-1);
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
 		}
 		else {
 			stageIndex = stageInputIndex;
@@ -416,7 +416,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 			distance = player_->GetWorldMatrix().GetTranslate().z + (stageData_.at(stageIndex).stageSize * 0.5f) - 10.0f;
 		}
 		else {
-			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
+			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f + stageData_.at(stageIndex).stageSize * 0.5f;
 		}
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;
@@ -463,7 +463,7 @@ void StageLoop::DeleteObject() {
 			stageDistance_.end());
 	}
 
- 	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
+	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
 	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
 		if ((*it)->stageGimmickNumber != leaveIndex) {
 			it = bossTriggers.erase(it);
@@ -582,19 +582,19 @@ void StageLoop::DeleteObject() {
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	DeleteObject();
 
-	float distance = stageDistance_.at(0).distance;
 	uint32_t stageIndex;
+	float distance = stageDistance_.at(0).distance;
 	for (uint32_t i = 1; i < kCreateStageNum; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size())-1);
+			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
 		}
 		else {
 			stageIndex = stageInputIndex;
 		}
-
-
-		distance -= stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
+		
+		distance -= (stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f)+(stageData_.at(stageIndex).stageSize * 0.5f);
+		
 
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;

@@ -56,6 +56,7 @@ private:
 		std::vector<Pendulum::Desc>pendulumDesc;
 		std::vector<RevengeCoin::Desc>revengeCoinDesc;
 		std::vector<StageObject::Desc>stageObjectDesc;
+		// ステージ全体の長さ
 		float stageSize;
 	};
 
