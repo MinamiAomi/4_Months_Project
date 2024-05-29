@@ -6,7 +6,7 @@
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
 #include "GameSpeed.h"
-
+#include "BossBulletManager.h"
 
 void BossStateManager::Initialize() {
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
@@ -35,6 +35,14 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.beamAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.attackEasingTime);
 	JSON_ROOT();
+	JSON_OBJECT("StateShotAttack");
+	JSON_LOAD(jsonData_.shotAttackData.chargeEasingTime);
+	JSON_LOAD(jsonData_.shotAttackData.attackEasingTime);
+	JSON_LOAD(jsonData_.shotAttackData.numBullet);
+	JSON_LOAD(jsonData_.shotAttackData.offset);
+	JSON_LOAD(jsonData_.shotAttackData.range);
+	JSON_LOAD(jsonData_.shotAttackData.velocity);
+	JSON_ROOT();
 	JSON_CLOSE();
 	state_ = State::kRoot;
 }
@@ -61,9 +69,9 @@ void BossStateManager::OnCollision(const CollisionInfo& collisionInfo) {
 
 void BossStateManager::DrawImGui() {
 #ifdef _DEBUG
-	ImGui::Begin("Editor"); 
+	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
-		const char* items[] = { "Root", "Hook" ,"InsideAttack","LowerAttack" ,"BeamAttack" };
+		const char* items[] = { "Root", "Hook" ,"InsideAttack","LowerAttack" ,"BeamAttack","ShotAttack" };
 		static int selectedItem = static_cast<int>(state_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 			state_ = static_cast<State>(selectedItem);
@@ -103,6 +111,10 @@ void BossStateManager::DrawImGui() {
 					beamAttackModel->vector_ = { 1.0f,0.0f,0.0f };
 				}
 			}
+			case State::kShotAttack:
+			{
+				ChangeState(State::kShotAttack);
+			}
 			break;
 			}
 		}
@@ -136,6 +148,17 @@ void BossStateManager::DrawImGui() {
 			ImGui::DragFloat("attackEasingTime", &jsonData_.beamAttackData.attackEasingTime, 0.1f);
 			ImGui::TreePop();
 		}
+		if (ImGui::TreeNode("ShotAttack")) {
+			ImGui::DragFloat3("offset", &jsonData_.shotAttackData.offset.x, 0.1f);
+			ImGui::DragFloat("chargeEasingTime", &jsonData_.shotAttackData.chargeEasingTime, 0.1f);
+			ImGui::DragFloat("attackEasingTime", &jsonData_.shotAttackData.attackEasingTime, 0.1f);
+			ImGui::DragFloat("弾打つ幅", &jsonData_.shotAttackData.range, 0.1f, 0.0f);
+			ImGui::DragFloat("弾打つ速度", &jsonData_.shotAttackData.velocity, 0.1f, 0.0f);
+			int num = jsonData_.shotAttackData.numBullet;
+			ImGui::DragInt("attackEasingTime中に打つ弾の数", &num, 1, 0);
+			jsonData_.shotAttackData.numBullet = num;
+			ImGui::TreePop();
+		}
 		activeState_->SetDesc();
 		if (ImGui::Button("Save")) {
 			JSON_OPEN("Resources/Data/Boss/Boss.json");
@@ -164,6 +187,14 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.beamAttackData.chargeEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.attackEasingTime);
 			JSON_ROOT();
+			JSON_OBJECT("StateShotAttack");
+			JSON_SAVE(jsonData_.shotAttackData.chargeEasingTime);
+			JSON_SAVE(jsonData_.shotAttackData.attackEasingTime);
+			JSON_SAVE(jsonData_.shotAttackData.numBullet);
+			JSON_SAVE(jsonData_.shotAttackData.offset);
+			JSON_SAVE(jsonData_.shotAttackData.range);
+			JSON_SAVE(jsonData_.shotAttackData.velocity);
+			JSON_ROOT();
 			JSON_CLOSE();
 		}
 		ImGui::EndMenu();
@@ -189,6 +220,9 @@ void BossStateManager::ChangeState(const BossStateManager::State& state) {
 		break;
 	case BossStateManager::kBeamAttack:
 		standbyState_ = std::make_unique<BossStateBeamAttack>(*this);
+		break;
+	case BossStateManager::kShotAttack:
+		standbyState_ = std::make_unique<BossStateShotAttack>(*this);
 		break;
 	default:
 		break;
@@ -393,7 +427,7 @@ void BossStateInsideAttack::AttackUpdate() {
 		manager_.ChangeState(BossStateManager::State::kRoot);
 	}
 	else {
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.scale= Vector3::one;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->transform.scale = Vector3::one;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(true);
 	}
 }
@@ -467,5 +501,70 @@ void BossStateBeamAttack::AttackUpdate() {
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 		manager_.ChangeState(BossStateManager::State::kRoot);
+	}
+}
+
+void BossStateShotAttack::Initialize() {
+	SetDesc();
+	attackState_ = kChage;
+	time_ = 0.0f;
+	lastBulletTime_ = 0.0f;
+}
+
+void BossStateShotAttack::SetDesc() {
+	data_ = manager_.jsonData_.shotAttackData;
+}
+
+void BossStateShotAttack::Update() {
+	switch (attackState_) {
+	case BossState::kChage:
+	{
+		ChargeUpdate();
+	}
+	break;
+	case BossState::kAttack:
+	{
+		AttackUpdate();
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void BossStateShotAttack::OnCollision(const CollisionInfo& collisionInfo) {
+	collisionInfo;
+}
+
+void BossStateShotAttack::ChargeUpdate() {
+	float t = time_ / data_.chargeEasingTime;
+	time_ += 1.0f;
+	auto& skeleton = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kShotAttack);
+	skeleton->ApplyAnimation(parts.animation->GetAnimation("shotAttack"), t);
+	skeleton->Update();
+	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
+	if (t >= 1.0f) {
+		attackState_ = kAttack;
+		time_ = 0.0f;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
+	}
+}
+
+void BossStateShotAttack::AttackUpdate() {
+	float t = time_ / data_.attackEasingTime;
+	time_ += 1.0f;
+
+	float interval = data_.attackEasingTime / data_.numBullet;
+
+	if (time_ >= lastBulletTime_ + interval) {
+		float x = (rnd_.NextIntRange(-1, 1)) * data_.range;
+		BossBulletManager::GetInstance()->Create(manager_.boss.transform.worldMatrix.GetTranslate() + Vector3(x, 0.0f, 0.0f)+ data_.offset, Vector3(0.0f, 0.0f, -data_.velocity));
+		lastBulletTime_ += interval;
+	}
+
+	if (t >= 1.0f) {
+		manager_.ChangeState(BossStateManager::State::kRoot);
+		lastBulletTime_ = 0.0f;
 	}
 }

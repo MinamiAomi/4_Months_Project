@@ -20,6 +20,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BossBullet.cpp" />
+    <ClCompile Include="BossBulletManager.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTrigger.cpp" />
     <ClCompile Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.cpp" />
@@ -96,6 +98,8 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BossBullet.h" />
+    <ClInclude Include="BossBulletManager.h" />
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTrigger.h" />
     <ClInclude Include="Boss\BossAttackTriggerManager\BossAttackTriggerManager.h" />

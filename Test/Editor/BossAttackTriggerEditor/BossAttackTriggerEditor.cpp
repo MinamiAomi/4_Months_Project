@@ -92,7 +92,7 @@ void BossAttackTriggerEditor::Update() {
 			if (ImGui::TreeNode(("BossState:" + std::to_string(i)).c_str())) {
 				auto& desc = bossAtackTrigger->GetDesc();
 				ImGui::DragFloat(("pos:" + std::to_string(i)).c_str(), &desc.desc.transform.translate.x, 1.0f);
-				const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack" "BeamAttack"};
+				const char* items[] = { "Root", "Hook" ,"LowerAttack","InsideAttack" "BeamAttack","ShotAttack"};
 				int selectedItem = static_cast<int>(desc.state);
 				if (ImGui::Combo(("State:" + std::to_string(i)).c_str(), &selectedItem, items, IM_ARRAYSIZE(items))) {
 					desc.state = static_cast<BossStateManager::State>(selectedItem);
@@ -120,6 +120,10 @@ void BossAttackTriggerEditor::Update() {
 					case BossStateManager::State::kBeamAttack:
 					{
 						desc.state = BossStateManager::State::kBeamAttack;
+					}
+					case BossStateManager::State::kShotAttack:
+					{
+						desc.state = BossStateManager::State::kShotAttack;
 					}
 					break;
 					}

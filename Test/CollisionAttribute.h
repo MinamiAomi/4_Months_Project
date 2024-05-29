@@ -13,4 +13,5 @@ namespace CollisionAttribute {
     const uint32_t GameObject = 0b1000;
     const uint32_t Ground = 0b10000;
     const uint32_t DropGimmickDropperBall = 0b100000;
+    const uint32_t BossBullet = 0b1000000;
 }
