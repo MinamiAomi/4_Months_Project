@@ -1,6 +1,7 @@
 {
     "BossHP": {
         "ballHitDamage_": 1,
-        "playerHitDamage_": 8
+        "playerHitDamage_": 8,
+        "totalBallShakeFrame_": 15
     }
 }

@@ -31,6 +31,7 @@ public:
 	void Initialize(const Desc& desc);
 	void Update();
 
+
 	bool GetIsAlive() { return isAlive_; }
 
 	void SetPlayer(const Player* player) { player_ = player; }
@@ -80,10 +81,17 @@ private:
 	
 
 	std::unique_ptr<BoxCollider> collider_;
-	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<ModelInstance> switchBase_;
+	std::unique_ptr<ModelInstance> switch_;
+
+	Transform switchTransform_;
+
 	Desc desc_;
 	
 	bool isPushed_;
+
+	// 0~1
+	float time_;
 };
 
 class Dropper :
@@ -95,6 +103,7 @@ public:
 	};
 	void Initialize(const Desc& desc);
 	void Update();
+
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
@@ -117,10 +126,10 @@ class DropperBallManager {
 public:
 	void Create(const DropperBall::Desc& desc, uint32_t index);
 	void Update();
-
-	void Delete(DropperBall* ball);
-
+	
 	void Reset();
+	
+	void Delete(DropperBall* ball);
 
 	void SetPlayer(const Player* player) { player_ = player; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }

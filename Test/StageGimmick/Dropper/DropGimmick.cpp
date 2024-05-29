@@ -111,7 +111,8 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 void Switch::Initialize(const Desc& desc) {
-	model_ = std::make_unique<ModelInstance>();
+	switchBase_ = std::make_unique<ModelInstance>();
+	switch_ = std::make_unique<ModelInstance>();
 
 	desc_ = desc;
 
@@ -119,9 +120,14 @@ void Switch::Initialize(const Desc& desc) {
 	transform.rotate = desc.desc.transform.rotate;
 	transform.translate = desc.desc.transform.translate;
 
-	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
-	model_->SetIsActive(true);
+	switchTransform_.SetParent(&transform);
 
+	switchBase_->SetModel(ResourceManager::GetInstance()->FindModel("switchBase"));
+	switch_->SetModel(ResourceManager::GetInstance()->FindModel("switch"));
+	switchBase_->SetIsActive(true);
+	switch_->SetIsActive(true);
+
+	time_ = 0.0f;
 	isPushed_ = false;
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -135,34 +141,42 @@ void Switch::Initialize(const Desc& desc) {
 	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
 
 void Switch::Update() {
 	camera_;
-	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
+	Vector3 modelSize = (switchBase_->GetModel()->GetMeshes().at(0).maxVertex - switchBase_->GetModel()->GetMeshes().at(0).minVertex);
 	Math::Sphere model{}, camera{};
 	model.center = (transform.worldMatrix.GetTranslate());
 	model.radius = ((std::max)(modelSize.z * transform.scale.z, std::max(modelSize.x * transform.scale.x, modelSize.y * transform.scale.y)));
 	camera.center = (camera_->GetPosition());
 	camera.radius = (camera_->GetFarClip());
 	if (Math::IsCollision(model, camera)) {
+		if (isPushed_) {
+			time_ += 1.0f / 30.0f;
+			switchTransform_.translate.y = std::lerp(0.0f,-1.0f, time_);
+			time_ = std::clamp(time_,0.0f,1.0f);
+		}
 		transform.UpdateMatrix();
-		model_->SetIsActive(true);
+		switchBase_->SetIsActive(true);
 		collider_->SetIsActive(true);
 		UpdateTransform();
 	}
 	else {
-		model_->SetIsActive(false);
+		switchBase_->SetIsActive(false);
 		collider_->SetIsActive(false);
 	}
 }
 
 void Switch::UpdateTransform() {
 	transform.UpdateMatrix();
+	switchTransform_.UpdateMatrix();
 	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
 	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
 	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
-	model_->SetWorldMatrix(transform.worldMatrix);
+	switchBase_->SetWorldMatrix(transform.worldMatrix);
+	switch_->SetWorldMatrix(switchTransform_.worldMatrix);
 }
 
 void Switch::OnCollision(const CollisionInfo& collisionInfo) {

@@ -1,11 +1,12 @@
 #include "BossHP.h"
 
+#include "Math/Camera.h"
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 
 void BossHP::Initialize() {
 	Reset();
-	
+
 }
 
 void BossHP::Update() {
@@ -22,11 +23,15 @@ void BossHP::Update() {
 			hp = playerHitDamage_;
 			ImGui::DragInt("プレイヤーがヒット時ダメージ量", &hp, 1, 0);
 			playerHitDamage_ = hp;
+			hp = totalBallShakeFrame_;
+			ImGui::DragInt("ボールがボスに当たった時のシェイク時間", &hp, 1, 0);
+			totalBallShakeFrame_ = hp;
 			if (ImGui::Button("Save")) {
 				JSON_OPEN("Resources/Data/Boss/BossHP.json");
 				JSON_OBJECT("BossHP");
 				JSON_SAVE(ballHitDamage_);
 				JSON_SAVE(playerHitDamage_);
+				JSON_SAVE(totalBallShakeFrame_);
 				JSON_CLOSE();
 			}
 			ImGui::TreePop();
@@ -46,38 +51,38 @@ void BossHP::Reset() {
 	JSON_OBJECT("BossHP");
 	JSON_LOAD(ballHitDamage_);
 	JSON_LOAD(playerHitDamage_);
+	JSON_LOAD(totalBallShakeFrame_);
 	JSON_CLOSE();
 	//
-	shakeframe = kShakeframe;
-	isShake = false;
+	shakeFrame_ = 0;
+	isShake_ = false;
 	//
 }
 
 void BossHP::AddPlayerHitHP() {
 	currentHP_ -= playerHitDamage_;
 	currentHP_ = std::clamp(currentHP_, 0, kMaxHP);
-	//
-	isShake = true;
-	//
 }
 
 void BossHP::AddBallHitHP() {
 	currentHP_ -= ballHitDamage_;
 	currentHP_ = std::clamp(currentHP_, 0, kMaxHP);
 	//
-	isShake = true;
+	shakeFrame_ = totalBallShakeFrame_;
+	isShake_ = true;
 	//
 }
 
 void BossHP::Shake() {
-	if (isShake) {
+	if (isShake_) {
 		camera_->Shake({ 0.5f,0.5f,0.5f });
 
-		if (shakeframe <= 0) {
-			shakeframe = kShakeframe;
-			camera_->SetPosition(stageCamera_->GetCamera()->GetPosition());
-			camera_->SetRotate(stageCamera_->GetCamera()->GetRotate());
-			isShake = false;
+		if (shakeFrame_ > 0) {
+			shakeFrame_--;
+		}
+		else {
+			shakeFrame_ = 0;
+			isShake_ = false;
 		}
 	}
 }
