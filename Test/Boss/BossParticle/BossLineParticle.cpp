@@ -1,12 +1,14 @@
-#include "BossDustParticle.h"
+#include "BossLineParticle.h"
 #include "Boss/Boss.h"
 #include "Framework/ResourceManager.h"
 
-void BossDustParticle::Initialize(const Boss* boss) {
+void BossLineParticle::Initialize(const Boss* boss) {
 	boss_ = boss;
 	minDirection_ = { -0.5f,0.5f,-0.5f };
 	maxDirection_ = { 0.5f,1.0f,0.5f };
 	emitTransform_.SetParent(&boss_->transform,false);
+	emitTransform_.translate = { 0.0f,0.0f,-20.0f };
+	isEmit_ = true;
 	for (DustParticle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
 		particle.model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
@@ -14,21 +16,20 @@ void BossDustParticle::Initialize(const Boss* boss) {
 	Reset();
 }
 
-void BossDustParticle::Update() {
+void BossLineParticle::Update() {
 	Emit();
 	ParticleUpdate();
 }
 
-void BossDustParticle::Reset() {
+void BossLineParticle::Reset() {
 	for (DustParticle & particle : particles_) {
 		particle.isActive = false;
 		particle.model_->SetIsActive(false);
 	}
 }
 
-void BossDustParticle::Emit()
+void BossLineParticle::Emit()
 {
-	//isEmit_ = boss_->GetIsMove() && boss_->GetIsGround();
 
 	if (isEmit_) {
 
@@ -41,6 +42,7 @@ void BossDustParticle::Emit()
 					particle.model_->SetIsActive(true);
 					
 					particle.transform.translate = emitTransform_.worldMatrix.GetTranslate();
+					particle.transform.translate.z += rng_.NextFloatRange(-stageWidth_ / 2.0f, stageWidth_ / 2.0f);
 					particle.transform.rotate = Quaternion::identity;
 					particle.transform.scale = initialScale;
 					particle.direction = Vector3{ rng_.NextFloatRange(minDirection_.x,maxDirection_.x),rng_.NextFloatRange(minDirection_.y,maxDirection_.y) ,rng_.NextFloatRange(minDirection_.z,maxDirection_.z) };
@@ -51,7 +53,7 @@ void BossDustParticle::Emit()
 	}
 }
 
-void BossDustParticle::ParticleUpdate()
+void BossLineParticle::ParticleUpdate()
 {
 	for (uint32_t i = 0; DustParticle & particle : particles_) {
 		float rotationSpeed = (2.0f * Math::ToRadian) * (float(i % 2) * 2.0f - 1.0f);
