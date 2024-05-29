@@ -154,7 +154,13 @@
     "bollLongDistanceAttack": {},
     "bossBeamAttack": {},
     "bossBody": {},
-    "bossFloorAll": {},
+    "bossFloorAll": {
+        "offset_": [
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
     "bossLaser": {},
     "bossLeftArm": {
         "offset_": [
