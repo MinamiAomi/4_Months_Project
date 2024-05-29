@@ -13,6 +13,7 @@ void RevengeCoin::Initialize(const Desc& desc) {
 	transform.translate = desc.desc.transform.translate;
 	transform.UpdateMatrix();
 	colliderDesc_ = desc.desc.collider;
+	time_ = 0.0f;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
@@ -27,8 +28,8 @@ void RevengeCoin::Initialize(const Desc& desc) {
 	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
 	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::RevengeCoin);
-	collider_->SetCollisionMask(~CollisionAttribute::RevengeCoin);
+	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
@@ -36,6 +37,10 @@ void RevengeCoin::Initialize(const Desc& desc) {
 
 void RevengeCoin::Update() {
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		static const float kMaxTime = 60.0f;
+		transform.translate.y = std::sin(time_ / kMaxTime * Math::TwoPi);
+		time_ += 1.0f;
+		time_ = std::fmodf(time_, kMaxTime);
 
 		UpdateTransform();
 		// 雑カリング
@@ -60,6 +65,7 @@ void RevengeCoin::Reset() {
 }
 
 void RevengeCoin::UpdateTransform() {
+	transform.UpdateMatrix();
 	transform.UpdateMatrix();
 	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
 	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);

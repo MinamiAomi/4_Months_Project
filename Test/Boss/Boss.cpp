@@ -53,7 +53,7 @@ void Boss::Initialize() {
 	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 5.0f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
-	collider_->SetCollisionMask(~CollisionAttribute::Boss);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetIsActive(true);
 
 
@@ -134,10 +134,10 @@ void Boss::Update() {
 	default:
 		break;
 	}
-	UpdateTransform();
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
+	UpdateTransform();
 	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
 	}
