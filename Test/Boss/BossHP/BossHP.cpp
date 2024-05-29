@@ -35,6 +35,9 @@ void BossHP::Update() {
 	}
 	ImGui::End();
 #endif // _DEBUG
+	//
+	Shake();
+	//	
 }
 
 void BossHP::Reset() {
