@@ -26,7 +26,7 @@ void Boss::Initialize() {
 
 	bossHP_ = std::make_unique<BossHP>();
 	bossHP_->Initialize();
-
+	
 	bossUI_ = std::make_unique<BossUI>();
 	bossUI_->SetBossHP(bossHP_.get());
 	bossUI_->Initialize();

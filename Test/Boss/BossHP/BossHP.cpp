@@ -3,8 +3,9 @@
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 
-void BossHP::Initialize() {
+void BossHP::Initialize(Camera* camera) {
 	Reset();
+	camera_ = camera;
 }
 
 void BossHP::Update() {
@@ -43,16 +44,37 @@ void BossHP::Reset() {
 	JSON_LOAD(ballHitDamage_);
 	JSON_LOAD(playerHitDamage_);
 	JSON_CLOSE();
-
+	//
+	shakeframe = kShakeframe;
+	isShake = false;
+	//
 }
 
 void BossHP::AddPlayerHitHP() {
 	currentHP_ -= playerHitDamage_;
 	currentHP_ = std::clamp(currentHP_, 0, kMaxHP);
-
+	//
+	isShake = true;
+	//
 }
 
 void BossHP::AddBallHitHP() {
 	currentHP_ -= ballHitDamage_;
 	currentHP_ = std::clamp(currentHP_, 0, kMaxHP);
+	//
+	isShake = true;
+	//
+}
+
+void BossHP::Shake() {
+	if (isShake) {
+		camera_->Shake({ 0.5f,0.5f,0.5f });
+
+		if (shakeframe <= 0) {
+			shakeframe = kShakeframe;
+			camera_->SetPosition(stageCamera_->GetCamera()->GetPosition());
+			camera_->SetRotate(stageCamera_->GetCamera()->GetRotate());
+			isShake = false;
+		}
+	}
 }
