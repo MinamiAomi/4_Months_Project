@@ -54,7 +54,7 @@ void Boss::Initialize() {
 	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 3.0f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
-	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossAttackTrigger);
 	collider_->SetIsActive(true);
 
 #pragma endregion
