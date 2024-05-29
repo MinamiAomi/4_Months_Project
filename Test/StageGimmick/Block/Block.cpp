@@ -38,26 +38,27 @@ void Block::Initialize(const Desc& desc) {
 
 void Block::Update() {
 	// 一回でもブロックに乗っていて今プレイヤーがブロックに乗っていなかったら
-
-	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
-		if (!onPlayer_ &&
-			onceOnPlayer_) {
-			transform.translate.y -= 0.05f;
+	if (Character::currentCharacterState_ != Character::State::kScneChange) {
+		if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+			if (!onPlayer_ &&
+				onceOnPlayer_) {
+				transform.translate.y -= 0.05f;
+			}
+			transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
+			if (transform.translate.y <= (-transform.scale.y * 0.5f) - 3.0f) {
+				isAlive_ = false;
+			}
+			UpdateTransform();
+			onPlayer_ = false;
+			// 雑カリング
+			model_->SetIsActive(true);
+			collider_->SetIsActive(true);
+			collider_->DebugDraw();
 		}
-		transform.translate.y = (std::max)(transform.translate.y, (-transform.scale.y * 0.5f) - 3.0f);
-		if (transform.translate.y <= (-transform.scale.y * 0.5f) - 3.0f) {
-			isAlive_ = false;
+		else {
+			model_->SetIsActive(false);
+			collider_->SetIsActive(false);
 		}
-		UpdateTransform();
-		onPlayer_ = false;
-		// 雑カリング
-		model_->SetIsActive(true);
-		collider_->SetIsActive(true);
-		collider_->DebugDraw();
-	}
-	else {
-		model_->SetIsActive(false);
-		collider_->SetIsActive(false);
 	}
 }
 

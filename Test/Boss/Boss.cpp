@@ -134,10 +134,10 @@ void Boss::Update() {
 	default:
 		break;
 	}
-	UpdateTransform();
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
+	UpdateTransform();
 	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
 	}

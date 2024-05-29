@@ -13,6 +13,7 @@ void RevengeCoin::Initialize(const Desc& desc) {
 	transform.translate = desc.desc.transform.translate;
 	transform.UpdateMatrix();
 	colliderDesc_ = desc.desc.collider;
+	time_ = 0.0f;
 
 	model_->SetModel(ResourceManager::GetInstance()->FindModel(desc.desc.name));
 	model_->SetIsActive(true);
@@ -36,6 +37,10 @@ void RevengeCoin::Initialize(const Desc& desc) {
 
 void RevengeCoin::Update() {
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+		static const float kMaxTime = 60.0f;
+		transform.translate.y = std::sin(time_ / kMaxTime * Math::TwoPi);
+		time_ += 1.0f;
+		time_ = std::fmodf(time_, kMaxTime);
 
 		UpdateTransform();
 		// 雑カリング
@@ -60,6 +65,7 @@ void RevengeCoin::Reset() {
 }
 
 void RevengeCoin::UpdateTransform() {
+	transform.UpdateMatrix();
 	transform.UpdateMatrix();
 	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
 	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
