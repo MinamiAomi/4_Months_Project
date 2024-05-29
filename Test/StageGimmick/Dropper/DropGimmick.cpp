@@ -34,7 +34,7 @@ void DropperBall::Initialize(const Desc& desc) {
 	collider_->SetSize({ transform.scale.x * modelSize.x,transform.scale.y * modelSize.y,transform.scale.z * modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickDropperBall);
-	collider_->SetCollisionMask(~CollisionAttribute::DropGimmickDropperBall);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::Boss | CollisionAttribute::Ground);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
@@ -59,7 +59,7 @@ void DropperBall::Update() {
 			transform.translate = Vector3::QuadraticBezierCurve(
 				time_ / kMax,
 				setPos_,
-				Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z+((setPos_.z-boss_->transform.worldMatrix.GetTranslate().z)*0.5f)) + random_,
+				Vector3(0.0f, 0.0f, boss_->transform.worldMatrix.GetTranslate().z + ((setPos_.z - boss_->transform.worldMatrix.GetTranslate().z) * 0.5f)) + random_,
 				boss_->transform.worldMatrix.GetTranslate());
 			time_ += 1.0f;
 			if (time_ >= kMax) {
@@ -131,8 +131,8 @@ void Switch::Initialize(const Desc& desc) {
 	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
 	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickSwitch);
-	collider_->SetCollisionMask(~CollisionAttribute::DropGimmickSwitch);
+	collider_->SetCollisionAttribute(CollisionAttribute::Ground);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetIsActive(true);
 #pragma endregion
 }
@@ -197,8 +197,8 @@ void Dropper::Initialize(const Desc& desc) {
 	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
 	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickDropper);
-	collider_->SetCollisionMask(~CollisionAttribute::DropGimmickDropper);
+	collider_->SetCollisionAttribute(CollisionAttribute::Ground);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetIsActive(true);
 #pragma endregion
 }
@@ -264,7 +264,7 @@ void DropGimmick::Update() {
 			isAllSwich = false;
 		}
 	}
-	
+
 	for (auto& dropper : dropper_) {
 		dropper->Update();
 	}
@@ -273,7 +273,7 @@ void DropGimmick::Update() {
 		for (auto& dropper : dropper_) {
 			DropperBall::Desc desc{};
 			desc.desc.transform.translate = dropper->transform.worldMatrix.GetTranslate();
-			dropperBallManager_->Create(desc,0);
+			dropperBallManager_->Create(desc, 0);
 		}
 	}
 }
@@ -283,7 +283,7 @@ void DropperBallManager::Create(const DropperBall::Desc& desc, uint32_t index) {
 	ball->SetPlayer(player_);
 	ball->SetCamera(camera_);
 	ball->SetBoss(boss_);
-	ball->stageGimmickNumber=index;
+	ball->stageGimmickNumber = index;
 	ball->Initialize(desc);
 	dropperBalls_.emplace_back(std::move(ball));
 }

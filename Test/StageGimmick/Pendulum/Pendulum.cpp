@@ -27,8 +27,8 @@ void Stick::Initialize(const Transform* Transform, float length, float scale) {
 	modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::PendulumBall);
-	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
+	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
@@ -81,8 +81,8 @@ void Ball::Initialize(const Transform* Transform, float length, float scale) {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::PendulumBall);
-	collider_->SetCollisionMask(~CollisionAttribute::PendulumBall);
+	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();

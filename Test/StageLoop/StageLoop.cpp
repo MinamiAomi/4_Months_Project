@@ -416,7 +416,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 			distance = player_->GetWorldMatrix().GetTranslate().z + (stageData_.at(stageIndex).stageSize * 0.5f) - 10.0f;
 		}
 		else {
-			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
+			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f + stageData_.at(stageIndex).stageSize * 0.5f;
 		}
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;
@@ -582,9 +582,9 @@ void StageLoop::DeleteObject() {
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	DeleteObject();
 
-	float distance = 0.0f;
 	uint32_t stageIndex;
-	for (uint32_t i = 0; i < kCreateStageNum; i++) {
+	float distance = stageDistance_.at(0).distance;
+	for (uint32_t i = 1; i < kCreateStageNum; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
 			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
@@ -592,14 +592,9 @@ void StageLoop::CreateStage(uint32_t stageInputIndex) {
 		else {
 			stageIndex = stageInputIndex;
 		}
-
-		// 最初だけ
-		if (i == 0) {
-			distance -= stageDistance_.at(i).distance;
-		}
-		else {
-			distance -= stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
-		}
+		
+		distance -= (stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f)+(stageData_.at(stageIndex).stageSize * 0.5f);
+		
 
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;

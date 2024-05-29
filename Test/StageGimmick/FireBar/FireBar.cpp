@@ -18,7 +18,7 @@ void BarChildren::Initialize(uint32_t count) {
 	transform.rotate = Quaternion::identity;
 	transform.translate = Vector3::zero;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	transform.translate.z = (modelSize.z * transform.scale.z)*(count + 1);
+	transform.translate.z = (modelSize.z * transform.scale.z) * (count + 1);
 	transform.UpdateMatrix();
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -29,8 +29,8 @@ void BarChildren::Initialize(uint32_t count) {
 
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::FireBarBar);
-	collider_->SetCollisionMask(~CollisionAttribute::FireBarBar);
+	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
@@ -99,7 +99,7 @@ void Bar::SetDesc(const Desc& desc) {
 }
 
 void Bar::SetIsActive(bool flag) {
-	for (auto & child : barChildren_) {
+	for (auto& child : barChildren_) {
 		child->SetIsActive(flag);
 	}
 }
@@ -143,8 +143,8 @@ void FireBar::Initialize(const Desc& desc) {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
-	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
+	collider_->SetCollisionAttribute(CollisionAttribute::Ground);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();

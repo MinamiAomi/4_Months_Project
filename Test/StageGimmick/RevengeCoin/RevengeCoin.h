@@ -42,4 +42,5 @@ private:
 
 	bool isAlive_;
 
+	float time_;
 };
