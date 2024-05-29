@@ -8,7 +8,7 @@
 #include "Movie.h"
 
 
-class StartMovie : public Movie{
+class HammerMovie : public Movie{
 public:
 
 	const int kZoomFrame = 20;

@@ -1,4 +1,4 @@
-#include "StartMovie.h"
+#include "HammerMovie.h"
 
 
 #include "File/JsonHelper.h"
@@ -6,7 +6,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "Input/Input.h"
 
-void StartMovie::Update() {
+void HammerMovie::Update() {
 	Vector3 playerPos = player_->GetWorldMatrix().GetTranslate();
 	if (!isInitialize_) {
 		isInitialize_ = true;
@@ -23,7 +23,7 @@ void StartMovie::Update() {
 	}
 }
 
-void StartMovie::Reset()
+void HammerMovie::Reset()
 {
 	Movie::Reset();
 }
