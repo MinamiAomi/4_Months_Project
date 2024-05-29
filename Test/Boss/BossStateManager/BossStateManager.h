@@ -19,7 +19,7 @@ public:
 		kChage,
 		kAttack,
 	};
-	BossState(BossStateManager& manager) : manager_(manager) {}
+	BossState(BossStateManager& manager, bool inTransition) : manager_(manager), inTransition_(inTransition) {}
 	virtual ~BossState() {}
 	virtual void Initialize() = 0;
 	virtual	void SetDesc() = 0;
@@ -33,6 +33,7 @@ protected:
 	AttackState attackState_;
 	float time_;
 	Random::RandomNumberGenerator rnd_;
+	bool inTransition_;
 };
 
 class BossStateRoot :
@@ -40,6 +41,7 @@ class BossStateRoot :
 public:
 	struct JsonData {
 		float allFrame;
+		float transitionFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -58,6 +60,7 @@ class BossStateHook :
 public:
 	struct JsonData {
 		float allFrame;
+		float transitionFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -79,6 +82,7 @@ public:
 		Vector3 scale;
 		float attackEasingTime;
 		float chargeEasingTime;
+		float transitionFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -102,6 +106,7 @@ public:
 		Vector3 scale;
 		float attackEasingTime;
 		float chargeEasingTime;
+		float transitionFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -126,6 +131,7 @@ public:
 		Vector3 scale;
 		float attackEasingTime;
 		float chargeEasingTime;
+		float transitionFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -168,13 +174,15 @@ public:
 
 	const JsonData& GetData() { return jsonData_; }
 	void ChangeState(const BossStateManager::State& state);
+	AnimationSet* GetPrevAnimation() const { return prevAnimation_; }
+	float GetPrevAnimationTime() const { return prevAnimationTime_; }
 
 	Boss& boss;
 	JsonData jsonData_;
 private:
 	std::unique_ptr<BossState> activeState_;
 	std::unique_ptr<BossState> standbyState_;
-	AnimationSet* prevAnimation_;
+	AnimationSet* prevAnimation_ = nullptr;
 	float prevAnimationTime_;
 	State state_;
 };
