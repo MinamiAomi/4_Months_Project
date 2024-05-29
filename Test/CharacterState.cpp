@@ -7,10 +7,14 @@ namespace Character {
 	State currentCharacterState_ = Character::kRunAway;
 	State preCharacterState_ = currentCharacterState_;
 	State nextCharacterState_ = currentCharacterState_;
+	State saveCharacterState_;
 	float time_;
 	float toChaseTime_;
 	float toRunAwayTime_;
-	bool isEndFirstChange_;
+	bool isEndFirstChange_ = false;
+	bool isSignalChange_ = false;
+	bool isChangingFirstFrame_ = false;
+	bool isChangeEndFrame_ = false;
 
 	float GetSceneChangeTime() {
 		if (currentCharacterState_ == kScneChange) {
@@ -58,17 +62,16 @@ namespace Character {
 	}
 
 	void SetNextScene(const Character::State& scene) {
-		currentCharacterState_ = kScneChange;
-		nextCharacterState_ = scene;
-		time_ = 0.0f;
+		saveCharacterState_ = scene;
+		isSignalChange_ = true;
 	}
 
 	bool IsInSceneChange() {
-		return currentCharacterState_ == kScneChange && preCharacterState_ != kScneChange;
+		return isChangingFirstFrame_;
 	}
 
 	bool IsOutSceneChange() {
-		return currentCharacterState_ != kScneChange && preCharacterState_ == kScneChange;
+		return isChangeEndFrame_;
 	}
 
 	void LoadJson() {
@@ -88,7 +91,24 @@ namespace Character {
 	}
 
 	void Update() {
-		preCharacterState_ = currentCharacterState_;
+		//一周回って
+		if (isChangeEndFrame_) {
+			isChangeEndFrame_ = false;
+		}
+		if (isChangingFirstFrame_ == true) {
+			isChangingFirstFrame_ = false;
+			time_ = 0.0f;
+		}
+
+		//signal 上に戻るまでtrueのフレーム
+		if (isSignalChange_) {
+			isSignalChange_ = false;
+			isChangingFirstFrame_ = true;
+			preCharacterState_ = currentCharacterState_;
+			currentCharacterState_ = kScneChange;
+			nextCharacterState_ = saveCharacterState_;
+		}
+		
 		if (currentCharacterState_ == kScneChange) {
 			time_ += 1.0f;
 			float time = 0.0f;
@@ -107,6 +127,7 @@ namespace Character {
 				time_ = 0.0f;
 				currentCharacterState_ = nextCharacterState_;
 				isEndFirstChange_ = true;
+				isChangeEndFrame_ = true;
 			}
 		}
 #ifdef _DEBUG

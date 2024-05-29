@@ -208,6 +208,7 @@ void Player::Update() {
 		}
 	}
 	DebugParam();
+	hammer_->Update();
 	UpdateTransform();
 	AnimationUpdate();
 

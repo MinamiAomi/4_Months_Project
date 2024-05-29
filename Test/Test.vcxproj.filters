@@ -359,6 +359,9 @@
     <ClCompile Include="Player\PlayerHanmmer\PlayerHammer.cpp">
       <Filter>Game\Object\Player\PlayerHanmmer</Filter>
     </ClCompile>
+    <ClCompile Include="Player\PlayerHanmmer\PlayerHammerParticle.cpp">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -579,6 +582,9 @@
       <Filter>Game\Object\Boss\BossUI</Filter>
     </ClInclude>
     <ClInclude Include="Player\PlayerHanmmer\PlayerHammer.h">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerHanmmer\PlayerHammerParticle.h">
       <Filter>Game\Object\Player\PlayerHanmmer</Filter>
     </ClInclude>
   </ItemGroup>

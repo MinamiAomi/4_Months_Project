@@ -15,10 +15,14 @@ namespace Character {
 	extern Character::State currentCharacterState_;
 	extern Character::State preCharacterState_;
 	extern Character::State nextCharacterState_;
+	extern Character::State saveCharacterState_;
 	extern float time_;
 	extern float toChaseTime_;
 	extern float toRunAwayTime_;
 	extern bool isEndFirstChange_;
+	extern bool isSignalChange_;
+	extern bool isChangingFirstFrame_;
+	extern bool isChangeEndFrame_;
 
 	float GetSceneChangeTime();
 
