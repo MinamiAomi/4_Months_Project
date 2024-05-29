@@ -1,39 +1,41 @@
-#include "PlayerDustParticle.h"
+#include "PlayerHammerParticle.h"
 #include "Player/Player.h"
 #include "Framework/ResourceManager.h"
+#include "PlayerHammer.h"
 
-void PlayerDustParticle::Initialize() {
+void PlayerHammerParticle::Initialize(PlayerHammer& playerHammer) {
 	minDirection_ = { -0.5f,0.5f,-0.5f };
-	maxDirection_ = { 0.5f,1.0f,0.5f };
-	emitTransform_.SetParent(&player_->transform,false);
-	Vector3 modelMinSize = player_->GetMinModelSize();
-	//emitTransform_.translate.y = modelMinSize.y - 2.0f;
-	emitTransform_.translate.z = modelMinSize.z;
+	maxDirection_ = { 0.5f,0.8f,0.5f };
+	emitTransform_.SetParent(&playerHammer.transform,false);
+	emitTransform_.translate.y = 2.0f;
+	playerHammer_ = &playerHammer;
 	for (DustParticle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
 		particle.model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
+		particle.model_->SetColor({1.0f,1.0f,0.0f});
 	}
+	emitFrame_ = -1;
 	Reset();
 }
 
-void PlayerDustParticle::Update() {
+void PlayerHammerParticle::Update() {
 	Emit();
 	ParticleUpdate();
 }
 
-void PlayerDustParticle::Reset() {
+void PlayerHammerParticle::Reset() {
 	for (DustParticle & particle : particles_) {
 		particle.isActive = false;
 		particle.model_->SetIsActive(false);
 	}
 }
 
-void PlayerDustParticle::Emit()
+void PlayerHammerParticle::Emit()
 {
-	isEmit_ = player_->GetIsMove() && player_->GetIsGround();
+	
 
-	if (isEmit_) {
-
+	if (emitFrame_ > 0) {
+		emitFrame_--;
 		emitTransform_.UpdateMatrix();
 
 		for (uint32_t i = 0; i < emitNum_; i++) {
@@ -51,15 +53,19 @@ void PlayerDustParticle::Emit()
 			}
 		}
 	}
+	else if (emitFrame_ == 0) {
+		emitFrame_--;
+		playerHammer_->GetModel().SetIsActive(isAppear_);
+	}
 }
 
-void PlayerDustParticle::ParticleUpdate()
+void PlayerHammerParticle::ParticleUpdate()
 {
 	for (uint32_t i = 0; DustParticle & particle : particles_) {
 		float rotationSpeed = (2.0f * Math::ToRadian) * (float(i % 2) * 2.0f - 1.0f);
 		if (particle.isActive) {
 			particle.transform.translate += particle.direction * speed_;
-			particle.transform.rotate *= Quaternion::MakeFromAngleAxis(rotationSpeed, { 0.0f,0.0f,1.0f });
+			particle.transform.rotate *= Quaternion::MakeFromAngleAxis(rotationSpeed, particle.direction);
 			particle.transform.scale.x -= scaleSpeed_;
 			particle.transform.scale.y -= scaleSpeed_;
 			particle.transform.scale.z -= scaleSpeed_;
