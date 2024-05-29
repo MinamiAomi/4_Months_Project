@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <climits>
 
-#include <CameraManager/StageCamera/StageCamera.h>
 
+class Camera;
 class BossHP {
 public:
 	static const int32_t kMaxHP = 20;
@@ -19,13 +19,13 @@ public:
 	void AddBallHitHP();
 
 	const int32_t GetCurrentHP() const { return currentHP_; }
+
+	void SetCamera(Camera* camera) { camera_ = camera; }
 	//
-	const int kShakeframe = 5;
-	 int shakeframe;
-	 bool isShake;
-	 void Shake();
-
-
+	uint32_t totalBallShakeFrame_;
+	uint32_t shakeFrame_;
+	bool isShake_;
+	void Shake();
 
 	//
 private:
@@ -36,6 +36,5 @@ private:
 
 	//
 	Camera* camera_ = nullptr;
-	const StageCamera* stageCamera_ = nullptr;
 	//
 };

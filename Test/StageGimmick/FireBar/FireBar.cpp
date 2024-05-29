@@ -64,15 +64,13 @@ void BarChildren::OnCollision(const CollisionInfo& collisionInfo) {
 
 
 void Bar::Initialize(const Desc& desc) {
-	rotateVelocity_ = desc.rotateVelocity;
-
+	desc_ = desc;	
+	rotateVelocity_ = desc_.rotateVelocity;
+	angle_ = desc_.barInitialAngle;
 	transform.scale = Vector3::one;
 	transform.translate = Vector3::zero;
-
-	angle_ = desc.barInitialAngle;
 	transform.rotate = Quaternion::MakeForYAxis(angle_);
 	transform.UpdateMatrix();
-
 	barChildren_.resize(size_t(desc.length));
 	for (uint32_t i = 0; auto & child : barChildren_) {
 		child = std::make_unique<BarChildren>();
@@ -170,6 +168,7 @@ void FireBar::Update() {
 		collider_->SetIsActive(false);
 	}
 }
+
 
 void FireBar::SetDesc(const Desc& desc) {
 	desc_ = desc;

@@ -55,6 +55,7 @@
         "stones": "Stones/stones.gltf",
         "revengeCoin": "RevengeCoin/revengeCoin.gltf",
         "switch": "DropGimmick/switch.gltf",
+        "switchBase": "DropGimmick/switchBase.gltf",
         "dropper": "DropGimmick/dropper.gltf",
         "beltConveyor": "BeltConveyor/beltConveyor.gltf",
         "dropBall": "DropGimmick/ball.gltf",

@@ -25,6 +25,7 @@ void Boss::Initialize() {
 	state_->ChangeState(BossStateManager::State::kRoot);
 
 	bossHP_ = std::make_unique<BossHP>();
+	bossHP_->SetCamera(camera_);
 	bossHP_->Initialize();
 	
 	bossUI_ = std::make_unique<BossUI>();
@@ -55,7 +56,6 @@ void Boss::Initialize() {
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall);
 	collider_->SetIsActive(true);
-
 
 #pragma endregion
 
