@@ -47,8 +47,7 @@ public:
 	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
 	void SetWindVelocity(const Vector3& velocity) { windVelocity_ = velocity; }
-	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
-	void SetCamera( Camera* camera) { camera_ = camera; }
+	void SetCamera(Camera* camera) { camera_ =camera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
