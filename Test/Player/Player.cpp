@@ -388,7 +388,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 		else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
 			collisionInfo.collider->GetName() == "bossFloorAll" ||
-			collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
+			collisionInfo.collider->GetName() == "bossLongDistanceAttack"||
+			collisionInfo.collider->GetName() == "bossBullet") {
 			HitDamage(1);
 		}
 		else if ((collisionInfo.collider->GetName() == "FireBarBar" ||

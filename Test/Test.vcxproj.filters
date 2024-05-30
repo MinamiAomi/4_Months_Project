@@ -139,6 +139,9 @@
     <Filter Include="Game\Object\Player\PlayerHanmmer">
       <UniqueIdentifier>{69463146-7738-48ad-8c63-4a626f132b4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\BossBullet">
+      <UniqueIdentifier>{9bf80f11-8df3-418e-927b-c5704b94db15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -367,6 +370,12 @@
     </ClCompile>
     <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp">
       <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBullet.cpp">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBulletManager.cpp">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +607,12 @@
     </ClInclude>
     <ClInclude Include="Boss\BossParticle\BossLineParticle.h">
       <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullet.h">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBulletManager.h">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

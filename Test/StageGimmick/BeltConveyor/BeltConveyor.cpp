@@ -26,7 +26,7 @@ void BeltConveyor::Initialize(const Desc& desc) {
 	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Ground);
-	collider_->SetCollisionMask(CollisionAttribute::Player|| CollisionAttribute::DropGimmickDropperBall);
+	collider_->SetCollisionMask(CollisionAttribute::Player|| CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossBullet);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();

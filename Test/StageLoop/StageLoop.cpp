@@ -58,16 +58,13 @@ void StageLoop::Initialize() {
 }
 
 void StageLoop::Update() {
-	if (Character::currentCharacterState_ == Character::State::kScneChange &&
-		Character::nextCharacterState_ == Character::State::kRunAway &&
-		!isCreateStage_) {
+	if (Character::currentCharacterState_ == Character::State::kScneChange && Character::nextCharacterState_ == Character::State::kRunAway && !isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
 	}
-
 	blockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
@@ -75,11 +72,11 @@ void StageLoop::Update() {
 	revengeCoinManager_->Update();
 	pendulumManager_->Update();
 	stageObjectManager_->Update();
-	//trapManager_->Update();
+	// trapManager_->Update();
 	bossAttackTriggerManager_->Update();
 	beltConveyorManager_->Update();
-
 }
+
 
 void StageLoop::Reset() {
 	stageNum_ = 0;
@@ -592,9 +589,9 @@ void StageLoop::CreateStage(uint32_t stageInputIndex) {
 		else {
 			stageIndex = stageInputIndex;
 		}
-		
-		distance -= (stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f)+(stageData_.at(stageIndex).stageSize * 0.5f);
-		
+
+		distance -= (stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f) + (stageData_.at(stageIndex).stageSize * 0.5f);
+
 
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;
