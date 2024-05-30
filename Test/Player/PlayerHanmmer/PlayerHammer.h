@@ -32,5 +32,9 @@ private:
 	const Player* player_;
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<PlayerHammerParticle> particle_;
+	float clampY_;
+	float velocity_;
+	float acceleration_;
+
 	
 };

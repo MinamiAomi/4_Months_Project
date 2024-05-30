@@ -53,6 +53,8 @@ public:
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
 	const float GetRunAwayLimitLine() const {	return runAwayLimitLine_;}
 
+	const Vector3& GetPrePos() const { return prePos_; }
+	const Vector3& GetAcceleration() const { return acceleration_; }
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:
 	enum AnimationType {
@@ -87,6 +89,7 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 	Vector3 acceleration_;
 	Vector3 velocity_;
+	Vector3 prePos_;
 	bool canFirstJump_;
 	bool canSecondJump_;
 	bool isMove_;

@@ -89,6 +89,8 @@ void Player::Initialize() {
 
 void Player::Update() {
 
+	prePos_ = transform.translate;
+
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	case Character::State::kRunAway:

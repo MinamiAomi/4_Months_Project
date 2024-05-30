@@ -142,6 +142,8 @@ void GameScene::OnUpdate() {
 			currentMovie_ = hammerMovie_.get();
 		}
 
+		Movie::SetFalseIsEndFrame();
+
 		if (currentMovie_) {
 			currentMovie_->Update();
 			if (Movie::isPlaying == false) {

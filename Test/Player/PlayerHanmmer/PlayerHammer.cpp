@@ -10,15 +10,18 @@ void PlayerHammer::Initialize(const Player* player) {
 
 	transform.SetParent(&player_->transform);
 	transform.translate.y = player_->GetModelInstance().GetModel()->GetMeshes()[0].maxVertex.y + 1.0f;
-
+	clampY_ = transform.translate.y;
 	particle_ = std::make_unique<PlayerHammerParticle>();
 	particle_->Initialize(*this);
-
 }
 
 void PlayerHammer::Update() {
 
+	
 	particle_->Update();
+	transform.translate.y += player_->GetVelocity().y / 3.0f;
+	transform.translate.y = std::clamp(transform.translate.y, clampY_, FLT_MAX);
+
 	if (!player_->GetIsAlive() && model_->IsActive()) {
 		SetIsInactive();
 	}

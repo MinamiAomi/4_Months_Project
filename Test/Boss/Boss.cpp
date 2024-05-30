@@ -221,7 +221,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			if (!Character::IsOutSceneChange() && !Movie::isPlaying) {
+			if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
  				isHit_ = true;
 			}
 			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
