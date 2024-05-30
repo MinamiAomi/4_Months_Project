@@ -30,6 +30,8 @@ void BossBullet::Initialize(const Vector3& position, const Vector3& velocity) {
 #pragma endregion
 }
 
+
+
 void BossBullet::Update() {
 	if (lifeTime_>=600) {
 		isAlive_ = false;

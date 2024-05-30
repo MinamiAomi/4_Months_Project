@@ -27,6 +27,16 @@ void BossBulletManager::Create(const Vector3& pos, const Vector3& velocity) {
 	bullets_.emplace_back(std::move(bossBullet));
 }
 
+void BossBulletManager::SetVelocity(uint32_t index,float velocity) {
+    if (index >= bullets_.size()) {
+        throw std::out_of_range("Index out of range");
+    }
+
+    auto it = bullets_.begin();
+    std::advance(it, index);
+    (*it)->SetVelocity(velocity);
+}
+
 void BossBulletManager::Reset() {
 	bullets_.clear();
 }

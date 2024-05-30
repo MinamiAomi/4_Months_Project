@@ -116,6 +116,7 @@ void BossStateManager::DrawImGui() {
 					beamAttackModel->vector_ = { 1.0f,0.0f,0.0f };
 				}
 			}
+			break;
 			case State::kShotAttack:
 			{
 				ChangeState(State::kShotAttack);
@@ -439,7 +440,7 @@ void BossStateLowerAttack::AttackUpdate() {
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetRotate();
-	rotate.y += 1.0f;
+	rotate.y += 0.5f;
 	if (t >= 1.0f) {
 		rotate.y = 0.0f;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
@@ -539,7 +540,7 @@ void BossStateInsideAttack::AttackUpdate() {
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetRotate();
-	rotate.y += 1.0f;
+	rotate.y += 0.5f;
 	if (t >= 1.0f) {
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
@@ -644,6 +645,7 @@ void BossStateShotAttack::Initialize() {
 	SetDesc();
 	attackState_ = kChage;
 	time_ = 0.0f;
+	bullsetCount_ = 0;
 	lastBulletTime_ = 0.0f;
 }
 
@@ -695,10 +697,21 @@ void BossStateShotAttack::ChargeUpdate() {
 	skeleton->ApplyAnimation(parts.animation->GetAnimation("shotAttack"), t);
 	skeleton->Update();
 	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
+
+
+	float interval = data_.attackEasingTime / data_.numBullet;
+
+	if (time_ >= lastBulletTime_ + interval) {
+		float x = (rnd_.NextIntRange(-1, 1)) * data_.range;
+		BossBulletManager::GetInstance()->Create(manager_.boss.transform.worldMatrix.GetTranslate() + Vector3(x, 0.0f, 0.0f) + data_.offset, Vector3(0.0f, 0.0f, 0.0f));
+		lastBulletTime_ += interval;
+	}
+
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
+		lastBulletTime_ = 0.0f;
 	}
 }
 
@@ -709,13 +722,14 @@ void BossStateShotAttack::AttackUpdate() {
 	float interval = data_.attackEasingTime / data_.numBullet;
 
 	if (time_ >= lastBulletTime_ + interval) {
-		float x = (rnd_.NextIntRange(-1, 1)) * data_.range;
-		BossBulletManager::GetInstance()->Create(manager_.boss.transform.worldMatrix.GetTranslate() + Vector3(x, 0.0f, 0.0f) + data_.offset, Vector3(0.0f, 0.0f, -data_.velocity));
+		BossBulletManager::GetInstance()->SetVelocity(bullsetCount_ ,-data_.velocity);
 		lastBulletTime_ += interval;
+		bullsetCount_++;
 	}
 
 	if (t >= 1.0f) {
 		manager_.ChangeState(BossStateManager::State::kRoot);
 		lastBulletTime_ = 0.0f;
+		bullsetCount_ = 0;
 	}
 }

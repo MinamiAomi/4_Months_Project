@@ -172,7 +172,7 @@ private:
 	JsonData data_;
 	float time_;
 	float lastBulletTime_;
-
+	uint32_t bullsetCount_;
 };
 
 

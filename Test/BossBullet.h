@@ -15,6 +15,8 @@ public:
 	void Initialize(const Vector3& position, const Vector3& velocity);
 	void Update();
 
+	void SetVelocity(float velocity) { velocity_.z = velocity; }
+
 
 	bool GetIsAlive() { return isAlive_; }
 	void SetIsAlive(bool flag) { isAlive_ = flag; }
