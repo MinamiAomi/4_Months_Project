@@ -32,6 +32,7 @@
 #include "GameClearMovie.h"
 #include "GameOverMovie.h"
 #include "GameStartMovie.h"
+#include "HammerMovie.h"
 
 class GameScene :
 	public BaseScene {
@@ -74,6 +75,7 @@ private:
 	std::unique_ptr<GameClearMovie> gameClearMovie_;
 	std::unique_ptr<GameOverMovie> gameOverMovie_;
 	std::unique_ptr<GameStartMovie> gameStartMovie_;
+	std::unique_ptr<HammerMovie> hammerMovie_;
 #pragma endregion
 
 	AudioSource bgm_;
