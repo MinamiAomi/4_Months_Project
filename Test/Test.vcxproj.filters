@@ -377,6 +377,7 @@
     <ClCompile Include="BossBulletManager.cpp">
       <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClCompile>
+    <ClCompile Include="LoadScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -613,6 +614,9 @@
     </ClInclude>
     <ClInclude Include="BossBulletManager.h">
       <Filter>Game\Object\Boss\BossBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

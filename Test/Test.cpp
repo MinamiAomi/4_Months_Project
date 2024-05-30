@@ -3,6 +3,7 @@
 #include <memory>
 #include <fstream>
 #include <sstream>
+#include <thread>
 
 #include "Externals/nlohmann/json.hpp"
 
@@ -14,17 +15,22 @@
 #include "Audio/Sound.h"
 #include "Debug/Debug.h"
 
-#include "GameScene.h"
-#include "TitleScene.h"
+#include "LoadScene.h"
 
 static const char ResourceAssociationFile[] = "Resources/Association.json";
 
 void Test::OnInitialize() {
     SceneManager* sceneManager = SceneManager::GetInstance();
     //シーン設定
-    sceneManager->ChangeScene<TitleScene>(false);
+    auto loadScene = sceneManager->ChangeScene<LoadScene>(false);
+    loadScene->SetTest(this);
 
-    LoadResources();
+    std::thread thread([this]() {
+        resourcesLoaded_ = false;
+        LoadResources();
+        resourcesLoaded_ = true;
+        });
+    thread.detach();
 }
 
 void Test::OnFinalize() {}
