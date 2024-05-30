@@ -8,6 +8,7 @@
 
 #include "Player/PlayerHP/PlayerHP.h"
 #include "Player/PlayerRevengGage/PlayerRevengeGage.h"
+#include "Math/Camera.h"
 
 class Camera;
 class Player;

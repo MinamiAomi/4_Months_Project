@@ -136,6 +136,12 @@
     <Filter Include="Game\Object\Movie">
       <UniqueIdentifier>{1c94bd19-6744-4ebd-82d4-96c74029944f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\PlayerHanmmer">
+      <UniqueIdentifier>{69463146-7738-48ad-8c63-4a626f132b4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\BossBullet">
+      <UniqueIdentifier>{9bf80f11-8df3-418e-927b-c5704b94db15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -352,6 +358,24 @@
     </ClCompile>
     <ClCompile Include="GameStartMovie.cpp">
       <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerHanmmer\PlayerHammer.cpp">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerHanmmer\PlayerHammerParticle.cpp">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClCompile>
+    <ClCompile Include="HammerMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBullet.cpp">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBulletManager.cpp">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -571,6 +595,24 @@
     </ClInclude>
     <ClInclude Include="Boss\BossUI\BossUI.h">
       <Filter>Game\Object\Boss\BossUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerHanmmer\PlayerHammer.h">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerHanmmer\PlayerHammerParticle.h">
+      <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerMovie.h">
+      <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossParticle\BossLineParticle.h">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullet.h">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBulletManager.h">
+      <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

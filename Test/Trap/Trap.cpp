@@ -42,8 +42,8 @@ void Trap::Initialize(const Desc& desc) {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ transform.scale.x * modelSize.x ,transform.scale.y * modelSize.y ,transform.scale.z * modelSize.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::Trap);
-	collider_->SetCollisionMask(~CollisionAttribute::Trap);
+	collider_->SetCollisionAttribute(CollisionAttribute::DropGimmickDropperBall);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::Ground);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();

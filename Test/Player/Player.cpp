@@ -82,6 +82,9 @@ void Player::Initialize() {
 	model_->SetSkeleton(skeleton_);
 	animationType_ = IdleAnimation;
 
+	hammer_ = std::make_unique<PlayerHammer>();
+	hammer_->Initialize(this);
+
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
 }
@@ -207,6 +210,7 @@ void Player::Update() {
 		}
 	}
 	DebugParam();
+	hammer_->Update();
 	UpdateTransform();
 	AnimationUpdate();
 
@@ -317,6 +321,7 @@ void Player::UpdateTransform() {
 	collider_->SetOrientation(rotate);
 	model_->SetWorldMatrix(transform.worldMatrix);
 	collider_->DebugDraw();
+	hammer_->UpdateTransform();
 }
 
 void Player::SceneChangeUpdate() {
@@ -385,7 +390,8 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 		else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
 			collisionInfo.collider->GetName() == "bossFloorAll" ||
-			collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
+			collisionInfo.collider->GetName() == "bossLongDistanceAttack"||
+			collisionInfo.collider->GetName() == "bossBullet") {
 			HitDamage(1);
 		}
 		else if ((collisionInfo.collider->GetName() == "FireBarBar" ||

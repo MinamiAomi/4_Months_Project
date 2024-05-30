@@ -14,6 +14,7 @@
 #include "PlayerUI/PlayerUI.h"
 #include "PlayerRevengGage/PlayerRevengeGage.h"
 #include "PlayerBullet/BulletManager.h"
+#include "PlayerHanmmer/PlayerHammer.h"
 #include "Audio/AudioSource.h"
 #include "Math/Random.h"
 
@@ -79,6 +80,7 @@ private:
 	std::unique_ptr<BulletManager> bulletManager_;
 
 	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<PlayerHammer> hammer_;
 	std::shared_ptr<Animation> animation_;
 	std::shared_ptr<Skeleton> skeleton_;
 	//PlayerModel playerModel_;

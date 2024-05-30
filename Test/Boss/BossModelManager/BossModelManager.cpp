@@ -44,9 +44,9 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 		"ude_R",
 		"tekubi_R",
 		"te_R",
-
-	};
+	}; 
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "bossLeftHand");
+	partsName.clear();
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");
@@ -91,7 +91,7 @@ void BossModel::Initialize(Player* player, uint32_t index) {
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
-	collider_->SetCollisionMask(~CollisionAttribute::Boss);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(false);
 #pragma endregion
 

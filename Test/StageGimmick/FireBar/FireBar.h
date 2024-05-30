@@ -58,6 +58,8 @@ private:
 
 	float rotateVelocity_;
 
+	Desc desc_;
+
 	std::vector<std::unique_ptr<BarChildren>> barChildren_;
 };
 

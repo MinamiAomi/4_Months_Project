@@ -27,7 +27,7 @@ void BossAttackTrigger::Initialize(const Desc& desc) {
 	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::BossAttackTrigger);
-	collider_->SetCollisionMask(~CollisionAttribute::BossAttackTrigger);
+	collider_->SetCollisionMask(CollisionAttribute::Boss);
 	collider_->SetIsActive(true);
 #pragma endregion
 }
@@ -113,6 +113,11 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 						// 必要な操作を行う
 
 					}
+				}
+				break;
+				case BossStateManager::kShotAttack:
+				{
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kShotAttack);
 				}
 				break;
 				default:

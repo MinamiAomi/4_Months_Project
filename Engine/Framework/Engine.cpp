@@ -7,10 +7,11 @@
 #include "Input/Input.h"
 #include "Audio/AudioDevice.h"
 #include "Scene/SceneManager.h"
+#include "Debug/Debug.h"
 
 void Engine::Run(Game* game) {
     auto gameWindow = GameWindow::GetInstance();
-    gameWindow->Initialize(L"AL4", 1920, 1080);
+    gameWindow->Initialize(L"シグルロード", 1920, 1080);
 
     auto graphics = Graphics::GetInstance();
     graphics->Initialize();
@@ -23,15 +24,13 @@ void Engine::Run(Game* game) {
 
     auto renderManager = RenderManager::GetInstance();
     renderManager->Initialize();
-    
+
     auto sceneManager = SceneManager::GetInstance();
 
     game->OnInitialize();
-
     while (gameWindow->ProcessMessage()) {
         input->Update();
         sceneManager->Update();
-
         renderManager->Render();
     }
 

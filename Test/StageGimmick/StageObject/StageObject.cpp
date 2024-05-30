@@ -26,8 +26,8 @@ void StageObject::Initialize(const Desc& desc) {
 		collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
 		collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 		//collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-		collider_->SetCollisionAttribute(CollisionAttribute::StageObject);
-		collider_->SetCollisionMask(~CollisionAttribute::StageObject);
+		collider_->SetCollisionAttribute(CollisionAttribute::Ground);
+		collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossBullet);
 		collider_->SetIsActive(true);
 	}
 #pragma endregion

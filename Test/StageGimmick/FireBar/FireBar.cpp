@@ -18,7 +18,7 @@ void BarChildren::Initialize(uint32_t count) {
 	transform.rotate = Quaternion::identity;
 	transform.translate = Vector3::zero;
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
-	transform.translate.z = (modelSize.z * transform.scale.z)*(count + 1);
+	transform.translate.z = (modelSize.z * transform.scale.z) * (count + 1);
 	transform.UpdateMatrix();
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
@@ -29,8 +29,8 @@ void BarChildren::Initialize(uint32_t count) {
 
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::FireBarBar);
-	collider_->SetCollisionMask(~CollisionAttribute::FireBarBar);
+	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
+	collider_->SetCollisionMask(CollisionAttribute::Player);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
@@ -64,15 +64,13 @@ void BarChildren::OnCollision(const CollisionInfo& collisionInfo) {
 
 
 void Bar::Initialize(const Desc& desc) {
-	rotateVelocity_ = desc.rotateVelocity;
-
+	desc_ = desc;	
+	rotateVelocity_ = desc_.rotateVelocity;
+	angle_ = desc_.barInitialAngle;
 	transform.scale = Vector3::one;
 	transform.translate = Vector3::zero;
-
-	angle_ = desc.barInitialAngle;
 	transform.rotate = Quaternion::MakeForYAxis(angle_);
 	transform.UpdateMatrix();
-
 	barChildren_.resize(size_t(desc.length));
 	for (uint32_t i = 0; auto & child : barChildren_) {
 		child = std::make_unique<BarChildren>();
@@ -99,7 +97,7 @@ void Bar::SetDesc(const Desc& desc) {
 }
 
 void Bar::SetIsActive(bool flag) {
-	for (auto & child : barChildren_) {
+	for (auto& child : barChildren_) {
 		child->SetIsActive(flag);
 	}
 }
@@ -143,8 +141,8 @@ void FireBar::Initialize(const Desc& desc) {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * transform.scale.x,modelSize.y * transform.scale.y ,modelSize.z * transform.scale.z });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
-	collider_->SetCollisionAttribute(CollisionAttribute::FireBarCenter);
-	collider_->SetCollisionMask(~CollisionAttribute::FireBarCenter);
+	collider_->SetCollisionAttribute(CollisionAttribute::Ground);
+	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossBullet);
 	collider_->SetIsActive(true);
 #pragma endregion
 	UpdateTransform();
@@ -170,6 +168,7 @@ void FireBar::Update() {
 		collider_->SetIsActive(false);
 	}
 }
+
 
 void FireBar::SetDesc(const Desc& desc) {
 	desc_ = desc;

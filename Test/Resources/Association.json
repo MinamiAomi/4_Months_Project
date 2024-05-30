@@ -1,13 +1,14 @@
 {
   "Animation": {
-    "boss_2": "Boss_2/Boss_2.gltf",
+    "boss_2" : "Boss_0.25/Boss_2.gltf",
     "player": "Player/player.gltf"
   },
   "Sound": {
-    "jump": "SE/jump.wav",
-    "revenge": "SE/revenge.wav",
-    "chaseBGM": "BGM/chase.mp3",
-    "revengeBGM": "BGM/revenge.mp3"
+      "jump": "SE/jump.wav",
+      "revenge": "SE/revenge.wav",
+      "chaseBGM" : "BGM/chase.mp3",
+      "revengeBGM" : "BGM/revenge.mp3",
+      "hammerAttack" : "SE/hammerAttack.mp3"
   },
   "Texture": {
     "circle": "whiteCircle.png",

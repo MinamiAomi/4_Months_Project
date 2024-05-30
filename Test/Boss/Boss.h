@@ -1,4 +1,5 @@
 #pragma once
+#include "Graphics/LightManager.h"
 #include "Collision/GameObject.h"
 
 #include <memory>
@@ -10,6 +11,9 @@
 #include "BossStateManager/BossStateManager.h"
 #include "BossHP/BossHP.h"
 #include "BossUI/BossUI.h"
+#include "BossParticle/BossLineParticle.h"
+
+
 
 class Player;
 class Camera;
@@ -18,15 +22,18 @@ class Boss :
 public:
 	void Initialize();
 	void Update();
+	void MovieUpdate();
 	void UpdateTransform();
 
 	void Reset(uint32_t stageIndex);
 	void SetIsMove(bool flag) { isMove_ = flag; }
 	bool GetIsMove() { return isMove_; }
 	bool GetIsFirstHit() const  { return isFirstHit_; }
+	bool GetIsHit()const { return isHit_; }
 	void SetIsEndFirstHitMovie(bool flag) { isEndFirstHitMovie_ = flag; }
-	void SetCamera(const Camera* camera) { camera_ = camera; }
+	void SetCamera(Camera* camera) { camera_ = camera; }
 	void SetPlayer(Player* player) { player_ = player; }
+	void SetIsFirstHit(bool is) { isFirstHit_ = is; }
 	const bool GetIsAlive() const { return isAlive_; }
 
 	const std::unique_ptr<BossModelManager>& GetModelManager() const { return bossModelManager_; }
@@ -35,8 +42,9 @@ public:
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
-	const Camera* camera_;
+	Camera* camera_;
 	Player* player_;
+	LightManager* lightManager_ = nullptr;
 
 	std::unique_ptr<BoxCollider> collider_;
 
@@ -48,6 +56,11 @@ private:
 
 	std::unique_ptr<BossUI> bossUI_;
 
+	std::unique_ptr<BossLineParticle> bossLineParticle_;
+
+	std::shared_ptr<PointLight> pointLight_;
+	Transform pointLightTransform_;
+
 	Vector3 velocity_;
 	Vector3 offset_;
 	Vector3 easingStartPosition_;
@@ -58,4 +71,5 @@ private:
 	bool isAlive_;
 	bool isFirstHit_;
 	bool isEndFirstHitMovie_;
+	bool isHit_;
 };

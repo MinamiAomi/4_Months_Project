@@ -58,16 +58,13 @@ void StageLoop::Initialize() {
 }
 
 void StageLoop::Update() {
-	if (Character::currentCharacterState_ == Character::State::kScneChange &&
-		Character::nextCharacterState_ == Character::State::kRunAway &&
-		!isCreateStage_) {
+	if (Character::currentCharacterState_ == Character::State::kScneChange && Character::nextCharacterState_ == Character::State::kRunAway && !isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
 	}
-
 	blockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
@@ -75,11 +72,11 @@ void StageLoop::Update() {
 	revengeCoinManager_->Update();
 	pendulumManager_->Update();
 	stageObjectManager_->Update();
-	//trapManager_->Update();
+	// trapManager_->Update();
 	bossAttackTriggerManager_->Update();
 	beltConveyorManager_->Update();
-
 }
+
 
 void StageLoop::Reset() {
 	stageNum_ = 0;
@@ -416,7 +413,7 @@ void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
 			distance = player_->GetWorldMatrix().GetTranslate().z + (stageData_.at(stageIndex).stageSize * 0.5f) - 10.0f;
 		}
 		else {
-			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
+			distance += stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f + stageData_.at(stageIndex).stageSize * 0.5f;
 		}
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;
@@ -582,9 +579,9 @@ void StageLoop::DeleteObject() {
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	DeleteObject();
 
-	float distance = 0.0f;
 	uint32_t stageIndex;
-	for (uint32_t i = 0; i < kCreateStageNum; i++) {
+	float distance = stageDistance_.at(0).distance;
+	for (uint32_t i = 1; i < kCreateStageNum; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
 			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
@@ -593,13 +590,8 @@ void StageLoop::CreateStage(uint32_t stageInputIndex) {
 			stageIndex = stageInputIndex;
 		}
 
-		// 最初だけ
-		if (i == 0) {
-			distance -= stageDistance_.at(i).distance;
-		}
-		else {
-			distance -= stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize;
-		}
+		distance -= (stageData_.at(stageDistance_.at(i - 1).stageIndex).stageSize * 0.5f) + (stageData_.at(stageIndex).stageSize * 0.5f);
+
 
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;
