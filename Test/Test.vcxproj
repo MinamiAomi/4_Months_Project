@@ -98,6 +98,8 @@
     <ClCompile Include="Trap\Trap.cpp" />
     <ClCompile Include="Trap\TrapManager.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Wind.cpp" />
+    <ClCompile Include="WindManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BossBullet.h" />
@@ -178,6 +180,8 @@
     <ClInclude Include="Trap\TrapManager.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="Wind.h" />
+    <ClInclude Include="WindManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

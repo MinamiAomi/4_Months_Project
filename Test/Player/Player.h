@@ -46,6 +46,7 @@ public:
 	const bool GetIsAlive() const { return isAlive_; }
 	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
+	void SetWindVelocity(const Vector3& velocity) { windVelocity_ = velocity; }
 	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 
@@ -105,6 +106,7 @@ private:
 	// ステージギミックにヒットした
 	bool isHit_;
 	bool preIsHit_;
+	Vector3 windVelocity_;
 
 	bool isSceneChangeInvincible_;
 	// JumpSE

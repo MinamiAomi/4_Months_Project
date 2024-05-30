@@ -127,9 +127,9 @@ class BossStateBeamAttack:
 	public BossState {
 public:
 	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
+		Vector3 position;
 		Vector3 scale;
+		Vector3 vector;
 		float rotateEasingTime;
 		float attackEasingTime;
 		float chargeEasingTime;
@@ -148,6 +148,7 @@ private:
 	void RotateUpdate();
 	JsonData data_;
 	float time_;
+	float lastWindTime_;
 };
 
 class BossStateShotAttack :

@@ -60,6 +60,7 @@
         "dropper": "DropGimmick/dropper.gltf",
         "beltConveyor": "BeltConveyor/beltConveyor.gltf",
         "dropBall": "DropGimmick/ball.gltf",
-        "hammer": "Player/Hammer/hammer.gltf"
+        "hammer": "Player/Hammer/hammer.gltf",
+        "wind": "Wind/wind.gltf"
     }
 }

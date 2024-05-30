@@ -142,6 +142,9 @@
     <Filter Include="Game\Object\Boss\BossBullet">
       <UniqueIdentifier>{9bf80f11-8df3-418e-927b-c5704b94db15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Wind">
+      <UniqueIdentifier>{8e2b312e-378c-41bc-98da-6f4a5ddbd33d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -377,6 +380,8 @@
     <ClCompile Include="BossBulletManager.cpp">
       <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClCompile>
+    <ClCompile Include="Wind.cpp" />
+    <ClCompile Include="WindManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -613,6 +618,12 @@
     </ClInclude>
     <ClInclude Include="BossBulletManager.h">
       <Filter>Game\Object\Boss\BossBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Wind.h">
+      <Filter>Game\Object\Wind</Filter>
+    </ClInclude>
+    <ClInclude Include="WindManager.h">
+      <Filter>Game\Object\Wind</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

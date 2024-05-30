@@ -31,7 +31,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 
 	for (uint32_t i = 0; auto & model : models_) {
 		model->transform.SetParent(Transform);
-		model->Initialize(player,i);
+		model->Initialize(player, i);
 		i++;
 	}
 
@@ -44,7 +44,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 		"ude_R",
 		"tekubi_R",
 		"te_R",
-	}; 
+	};
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "bossLeftHand");
 	partsName.clear();
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
@@ -205,7 +205,7 @@ void BeamAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
 		RayCastInfo rayCastInfo{};
 		if (!CollisionManager::GetInstance()->RayCast(player_->transform.worldMatrix.GetTranslate(), player_->transform.worldMatrix.GetTranslate() + vector_ * -50.0f, ~CollisionAttribute::Player, &rayCastInfo)) {
-			player_->HitDamage(1);
+			player_->SetWindVelocity(vector_ * 0.5f);
 		}
 	}
 }

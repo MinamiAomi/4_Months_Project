@@ -13,6 +13,8 @@
 #include "TitleScene.h"
 #include "Debug/Debug.h"
 
+#include "WindManager.h"
+
 void GameScene::OnInitialize() {
 
 	cameraManager_ = std::make_unique<CameraManager>();
@@ -192,11 +194,14 @@ void GameScene::OnUpdate() {
 
 			stageLoop_->Update();
 
+			
+
 			//ムービー中動いてほしくないもの
 			if (!Movie::isPlaying && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 				player_->Update();
 				boss_->Update();
 				stageBlockManager_->Update();
+				WindManager::GetInstance()->Update();
 			}
 			player_->SceneChangeUpdate();
 

@@ -7,6 +7,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "GameSpeed.h"
 #include "BossBulletManager.h"
+#include "WindManager.h"
 
 void BossStateManager::Initialize() {
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
@@ -32,8 +33,7 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.insideAttackData.transitionFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateBeamAttack");
-	JSON_LOAD(jsonData_.beamAttackData.startPosition);
-	JSON_LOAD(jsonData_.beamAttackData.endPosition);
+	JSON_LOAD(jsonData_.beamAttackData.position);
 	JSON_LOAD(jsonData_.beamAttackData.scale);
 	JSON_LOAD(jsonData_.beamAttackData.rotateEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.chargeEasingTime);
@@ -115,7 +115,7 @@ void BossStateManager::DrawImGui() {
 				// BeamAttack 型にキャスト
 				BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(tmp.get());
 				if (beamAttackModel) {
-					beamAttackModel->vector_ = { 1.0f,0.0f,0.0f };
+					beamAttackModel->vector_ = { 0.0f,0.0f,-1.0f };
 				}
 			}
 			break;
@@ -153,8 +153,7 @@ void BossStateManager::DrawImGui() {
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("BeamAttack")) {
-			ImGui::DragFloat3("startPosition", &jsonData_.beamAttackData.startPosition.x, 0.1f);
-			ImGui::DragFloat3("endPosition", &jsonData_.beamAttackData.endPosition.x, 0.1f);
+			ImGui::DragFloat3("position", &jsonData_.beamAttackData.position.x, 0.1f);
 			ImGui::DragFloat3("scale", &jsonData_.beamAttackData.scale.x, 0.1f);
 			ImGui::DragFloat("rotateEasingTime", &jsonData_.beamAttackData.rotateEasingTime, 0.1f);
 			ImGui::DragFloat("chargeEasingTime", &jsonData_.beamAttackData.chargeEasingTime, 0.1f);
@@ -201,8 +200,7 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.insideAttackData.transitionFrame);
 			JSON_ROOT();
 			JSON_OBJECT("StateBeamAttack");
-			JSON_SAVE(jsonData_.beamAttackData.startPosition);
-			JSON_SAVE(jsonData_.beamAttackData.endPosition);
+			JSON_SAVE(jsonData_.beamAttackData.position);
 			JSON_SAVE(jsonData_.beamAttackData.scale);
 			JSON_SAVE(jsonData_.beamAttackData.rotateEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.chargeEasingTime);
@@ -573,13 +571,24 @@ void BossStateBeamAttack::Initialize() {
 	SetDesc();
 	attackState_ = kRotate;
 	time_ = 0.0f;
+	lastWindTime_ = 0.0f;
 }
 
 void BossStateBeamAttack::SetDesc() {
 	data_ = manager_.jsonData_.beamAttackData;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetModelIsAlive(true);
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(false);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
+	// BossModelManager を取得
+	auto& tmp = manager_.boss.GetModelManager()->GetModel(BossParts::kBeamAttack);
+	if (!tmp) {
+		// エラーハンドリング: bossModelManager が null の場合
+		//assert(0);
+	}
+	// BeamAttack 型にキャスト
+	BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(tmp.get());
+	if (beamAttackModel) {
+		data_.vector = beamAttackModel->vector_;
+	}
 }
 
 void BossStateBeamAttack::Update() {
@@ -625,29 +634,18 @@ float BossStateBeamAttack::GetAnimationTime() const {
 }
 
 void BossStateBeamAttack::ChargeUpdate() {
-	// BossModelManager を取得
-	auto& tmp = manager_.boss.GetModelManager()->GetModel(BossParts::kBeamAttack);
-	if (!tmp) {
-		// エラーハンドリング: bossModelManager が null の場合
-		//assert(0);
-	}
-	// BeamAttack 型にキャスト
-	BeamAttack* beamAttackModel = dynamic_cast<BeamAttack*>(tmp.get());
-	Vector3 vector{};
-	if (beamAttackModel) {
-		vector = beamAttackModel->vector_;
-	}
-	auto& beamAttackTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform;
+
+	//auto& beamAttackTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform;
 	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
-	beamAttackTransform.translate.x = std::lerp(data_.startPosition.x * vector.x, data_.endPosition.x * vector.x, t);
-	beamAttackTransform.translate.y = std::lerp(data_.startPosition.y, data_.endPosition.y, t);
-	beamAttackTransform.translate.z = std::lerp(data_.startPosition.z, data_.endPosition.z, t);
 
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(true);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.translate= data_.position;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
+
 	}
 }
 
@@ -655,6 +653,25 @@ void BossStateBeamAttack::AttackUpdate() {
 	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	static const uint32_t kNumWind = 10;
+
+	float interval = data_.attackEasingTime / kNumWind;
+
+	if (time_ >= lastWindTime_ + interval) {
+		auto manager = WindManager::GetInstance();
+		Wind::Desc desc{};
+		desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + Vector3(0.0f, 5.0f, 10.0f);
+		desc.velocity = data_.vector* rnd_.NextFloatRange(0.2f, 1.5f);
+		desc.scale = Vector3::one;
+		desc.rotate.z = rnd_.NextFloatRange(-30.0f, 30.0f) * Math::ToRadian;
+		if (desc.rotate.y == 0.0f) {
+			desc.rotate.y = -1.0f * Math::ToRadian;
+		}
+		desc.lifeTime = 120;
+		manager->Create(desc);
+		lastWindTime_ += interval;
+	}
+
 	if (t >= 1.0f) {
 		auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
 		rotate.y = 0.0f;
@@ -787,8 +804,8 @@ void BossStateShotAttack::RotateUpdate() {
 	float t = time_ / data_.rotateEasingTime;
 	time_ += 1.0f;
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
-	rotate.y = std::lerp( 0.0f * Math::ToRadian, 180.0f * Math::ToRadian,t);
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate=Quaternion::MakeFromEulerAngle(rotate);
+	rotate.y = std::lerp(0.0f * Math::ToRadian, 180.0f * Math::ToRadian, t);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
 	if (t >= 1.0f) {
 		rotate.y = 180.0f * Math::ToRadian;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
