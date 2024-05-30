@@ -27,10 +27,9 @@ void GameScene::OnInitialize() {
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
-
 	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
-	player_->SetStageCamera(cameraManager_->GetStageCamera());
+	player_->SetCamera(cameraManager_->GetCamera().get());
 	player_->Initialize();
 
 	cameraManager_->Initialize(player_.get(), boss_.get());
@@ -141,6 +140,8 @@ void GameScene::OnUpdate() {
 			Movie::isPlaying = true;
 			currentMovie_ = hammerMovie_.get();
 		}
+
+		Movie::SetFalseIsEndFrame();
 
 		if (currentMovie_) {
 			currentMovie_->Update();

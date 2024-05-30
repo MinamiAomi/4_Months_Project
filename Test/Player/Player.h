@@ -46,13 +46,15 @@ public:
 	const bool GetIsAlive() const { return isAlive_; }
 	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
-	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
+	void SetCamera( Camera* camera) { camera_ = camera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
 	const float GetRunAwayLimitLine() const {	return runAwayLimitLine_;}
 
+	const Vector3& GetPrePos() const { return prePos_; }
+	const Vector3& GetAcceleration() const { return acceleration_; }
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
 private:
 	enum AnimationType {
@@ -68,7 +70,7 @@ private:
 
 	void OnCollision(const CollisionInfo& collisionInfo);
 
-	const StageCamera* stageCamera_;
+	Camera* camera_;
 	const Boss* boss_;
 	TrapManager* trapManager_;
 	
@@ -87,6 +89,7 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 	Vector3 acceleration_;
 	Vector3 velocity_;
+	Vector3 prePos_;
 	bool canFirstJump_;
 	bool canSecondJump_;
 	bool isMove_;

@@ -23,6 +23,8 @@ public:
 private:
 	Vector3 curvePoint_[3];
 	Quaternion saveQuaternion_;
+	Quaternion initializeQuaternion_;
 	std::unique_ptr<AudioSource> se_;
 	bool isPlaySe_ = false;
+	bool isLeft_ = false;
 };
