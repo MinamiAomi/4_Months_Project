@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include <thread>
+
 #include "Game.h"
 
 #include "Graphics/GameWindow.h"
@@ -33,7 +35,10 @@ void Engine::Run(Game* game) {
         sceneManager->Update();
         renderManager->Render();
     }
-
+    // ゲームが終わることができるまで待つ
+    while (!game->IsTerminated()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
     sceneManager->Finalize();
     game->OnFinalize();
 

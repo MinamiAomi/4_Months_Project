@@ -53,6 +53,7 @@
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="HammerMovie.cpp" />
+    <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="Player\Player.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="Ground.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="HammerMovie.h" />
+    <ClInclude Include="LoadScene.h" />
     <ClInclude Include="Movie.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Player\Player.h" />

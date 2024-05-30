@@ -382,6 +382,7 @@
     </ClCompile>
     <ClCompile Include="Wind.cpp" />
     <ClCompile Include="WindManager.cpp" />
+    <ClCompile Include="LoadScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -624,6 +625,9 @@
     </ClInclude>
     <ClInclude Include="WindManager.h">
       <Filter>Game\Object\Wind</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

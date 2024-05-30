@@ -18,7 +18,7 @@ public:
 
 		kCount,
 	};
-
+	CameraManager();
 	void Initialize(const Player* player,const Boss* boss);
 	void Update();
 	void Reset();

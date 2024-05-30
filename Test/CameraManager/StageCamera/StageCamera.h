@@ -24,6 +24,7 @@ private:
 		void Save();
 	};
 public:
+	StageCamera();
 	void Initialize();
 	void Update();
 

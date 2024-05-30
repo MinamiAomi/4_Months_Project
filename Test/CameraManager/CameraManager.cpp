@@ -9,10 +9,14 @@
 #include "Movie.h"
 #include "Scene/SceneManager.h"
 
-void CameraManager::Initialize(const Player* player,const Boss* boss) {
+CameraManager::CameraManager()
+{
 	debugCamera_ = std::make_unique<DebugCamera>();
 	stageCamera_ = std::make_unique<StageCamera>();
 	movieCamera_ = std::make_shared<Camera>();
+}
+
+void CameraManager::Initialize(const Player* player,const Boss* boss) {
 
 	stageCamera_->SetPlayer(player);
 	stageCamera_->SetBoss(boss);
