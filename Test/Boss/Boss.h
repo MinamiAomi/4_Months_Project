@@ -1,4 +1,5 @@
 #pragma once
+#include "Graphics/LightManager.h"
 #include "Collision/GameObject.h"
 
 #include <memory>
@@ -13,6 +14,7 @@
 #include "BossParticle/BossLineParticle.h"
 
 
+
 class Player;
 class Camera;
 class Boss :
@@ -20,6 +22,7 @@ class Boss :
 public:
 	void Initialize();
 	void Update();
+	void MovieUpdate();
 	void UpdateTransform();
 
 	void Reset(uint32_t stageIndex);
@@ -41,6 +44,7 @@ private:
 
 	Camera* camera_;
 	Player* player_;
+	LightManager* lightManager_ = nullptr;
 
 	std::unique_ptr<BoxCollider> collider_;
 
@@ -53,6 +57,9 @@ private:
 	std::unique_ptr<BossUI> bossUI_;
 
 	std::unique_ptr<BossLineParticle> bossLineParticle_;
+
+	std::shared_ptr<PointLight> pointLight_;
+	Transform pointLightTransform_;
 
 	Vector3 velocity_;
 	Vector3 offset_;

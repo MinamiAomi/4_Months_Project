@@ -7,7 +7,8 @@
       "jump": "SE/jump.wav",
       "revenge": "SE/revenge.wav",
       "chaseBGM" : "BGM/chase.mp3",
-      "revengeBGM" : "BGM/revenge.mp3"
+      "revengeBGM" : "BGM/revenge.mp3",
+      "hammerAttack" : "SE/hammerAttack.mp3"
   },
     "Texture": {
         "circle": "whiteCircle.png",
