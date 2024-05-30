@@ -513,6 +513,14 @@ void BossStateInsideAttack::ChargeUpdate() {
 	}
 	else {
 		float t = time_ / data_.chargeEasingTime;
+		if (t < 0.5f) {
+			t = (1.0f - std::sqrt(1.0f - std::pow(2.0f * t, 2.0f))) * 0.5f;
+
+		}
+		else {
+			t = (std::sqrt(1.0f - std::pow(-2.0f * t + 2.0f, 2.0f)) + 1.0f) * 0.5f;
+		}
+		
 		skeleton->ApplyAnimation(parts.animation->GetAnimation("razerAttack"), t);
 		auto& laserTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->transform;
 		laserTransform.scale = Vector3::Lerp(t, Vector3(1.0f, 0.0f, 1.0f), Vector3::one);
