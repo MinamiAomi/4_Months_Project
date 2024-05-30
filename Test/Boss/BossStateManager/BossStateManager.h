@@ -157,6 +157,7 @@ public:
 		float attackEasingTime;
 		float chargeEasingTime;
 		uint32_t numBullet;
+		float transitionFrame;
 	};
 	using BossState::BossState;
 	void Initialize() override;

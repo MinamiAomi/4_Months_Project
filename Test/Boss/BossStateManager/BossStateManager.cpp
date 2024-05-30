@@ -12,6 +12,7 @@ void BossStateManager::Initialize() {
 	JSON_OPEN("Resources/Data/Boss/Boss.json");
 	JSON_OBJECT("StateRoot");
 	JSON_LOAD(jsonData_.rootData.allFrame);
+	JSON_LOAD(jsonData_.rootData.transitionFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateHook");
 	JSON_LOAD(jsonData_.attackData.allFrame);
@@ -21,12 +22,14 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.lowerAttackData.scale);
 	JSON_LOAD(jsonData_.lowerAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.lowerAttackData.attackEasingTime);
+	JSON_LOAD(jsonData_.lowerAttackData.transitionFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateInsideAttack");
 	JSON_LOAD(jsonData_.insideAttackData.position);
 	JSON_LOAD(jsonData_.insideAttackData.scale);
 	JSON_LOAD(jsonData_.insideAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.insideAttackData.attackEasingTime);
+	JSON_LOAD(jsonData_.insideAttackData.transitionFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateBeamAttack");
 	JSON_LOAD(jsonData_.beamAttackData.startPosition);
@@ -34,10 +37,12 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.beamAttackData.scale);
 	JSON_LOAD(jsonData_.beamAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.attackEasingTime);
+	JSON_LOAD(jsonData_.beamAttackData.transitionFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateShotAttack");
 	JSON_LOAD(jsonData_.shotAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.shotAttackData.attackEasingTime);
+	JSON_LOAD(jsonData_.shotAttackData.transitionFrame);
 	JSON_LOAD(jsonData_.shotAttackData.numBullet);
 	JSON_LOAD(jsonData_.shotAttackData.offset);
 	JSON_LOAD(jsonData_.shotAttackData.range);
@@ -162,6 +167,7 @@ void BossStateManager::DrawImGui() {
 			int num = jsonData_.shotAttackData.numBullet;
 			ImGui::DragInt("attackEasingTime中に打つ弾の数", &num, 1, 0);
 			jsonData_.shotAttackData.numBullet = num;
+			ImGui::DragFloat("遷移フレーム", &jsonData_.shotAttackData.transitionFrame, 0.1f);
 			ImGui::TreePop();
 		}
 		activeState_->SetDesc();
@@ -204,6 +210,7 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.shotAttackData.offset);
 			JSON_SAVE(jsonData_.shotAttackData.range);
 			JSON_SAVE(jsonData_.shotAttackData.velocity);
+			JSON_SAVE(jsonData_.shotAttackData.transitionFrame);
 			JSON_ROOT();
 			JSON_CLOSE();
 		}
@@ -214,25 +221,33 @@ void BossStateManager::DrawImGui() {
 }
 
 void BossStateManager::ChangeState(const BossStateManager::State& state) {
+	bool inTransition = false;
+	if (activeState_) {
+		prevAnimation_ = activeState_->GetAnimation();
+		prevAnimationTime_ = activeState_->GetAnimationTime();
+		if (prevAnimation_) {
+			inTransition = true;
+		}
+	}
 	state_ = state;
 	switch (state) {
 	case BossStateManager::kRoot:
-		standbyState_ = std::make_unique<BossStateRoot>(*this);
+		standbyState_ = std::make_unique<BossStateRoot>(*this, inTransition);
 		break;
 	case BossStateManager::kHook:
-		standbyState_ = std::make_unique<BossStateHook>(*this);
+		standbyState_ = std::make_unique<BossStateHook>(*this, inTransition);
 		break;
 	case BossStateManager::kLowerAttack:
-		standbyState_ = std::make_unique<BossStateLowerAttack>(*this);
+		standbyState_ = std::make_unique<BossStateLowerAttack>(*this, inTransition);
 		break;
 	case BossStateManager::kInsideAttack:
-		standbyState_ = std::make_unique<BossStateInsideAttack>(*this);
+		standbyState_ = std::make_unique<BossStateInsideAttack>(*this, inTransition);
 		break;
 	case BossStateManager::kBeamAttack:
-		standbyState_ = std::make_unique<BossStateBeamAttack>(*this);
+		standbyState_ = std::make_unique<BossStateBeamAttack>(*this, inTransition);
 		break;
 	case BossStateManager::kShotAttack:
-		standbyState_ = std::make_unique<BossStateShotAttack>(*this);
+		standbyState_ = std::make_unique<BossStateShotAttack>(*this, inTransition);
 		break;
 	default:
 		break;
@@ -578,6 +593,12 @@ AnimationSet* BossStateBeamAttack::GetAnimation() const {
 }
 
 float BossStateBeamAttack::GetAnimationTime() const {
+	switch (attackState_) {
+	case BossState::kChage:
+		return time_ / data_.chargeEasingTime;
+	case BossState::kAttack:
+		return 1.0f;
+	}
 	return 0.0f;
 }
 
@@ -652,10 +673,17 @@ void BossStateShotAttack::OnCollision(const CollisionInfo& collisionInfo) {
 }
 
 AnimationSet* BossStateShotAttack::GetAnimation() const {
-	return nullptr;
+	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kShotAttack);
+	return &parts.animation->GetAnimation("shotAttack");
 }
 
 float BossStateShotAttack::GetAnimationTime() const {
+	switch (attackState_) {
+	case BossState::kChage:
+		return time_ / data_.chargeEasingTime;
+	case BossState::kAttack:
+		return 1.0f;
+	}
 	return 0.0f;
 }
 
