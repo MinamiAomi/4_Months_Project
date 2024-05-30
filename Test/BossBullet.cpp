@@ -4,11 +4,12 @@
 #include "Framework/ResourceManager.h"
 
 
-void BossBullet::Initialize(const Vector3& position, const Vector3& velocity) {
+void BossBullet::Initialize(const Transform& parent,const Vector3& position, const Vector3& velocity) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("bossBullet"));
 	model_->SetIsActive(true);
 	lifeTime_ = 0;
+	transform.SetParent(&parent);
 	transform.translate = position;
 	transform.rotate = Quaternion::identity;
 	transform.scale = Vector3::one;
@@ -28,7 +29,10 @@ void BossBullet::Initialize(const Vector3& position, const Vector3& velocity) {
 	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::Ground);
 	collider_->SetIsActive(true);
 #pragma endregion
+	UpdateTransform();
 }
+
+
 
 void BossBullet::Update() {
 	if (lifeTime_>=600) {

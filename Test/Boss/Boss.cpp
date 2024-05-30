@@ -53,7 +53,6 @@ void Boss::Initialize() {
 	collider_->SetName("Boss");
 	collider_->SetCenter(Vector3( transform.translate.x, transform.translate.y, transform.translate.z-10.0f));
 	collider_->SetOrientation(transform.rotate);
-	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z*0.8f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });

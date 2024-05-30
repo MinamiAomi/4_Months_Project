@@ -44,10 +44,9 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
 		"ude_R",
 		"tekubi_R",
 		"te_R",
-
 	}; 
-	partsName.clear();
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "bossLeftHand");
+	partsName.clear();
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
 	models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");

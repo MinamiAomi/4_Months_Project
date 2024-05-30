@@ -20,15 +20,17 @@ struct PSOutput {
 
 // 法線マップから法線を取得
 float3 GetNormal(in float3 normal, in float3 tangent, in float2 texcoord) {
-    // 法線マップからサンプリング
-    float3 normalMap = g_BindlessTextures[g_Material.normalMapIndex].SampleLevel(g_Sampler, texcoord, 0).xyz;
-    // UNORMからSNORMに変換
-    normalMap = normalMap * 2.0f - 1.0f;
-    // NormalとTangentに垂直なベクトル
-    float3 binormal = normalize(cross(tangent, normal));
-    // 新しい法線
-    float3 newNormal = normalMap.x * tangent + normalMap.y * binormal + normalMap.z * normal;
-    return newNormal;
+    return normal;
+
+//    // 法線マップからサンプリング
+//    float3 normalMap = g_BindlessTextures[g_Material.normalMapIndex].SampleLevel(g_Sampler, texcoord, 0).xyz;
+//    // UNORMからSNORMに変換
+//    normalMap = normalMap * 2.0f - 1.0f;
+//    // NormalとTangentに垂直なベクトル
+//    float3 binormal = normalize(cross(tangent, normal));
+//    // 新しい法線
+//    float3 newNormal = normalMap.x * tangent + normalMap.y * binormal + normalMap.z * normal;
+//    return newNormal;
 }
 
 PSOutput main(PSInput input) {

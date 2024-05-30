@@ -19,6 +19,7 @@
             0.0,
             50.0
         ],
+        "jsonData_.beamAttackData.rotateEasingTime": 30.0,
         "jsonData_.beamAttackData.scale": [
             30.0,
             30.0,
@@ -80,7 +81,7 @@
             0.0,
             0.0
         ],
-        "jsonData_.attackData.transitionFrame": 30.0
+        "jsonData_.attackData.transitionFrame": 0.0
     },
     "StateInsideAttack": {
         "jsonData_.insideAttackData.attackEasingTime": 30.0,
@@ -159,13 +160,15 @@
     "StateShotAttack": {
         "jsonData_.shotAttackData.attackEasingTime": 60.0,
         "jsonData_.shotAttackData.chargeEasingTime": 60.0,
-        "jsonData_.shotAttackData.numBullet": 5,
+        "jsonData_.shotAttackData.numBullet": 3,
         "jsonData_.shotAttackData.offset": [
             0.0,
             5.0,
-            -30.0
+            30.0
         ],
         "jsonData_.shotAttackData.range": 10.0,
+        "jsonData_.shotAttackData.rotateEasingTime": 60.0,
+        "jsonData_.shotAttackData.transitionFrame": 0.0,
         "jsonData_.shotAttackData.velocity": 0.5
     },
     "bollLongDistanceAttack": {},
