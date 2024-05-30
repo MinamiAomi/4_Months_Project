@@ -62,7 +62,7 @@ namespace Character {
 	}
 
 	void SetNextScene(const Character::State& scene) {
-		saveCharacterState_ = scene;
+ 		saveCharacterState_ = scene;
 		isSignalChange_ = true;
 	}
 

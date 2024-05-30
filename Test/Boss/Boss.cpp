@@ -60,9 +60,11 @@ void Boss::Initialize() {
 #pragma endregion
 
 	isFirstHit_ = false;
+	isHit_ = false;
 }
 
 void Boss::Update() {
+	isHit_ = false;
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
@@ -177,10 +179,10 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
+			isHit_ = true;
 			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 			if (isFirstHit_ && !Movie::isPlaying) {
 				bossHP_->AddPlayerHitHP();
-				Character::SetNextScene(Character::State::kRunAway);
 			}
 
 		}
@@ -194,7 +196,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 		//一回目
-		isFirstHit_ = true;
+		
 	}
 
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {

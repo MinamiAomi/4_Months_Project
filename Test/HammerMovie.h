@@ -11,11 +11,13 @@
 class HammerMovie : public Movie{
 public:
 
-	const int kZoomFrame = 20;
-	const int kSwingFrame = 60;
-	const int kFullFrame = kZoomFrame;
+	const int kZoomFrame = 40;
+	const int kSwingFrame = 120;
+	const int kBackFrame = 40;
+	const int kFullFrame = kZoomFrame + kSwingFrame + kBackFrame;
 
 	void Update() override;
 	void Reset() override;
 private:
+	Vector3 curvePoint_[3];
 };
