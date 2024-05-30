@@ -186,7 +186,7 @@ void BossModel::Parts::UpdateCollider(const Matrix4x4& worldMat, const Skeleton&
 		Vector3 born = (worldMatrix.GetTranslate() - parentMatrix.GetTranslate());
 		part.second->SetCenter(parentMatrix.GetTranslate() + born * 0.5f);
 		part.second->SetOrientation(Quaternion::MakeLookRotation(born.Normalized()));
-		part.second->SetSize({ 5.0f, 5.0f,born.Length() });
+		part.second->SetSize({ 4.5f, 4.5f,born.Length() });
 		part.second->DebugDraw(Vector4(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 }
@@ -196,7 +196,7 @@ void BossModel::Parts::InitializeCollider(std::vector<std::string> nameList, std
 		parts[string] = std::make_unique<BoxCollider>();
 		parts[string]->SetName(colliderName);
 		parts[string]->SetCollisionAttribute(CollisionAttribute::Boss);
-		parts[string]->SetCollisionMask(~CollisionAttribute::Boss);
+		parts[string]->SetCollisionMask(CollisionAttribute::Player);
 		parts[string]->SetIsActive(false);
 	}
 }

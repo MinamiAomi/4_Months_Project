@@ -175,7 +175,7 @@ void Player::Update() {
 
 		beltConveyorVelocity_ = 0.0f;
 
-		transform.translate.x = std::clamp(transform.translate.x, -20.0f, 20.0f);
+		transform.translate.x = std::clamp(transform.translate.x, -25.0f, 25.0f);
 		transform.translate.z = std::min(transform.translate.z, boss_->transform.translate.z - 10.0f);
 		transform.translate.y = std::max(transform.translate.y, -10.0f);
 		// 救済
@@ -239,7 +239,7 @@ void Player::AnimationUpdate() {
 		}
 		else {
 			if (animationTransition_) {
-				skeleton_->ApplyAnimationTransition(animation_->GetAnimation("move"), fromTransitionAnimationTime_, animation_->GetAnimation("idle"), 0.0f, animationTime_);
+				skeleton_->ApplyAnimationTransition(animation_->GetAnimation("move.001"), fromTransitionAnimationTime_, animation_->GetAnimation("idle"), 0.0f, animationTime_);
 			}
 			else {
 				skeleton_->ApplyAnimation(animation_->GetAnimation("idle"), animationTime_);
@@ -251,7 +251,7 @@ void Player::AnimationUpdate() {
 			fromTransitionAnimationTime_ = animationTime_;
 			animationType_ = IdleAnimation;
 			animationTime_ = 0.0f;
-			skeleton_->ApplyAnimationTransition(animation_->GetAnimation("move"), fromTransitionAnimationTime_, animation_->GetAnimation("idle"), 0.0f, animationTime_);
+			skeleton_->ApplyAnimationTransition(animation_->GetAnimation("move.001"), fromTransitionAnimationTime_, animation_->GetAnimation("idle"), 0.0f, animationTime_);
 			animationTransition_ = true;
 		}
 		else {
@@ -259,7 +259,7 @@ void Player::AnimationUpdate() {
 				skeleton_->ApplyAnimationTransition(animation_->GetAnimation("idle"), fromTransitionAnimationTime_, animation_->GetAnimation("move"), 0.0f, animationTime_);
 			}
 			else {
-				skeleton_->ApplyAnimation(animation_->GetAnimation("move"), animationTime_);
+				skeleton_->ApplyAnimation(animation_->GetAnimation("move.001"), animationTime_);
 			}
 		}
 		break;
