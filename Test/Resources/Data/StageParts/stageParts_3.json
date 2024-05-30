@@ -903,6 +903,7 @@
                     1.0
                 ]
             },
+            "file_name": "a",
             "collider": {
                 "type": "BOX",
                 "center": [
@@ -948,6 +949,7 @@
                     1.0
                 ]
             },
+            "file_name": "a",
             "collider": {
                 "type": "BOX",
                 "center": [
