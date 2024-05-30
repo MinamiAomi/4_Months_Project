@@ -1,6 +1,6 @@
 {
   "Animation": {
-    "boss_2" : "Boss_2/Boss_2.gltf",
+    "boss_2" : "Boss_0.25/Boss_2.gltf",
     "player": "Player/player.gltf"
   },
   "Sound": {
@@ -32,7 +32,7 @@
     },
     "Model": {
         "bossBody": "Boss/Body/boss.gltf",
-        "boss_2": "Boss_2/Boss_2.gltf",
+        "boss_2": "Boss_0.25/Boss_2.gltf",
         "bossRightArm": "Boss/RightArm/rightArm.gltf",
         "bossLeftArm": "Boss/LeftArm/leftArm.gltf",
         "bossFloorAll": "Boss/FloorAll/spikeEffect.gltf",

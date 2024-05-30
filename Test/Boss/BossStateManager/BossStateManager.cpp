@@ -35,11 +35,13 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.beamAttackData.startPosition);
 	JSON_LOAD(jsonData_.beamAttackData.endPosition);
 	JSON_LOAD(jsonData_.beamAttackData.scale);
+	JSON_LOAD(jsonData_.beamAttackData.rotateEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.attackEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.transitionFrame);
 	JSON_ROOT();
 	JSON_OBJECT("StateShotAttack");
+	JSON_LOAD(jsonData_.shotAttackData.rotateEasingTime);
 	JSON_LOAD(jsonData_.shotAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.shotAttackData.attackEasingTime);
 	JSON_LOAD(jsonData_.shotAttackData.transitionFrame);
@@ -116,6 +118,7 @@ void BossStateManager::DrawImGui() {
 					beamAttackModel->vector_ = { 1.0f,0.0f,0.0f };
 				}
 			}
+			break;
 			case State::kShotAttack:
 			{
 				ChangeState(State::kShotAttack);
@@ -153,6 +156,7 @@ void BossStateManager::DrawImGui() {
 			ImGui::DragFloat3("startPosition", &jsonData_.beamAttackData.startPosition.x, 0.1f);
 			ImGui::DragFloat3("endPosition", &jsonData_.beamAttackData.endPosition.x, 0.1f);
 			ImGui::DragFloat3("scale", &jsonData_.beamAttackData.scale.x, 0.1f);
+			ImGui::DragFloat("rotateEasingTime", &jsonData_.beamAttackData.rotateEasingTime, 0.1f);
 			ImGui::DragFloat("chargeEasingTime", &jsonData_.beamAttackData.chargeEasingTime, 0.1f);
 			ImGui::DragFloat("attackEasingTime", &jsonData_.beamAttackData.attackEasingTime, 0.1f);
 			ImGui::DragFloat("遷移フレーム", &jsonData_.beamAttackData.transitionFrame, 0.1f);
@@ -160,6 +164,7 @@ void BossStateManager::DrawImGui() {
 		}
 		if (ImGui::TreeNode("ShotAttack")) {
 			ImGui::DragFloat3("offset", &jsonData_.shotAttackData.offset.x, 0.1f);
+			ImGui::DragFloat("rotateEasingTime", &jsonData_.shotAttackData.rotateEasingTime, 0.1f);
 			ImGui::DragFloat("chargeEasingTime", &jsonData_.shotAttackData.chargeEasingTime, 0.1f);
 			ImGui::DragFloat("attackEasingTime", &jsonData_.shotAttackData.attackEasingTime, 0.1f);
 			ImGui::DragFloat("弾打つ幅", &jsonData_.shotAttackData.range, 0.1f, 0.0f);
@@ -199,11 +204,13 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.beamAttackData.startPosition);
 			JSON_SAVE(jsonData_.beamAttackData.endPosition);
 			JSON_SAVE(jsonData_.beamAttackData.scale);
+			JSON_SAVE(jsonData_.beamAttackData.rotateEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.chargeEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.attackEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.transitionFrame);
 			JSON_ROOT();
 			JSON_OBJECT("StateShotAttack");
+			JSON_SAVE(jsonData_.shotAttackData.rotateEasingTime);
 			JSON_SAVE(jsonData_.shotAttackData.chargeEasingTime);
 			JSON_SAVE(jsonData_.shotAttackData.attackEasingTime);
 			JSON_SAVE(jsonData_.shotAttackData.numBullet);
@@ -439,7 +446,7 @@ void BossStateLowerAttack::AttackUpdate() {
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetRotate();
-	rotate.y += 1.0f;
+	rotate.y += 0.5f;
 	if (t >= 1.0f) {
 		rotate.y = 0.0f;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
@@ -512,6 +519,14 @@ void BossStateInsideAttack::ChargeUpdate() {
 	}
 	else {
 		float t = time_ / data_.chargeEasingTime;
+		if (t < 0.5f) {
+			t = (1.0f - std::sqrt(1.0f - std::pow(2.0f * t, 2.0f))) * 0.5f;
+
+		}
+		else {
+			t = (std::sqrt(1.0f - std::pow(-2.0f * t + 2.0f, 2.0f)) + 1.0f) * 0.5f;
+		}
+
 		skeleton->ApplyAnimation(parts.animation->GetAnimation("razerAttack"), t);
 		auto& laserTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->transform;
 		laserTransform.scale = Vector3::Lerp(t, Vector3(1.0f, 0.0f, 1.0f), Vector3::one);
@@ -539,7 +554,7 @@ void BossStateInsideAttack::AttackUpdate() {
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetRotate();
-	rotate.y += 1.0f;
+	rotate.y += 0.5f;
 	if (t >= 1.0f) {
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLaser)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
@@ -556,7 +571,7 @@ void BossStateInsideAttack::AttackUpdate() {
 
 void BossStateBeamAttack::Initialize() {
 	SetDesc();
-	attackState_ = kChage;
+	attackState_ = kRotate;
 	time_ = 0.0f;
 }
 
@@ -569,6 +584,11 @@ void BossStateBeamAttack::SetDesc() {
 
 void BossStateBeamAttack::Update() {
 	switch (attackState_) {
+	case BossState::kRotate:
+	{
+		RotateUpdate();
+	}
+	break;
 	case BossState::kChage:
 	{
 		ChargeUpdate();
@@ -594,6 +614,8 @@ AnimationSet* BossStateBeamAttack::GetAnimation() const {
 
 float BossStateBeamAttack::GetAnimationTime() const {
 	switch (attackState_) {
+	case BossState::kRotate:
+		return 0.0f;
 	case BossState::kChage:
 		return time_ / data_.chargeEasingTime;
 	case BossState::kAttack:
@@ -634,15 +656,19 @@ void BossStateBeamAttack::AttackUpdate() {
 	time_ += 1.0f;
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	if (t >= 1.0f) {
+		auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
+		rotate.y = 0.0f;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 		manager_.ChangeState(BossStateManager::State::kRoot);
 	}
 }
 
+
 void BossStateShotAttack::Initialize() {
 	SetDesc();
-	attackState_ = kChage;
+	attackState_ = kRotate;
 	time_ = 0.0f;
 	lastBulletTime_ = 0.0f;
 }
@@ -653,6 +679,11 @@ void BossStateShotAttack::SetDesc() {
 
 void BossStateShotAttack::Update() {
 	switch (attackState_) {
+	case BossState::kRotate:
+	{
+		RotateUpdate();
+	}
+	break;
 	case BossState::kChage:
 	{
 		ChargeUpdate();
@@ -679,12 +710,27 @@ AnimationSet* BossStateShotAttack::GetAnimation() const {
 
 float BossStateShotAttack::GetAnimationTime() const {
 	switch (attackState_) {
+	case BossState::kRotate:
+		return 0.0f;
 	case BossState::kChage:
 		return time_ / data_.chargeEasingTime;
 	case BossState::kAttack:
 		return 1.0f;
 	}
 	return 0.0f;
+}
+void BossStateBeamAttack::RotateUpdate() {
+	float t = time_ / data_.rotateEasingTime;
+	time_ += 1.0f;
+	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
+	rotate.y = std::lerp(0.0f * Math::ToRadian, 180.0f * Math::ToRadian, t);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+	if (t >= 1.0f) {
+		rotate.y = 180.0f * Math::ToRadian;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		attackState_ = kChage;
+		time_ = 0.0f;
+	}
 }
 
 void BossStateShotAttack::ChargeUpdate() {
@@ -695,27 +741,58 @@ void BossStateShotAttack::ChargeUpdate() {
 	skeleton->ApplyAnimation(parts.animation->GetAnimation("shotAttack"), t);
 	skeleton->Update();
 	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
-	if (t >= 1.0f) {
-		attackState_ = kAttack;
-		time_ = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
-	}
-}
 
-void BossStateShotAttack::AttackUpdate() {
-	float t = time_ / data_.attackEasingTime;
-	time_ += 1.0f;
 
 	float interval = data_.attackEasingTime / data_.numBullet;
 
 	if (time_ >= lastBulletTime_ + interval) {
 		float x = (rnd_.NextIntRange(-1, 1)) * data_.range;
-		BossBulletManager::GetInstance()->Create(manager_.boss.transform.worldMatrix.GetTranslate() + Vector3(x, 0.0f, 0.0f) + data_.offset, Vector3(0.0f, 0.0f, -data_.velocity));
+		BossBulletManager::GetInstance()->Create(manager_.boss.transform, Vector3(x, 0.0f, 0.0f) + data_.offset, Vector3(0.0f, 0.0f, 0.0f));
 		lastBulletTime_ += interval;
 	}
 
 	if (t >= 1.0f) {
+		attackState_ = kAttack;
+		time_ = 0.0f;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
+		lastBulletTime_ = 0.0f;
+	}
+}
+
+void BossStateShotAttack::AttackUpdate() {
+	time_ += 1.0f;
+	float t = time_ / data_.attackEasingTime;
+	float interval = data_.attackEasingTime / data_.numBullet;
+
+	if (time_ >= lastBulletTime_ + interval) {
+		for (auto& bullet : BossBulletManager::GetInstance()->GetBullets()) {
+			if (bullet->GetVelocity() == 0.0f) {
+				bullet->SetVelocity(data_.velocity);
+				lastBulletTime_ += interval;
+				break;
+			}
+		}
+	}
+
+	if (t >= 1.0f) {
+		auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
+		rotate.y = 0.0f * Math::ToRadian;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
 		manager_.ChangeState(BossStateManager::State::kRoot);
 		lastBulletTime_ = 0.0f;
+	}
+}
+
+void BossStateShotAttack::RotateUpdate() {
+	float t = time_ / data_.rotateEasingTime;
+	time_ += 1.0f;
+	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
+	rotate.y = std::lerp( 0.0f * Math::ToRadian, 180.0f * Math::ToRadian,t);
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate=Quaternion::MakeFromEulerAngle(rotate);
+	if (t >= 1.0f) {
+		rotate.y = 180.0f * Math::ToRadian;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		attackState_ = kChage;
+		time_ = 0.0f;
 	}
 }
