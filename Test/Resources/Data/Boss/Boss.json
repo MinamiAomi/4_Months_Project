@@ -156,6 +156,18 @@
         "jsonData_.rootData.transitionFrame": 20.0,
         "jsonData_.rootData.velocity": 0.25
     },
+    "StateShotAttack": {
+        "jsonData_.shotAttackData.attackEasingTime": 60.0,
+        "jsonData_.shotAttackData.chargeEasingTime": 60.0,
+        "jsonData_.shotAttackData.numBullet": 5,
+        "jsonData_.shotAttackData.offset": [
+            0.0,
+            5.0,
+            -30.0
+        ],
+        "jsonData_.shotAttackData.range": 10.0,
+        "jsonData_.shotAttackData.velocity": 0.5
+    },
     "bollLongDistanceAttack": {},
     "bossBeamAttack": {},
     "bossBody": {},

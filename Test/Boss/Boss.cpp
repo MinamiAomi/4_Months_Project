@@ -10,6 +10,7 @@
 #include "CameraManager/CameraManager.h"
 #include "Math/Camera.h"
 #include "Movie.h"
+#include "BossBulletManager.h"
 
 
 void Boss::Initialize() {
@@ -35,6 +36,9 @@ void Boss::Initialize() {
 
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform, player_);
+
+	
+	BossBulletManager::GetInstance()->Initialize();
 
 	Reset(0);
 	// 隠す
@@ -109,6 +113,7 @@ void Boss::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
+		BossBulletManager::GetInstance()->Reset();
 		if (Character::isEndFirstChange_) {
 			if (Character::nextCharacterState_ == Character::State::kChase) {
 				transform.translate.z = std::lerp(easingStartPosition_.z, player_->transform.worldMatrix.GetTranslate().z + player_->GetChaseLimitLine(), Character::GetSceneChangeTime());
@@ -137,6 +142,7 @@ void Boss::Update() {
 	state_->Update();
 	bossUI_->Update();
 	bossHP_->Update();
+	BossBulletManager::GetInstance()->Update();
 	UpdateTransform();
 	if (bossHP_->GetCurrentHP() <= 0) {
 		isAlive_ = false;
@@ -156,7 +162,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	state_->ChangeState(BossStateManager::State::kRoot);
 	bossHP_->Reset();
 	bossModelManager_->Reset();
-
+	BossBulletManager::GetInstance()->Reset();
 }
 
 void Boss::UpdateTransform() {

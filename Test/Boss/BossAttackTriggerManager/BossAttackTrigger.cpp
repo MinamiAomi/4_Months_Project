@@ -115,6 +115,11 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 					}
 				}
 				break;
+				case BossStateManager::kShotAttack:
+				{
+					boss_->GetStateManager()->ChangeState(BossStateManager::State::kShotAttack);
+				}
+				break;
 				default:
 					break;
 				}

@@ -147,6 +147,35 @@ private:
 	float time_;
 };
 
+class BossStateShotAttack :
+	public BossState {
+public:
+	struct JsonData {
+		Vector3 offset;
+		float velocity;
+		float range;
+		float attackEasingTime;
+		float chargeEasingTime;
+		uint32_t numBullet;
+		float transitionFrame;
+	};
+	using BossState::BossState;
+	void Initialize() override;
+	void SetDesc() override;
+	void Update() override;
+	void OnCollision(const CollisionInfo& collisionInfo) override;
+	AnimationSet* GetAnimation() const override;
+	float GetAnimationTime() const override;
+private:
+	void ChargeUpdate();
+	void AttackUpdate();
+	JsonData data_;
+	float time_;
+	float lastBulletTime_;
+
+};
+
+
 class BossStateManager {
 public:
 	enum State {
@@ -155,6 +184,7 @@ public:
 		kInsideAttack,
 		kLowerAttack,
 		kBeamAttack,
+		kShotAttack,
 	};
 
 	struct JsonData {
@@ -163,6 +193,7 @@ public:
 		BossStateLowerAttack::JsonData lowerAttackData;
 		BossStateInsideAttack::JsonData insideAttackData;
 		BossStateBeamAttack::JsonData beamAttackData;
+		BossStateShotAttack::JsonData shotAttackData;
 	};
 	BossStateManager(Boss& boss) : boss(boss) {}
 	void Initialize();
