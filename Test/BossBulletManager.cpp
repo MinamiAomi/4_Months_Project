@@ -21,9 +21,9 @@ void BossBulletManager::Update() {
     }
 }
 
-void BossBulletManager::Create(const Vector3& pos, const Vector3& velocity) {
+void BossBulletManager::Create(const Transform& parent,const Vector3& pos, const Vector3& velocity) {
 	BossBullet* bossBullet = new BossBullet();
-	bossBullet->Initialize(pos, velocity);
+	bossBullet->Initialize(parent,pos, velocity);
 	bullets_.emplace_back(std::move(bossBullet));
 }
 

@@ -12,10 +12,11 @@
 class BossBullet :
 	public GameObject {
 public:
-	void Initialize(const Vector3& position, const Vector3& velocity);
+	void Initialize(const Transform& parent, const Vector3& position, const Vector3& velocity);
 	void Update();
 
 	void SetVelocity(float velocity) { velocity_.z = velocity; }
+	float GetVelocity() { return velocity_.z; }
 
 
 	bool GetIsAlive() { return isAlive_; }

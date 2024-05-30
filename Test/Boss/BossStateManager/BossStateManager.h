@@ -16,6 +16,7 @@ class BossStateManager;
 class BossState {
 public:
 	enum AttackState {
+		kRotate,
 		kChage,
 		kAttack,
 	};
@@ -129,6 +130,7 @@ public:
 		Vector3 startPosition;
 		Vector3 endPosition;
 		Vector3 scale;
+		float rotateEasingTime;
 		float attackEasingTime;
 		float chargeEasingTime;
 		float transitionFrame;
@@ -143,6 +145,7 @@ public:
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
+	void RotateUpdate();
 	JsonData data_;
 	float time_;
 };
@@ -156,6 +159,7 @@ public:
 		float range;
 		float attackEasingTime;
 		float chargeEasingTime;
+		float rotateEasingTime;
 		uint32_t numBullet;
 		float transitionFrame;
 	};
@@ -169,10 +173,10 @@ public:
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
+	void RotateUpdate();
 	JsonData data_;
 	float time_;
 	float lastBulletTime_;
-	uint32_t bullsetCount_;
 };
 
 
