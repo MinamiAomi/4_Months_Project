@@ -46,7 +46,7 @@ public:
 	const bool GetIsAlive() const { return isAlive_; }
 	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
-	void SetStageCamera(const StageCamera* stageCamera) { stageCamera_ = stageCamera; }
+	void SetCamera( Camera* camera) { camera_ = camera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
@@ -68,7 +68,7 @@ private:
 
 	void OnCollision(const CollisionInfo& collisionInfo);
 
-	const StageCamera* stageCamera_;
+	Camera* camera_;
 	const Boss* boss_;
 	TrapManager* trapManager_;
 	
