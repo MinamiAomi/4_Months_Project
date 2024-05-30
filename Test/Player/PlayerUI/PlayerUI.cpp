@@ -127,9 +127,9 @@ void PlayerUI::Update() {
 	toBossDistanceMeterSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceMeterSpriteData_.position);
 	toBossDistanceNumberSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData_.position);
 
-	hpSprite_.at(0)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(0).position + Vector2(50, 0));
+	hpSprite_.at(0)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(0).position);
 	hpSprite_.at(1)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(1).position);
-	hpSprite_.at(2)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(2).position + Vector2(-50, 0));
+	hpSprite_.at(2)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(2).position);
 
 }
 
