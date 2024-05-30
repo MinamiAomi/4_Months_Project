@@ -55,6 +55,8 @@ public:
 
     uint8_t GetDrawOrder() const { return drawOrder_; }
     const Vector2& GetPosition() const { return position_; }
+    const Vector2& GetScale() const { return scale_; }
+    const Vector2& GetTexcoordSize() const { return texcoordSize_; }
     const std::shared_ptr<Texture>& GetTexture() const { return texture_; }
 
 private:

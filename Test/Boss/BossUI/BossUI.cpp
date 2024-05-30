@@ -8,6 +8,7 @@ void BossUI::Initialize() {
 	LoadJson();
 	hp_ = CreateSprite(hpData_, "white2x2");
 	hpBase_ = CreateSprite(hpBaseData_, "white2x2");
+	hp_->SetIsActive(false);
 }
 
 void BossUI::Update() {
