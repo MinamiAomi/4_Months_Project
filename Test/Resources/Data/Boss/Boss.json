@@ -28,7 +28,8 @@
             -40.0,
             0.0,
             50.0
-        ]
+        ],
+        "jsonData_.beamAttackData.transitionFrame": 30.0
     },
     "StateFloorAll": {
         "jsonData_.floorAllData.attackEasingTime": 30.0,
@@ -78,7 +79,8 @@
             1.5707963705062866,
             0.0,
             0.0
-        ]
+        ],
+        "jsonData_.attackData.transitionFrame": 30.0
     },
     "StateInsideAttack": {
         "jsonData_.insideAttackData.attackEasingTime": 30.0,
@@ -102,7 +104,8 @@
             -40.0,
             -6.0,
             -55.0
-        ]
+        ],
+        "jsonData_.insideAttackData.transitionFrame": 30.0
     },
     "StateLongDistanceAttack": {
         "jsonData_.longDistanceAttackData.attackEasingTime": 60.0,
@@ -134,7 +137,7 @@
         "jsonData_.lowerAttackData.position": [
             0.0,
             0.0,
-            -60.0
+            -30.0
         ],
         "jsonData_.lowerAttackData.scale": [
             1.5,
@@ -145,10 +148,12 @@
             0.0,
             -10.0,
             -50.0
-        ]
+        ],
+        "jsonData_.lowerAttackData.transitionFrame": 20.0
     },
     "StateRoot": {
         "jsonData_.rootData.allFrame": 300.0,
+        "jsonData_.rootData.transitionFrame": 20.0,
         "jsonData_.rootData.velocity": 0.25
     },
     "StateShotAttack": {
@@ -160,7 +165,7 @@
             5.0,
             -30.0
         ],
-        "jsonData_.shotAttackData.range": 20.0,
+        "jsonData_.shotAttackData.range": 10.0,
         "jsonData_.shotAttackData.velocity": 0.5
     },
     "bollLongDistanceAttack": {},

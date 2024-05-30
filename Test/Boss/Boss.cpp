@@ -51,11 +51,11 @@ void Boss::Initialize() {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Boss");
-	collider_->SetCenter(transform.translate);
+	collider_->SetCenter(Vector3( transform.translate.x, transform.translate.y, transform.translate.z-10.0f));
 	collider_->SetOrientation(transform.rotate);
 	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z + 3.0f});
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z*0.8f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossAttackTrigger);
@@ -170,9 +170,22 @@ void Boss::UpdateTransform() {
 	Vector3 scale, translate;
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
-	collider_->DebugDraw();
+
+	switch (Character::currentCharacterState_) {
+	case Character::State::kChase:
+	{
+		collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z - 10.0f));
+	}
+	break;
+	case Character::State::kRunAway:
+	{
+		collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z ));
+	}
+	break;
+	default:
+		break;
+	}
 	bossModelManager_->Update();
 }
 

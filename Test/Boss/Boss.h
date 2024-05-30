@@ -10,6 +10,7 @@
 #include "BossStateManager/BossStateManager.h"
 #include "BossHP/BossHP.h"
 #include "BossUI/BossUI.h"
+#include "BossParticle/BossLineParticle.h"
 
 
 class Player;
@@ -48,6 +49,8 @@ private:
 	std::unique_ptr<BossHP> bossHP_;
 
 	std::unique_ptr<BossUI> bossUI_;
+
+	std::unique_ptr<BossLineParticle> bossLineParticle_;
 
 	Vector3 velocity_;
 	Vector3 offset_;

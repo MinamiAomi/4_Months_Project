@@ -365,6 +365,12 @@
     <ClCompile Include="Player\PlayerHanmmer\PlayerHammerParticle.cpp">
       <Filter>Game\Object\Player\PlayerHanmmer</Filter>
     </ClCompile>
+    <ClCompile Include="HammerMovie.cpp">
+      <Filter>Game\Object\Movie</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
+    </ClCompile>
     <ClCompile Include="BossBullet.cpp">
       <Filter>Game\Object\Boss\BossBullet</Filter>
     </ClCompile>
@@ -595,6 +601,12 @@
     </ClInclude>
     <ClInclude Include="Player\PlayerHanmmer\PlayerHammerParticle.h">
       <Filter>Game\Object\Player\PlayerHanmmer</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerMovie.h">
+      <Filter>Game\Object\Movie</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossParticle\BossLineParticle.h">
+      <Filter>Game\Object\Boss\BossParticle</Filter>
     </ClInclude>
     <ClInclude Include="BossBullet.h">
       <Filter>Game\Object\Boss\BossBullet</Filter>

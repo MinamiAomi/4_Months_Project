@@ -2,13 +2,11 @@
 #include "Boss/Boss.h"
 #include "Framework/ResourceManager.h"
 
-void BossDustParticle::Initialize() {
+void BossDustParticle::Initialize(const Boss* boss) {
+	boss_ = boss;
 	minDirection_ = { -0.5f,0.5f,-0.5f };
 	maxDirection_ = { 0.5f,1.0f,0.5f };
 	emitTransform_.SetParent(&boss_->transform,false);
-	//Vector3 modelMinSize = boss_->GetMinModelSize();
-	//emitTransform_.translate.y = modelMinSize.y - 2.0f;
-	//emitTransform_.translate.z = modelMinSize.z;
 	for (DustParticle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
 		particle.model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
