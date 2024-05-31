@@ -175,9 +175,10 @@ void Player::Update() {
 			Vector3 dashVelocity = dashVector_ * dashPower_;
 			transform.translate += dashVelocity;
 		}
-		transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_);
+		transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_)+ windVelocity_;
 
 		beltConveyorVelocity_ = 0.0f;
+		windVelocity_ = Vector3::zero;
 
 		transform.translate.x = std::clamp(transform.translate.x, -25.0f, 25.0f);
 		transform.translate.z = std::min(transform.translate.z, boss_->transform.translate.z - 10.0f);
@@ -286,6 +287,7 @@ void Player::Reset() {
 	velocity_ = Vector3::zero;
 	acceleration_ = Vector3::zero;
 	dashVector_ = Vector3::zero;
+	windVelocity_ = Vector3::zero;
 	beltConveyorVelocity_ = 0.0f;
 	isDash_ = false;
 	playerHP_->Reset();

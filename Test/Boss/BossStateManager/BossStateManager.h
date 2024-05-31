@@ -127,13 +127,25 @@ class BossStateBeamAttack:
 	public BossState {
 public:
 	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
+		Vector3 position;
 		Vector3 scale;
+		Vector3 vector;
 		float rotateEasingTime;
 		float attackEasingTime;
 		float chargeEasingTime;
 		float transitionFrame;
+
+		struct Wind {
+			struct MinMax {
+				float min;
+				float max;
+			};
+			Vector3 offset;
+			MinMax velocity;
+			MinMax startScale;
+			MinMax endScale;
+			float rotate;
+		}wind;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -148,6 +160,7 @@ private:
 	void RotateUpdate();
 	JsonData data_;
 	float time_;
+	float lastWindTime_;
 };
 
 class BossStateShotAttack :
