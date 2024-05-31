@@ -10,6 +10,7 @@
 #include "CharacterState.h"
 #include "File/JsonConverter.h"
 
+#include "HammerMovie.h"
 
 void StageLoop::Initialize() {
 
@@ -438,27 +439,8 @@ void StageLoop::Clear() {
 }
 
 void StageLoop::DeleteObject() {
-	uint32_t leaveIndex = 0;
-	bool found = false;
-	// プレイヤーの位置に基づいて leaveIndex を決定
-	for (const auto& stageDistance : stageDistance_) {
-		if (player_->transform.worldMatrix.GetTranslate().z <= stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f &&
-			player_->transform.worldMatrix.GetTranslate().z >= stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f) {
-			leaveIndex = stageDistance.stageNum;
-			found = true;
-			break;
-		}
-	}
-
-	if (found) {
-		// leaveIndex に一致しない要素を削除
-		stageDistance_.erase(
-			std::remove_if(stageDistance_.begin(), stageDistance_.end(),
-				[leaveIndex](const StageDistance& stageDistance) {
-					return stageDistance.stageNum != leaveIndex;
-				}),
-			stageDistance_.end());
-	}
+	
+	uint32_t leaveIndex = stageDistance_.at(0).stageNum;
 
 	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
 	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
@@ -576,11 +558,42 @@ void StageLoop::DeleteObject() {
 	}
 }
 
+void StageLoop::CheckOnPlayerStageParts() {
+	bool found = false;
+	uint32_t leaveIndex = 0;
+	// プレイヤーの位置に基づいて leaveIndex を決定
+	for (const auto& stageDistance : stageDistance_) {
+		if (player_->transform.worldMatrix.GetTranslate().z <= stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f &&
+			player_->transform.worldMatrix.GetTranslate().z >= stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f) {
+			leaveIndex = stageDistance.stageNum;
+			found = true;
+			break;
+		}
+	}
+
+	if (found) {
+		// leaveIndex に一致しない要素を削除
+		stageDistance_.erase(
+			std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+				[leaveIndex](const StageDistance& stageDistance) {
+					return stageDistance.stageNum != leaveIndex;
+				}),
+			stageDistance_.end());
+	}
+}
+
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
-	DeleteObject();
+	CheckOnPlayerStageParts();
+
+	Clear();
+
+	//DeleteObject();
+
 
 	uint32_t stageIndex;
 	float distance = stageDistance_.at(0).distance;
+	CreateStageObject(stageData_.at(stageDistance_.at(0).stageIndex), distance, stageNum_);
+	stageNum_++;
 	for (uint32_t i = 1; i < kCreateStageNum; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {

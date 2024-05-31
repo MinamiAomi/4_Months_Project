@@ -19,6 +19,7 @@
 class Boss;
 class Camera;
 class Player;
+class HammerMovie;
 class StageLoop {
 public:
 	void Initialize();
@@ -28,6 +29,7 @@ public:
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 	void SetPlayer(Player* player) { player_ = player; }
+	void SetHammerMovie(const HammerMovie* hammerMovie) { hammerMovie_ = hammerMovie; }
 
 	const std::unique_ptr<BeltConveyorManager>& GetBeltConveyorManager()const { return beltConveyorManager_; }
 	const std::unique_ptr<BlockManager>& GetBlockManager()const { return blockManager_; }
@@ -42,6 +44,7 @@ public:
 private:
 	const Boss* boss_;
 	const Camera* camera_;
+	const HammerMovie* hammerMovie_;
 	Player* player_;
 	static const uint32_t kCreateStageNum = 5;
 
@@ -65,6 +68,7 @@ private:
 	void InitializeCreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void Clear();
 	void DeleteObject();
+	void CheckOnPlayerStageParts();
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void CreateStageObject(const Desc& stageData, float distance, uint32_t index);
 
