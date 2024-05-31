@@ -20,6 +20,7 @@ class Boss;
 class Camera;
 class Player;
 class HammerMovie;
+class Camera;
 class StageLoop {
 public:
 	void Initialize();
@@ -69,6 +70,7 @@ private:
 	void Clear();
 	void DeleteObject();
 	void CheckOnPlayerStageParts();
+	// 複数個
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void CreateStageObject(const Desc& stageData, float distance, uint32_t index);
 

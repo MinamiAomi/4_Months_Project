@@ -21,7 +21,7 @@ public:
 	void Update() override;
 	void Reset() override;
 
-	bool IsHitFrame_() const { return isHitFrame_; }
+	bool IsHitFrame() const { return isHitFrame_; }
 private:
 	Vector3 curvePoint_[3];
 	Quaternion saveQuaternion_;

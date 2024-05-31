@@ -145,6 +145,8 @@ public:
 			MinMax startScale;
 			MinMax endScale;
 			float rotate;
+			uint32_t lifeTime;
+			uint32_t interval;
 		}wind;
 	};
 	using BossState::BossState;

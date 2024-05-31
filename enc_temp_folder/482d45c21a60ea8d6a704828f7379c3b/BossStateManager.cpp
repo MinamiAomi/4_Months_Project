@@ -710,6 +710,8 @@ void BossStateBeamAttack::AttackUpdate() {
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
 	static const uint32_t kNumWind = 10;
 
+	float interval = data_.attackEasingTime * 0.5f / kNumWind;
+
 	if (time_ >= lastWindTime_ + data_.wind.interval) {
 		auto manager = WindManager::GetInstance();
 		Wind::Desc desc{};
@@ -725,7 +727,7 @@ void BossStateBeamAttack::AttackUpdate() {
 		}
 		desc.lifeTime = data_.wind.lifeTime;
 		manager->Create(desc);
-		lastWindTime_ += data_.wind.interval;
+		lastWindTime_ += interval;
 	}
 
 	if (t >= 1.0f) {
