@@ -39,6 +39,7 @@ public:
 	const std::unique_ptr<BossModelManager>& GetModelManager() const { return bossModelManager_; }
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
 	const std::unique_ptr<BossHP>& GetBossHP()const { return bossHP_; }
+	std::shared_ptr<PointLight>& GetPointLight() {return pointLight_;}
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 

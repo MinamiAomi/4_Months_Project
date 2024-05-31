@@ -50,7 +50,7 @@ void HammerMovie::Update() {
 			isLeft_ = false;
 		}
 	}
-
+	isHitFrame_ = false;
 	Vector3 cameraToPlayer = (player_->transform.worldMatrix.GetTranslate() - camera_->GetPosition()).Normalize();
 	Vector3 pos = stageCamera_->GetCamera()->GetPosition();
 	//近づく
@@ -76,6 +76,7 @@ void HammerMovie::Update() {
 		if (t < 1.0f) {
 			if (!isPlaySe_) {
 				isPlaySe_ = true;
+				isHitFrame_ = true;
 				se_->Play();
 				se_->SetVolume(1.0f);
 			}
