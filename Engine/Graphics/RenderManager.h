@@ -24,6 +24,7 @@
 #include "LineDrawer.h"
 #include "App/SkyRenderer.h"
 #include "App/Fog.h"
+#include "App/WireTranslucentRenderer.h"
 #include "Edge.h"
 #include "ChaseEffect.h"
 #include "WhiteFilter.h"
@@ -51,7 +52,7 @@ public:
     Transition& GetTransition() { return transition_; }  
     SkinningManager& GetSkinningManager() { return skinningManager_; }
     LineDrawer& GetLineDrawer() { return lineDrawer_; }
-
+    WireTranslucentRenderer& GetWireTranslucentRenderer() { return wireTranslucentRenderer_; }
 
 private:
     RenderManager() = default;
@@ -84,7 +85,7 @@ private:
     PostEffect lightingPassPostEffect_;
 
     WhiteFilter whiteFilter_;
-
+    WireTranslucentRenderer wireTranslucentRenderer_;
     ColorBuffer skyTexture_;
     SkyRenderer skyRenderer_;
     Fog fog_;
