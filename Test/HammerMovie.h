@@ -20,6 +20,8 @@ public:
 	void Initialize(Player* player, Boss* boss, Camera* camera, const StageCamera* stageCamera) override;
 	void Update() override;
 	void Reset() override;
+
+	bool IsHitFrame_() const { return isHitFrame_; }
 private:
 	Vector3 curvePoint_[3];
 	Quaternion saveQuaternion_;
@@ -27,4 +29,5 @@ private:
 	std::unique_ptr<AudioSource> se_;
 	bool isPlaySe_ = false;
 	bool isLeft_ = false;
+	bool isHitFrame_ = false;
 };
