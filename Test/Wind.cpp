@@ -9,7 +9,7 @@ void Wind::Initialize(const Desc& desc) {
 	model_->SetIsActive(true);
 	transform.translate = desc_.position;
 	transform.rotate = Quaternion::identity;
-	transform.scale = desc_.scale;
+	transform.scale = desc_.scale.start;
 	isAlive_ = true;
 	lifeTime_ = desc_.lifeTime;
 	UpdateTransform();
@@ -20,8 +20,8 @@ void Wind::Update() {
 		transform.translate += desc_.velocity;
 		rotate_ += desc_.rotate;
 		transform.rotate = Quaternion::MakeFromEulerAngle(rotate_);
-		float t = float(lifeTime_)/ float(desc_.lifeTime);
-		transform.scale = Vector3::Lerp(t,Vector3::one,Vector3(4.0f,4.0f,4.0f));
+		float t = 1.0f - (float(lifeTime_) / float(desc_.lifeTime));
+		transform.scale = Vector3::Lerp(t, desc_.scale.start, desc_.scale.end);
 		lifeTime_--;
 	}
 	else {

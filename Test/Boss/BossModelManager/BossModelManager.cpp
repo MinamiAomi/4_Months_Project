@@ -204,7 +204,7 @@ void BossModel::Parts::InitializeCollider(std::vector<std::string> nameList, std
 void BeamAttack::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
 		RayCastInfo rayCastInfo{};
-		if (!CollisionManager::GetInstance()->RayCast(player_->transform.worldMatrix.GetTranslate(), player_->transform.worldMatrix.GetTranslate() + vector_ * -50.0f, ~CollisionAttribute::Player, &rayCastInfo)) {
+		if (!CollisionManager::GetInstance()->RayCast(player_->transform.worldMatrix.GetTranslate(), player_->transform.worldMatrix.GetTranslate() + vector_ * -100.0f, CollisionAttribute::Ground, &rayCastInfo)) {
 			player_->SetWindVelocity(vector_ * 0.5f);
 		}
 	}

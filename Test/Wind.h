@@ -11,8 +11,11 @@ class Wind :
 	public GameObject {
 public:
 	struct Desc {
+		struct Scale {
+			Vector3 start;
+			Vector3 end;
+		}scale;
 		Vector3 position;
-		Vector3 scale;
 		Vector3 velocity;
 		Vector3 rotate;
 		uint32_t lifeTime;

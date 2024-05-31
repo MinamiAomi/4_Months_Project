@@ -134,6 +134,18 @@ public:
 		float attackEasingTime;
 		float chargeEasingTime;
 		float transitionFrame;
+
+		struct Wind {
+			struct MinMax {
+				float min;
+				float max;
+			};
+			Vector3 offset;
+			MinMax velocity;
+			MinMax startScale;
+			MinMax endScale;
+			float rotate;
+		}wind;
 	};
 	using BossState::BossState;
 	void Initialize() override;

@@ -39,6 +39,14 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.beamAttackData.chargeEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.attackEasingTime);
 	JSON_LOAD(jsonData_.beamAttackData.transitionFrame);
+	JSON_LOAD(jsonData_.beamAttackData.wind.offset);
+	JSON_LOAD(jsonData_.beamAttackData.wind.velocity.min);
+	JSON_LOAD(jsonData_.beamAttackData.wind.velocity.max);
+	JSON_LOAD(jsonData_.beamAttackData.wind.startScale.min);
+	JSON_LOAD(jsonData_.beamAttackData.wind.startScale.max);
+	JSON_LOAD(jsonData_.beamAttackData.wind.endScale.min);
+	JSON_LOAD(jsonData_.beamAttackData.wind.endScale.max);
+	JSON_LOAD(jsonData_.beamAttackData.wind.rotate);
 	JSON_ROOT();
 	JSON_OBJECT("StateShotAttack");
 	JSON_LOAD(jsonData_.shotAttackData.rotateEasingTime);
@@ -159,6 +167,21 @@ void BossStateManager::DrawImGui() {
 			ImGui::DragFloat("chargeEasingTime", &jsonData_.beamAttackData.chargeEasingTime, 0.1f);
 			ImGui::DragFloat("attackEasingTime", &jsonData_.beamAttackData.attackEasingTime, 0.1f);
 			ImGui::DragFloat("遷移フレーム", &jsonData_.beamAttackData.transitionFrame, 0.1f);
+			if (ImGui::TreeNode("風")) {
+				ImGui::DragFloat3("offset", &jsonData_.beamAttackData.wind.offset.x, 0.1f);
+				ImGui::DragFloat("velocity : min ", &jsonData_.beamAttackData.wind.velocity.min, 0.1f);
+				float min = jsonData_.beamAttackData.wind.velocity.min;
+				ImGui::DragFloat("velocity : max ", &jsonData_.beamAttackData.wind.velocity.max, 0.1f, min);
+				ImGui::DragFloat("startScale : min ", &jsonData_.beamAttackData.wind.startScale.min, 0.1f, 0.0f);
+				min = jsonData_.beamAttackData.wind.startScale.min;
+				ImGui::DragFloat("startScale : max ", &jsonData_.beamAttackData.wind.startScale.max, 0.1f, min);
+				ImGui::DragFloat("endScale : min ", &jsonData_.beamAttackData.wind.endScale.min, 0.1f, 0.0f);
+				min = jsonData_.beamAttackData.wind.endScale.min;
+				ImGui::DragFloat("endScale : max ", &jsonData_.beamAttackData.wind.endScale.max, 0.1f, min);
+				ImGui::DragFloat("rotate", &jsonData_.beamAttackData.wind.rotate, 0.1f);
+
+				ImGui::TreePop();
+			}
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("ShotAttack")) {
@@ -205,7 +228,14 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.beamAttackData.rotateEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.chargeEasingTime);
 			JSON_SAVE(jsonData_.beamAttackData.attackEasingTime);
-			JSON_SAVE(jsonData_.beamAttackData.transitionFrame);
+			JSON_SAVE(jsonData_.beamAttackData.wind.offset);
+			JSON_SAVE(jsonData_.beamAttackData.wind.velocity.min);
+			JSON_SAVE(jsonData_.beamAttackData.wind.velocity.max);
+			JSON_SAVE(jsonData_.beamAttackData.wind.startScale.min);
+			JSON_SAVE(jsonData_.beamAttackData.wind.startScale.max);
+			JSON_SAVE(jsonData_.beamAttackData.wind.endScale.min);
+			JSON_SAVE(jsonData_.beamAttackData.wind.endScale.max);
+			JSON_SAVE(jsonData_.beamAttackData.wind.rotate);
 			JSON_ROOT();
 			JSON_OBJECT("StateShotAttack");
 			JSON_SAVE(jsonData_.shotAttackData.rotateEasingTime);
@@ -642,10 +672,28 @@ void BossStateBeamAttack::ChargeUpdate() {
 	if (t >= 1.0f) {
 		attackState_ = kAttack;
 		time_ = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(true);
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.translate= data_.position;
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
+		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.translate = data_.position;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
+		static const uint32_t kNumWind = 10;
 
+
+		//for (uint32_t i = 0; i < kNumWind; i++) {
+		//	auto manager = WindManager::GetInstance();
+		//	Wind::Desc desc{};
+		//	desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + data_.wind.offset;
+		//	desc.velocity = data_.vector * rnd_.NextFloatRange(data_.wind.velocity.min, data_.wind.velocity.max);
+		//	float scale = rnd_.NextFloatRange(data_.wind.startScale.min, data_.wind.startScale.max);
+		//	desc.scale.start = { scale ,scale ,scale };
+		//	rnd_.NextFloatRange(data_.wind.endScale.min, data_.wind.endScale.max);
+		//	desc.scale.end = { scale ,scale ,scale };
+		//	desc.rotate.z = rnd_.NextFloatRange(-data_.wind.rotate, data_.wind.rotate) * Math::ToRadian;
+		//	if (desc.rotate.z == 0.0f) {
+		//		desc.rotate.z = -1.0f * Math::ToRadian;
+		//	}
+		//	desc.lifeTime = uint32_t(data_.attackEasingTime - time_);
+		//	manager->Create(desc);
+		//}
 	}
 }
 
@@ -660,14 +708,17 @@ void BossStateBeamAttack::AttackUpdate() {
 	if (time_ >= lastWindTime_ + interval) {
 		auto manager = WindManager::GetInstance();
 		Wind::Desc desc{};
-		desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + Vector3(0.0f, 5.0f, 10.0f);
-		desc.velocity = data_.vector* rnd_.NextFloatRange(0.2f, 1.5f);
-		desc.scale = Vector3::one;
-		desc.rotate.z = rnd_.NextFloatRange(-30.0f, 30.0f) * Math::ToRadian;
-		if (desc.rotate.y == 0.0f) {
-			desc.rotate.y = -1.0f * Math::ToRadian;
+		desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + data_.wind.offset;
+		desc.velocity = data_.vector * rnd_.NextFloatRange(data_.wind.velocity.min, data_.wind.velocity.max);
+		float scale = rnd_.NextFloatRange(data_.wind.startScale.min, data_.wind.startScale.max);
+		desc.scale.start = { scale ,scale ,scale };
+		scale = rnd_.NextFloatRange(data_.wind.endScale.min, data_.wind.endScale.max);
+		desc.scale.end = { scale ,scale ,scale };
+		desc.rotate.z = rnd_.NextFloatRange(-data_.wind.rotate, data_.wind.rotate) * Math::ToRadian;
+		if (desc.rotate.z == 0.0f) {
+			desc.rotate.z = -1.0f * Math::ToRadian;
 		}
-		desc.lifeTime = 120;
+		desc.lifeTime = uint32_t(data_.attackEasingTime - time_);
 		manager->Create(desc);
 		lastWindTime_ += interval;
 	}
