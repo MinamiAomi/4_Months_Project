@@ -51,7 +51,7 @@ void TextureResource::CreateFromWICFile(CommandContext& commandContext, const st
     CD3DX12_HEAP_PROPERTIES heapProp(D3D12_HEAP_TYPE_DEFAULT);
     CreateResource(L"TextureResource", heapProp, desc_, D3D12_RESOURCE_STATE_COPY_DEST);
 
-    UploadResource(commandContext, UINT(subresources.size()), subresources.data());
+    UploadResource(commandContext, UINT(subresources.size()), subresources.data(), path.wstring());
 
     // ビューを生成
     CreateView();
@@ -68,7 +68,7 @@ void TextureResource::Create(CommandContext& commandContext, size_t rowPitchByte
     subresourceData.RowPitch = rowPitchBytes;
     subresourceData.SlicePitch = rowPitchBytes * height;
 
-    UploadResource(commandContext, 1, &subresourceData);
+    UploadResource(commandContext, 1, &subresourceData, std::format(L"{}, {}, {}", rowPitchBytes, width, height));
 
     CreateView();
 }
@@ -89,11 +89,11 @@ void TextureResource::CreateView() {
     device->CreateShaderResourceView(resource_.Get(), &srvDesc, srvHandle_);
 }
 
-void TextureResource::UploadResource(CommandContext& commandContext, size_t numSubresources, const D3D12_SUBRESOURCE_DATA* subresources) {
+void TextureResource::UploadResource(CommandContext& commandContext, size_t numSubresources, const D3D12_SUBRESOURCE_DATA* subresources, const std::wstring& path) {
     uint64_t intermediateSize = GetRequiredIntermediateSize(resource_.Get(), 0, UINT(numSubresources));
 
     UploadBuffer intermediateResource;
-    intermediateResource.Create(L"TextureResource IntermediateResource", intermediateSize);
+    intermediateResource.Create(path + L" IntermediateResource", intermediateSize);
 
     UpdateSubresources(commandContext, resource_.Get(), intermediateResource, 0, 0, UINT(numSubresources), subresources);
     commandContext.TransitionResource(*this, D3D12_RESOURCE_STATE_GENERIC_READ);
