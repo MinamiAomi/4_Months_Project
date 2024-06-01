@@ -9,11 +9,13 @@
 #include "Boss/Boss.h"
 #include "GameSpeed.h"
 
-void StageCamera::Initialize() {
+StageCamera::StageCamera()
+{
 	camera_ = std::make_shared<Camera>();
 	RenderManager::GetInstance()->SetCamera(camera_);
+}
 
-
+void StageCamera::Initialize() {
 	isMove_ = true;
 #pragma region パラメーター
 	JSON_OPEN("Resources/Data/StageCamera/StageCamera.json");

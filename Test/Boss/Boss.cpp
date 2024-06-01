@@ -1,5 +1,6 @@
 #include "Boss.h"
 
+#include "Graphics/RenderManager.h"
 #include "CharacterState.h"
 #include "CollisionAttribute.h"
 #include "Framework/ResourceManager.h"
@@ -11,7 +12,6 @@
 #include "Math/Camera.h"
 #include "Movie.h"
 #include "BossBulletManager.h"
-
 
 void Boss::Initialize() {
 #pragma endregion
@@ -51,9 +51,8 @@ void Boss::Initialize() {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Boss");
-	collider_->SetCenter(Vector3( transform.translate.x, transform.translate.y, transform.translate.z-10.0f));
+	collider_->SetCenter(Vector3( transform.translate.x, transform.translate.y, transform.translate.z- 15.0f));
 	collider_->SetOrientation(transform.rotate);
-	// 鉾方向にくっそでかく（プレイヤーの弾がうしろにいかないよう
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
 	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z*0.8f});
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
@@ -64,9 +63,20 @@ void Boss::Initialize() {
 #pragma endregion
 
 	isFirstHit_ = false;
+	isHit_ = false;
+	lightManager_ = &RenderManager::GetInstance()->GetLightManager();
+	pointLight_ = std::make_shared<PointLight>();
+	pointLight_->color = { 1.77f,0.3f,1.97f };
+	pointLight_->decay = 2.280f;
+	pointLight_->intensity = 1.16f;
+	pointLight_->range = 14.77f;
+	pointLightTransform_.SetParent(&transform,false);
+	pointLightTransform_.translate = { 0.0f,14.0f,20.0f };
+
 }
 
 void Boss::Update() {
+	isHit_ = false;
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
@@ -82,7 +92,14 @@ void Boss::Update() {
 			JSON_ROOT();
 			JSON_CLOSE();
 		}
+		ImGui::DragFloat3("LightsPos", &pointLightTransform_.translate.x,0.1f);
+		ImGui::DragFloat3("Color", &pointLight_->color.x, 0.01f);
+		ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
+		ImGui::DragFloat("intensity", &pointLight_->intensity, 0.01f);
+		ImGui::DragFloat("range", &pointLight_->range, 0.01f);
+
 		ImGui::EndMenu();
+
 	}
 	ImGui::End();
 #endif // _DEBUG
@@ -149,6 +166,12 @@ void Boss::Update() {
 	}
 }
 
+void Boss::MovieUpdate()
+{
+	isHit_ = false;
+	lightManager_->Add(pointLight_);
+}
+
 void Boss::Reset(uint32_t stageIndex) {
 	stageIndex;
 	isAlive_ = true;
@@ -175,7 +198,7 @@ void Boss::UpdateTransform() {
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
-		collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z - 10.0f));
+		collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z - 15.0f));
 	}
 	break;
 	case Character::State::kRunAway:
@@ -187,6 +210,8 @@ void Boss::UpdateTransform() {
 		break;
 	}
 	bossModelManager_->Update();
+	pointLightTransform_.UpdateMatrix();
+	pointLight_->position = pointLightTransform_.worldMatrix.GetTranslate();
 }
 
 void Boss::OnCollision(const CollisionInfo& collisionInfo) {
@@ -196,10 +221,12 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
+			if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
+ 				isHit_ = true;
+			}
 			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 			if (isFirstHit_ && !Movie::isPlaying) {
 				bossHP_->AddPlayerHitHP();
-				Character::SetNextScene(Character::State::kRunAway);
 			}
 
 		}
@@ -213,7 +240,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 		//一回目
-		isFirstHit_ = true;
+		
 	}
 
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {

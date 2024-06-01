@@ -15,11 +15,15 @@ class Movie {
 public:
 
 	static bool isPlaying;
+	static bool isEndFrame;
 
 	virtual void Initialize(Player* player,Boss* boss,Camera* camera, const StageCamera* stageCamera);
 	virtual void Update();
 	virtual void Reset();
 	void ZoomInOut(const Vector3& savePos, const Vector3& axis , const float t);
+	static void SetFalseIsEndFrame() {
+		isEndFrame = false;
+	}
 
 
 protected:

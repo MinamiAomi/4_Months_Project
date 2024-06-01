@@ -4,42 +4,89 @@
 #include "File/JsonHelper.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/ImGuiManager.h"
+#include "Math/MathUtils.h"
+#include"Engine/Graphics/GameWindow.h"
+#include "Player/Player.h"
+#include "Math/Camera.h"
 
 void PlayerUI::Initialize() {
 	LoadJson();
+
+	//拡大比率統一
+	playerFrameSpriteData_.scale = (Vector2(playerFrameSpriteData_.textureSize.x * userFrameSpriteRatioUI, playerFrameSpriteData_.textureSize.y * userFrameSpriteRatioUI));
+	toBossDistanceBarSpriteData_.scale = (Vector2(toBossDistanceBarSpriteData_.textureSize.x * ratioUI, toBossDistanceBarSpriteData_.textureSize.y * ratioUI));
+	toBossDistanceMeterSpriteData_.scale = (Vector2(toBossDistanceMeterSpriteData_.textureSize.x * ratioUI, toBossDistanceMeterSpriteData_.textureSize.y * ratioUI));
+	toBossDistanceNumberSpriteData_.scale = (Vector2(toBossDistanceNumberSpriteData_.textureSize.x * ratioUI, toBossDistanceNumberSpriteData_.textureSize.y * ratioUI));
+	revengeBarGaugeSpriteData_.scale = (Vector2(revengeBarGaugeSpriteData_.textureSize.x * ratioUI, revengeBarGaugeSpriteData_.textureSize.y * ratioUI));
+	revengeBarGaugeBaseSpriteData_.scale = (Vector2(revengeBarGaugeBaseSpriteData_.textureSize.x * ratioUI, revengeBarGaugeBaseSpriteData_.textureSize.y * ratioUI));
+	revengeBarIconSpriteData_.scale = (Vector2(revengeBarIconSpriteData_.textureSize.x * ratioUI, revengeBarIconSpriteData_.textureSize.y * ratioUI));
+	for (uint32_t i = 0; auto & spriteData : hpSpriteData_) {
+		spriteData.scale = (Vector2(spriteData.textureSize.x * ratioUI, spriteData.textureSize.y * ratioUI));
+		i++;
+	}
+
+#pragma region 全体フレーム
+
+	userFrameSprite_ = CreateSprite(userFrameSpriteData_, "FrameUI");
+
+#pragma endregion
+
+#pragma region プレイヤーUIフレーム
+
+	playerFrameSprite_ = CreateSprite(playerFrameSpriteData_, "PlayerUIFrame");
+
+#pragma endregion
+
+#pragma region ボスとの距離
+
+	toBossDistanceBarSprite_ = CreateSprite(toBossDistanceBarSpriteData_, "ToBossDistanceBar");
+	toBossDistanceMeterSprite_ = CreateSprite(toBossDistanceMeterSpriteData_, "ToBossDistanceMeter");
+	toBossDistanceNumberSprite_ = CreateSprite(toBossDistanceNumberSpriteData_, "ToBossDistanceNumber");
+
+#pragma endregion
+
 #pragma region HP
-	for (uint32_t i = 0; auto & sprite : hpSprit_) {
+	for (uint32_t i = 0; auto & sprite : hpSprite_) {
 		sprite = CreateSprite(hpSpriteData_.at(i), "HPBar_Gauge");
 		i++;
 	}
 
-	hpBaseSprit_ = CreateSprite(hpBaseSpriteData_, "HPBar_Flame");
 #pragma endregion
 #pragma region 復讐ゲージ
-	revengeBarGage_ = CreateSprite(revengeBarGageData_, "RevengeBar_RevengeGauge");
-	revengeBarGageBase_ = CreateSprite(revengeBarGageBaseData_, "RevengeBar_Flame");
-
+	revengeBarGaugeSprite_ = CreateSprite(revengeBarGaugeSpriteData_, "RevengeBar_RevengeGauge");
+	revengeBarGaugeBaseSprite_ = CreateSprite(revengeBarGaugeBaseSpriteData_, "RevengeBar_Frame");
+	revengeBarIconSprite_ = CreateSprite(revengeBarIconSpriteData_, "RevengeBar_Icon");
 
 	tutorial1_ = CreateSprite(tutorial1Data_, "tutorial1");
 	tutorial2_ = CreateSprite(tutorial2Data_, "tutorial2");
 	tutorial3_ = CreateSprite(tutorial3Data_, "tutorial3");
-	//revengeCircleGageBase_ = CreateSprite(revengeCircleGageBaseData_, "circle");
+
 #pragma endregion
+
 }
 
 void PlayerUI::Update() {
-	UpdateHP();
-	UpdateRevengeGage();
+	UpdatePlayerUI();
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
 		if (ImGui::TreeNode("PlayerUI")) {
 
-			DrawImGui(revengeBarGageData_, "revengeBarGageData_", revengeBarGage_.get());
-			DrawImGui(revengeBarGageBaseData_, "revengeBarGageBaseData_", revengeBarGageBase_.get());
+			DrawImGui(userFrameSpriteData_, "userFrameSpriteData_", userFrameSprite_.get());
 
+			DrawImGui(playerFrameSpriteData_, "playerFrameSpriteData_", playerFrameSprite_.get());
 
-			DrawImGui(hpBaseSpriteData_, "hpBaseSpriteData_", hpBaseSprit_.get());
+			DrawImGui(toBossDistanceBarSpriteData_, "toBossDistanceBarSpriteData_", toBossDistanceBarSprite_.get());
+
+			DrawImGui(toBossDistanceMeterSpriteData_, "toBossDistanceMeterSpriteData_", toBossDistanceMeterSprite_.get());
+
+			DrawImGui(toBossDistanceNumberSpriteData_, "toBossDistanceNumberSpriteData_", toBossDistanceNumberSprite_.get());
+
+			DrawImGui(revengeBarGaugeSpriteData_, "revengeBarGageSpriteData_", revengeBarGaugeSprite_.get());
+
+			DrawImGui(revengeBarGaugeBaseSpriteData_, "revengeBarGageBaseSpriteData_", revengeBarGaugeBaseSprite_.get());
+
+			DrawImGui(revengeBarIconSpriteData_, "revengeBarIconSpriteData_", revengeBarIconSprite_.get());
 
 			DrawImGui(tutorial1Data_, "tutorial1Data_", tutorial1_.get());
 
@@ -49,8 +96,10 @@ void PlayerUI::Update() {
 
 			for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
 				std::string string = "hpSpriteData:(" + std::to_string(i) + ")";
-				DrawImGui(hpSpriteData_.at(i), string, hpSprit_.at(i).get());
+				DrawImGui(hpSpriteData_.at(i), string, hpSprite_.at(i).get());
 			}
+
+			ImGui::DragFloat("UI比率", &ratioUI, 0.01f, 0.0f,100.0f);
 
 			if (ImGui::Button("Save")) {
 				SaveJson();
@@ -60,83 +109,130 @@ void PlayerUI::Update() {
 		ImGui::EndMenu();
 	}
 	ImGui::End();
+
+
 #endif // _DEBUG
+	Matrix4x4 vpv = camera_->GetViewMatrix() * camera_->GetProjectionMatrix() ;
+	vpv *= Matrix4x4::MakeScaling({ 1.0f, -1.0f, 1.0f }) * Matrix4x4::MakeTranslation({0.0f, 0.0f, 0.0f});
+	vpv *= Matrix4x4::MakeViewport(0, 0, float(GameWindow::GetInstance()->GetClientWidth()), float(GameWindow::GetInstance()->GetClientHeight()), camera_->GetNearClip(), camera_->GetFarClip());
+	Vector3 viewportPlayerPosition = vpv.ApplyTransformWDivide(player_->transform.worldMatrix.GetTranslate());
+
+	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x, viewportPlayerPosition.y));
+
+	//プレイヤーUIフレームを親にする
+	revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
+	revengeBarGaugeBaseSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeBaseSpriteData_.position);
+	revengeBarIconSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarIconSpriteData_.position);
+	toBossDistanceBarSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceBarSpriteData_.position);
+	toBossDistanceMeterSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceMeterSpriteData_.position);
+	toBossDistanceNumberSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData_.position);
+
+	hpSprite_.at(0)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(0).position);
+	hpSprite_.at(1)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(1).position);
+	hpSprite_.at(2)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(2).position);
 
 }
 
+void PlayerUI::UpdatePlayerUI() {
+	UpdateHP();
+	UpdateRevengeGage();
+}
+
 void PlayerUI::UpdateHP() {
+
 	if (playerHP_->GetCurrentHP() == 0) {
-		hpSprit_.at(0)->SetIsActive(false);
-		hpSprit_.at(1)->SetIsActive(false);
-		hpSprit_.at(2)->SetIsActive(false);
+		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(1)->SetIsActive(false);
+		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 1) {
-		hpSprit_.at(0)->SetIsActive(false);
-		hpSprit_.at(1)->SetIsActive(false);
-		hpSprit_.at(2)->SetIsActive(true);
+		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(1)->SetIsActive(false);
+		hpSprite_.at(2)->SetIsActive(true);
 	}
 	else if (playerHP_->GetCurrentHP() == 2) {
-		hpSprit_.at(0)->SetIsActive(false);
-		hpSprit_.at(1)->SetIsActive(true);
-		hpSprit_.at(2)->SetIsActive(true);
+		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(1)->SetIsActive(true);
+		hpSprite_.at(2)->SetIsActive(true);
 	}
 	else if (playerHP_->GetCurrentHP() == 3) {
-		hpSprit_.at(0)->SetIsActive(true);
-		hpSprit_.at(1)->SetIsActive(true);
-		hpSprit_.at(2)->SetIsActive(true);
+		hpSprite_.at(0)->SetIsActive(true);
+		hpSprite_.at(1)->SetIsActive(true);
+		hpSprite_.at(2)->SetIsActive(true);
 	}
 }
 
 void PlayerUI::UpdateRevengeGage() {
-	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
-	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
-#pragma region Bar
-	revengeBarGage_->SetPosition(
-		{
-		revengeBarGageData_.position.x,
-		std::lerp(revengeBarGageData_.position.y - revengeBarGageData_.scale.y * 0.5f, revengeBarGageData_.position.y,barT)
-		}
-	);
-	revengeBarGage_->SetScale(
-		{
-		revengeBarGageData_.scale.x,
-		std::lerp(0.0f, revengeBarGageData_.scale.y,barT)
-		}
-	);
-	revengeBarGage_->SetTexcoordSize(
-		{
-			revengeBarGageData_.textureSize.x,
-			std::lerp(0.0f, revengeBarGageData_.textureSize.y,barT)
-		}
-	);
-	revengeBarGage_->SetTexcoordBase(
-		{
-			revengeBarGageData_.textureSize.x,
-			std::lerp(0.0f, -revengeBarGageData_.textureSize.y,barT)
-		}
-	);
-#pragma endregion
-
-	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
-		tutorial1_->SetIsActive(false);
-		tutorial2_->SetIsActive(true);
-		tutorial3_->SetIsActive(false);
-	}
-	else
-	if (Character::currentCharacterState_ == Character::kRunAway) {
-		tutorial1_->SetIsActive(true);
-		tutorial2_->SetIsActive(false);
-		tutorial3_->SetIsActive(false);
-	}else
-	if (Character::currentCharacterState_ == Character::kChase) {
-		tutorial1_->SetIsActive(false);
-		tutorial2_->SetIsActive(false);
-		tutorial3_->SetIsActive(true);
-	}
+//	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
+//	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
+//#pragma region Bar
+//	revengeBarGaugeSprite_->SetPosition(
+//		{
+//		revengeBarGaugeSpriteData_.position.x,
+//		std::lerp(revengeBarGaugeSpriteData_.position.y - revengeBarGaugeSpriteData_.scale.y * 0.5f, revengeBarGaugeSpriteData_.position.y,barT)
+//		}
+//	);
+//	revengeBarGaugeSprite_->SetScale(
+//		{
+//		revengeBarGaugeSpriteData_.scale.x,
+//		std::lerp(0.0f, revengeBarGaugeSpriteData_.scale.y,barT)
+//		}
+//	);
+//	revengeBarGaugeSprite_->SetTexcoordSize(
+//		{
+//			revengeBarGaugeSpriteData_.textureSize.x,
+//			std::lerp(0.0f, revengeBarGaugeSpriteData_.textureSize.y,barT)
+//		}
+//	);
+//	revengeBarGaugeSprite_->SetTexcoordBase(
+//		{
+//			revengeBarGaugeSpriteData_.textureSize.x,
+//			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.y,barT)
+//		}
+//	);
+//#pragma endregion
+//
+//	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
+//		//tutorial1_->SetIsActive(false);
+//		//tutorial2_->SetIsActive(true);
+//		//tutorial3_->SetIsActive(false);
+//	}
+//	else
+//	if (Character::currentCharacterState_ == Character::kRunAway) {
+//		//tutorial1_->SetIsActive(true);
+//		//tutorial2_->SetIsActive(false);
+//		//tutorial3_->SetIsActive(false);
+//	}else
+//	if (Character::currentCharacterState_ == Character::kChase) {
+//		//tutorial1_->SetIsActive(false);
+//		//tutorial2_->SetIsActive(false);
+//		//tutorial3_->SetIsActive(true);
+//	}
 }
 
 void PlayerUI::LoadJson() {
 	JSON_OPEN("Resources/Data/Player/PlayerUI.json");
+
+	JSON_OBJECT("userFrameSpriteData_");
+	userFrameSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("playerFrameSpriteData_");
+	playerFrameSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceBarSpriteData_");
+	toBossDistanceBarSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceMeterSpriteData_");
+	toBossDistanceMeterSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData_");
+	toBossDistanceNumberSpriteData_.Load();
+	JSON_ROOT();
+
 #pragma region HP
 
 	for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
@@ -147,19 +243,27 @@ void PlayerUI::LoadJson() {
 
 	JSON_ROOT();
 
-	JSON_OBJECT("hpBaseSpriteData_");
-	hpBaseSpriteData_.Load();
-	JSON_ROOT();
-
 #pragma endregion
 #pragma region 復讐ゲージ
 	// 棒
 	JSON_OBJECT("revengeBarGageData_");
-	revengeBarGageData_.Load();
+	revengeBarGaugeSpriteData_.Load();
 	JSON_ROOT();
 	// Base
 	JSON_OBJECT("revengeBarGageBaseData_");
-	revengeBarGageBaseData_.Load();
+	revengeBarGaugeBaseSpriteData_.Load();
+	JSON_ROOT();
+	//アイコン
+	JSON_OBJECT("revengeBarIconSpriteData_");
+	revengeBarIconSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceMeterSpriteData_");
+	toBossDistanceMeterSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData_");
+	toBossDistanceNumberSpriteData_.Load();
 	JSON_ROOT();
 
 	// 円
@@ -188,26 +292,51 @@ void PlayerUI::LoadJson() {
 
 void PlayerUI::SaveJson() {
 	JSON_OPEN("Resources/Data/Player/PlayerUI.json");
+
+	JSON_OBJECT("userFrameSpriteData_");
+	userFrameSpriteData_.Save();
+	JSON_ROOT();
+
+	JSON_OBJECT("playerFrameSpriteData_");
+	playerFrameSpriteData_.Save();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceBarSpriteData_");
+	toBossDistanceBarSpriteData_.Save();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceMeterSpriteData_");
+	toBossDistanceMeterSpriteData_.Save();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData_");
+	toBossDistanceNumberSpriteData_.Save();
+	JSON_ROOT();
+
 #pragma region HP
 	for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
 		JSON_OBJECT("hpSpriteData_" + std::to_string(i));
 		hpSpriteData_.at(i).Save();
 		JSON_ROOT();
 	}
+
 	JSON_ROOT();
-	JSON_OBJECT("hpBaseSpriteData_");
-	hpBaseSpriteData_.Save();
-	JSON_ROOT();
+
 #pragma endregion
 #pragma region 復讐ゲージ
 	// 棒
 	JSON_OBJECT("revengeBarGageData_");
-	revengeBarGageData_.Save();
+	revengeBarGaugeSpriteData_.Save();
 	JSON_ROOT();
 	// 棒
 	JSON_OBJECT("revengeBarGageBaseData_");
-	revengeBarGageBaseData_.Save();
+	revengeBarGaugeBaseSpriteData_.Save();
 	JSON_ROOT();
+	//アイコン
+	JSON_OBJECT("revengeBarIconSpriteData_");
+	revengeBarIconSpriteData_.Save();
+	JSON_ROOT();
+
 	// 円
 	JSON_OBJECT("tutorial1Data_");
 	tutorial1Data_.Save();

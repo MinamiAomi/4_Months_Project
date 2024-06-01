@@ -10,6 +10,7 @@
 #include "CharacterState.h"
 #include "File/JsonConverter.h"
 
+#include "HammerMovie.h"
 
 void StageLoop::Initialize() {
 
@@ -51,20 +52,20 @@ void StageLoop::Initialize() {
 	LoadJson();
 
 	stageNum_ = 0;
-
 	InitializeCreateStage(0);
 
 	isCreateStage_ = false;
 }
 
 void StageLoop::Update() {
-	if (Character::currentCharacterState_ == Character::State::kScneChange && Character::nextCharacterState_ == Character::State::kRunAway && !isCreateStage_) {
+	if (hammerMovie_->IsHitFrame() && !isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
 	}
+
 	blockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
@@ -80,7 +81,6 @@ void StageLoop::Update() {
 
 void StageLoop::Reset() {
 	stageNum_ = 0;
-
 	InitializeCreateStage();
 }
 
@@ -438,27 +438,8 @@ void StageLoop::Clear() {
 }
 
 void StageLoop::DeleteObject() {
-	uint32_t leaveIndex = 0;
-	bool found = false;
-	// プレイヤーの位置に基づいて leaveIndex を決定
-	for (const auto& stageDistance : stageDistance_) {
-		if (player_->transform.worldMatrix.GetTranslate().z <= stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f &&
-			player_->transform.worldMatrix.GetTranslate().z >= stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f) {
-			leaveIndex = stageDistance.stageNum;
-			found = true;
-			break;
-		}
-	}
 
-	if (found) {
-		// leaveIndex に一致しない要素を削除
-		stageDistance_.erase(
-			std::remove_if(stageDistance_.begin(), stageDistance_.end(),
-				[leaveIndex](const StageDistance& stageDistance) {
-					return stageDistance.stageNum != leaveIndex;
-				}),
-			stageDistance_.end());
-	}
+	uint32_t leaveIndex = stageDistance_.at(0).stageNum;
 
 	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
 	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
@@ -576,12 +557,65 @@ void StageLoop::DeleteObject() {
 	}
 }
 
+void StageLoop::CheckOnPlayerStageParts() {
+	bool found = false;
+	uint32_t index = 0;
+	uint32_t leaveStageNum = 0;
+	uint32_t leaveNextStageNum = 0;
+
+	// プレイヤーの位置に基づいて leaveIndex と leaveNextIndex を決定
+	for (uint32_t i = 0; i < stageDistance_.size(); ++i) {
+		const auto& stageDistance = stageDistance_[i];
+		float playerZ = player_->transform.worldMatrix.GetTranslate().z;
+		float stageMinZ = stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+		float stageMaxZ = stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+
+		if (playerZ >= stageMinZ && playerZ <= stageMaxZ) {
+			index = i;
+			leaveStageNum = stageDistance.stageNum;
+			found = true;
+		}
+	}
+
+	if (stageDistance_.at(index + 1).distance > 0) {
+		leaveNextStageNum = stageDistance_.at(index + 1).stageNum;
+	}
+	else {
+		leaveNextStageNum = stageDistance_.at(index - 1).stageNum;
+	}
+	// leaveIndex と leaveNextIndex を残す
+	stageDistance_.erase(
+		std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+			[leaveStageNum, leaveNextStageNum](const StageDistance& stageDistance) {
+				return stageDistance.stageNum != leaveStageNum && stageDistance.stageNum != leaveNextStageNum;
+			}),
+		stageDistance_.end());
+
+	// distance を大きい順にソート
+	std::sort(stageDistance_.begin(), stageDistance_.end(),
+		[](const StageDistance& a, const StageDistance& b) {
+			return a.distance > b.distance;
+		});
+}
+
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
-	DeleteObject();
+	CheckOnPlayerStageParts();
+
+	Clear();
+
+	// 中身確認
+	//DeleteObject();
+
+	// プレイヤーが現在いるパーツとその前のパーツの処理
+	float distance = stageDistance_.at(0).distance;
+	CreateStageObject(stageData_.at(stageDistance_.at(0).stageIndex), distance, stageNum_);
+	stageNum_++;
+	distance -= stageData_.at(stageDistance_.at(0).stageIndex).stageSize * 0.5f + stageData_.at(stageDistance_.at(1).stageIndex).stageSize * 0.5f;
+	CreateStageObject(stageData_.at(stageDistance_.at(1).stageIndex), distance, stageNum_);
+	stageNum_++;
 
 	uint32_t stageIndex;
-	float distance = stageDistance_.at(0).distance;
-	for (uint32_t i = 1; i < kCreateStageNum; i++) {
+	for (uint32_t i = 2; i < kCreateStageNum + 2; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
 			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);

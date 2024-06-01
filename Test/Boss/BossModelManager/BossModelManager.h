@@ -41,7 +41,6 @@ public:
 		void UpdateCollider(const Matrix4x4& worldMat,const Skeleton& skeleton);
 		void InitializeCollider(std::vector<std::string> nameList, std::string colliderName);
 	};
-
 	void Initialize(Player* player,uint32_t index);
 	void Update();
 
@@ -118,6 +117,7 @@ private:
 
 class BossModelManager {
 public:
+	~BossModelManager();
 	void Initialize(const Transform* Transform,Player* player);
 	void Update();
 	void Reset();

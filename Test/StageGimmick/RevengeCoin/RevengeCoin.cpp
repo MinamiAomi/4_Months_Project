@@ -37,8 +37,8 @@ void RevengeCoin::Initialize(const Desc& desc) {
 
 void RevengeCoin::Update() {
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
-		static const float kMaxTime = 60.0f;
-		transform.translate.y = std::sin(time_ / kMaxTime * Math::TwoPi);
+		static const float kMaxTime = 180.0f;
+		transform.translate.y = std::sin(time_ / kMaxTime * Math::TwoPi) * 0.5f;
 		time_ += 1.0f;
 		time_ = std::fmodf(time_, kMaxTime);
 

@@ -23,7 +23,7 @@ public:
 
 private:
     void CreateView();
-    void UploadResource(CommandContext& commandContext, size_t numSubresources, const D3D12_SUBRESOURCE_DATA* subresources);
+    void UploadResource(CommandContext& commandContext, size_t numSubresources, const D3D12_SUBRESOURCE_DATA* subresources, const std::wstring& path);
 
     D3D12_RESOURCE_DESC desc_{};
     DescriptorHandle srvHandle_;

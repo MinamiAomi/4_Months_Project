@@ -16,6 +16,7 @@ class BossStateManager;
 class BossState {
 public:
 	enum AttackState {
+		kRotate,
 		kChage,
 		kAttack,
 	};
@@ -126,12 +127,27 @@ class BossStateBeamAttack:
 	public BossState {
 public:
 	struct JsonData {
-		Vector3 startPosition;
-		Vector3 endPosition;
+		Vector3 position;
 		Vector3 scale;
+		Vector3 vector;
+		float rotateEasingTime;
 		float attackEasingTime;
 		float chargeEasingTime;
 		float transitionFrame;
+
+		struct Wind {
+			struct MinMax {
+				float min;
+				float max;
+			};
+			Vector3 offset;
+			MinMax velocity;
+			MinMax startScale;
+			MinMax endScale;
+			float rotate;
+			uint32_t lifeTime;
+			uint32_t interval;
+		}wind;
 	};
 	using BossState::BossState;
 	void Initialize() override;
@@ -143,8 +159,10 @@ public:
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
+	void RotateUpdate();
 	JsonData data_;
 	float time_;
+	float lastWindTime_;
 };
 
 class BossStateShotAttack :
@@ -156,6 +174,7 @@ public:
 		float range;
 		float attackEasingTime;
 		float chargeEasingTime;
+		float rotateEasingTime;
 		uint32_t numBullet;
 		float transitionFrame;
 	};
@@ -169,10 +188,10 @@ public:
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
+	void RotateUpdate();
 	JsonData data_;
 	float time_;
 	float lastBulletTime_;
-
 };
 
 

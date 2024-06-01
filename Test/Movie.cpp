@@ -7,6 +7,8 @@
 #include "Graphics/PostEffect.h"
 
 bool Movie::isPlaying = false;
+bool Movie::isEndFrame = false;
+
 
 void Movie::Initialize(Player* player, Boss* boss, Camera* camera, const StageCamera* stageCamera) {
 	player_ = player;
@@ -33,6 +35,7 @@ void Movie::Reset()
 	isPlaying = false;
 	isSetCamera_ = false;
 	isInitialize_ = false;
+	isEndFrame = true;
 	frame_ = 0;
 }
 

@@ -13,6 +13,8 @@
 #include "TitleScene.h"
 #include "Debug/Debug.h"
 
+#include "WindManager.h"
+
 void GameScene::OnInitialize() {
 
 	cameraManager_ = std::make_unique<CameraManager>();
@@ -27,10 +29,9 @@ void GameScene::OnInitialize() {
 	player_ = std::make_unique<Player>();
 	boss_ = std::make_unique<Boss>();
 
-
 	//player_->SetTrapManager(stageLoop_->GetTrapManager().get());
 	player_->SetBoss(boss_.get());
-	player_->SetStageCamera(cameraManager_->GetStageCamera());
+	player_->SetCamera(cameraManager_->GetCamera().get());
 	player_->Initialize();
 
 	cameraManager_->Initialize(player_.get(), boss_.get());
@@ -42,6 +43,8 @@ void GameScene::OnInitialize() {
 	gameOverMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
 	gameStartMovie_ = std::make_unique<GameStartMovie>();
 	gameStartMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
+	hammerMovie_ = std::make_unique<HammerMovie>();
+	hammerMovie_->Initialize(player_.get(), boss_.get(), cameraManager_->GetMovieCamera(), cameraManager_->GetStageCamera());
 
 	currentMovie_ = startMovie_.get();
 	Movie::isPlaying = true;
@@ -53,6 +56,7 @@ void GameScene::OnInitialize() {
 	stageLoop_->SetPlayer(player_.get());
 	stageLoop_->SetBoss(boss_.get());
 	stageLoop_->SetCamera(cameraManager_->GetCamera().get());
+	stageLoop_->SetHammerMovie(hammerMovie_.get());
 	stageLoop_->Initialize();
 
 	stageBlockManager_ = std::make_unique<StageBlockManager>();
@@ -125,20 +129,22 @@ void GameScene::OnUpdate() {
 	if (!pause_->GetIsPause()) {
 
 		//gameClear
-		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_C)) {
+		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_C)) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameClearMovie_.get();
 		}
 		//gameOver
-		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_K)) {
+		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_K)) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameOverMovie_.get();
 		}
-		//gameStart
-		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
+		//hammer
+		if ((boss_->GetIsHit() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
 			Movie::isPlaying = true;
-			currentMovie_ = gameStartMovie_.get();
+			currentMovie_ = hammerMovie_.get();
 		}
+
+		Movie::SetFalseIsEndFrame();
 
 		if (currentMovie_) {
 			currentMovie_->Update();
@@ -152,6 +158,12 @@ void GameScene::OnUpdate() {
 					SceneManager::GetInstance()->ChangeScene<GameClearScene>(true);
 				}
 			}
+		}
+
+		//gameStart
+		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
+			Movie::isPlaying = true;
+			currentMovie_ = gameStartMovie_.get();
 		}
 
 
@@ -184,13 +196,17 @@ void GameScene::OnUpdate() {
 
 			stageLoop_->Update();
 
+			
+
 			//ムービー中動いてほしくないもの
 			if (!Movie::isPlaying && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 				player_->Update();
 				boss_->Update();
 				stageBlockManager_->Update();
+				WindManager::GetInstance()->Update();
 			}
 			player_->SceneChangeUpdate();
+			boss_->MovieUpdate();
 
 			skyBlockManager_->Update();
 
