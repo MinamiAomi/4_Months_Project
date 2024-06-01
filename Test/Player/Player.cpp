@@ -29,6 +29,7 @@ void Player::Initialize() {
 	JSON_LOAD(dashIntervalCount_);
 	JSON_LOAD(offset_);
 	JSON_LOAD(hitJump_);
+	JSON_LOAD(rotateAnimationAllFrame_);
 	JSON_CLOSE();
 #pragma endregion
 
@@ -54,10 +55,12 @@ void Player::Initialize() {
 
 	Reset();
 #pragma region SE
-	jumpSE_ = std::make_unique<AudioSource>();
+	firstJumpSE_ = std::make_unique<AudioSource>();
+	secondJumpSE_= std::make_unique<AudioSource>();
 	revengeSE_ = std::make_unique<AudioSource>();
 
-	(*jumpSE_) = ResourceManager::GetInstance()->FindSound("jump");
+	(*firstJumpSE_) = ResourceManager::GetInstance()->FindSound("firstJump");
+	(*secondJumpSE_) = ResourceManager::GetInstance()->FindSound("secondJump");
 	(*revengeSE_) = ResourceManager::GetInstance()->FindSound("revenge");
 #pragma endregion
 
@@ -84,6 +87,10 @@ void Player::Initialize() {
 
 	hammer_ = std::make_unique<PlayerHammer>();
 	hammer_->Initialize(this);
+
+	// 二段ジャンプ回転用
+	rotateAnimation_.SetParent(&transform,false);
+	rotateAnimation_.scale = Vector3::one;
 
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
@@ -133,13 +140,11 @@ void Player::Update() {
 		// 無敵
 		Invincible();
 
-        // リベンジゲージ
-      
-        playerRevengeGage_->Update();
-        
+		// リベンジゲージ
 
-        // HP
-        playerHP_->Update();
+		playerRevengeGage_->Update();
+		// HP
+		playerHP_->Update();
 
 		// UIアップデート
 		playerUI_->Update();
@@ -175,7 +180,7 @@ void Player::Update() {
 			Vector3 dashVelocity = dashVector_ * dashPower_;
 			transform.translate += dashVelocity;
 		}
-		transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_)+ windVelocity_;
+		transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_) + windVelocity_;
 
 		beltConveyorVelocity_ = 0.0f;
 		windVelocity_ = Vector3::zero;
@@ -183,6 +188,22 @@ void Player::Update() {
 		transform.translate.x = std::clamp(transform.translate.x, -25.0f, 25.0f);
 		transform.translate.z = std::min(transform.translate.z, boss_->transform.translate.z - 10.0f);
 		transform.translate.y = std::max(transform.translate.y, -10.0f);
+
+		// 二段ジャンプの体の回転
+		if (!canSecondJump_) {
+			//float angle = 360.0f * Math::ToRadian * (1.0f / rotateAnimationAllFrame_);
+			rotateAnimationFrame_ += 1.0f / rotateAnimationAllFrame_;
+			rotateAnimationFrame_ = std::clamp(rotateAnimationFrame_, 0.0f, 1.0f);
+			if (isSecondJumpAnimation_) {
+				rotateAnimation_.rotate = Quaternion::MakeForXAxis(Math::TwoPi * rotateAnimationFrame_);
+			}
+			if (rotateAnimationFrame_ >= 1.0f) {
+				isSecondJumpAnimation_ = false;
+				rotateAnimation_.rotate = Quaternion::identity;
+			}
+		}
+
+
 		// 救済
 		if (transform.translate.y <= -10.0f) {
 			transform.translate.y = 8.0f;
@@ -273,6 +294,7 @@ void Player::AnimationUpdate() {
 }
 
 void Player::Reset() {
+	rotateAnimationFrame_ = 0.0f;
 	invincibleTime_ = 0;
 	transform.translate = offset_;
 	transform.rotate = Quaternion::identity;
@@ -280,6 +302,7 @@ void Player::Reset() {
 	transform.UpdateMatrix();
 	canFirstJump_ = true;
 	canSecondJump_ = true;
+	isSecondJumpAnimation_ = false;
 	isAlive_ = true;
 	isHit_ = false;
 	isSceneChangeInvincible_ = false;
@@ -318,12 +341,13 @@ void Player::HitDamage(uint32_t damage) {
 
 void Player::UpdateTransform() {
 	transform.UpdateMatrix();
+	rotateAnimation_.UpdateMatrix();
 	Vector3 scale, translate;
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
 	collider_->SetCenter(translate);
 	collider_->SetOrientation(rotate);
-	model_->SetWorldMatrix(transform.worldMatrix);
+	model_->SetWorldMatrix(rotateAnimation_.worldMatrix);
 	collider_->DebugDraw();
 	hammer_->UpdateTransform();
 }
@@ -394,7 +418,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 		else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
 			collisionInfo.collider->GetName() == "bossFloorAll" ||
-			collisionInfo.collider->GetName() == "bossLongDistanceAttack"||
+			collisionInfo.collider->GetName() == "bossLongDistanceAttack" ||
 			collisionInfo.collider->GetName() == "bossBullet") {
 			HitDamage(1);
 		}
@@ -465,21 +489,13 @@ void Player::Move() {
 			move = parent->worldMatrix.Inverse().ApplyRotation(move);
 		}
 		// 回転
-		transform.rotate = Quaternion::Slerp(0.1f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
+		//transform.rotate = Quaternion::Slerp(0.1f, transform.rotate, Quaternion::MakeLookRotation({ move.x,0.0f,move.z }));
 
 		Vector3 vector = transform.rotate.Conjugate() * move.Normalized();
 		if (Vector3::Dot(Vector3::unitZ, vector) < 0.999f) {
 			Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
 			transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
 		}
-		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWalk) {
-			playerModel_.PlayAnimation(PlayerModel::kWalk, true);
-		}*/
-	}
-	else {
-		/*if (playerModel_.GetAnimationType() != PlayerModel::AnimationType::kWait) {
-			playerModel_.PlayAnimation(PlayerModel::kWait, true);
-		}*/
 	}
 	// 移動処理
 	velocity_ = Vector3::zero;
@@ -493,8 +509,9 @@ void Player::Jump() {
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
-		jumpSE_->Play();
-		jumpSE_->SetVolume(0.1f);
+		firstJumpSE_->SetPitch(1.0f);
+		firstJumpSE_->SetVolume(0.3f);
+		firstJumpSE_->Play();
 		acceleration_.y += jumpPower_;
 		canFirstJump_ = false;
 	}
@@ -503,10 +520,15 @@ void Player::Jump() {
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))) {
-		jumpSE_->Play();
-		jumpSE_->SetVolume(0.1f);
+		secondJumpSE_->SetVolume(0.3f);
+		secondJumpSE_->SetPitch(1.2f);
+		secondJumpSE_->Play();
 		canSecondJump_ = false;
+		isSecondJumpAnimation_ = true;
 		acceleration_.y = jumpPower_ * 0.5f;
+		rotateAnimation_.rotate = Quaternion::identity;
+		initialRotate_ = transform.rotate;
+		rotateAnimationFrame_ = 0.0f;
 	}
 }
 
@@ -598,6 +620,7 @@ void Player::DebugParam() {
 			int dashIntervalCount = dashIntervalCount_;
 			ImGui::DragInt("ダッシュクールタイム", &dashIntervalCount);
 			dashIntervalCount_ = static_cast<uint32_t>(dashIntervalCount);
+			ImGui::DragFloat("二段ジャンプのアニメーションフレーム", &rotateAnimationAllFrame_);
 			if (ImGui::Button("Save")) {
 				JSON_OPEN("Resources/Data/Player/Player.json");
 				JSON_OBJECT("Player");
@@ -614,6 +637,7 @@ void Player::DebugParam() {
 				JSON_SAVE(dashIntervalCount_);
 				JSON_SAVE(offset_);
 				JSON_SAVE(hitJump_);
+				JSON_SAVE(rotateAnimationAllFrame_);
 				JSON_CLOSE();
 			}
 			ImGui::TreePop();

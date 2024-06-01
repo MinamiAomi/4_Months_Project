@@ -4,7 +4,8 @@
     "player": "Player/player.gltf"
   },
   "Sound": {
-    "jump": "SE/jump.wav",
+    "firstJump": "SE/jump.wav",
+    "secondJump": "SE/jump.wav",
     "revenge": "SE/revenge.wav",
     "chaseBGM": "BGM/chase.mp3",
     "revengeBGM": "BGM/revenge.mp3",

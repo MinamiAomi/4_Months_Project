@@ -112,8 +112,14 @@ private:
 	Vector3 windVelocity_;
 
 	bool isSceneChangeInvincible_;
+	// にダンジョンプ
+	float rotateAnimationFrame_;
+	Quaternion initialRotate_;
+	Transform rotateAnimation_;
+	bool isSecondJumpAnimation_;
 	// JumpSE
-	std::unique_ptr<AudioSource> jumpSE_;
+	std::unique_ptr<AudioSource> firstJumpSE_;
+	std::unique_ptr<AudioSource> secondJumpSE_;
 	std::unique_ptr<AudioSource> revengeSE_;
 #pragma region パラメーター
 	float verticalSpeed_;
@@ -129,6 +135,7 @@ private:
 	float dashPower_;
 	uint32_t dashMaxCount_;
 	uint32_t dashIntervalCount_;
+	float rotateAnimationAllFrame_;
 #pragma endregion
 
 #pragma region Json
