@@ -15,13 +15,13 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"bakudan"
+			"name":"\u5f3e"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"ball",
+			"name":"\u30dc\u30b9",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -33,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7403",
+			"name":"ICO\u7403",
 			"primitives":[
 				{
 					"attributes":{
@@ -57,81 +57,81 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"ball",
-			"uri":"ball.png"
+			"name":"boss",
+			"uri":"boss.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1120,
+			"count":414,
 			"max":[
-				2.5100960731506348,
-				3.4500515460968018,
-				2.5100960731506348
+				2.269301652908325,
+				2.3832738399505615,
+				2.3832733631134033
 			],
 			"min":[
-				-2.5100958347320557,
-				-2.5100960731506348,
-				-2.5100958347320557
+				-2.263960123062134,
+				-2.3832743167877197,
+				-2.3832733631134033
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1120,
+			"count":414,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1120,
+			"count":414,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":1120,
+			"count":414,
 			"type":"VEC4"
 		},
 		{
 			"bufferView":4,
 			"componentType":5123,
-			"count":1632,
+			"count":510,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":13440,
+			"byteLength":4968,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":13440,
-			"byteOffset":13440,
+			"byteLength":4968,
+			"byteOffset":4968,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":8960,
-			"byteOffset":26880,
+			"byteLength":3312,
+			"byteOffset":9936,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":17920,
-			"byteOffset":35840,
+			"byteLength":6624,
+			"byteOffset":13248,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":3264,
-			"byteOffset":53760,
+			"byteLength":1020,
+			"byteOffset":19872,
 			"target":34963
 		}
 	],
@@ -143,7 +143,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":57024,
+			"byteLength":20892,
 			"uri":"ball.bin"
 		}
 	]
