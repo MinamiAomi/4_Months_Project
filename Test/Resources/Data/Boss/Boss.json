@@ -38,6 +38,7 @@
         "jsonData_.beamAttackData.transitionFrame": 30.0,
         "jsonData_.beamAttackData.wind.endScale.max": 25.0,
         "jsonData_.beamAttackData.wind.endScale.min": 15.0,
+        "jsonData_.beamAttackData.wind.interval": 10,
         "jsonData_.beamAttackData.wind.lifeTime": 60,
         "jsonData_.beamAttackData.wind.offset": [
             0.0,

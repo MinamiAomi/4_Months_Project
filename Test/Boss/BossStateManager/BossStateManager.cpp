@@ -48,6 +48,7 @@ void BossStateManager::Initialize() {
 	JSON_LOAD(jsonData_.beamAttackData.wind.endScale.max);
 	JSON_LOAD(jsonData_.beamAttackData.wind.rotate);
 	JSON_LOAD(jsonData_.beamAttackData.wind.lifeTime);
+	JSON_LOAD(jsonData_.beamAttackData.wind.interval);
 	JSON_ROOT();
 	JSON_OBJECT("StateShotAttack");
 	JSON_LOAD(jsonData_.shotAttackData.rotateEasingTime);
@@ -243,6 +244,7 @@ void BossStateManager::DrawImGui() {
 			JSON_SAVE(jsonData_.beamAttackData.wind.endScale.max);
 			JSON_SAVE(jsonData_.beamAttackData.wind.rotate);
 			JSON_SAVE(jsonData_.beamAttackData.wind.lifeTime);
+			JSON_SAVE(jsonData_.beamAttackData.wind.interval);
 			JSON_ROOT();
 			JSON_OBJECT("StateShotAttack");
 			JSON_SAVE(jsonData_.shotAttackData.rotateEasingTime);
@@ -682,25 +684,21 @@ void BossStateBeamAttack::ChargeUpdate() {
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.translate = data_.position;
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
-		static const uint32_t kNumWind = 10;
-
-
-		//for (uint32_t i = 0; i < kNumWind; i++) {
-		//	auto manager = WindManager::GetInstance();
-		//	Wind::Desc desc{};
-		//	desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + data_.wind.offset;
-		//	desc.velocity = data_.vector * rnd_.NextFloatRange(data_.wind.velocity.min, data_.wind.velocity.max);
-		//	float scale = rnd_.NextFloatRange(data_.wind.startScale.min, data_.wind.startScale.max);
-		//	desc.scale.start = { scale ,scale ,scale };
-		//	rnd_.NextFloatRange(data_.wind.endScale.min, data_.wind.endScale.max);
-		//	desc.scale.end = { scale ,scale ,scale };
-		//	desc.rotate.z = rnd_.NextFloatRange(-data_.wind.rotate, data_.wind.rotate) * Math::ToRadian;
-		//	if (desc.rotate.z == 0.0f) {
-		//		desc.rotate.z = -1.0f * Math::ToRadian;
-		//	}
-		//	desc.lifeTime = uint32_t(data_.attackEasingTime - time_);
-		//	manager->Create(desc);
-		//}
+		// 一個だけ生成
+		auto manager = WindManager::GetInstance();
+		Wind::Desc desc{};
+		desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + data_.wind.offset;
+		desc.velocity = data_.vector * rnd_.NextFloatRange(data_.wind.velocity.min, data_.wind.velocity.max);
+		float scale = rnd_.NextFloatRange(data_.wind.startScale.min, data_.wind.startScale.max);
+		desc.scale.start = { scale ,scale ,scale };
+		scale = rnd_.NextFloatRange(data_.wind.endScale.min, data_.wind.endScale.max);
+		desc.scale.end = { scale ,scale ,scale };
+		desc.rotate.z = rnd_.NextFloatRange(-data_.wind.rotate, data_.wind.rotate) * Math::ToRadian;
+		if (desc.rotate.z == 0.0f) {
+			desc.rotate.z = -1.0f * Math::ToRadian;
+		}
+		desc.lifeTime = data_.wind.lifeTime;
+		manager->Create(desc);
 	}
 }
 
