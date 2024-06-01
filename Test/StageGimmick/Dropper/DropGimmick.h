@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 
+#include "Audio/AudioSource.h"
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
 #include "StageGimmick/StageGimmick.h"
@@ -83,7 +84,7 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 	std::unique_ptr<ModelInstance> switchBase_;
 	std::unique_ptr<ModelInstance> switch_;
-
+	std::unique_ptr<AudioSource> switchSE_;
 	Transform switchTransform_;
 
 	Desc desc_;

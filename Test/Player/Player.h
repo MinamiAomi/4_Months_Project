@@ -121,6 +121,8 @@ private:
 	std::unique_ptr<AudioSource> firstJumpSE_;
 	std::unique_ptr<AudioSource> secondJumpSE_;
 	std::unique_ptr<AudioSource> revengeSE_;
+	std::unique_ptr<AudioSource> damageSE_;
+	std::unique_ptr<AudioSource> onGroundSE_;
 #pragma region パラメーター
 	float verticalSpeed_;
 	float horizontalSpeed_;

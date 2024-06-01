@@ -129,6 +129,9 @@ void Switch::Initialize(const Desc& desc) {
 
 	time_ = 0.0f;
 	isPushed_ = false;
+	switchSE_ = std::make_unique<AudioSource>();
+	(*switchSE_) = ResourceManager::GetInstance()->FindSound("switchSE");
+
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -154,7 +157,7 @@ void Switch::Update() {
 	camera.radius = (camera_->GetFarClip());
 	if (Math::IsCollision(model, camera)) {
 		if (isPushed_) {
-			time_ += 1.0f / 30.0f;
+			time_ += 1.0f / 15.0f;
 			switchTransform_.translate.y = std::lerp(0.0f,-1.0f, time_);
 			time_ = std::clamp(time_,0.0f,1.0f);
 		}
@@ -184,8 +187,11 @@ void Switch::OnCollision(const CollisionInfo& collisionInfo) {
 		if (Character::currentCharacterState_ == Character::State::kRunAway) {
 			// 落下しているとき
 			if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-				player_->GetVelocity().y <= 0.0f) {
+				player_->GetVelocity().y <= 0.0f&&
+				!isPushed_) {
 				isPushed_ = true;
+				switchSE_->Play();
+				switchSE_->SetVolume(0.5f);
 			}
 		}
 	}

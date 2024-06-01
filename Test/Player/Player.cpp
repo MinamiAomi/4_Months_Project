@@ -58,10 +58,14 @@ void Player::Initialize() {
 	firstJumpSE_ = std::make_unique<AudioSource>();
 	secondJumpSE_= std::make_unique<AudioSource>();
 	revengeSE_ = std::make_unique<AudioSource>();
+	damageSE_ = std::make_unique<AudioSource>();
+	onGroundSE_ = std::make_unique<AudioSource>();
 
 	(*firstJumpSE_) = ResourceManager::GetInstance()->FindSound("firstJump");
 	(*secondJumpSE_) = ResourceManager::GetInstance()->FindSound("secondJump");
 	(*revengeSE_) = ResourceManager::GetInstance()->FindSound("revenge");
+	(*damageSE_) = ResourceManager::GetInstance()->FindSound("playerDamage");
+	(*onGroundSE_) = ResourceManager::GetInstance()->FindSound("onGround");
 #pragma endregion
 
 #pragma region コライダー
@@ -202,6 +206,9 @@ void Player::Update() {
 				rotateAnimation_.rotate = Quaternion::identity;
 			}
 		}
+		else {
+			rotateAnimation_.rotate = Quaternion::identity;
+		}
 
 
 		// 救済
@@ -326,6 +333,8 @@ void Player::HitDamage(uint32_t damage) {
 		if (damage != (uint32_t)-1) {
 			invincibleTime_ = maxInvincibleTime_;
 			if (playerHP_->GetCurrentHP() > 0) {
+				damageSE_->SetVolume(0.5f);
+				damageSE_->Play();
 				int tmp = damage;
 				playerHP_->AddHP(-tmp);
 			}
@@ -388,6 +397,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			collisionInfo.collider->GetName() == "BeltConveyor" ||
 			collisionInfo.collider->GetName() == "DropGimmickDropper" ||
 			collisionInfo.collider->GetName() == "DropGimmickSwitch") {
+			
 			// ワールド空間の押し出しベクトル
 			Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 			auto parent = transform.GetParent();
@@ -408,6 +418,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 				if (preIsHit_ && isHit_) {
 					isHit_ = false;
 				}
+				//onGroundSE_->Play();
 			}
 
 			UpdateTransform();
@@ -495,6 +506,13 @@ void Player::Move() {
 		if (Vector3::Dot(Vector3::unitZ, vector) < 0.999f) {
 			Quaternion diff = Quaternion::MakeFromTwoVector(Vector3::unitZ, vector);
 			transform.rotate = Quaternion::Slerp(0.2f, Quaternion::identity, diff) * transform.rotate;
+		}
+		// nafなど計算できない値になったら
+		if (!std::isfinite(transform.rotate.x) ||
+			!std::isfinite(transform.rotate.y) ||
+			!std::isfinite(transform.rotate.z) ||
+			!std::isfinite(transform.rotate.w)) {
+			transform.rotate = Quaternion::identity;
 		}
 	}
 	// 移動処理
