@@ -53,6 +53,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
     partsName.clear();
     models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "armHammer");
     models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
+    models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "windAttack");
     models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");
     models_.at(BossParts::Parts::kBossBody)->SetModelIsAlive(true);
 

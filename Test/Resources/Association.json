@@ -12,7 +12,9 @@
         "switchSE": "SE/switch.mp3",
         "chaseBGM": "BGM/chase.mp3",
         "revengeBGM": "BGM/revenge.mp3",
-        "hammerAttack": "SE/hammerAttack.mp3"
+        "hammerAttack": "SE/hammerAttack.mp3",
+        "kickDropBall": "SE/kickDropBall.mp3",
+        "hitDropBall": "SE/hitDropBall.mp3"
     },
   "Texture": {
     "circle": "whiteCircle.png",

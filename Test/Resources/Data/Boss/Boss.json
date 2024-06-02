@@ -13,7 +13,7 @@
     },
     "StateBeamAttack": {
         "jsonData_.beamAttackData.attackEasingTime": 60.0,
-        "jsonData_.beamAttackData.chargeEasingTime": 30.0,
+        "jsonData_.beamAttackData.chargeEasingTime": 60.0,
         "jsonData_.beamAttackData.endPosition": [
             0.0,
             0.0,

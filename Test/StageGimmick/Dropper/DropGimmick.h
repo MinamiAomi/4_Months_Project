@@ -10,6 +10,7 @@
 #include "Graphics/Model.h"
 #include "StageGimmick/StageGimmick.h"
 #include "Math/Random.h"
+#include "Engine/Audio/AudioSource.h"
 
 class Player;
 class Camera;
@@ -48,6 +49,8 @@ private:
 
 	std::unique_ptr<BoxCollider> collider_;
 	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<AudioSource> kickSE_;
+	std::unique_ptr<AudioSource> hitSE_;
 	State state_;
 	bool isAlive_;
 

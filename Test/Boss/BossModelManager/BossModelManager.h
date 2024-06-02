@@ -83,6 +83,7 @@ public:
 		kHook,
 		kArmHammer,
 		kLazerAttack,
+		kWindAttack,
 		kShotAttack,
 	};
 private:

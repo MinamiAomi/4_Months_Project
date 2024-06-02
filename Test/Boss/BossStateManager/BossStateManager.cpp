@@ -673,32 +673,48 @@ float BossStateBeamAttack::GetAnimationTime() const {
 }
 
 void BossStateBeamAttack::ChargeUpdate() {
-
-	//auto& beamAttackTransform = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform;
-	float t = time_ / data_.chargeEasingTime;
 	time_ += 1.0f;
+	if (inTransition_ && time_ >= data_.transitionFrame) {
+		inTransition_ = false;
+		time_ -= data_.transitionFrame;
+	}
 
-	if (t >= 1.0f) {
-		attackState_ = kAttack;
-		time_ = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.translate = data_.position;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
-		// 一個だけ生成
-		auto manager = WindManager::GetInstance();
-		Wind::Desc desc{};
-		desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + data_.wind.offset;
-		desc.velocity = data_.vector * rnd_.NextFloatRange(data_.wind.velocity.min, data_.wind.velocity.max);
-		float scale = rnd_.NextFloatRange(data_.wind.startScale.min, data_.wind.startScale.max);
-		desc.scale.start = { scale ,scale ,scale };
-		scale = rnd_.NextFloatRange(data_.wind.endScale.min, data_.wind.endScale.max);
-		desc.scale.end = { scale ,scale ,scale };
-		desc.rotate.z = rnd_.NextFloatRange(-data_.wind.rotate, data_.wind.rotate) * Math::ToRadian;
-		if (desc.rotate.z == 0.0f) {
-			desc.rotate.z = -1.0f * Math::ToRadian;
+	auto& skeleton = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kWindAttack);
+	if (inTransition_) {
+		float t = time_ / data_.transitionFrame;
+		skeleton->ApplyAnimationTransition(*manager_.GetPrevAnimation(), manager_.GetPrevAnimationTime(), parts.animation->GetAnimation("WindAttack"), 0.0f, t);
+	}
+	else {
+		float t = time_ / data_.chargeEasingTime;
+		skeleton->ApplyAnimation(parts.animation->GetAnimation("WindAttack"), t);
+	}
+	skeleton->Update();
+	parts.UpdateCollider(manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.worldMatrix, *skeleton.get());
+
+	if (!inTransition_) {
+		if (time_ >= data_.chargeEasingTime) {
+			attackState_ = kAttack;
+			time_ = 0.0f;
+			manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetColliderIsAlive(true);
+			manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.translate = data_.position;
+			manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->transform.scale = data_.scale;
+			// 一個だけ生成
+			auto manager = WindManager::GetInstance();
+			Wind::Desc desc{};
+			desc.position = manager_.boss.transform.worldMatrix.GetTranslate() + data_.wind.offset;
+			desc.velocity = data_.vector * rnd_.NextFloatRange(data_.wind.velocity.min, data_.wind.velocity.max);
+			float scale = rnd_.NextFloatRange(data_.wind.startScale.min, data_.wind.startScale.max);
+			desc.scale.start = { scale ,scale ,scale };
+			scale = rnd_.NextFloatRange(data_.wind.endScale.min, data_.wind.endScale.max);
+			desc.scale.end = { scale ,scale ,scale };
+			desc.rotate.z = rnd_.NextFloatRange(-data_.wind.rotate, data_.wind.rotate) * Math::ToRadian;
+			if (desc.rotate.z == 0.0f) {
+				desc.rotate.z = -1.0f * Math::ToRadian;
+			}
+			desc.lifeTime = data_.wind.lifeTime;
+			manager->Create(desc);
 		}
-		desc.lifeTime = data_.wind.lifeTime;
-		manager->Create(desc);
 	}
 }
 

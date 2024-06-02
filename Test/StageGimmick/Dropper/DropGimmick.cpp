@@ -17,6 +17,11 @@ void DropperBall::Initialize(const Desc& desc) {
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("dropBall"));
 	model_->SetIsActive(true);
 
+	kickSE_ = std::make_unique<AudioSource>();
+	hitSE_ = std::make_unique<AudioSource>();
+	(*kickSE_) = ResourceManager::GetInstance()->FindSound("kickDropBall");
+	(*hitSE_) = ResourceManager::GetInstance()->FindSound("hitDropBall");
+
 	state_ = kDrop;
 
 	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
@@ -89,6 +94,8 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
 		if (Character::currentCharacterState_ == Character::State::kChase &&
 			state_ == State::kStay) {
+			kickSE_->SetVolume(0.5f);
+			kickSE_->Play();
 			state_ = State::kShot;
 		}
 	}
@@ -97,6 +104,8 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 			state_ == State::kShot) {
 			boss_->GetBossHP()->AddBallHitHP();
 			isAlive_ = false;
+			hitSE_->SetVolume(1.0f);
+			hitSE_->Play();
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||
