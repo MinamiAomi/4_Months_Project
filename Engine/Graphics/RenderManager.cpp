@@ -14,6 +14,7 @@ static bool enableDebugDraw = false;
 static bool useBloom = true;
 static bool useEdge = true;
 static bool useFog = true;
+static bool enableWireFrameModel = false;
 #endif // ENABLE_IMGUI
 
 
@@ -135,7 +136,14 @@ void RenderManager::Render() {
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
         lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
-        wireTranslucentRenderer_.Render(commandContext_, *camera, lightingRenderingPass_.GetResult());
+
+#ifdef ENABLE_IMGUI
+#endif // ENABLE_IMGUI
+        if (enableWireFrameModel) {
+            wireTranslucentRenderer_.Render(commandContext_, *camera, lightingRenderingPass_.GetResult());
+#ifdef ENABLE_IMGUI
+        }
+#endif // ENABLE_IMGUI
 
 #ifdef _DEBUG
         if (enableDebugDraw) {
@@ -249,7 +257,7 @@ void RenderManager::Render() {
         fog_.SetFar(fogFar);
         ImGui::TreePop();
     }
-
+    ImGui::Checkbox("WireFrameModel", &enableWireFrameModel);
     ImGui::End();
 #endif // ENABLE_IMGUI
 
