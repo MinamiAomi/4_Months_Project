@@ -138,8 +138,8 @@ void RenderManager::Render() {
 
 
 #ifdef ENABLE_IMGUI
-#endif // ENABLE_IMGUI
         if (enableWireFrameModel) {
+#endif // ENABLE_IMGUI
             wireTranslucentRenderer_.Render(commandContext_, *camera, lightingRenderingPass_.GetResult());
 #ifdef ENABLE_IMGUI
         }
