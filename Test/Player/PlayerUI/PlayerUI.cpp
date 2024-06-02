@@ -63,6 +63,10 @@ void PlayerUI::Initialize() {
 
 #pragma endregion
 
+	tutorial1_->SetIsActive(false);
+	tutorial2_->SetIsActive(false);
+	tutorial3_->SetIsActive(false);
+
 }
 
 void PlayerUI::Update() {
@@ -112,12 +116,18 @@ void PlayerUI::Update() {
 
 
 #endif // _DEBUG
+
+	RECT rect;
+	GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
+	LONG width = rect.right - rect.left;
+	LONG height = rect.bottom - rect.top;
+
 	Matrix4x4 vpv = camera_->GetViewMatrix() * camera_->GetProjectionMatrix() ;
 	vpv *= Matrix4x4::MakeScaling({ 1.0f, -1.0f, 1.0f }) * Matrix4x4::MakeTranslation({0.0f, 0.0f, 0.0f});
-	vpv *= Matrix4x4::MakeViewport(0, 0, float(GameWindow::GetInstance()->GetClientWidth()), float(GameWindow::GetInstance()->GetClientHeight()), camera_->GetNearClip(), camera_->GetFarClip());
+	vpv *= Matrix4x4::MakeViewport(0, 0, float(width), float(height), camera_->GetNearClip(), camera_->GetFarClip());
 	Vector3 viewportPlayerPosition = vpv.ApplyTransformWDivide(player_->transform.worldMatrix.GetTranslate());
 
-	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x, viewportPlayerPosition.y));
+	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x - 20.0f, viewportPlayerPosition.y));
 
 	//プレイヤーUIフレームを親にする
 	revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
@@ -163,34 +173,34 @@ void PlayerUI::UpdateHP() {
 }
 
 void PlayerUI::UpdateRevengeGage() {
-//	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
-//	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
-//#pragma region Bar
-//	revengeBarGaugeSprite_->SetPosition(
-//		{
-//		revengeBarGaugeSpriteData_.position.x,
-//		std::lerp(revengeBarGaugeSpriteData_.position.y - revengeBarGaugeSpriteData_.scale.y * 0.5f, revengeBarGaugeSpriteData_.position.y,barT)
-//		}
-//	);
-//	revengeBarGaugeSprite_->SetScale(
-//		{
-//		revengeBarGaugeSpriteData_.scale.x,
-//		std::lerp(0.0f, revengeBarGaugeSpriteData_.scale.y,barT)
-//		}
-//	);
-//	revengeBarGaugeSprite_->SetTexcoordSize(
-//		{
-//			revengeBarGaugeSpriteData_.textureSize.x,
-//			std::lerp(0.0f, revengeBarGaugeSpriteData_.textureSize.y,barT)
-//		}
-//	);
-//	revengeBarGaugeSprite_->SetTexcoordBase(
-//		{
-//			revengeBarGaugeSpriteData_.textureSize.x,
-//			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.y,barT)
-//		}
-//	);
-//#pragma endregion
+	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
+	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
+#pragma region Bar
+	revengeBarGaugeSprite_->SetPosition(
+		{
+		std::lerp(revengeBarGaugeSpriteData_.position.x - revengeBarGaugeSpriteData_.scale.x * 0.5f, revengeBarGaugeSpriteData_.position.x,barT),
+		revengeBarGaugeSpriteData_.position.y
+		}
+	);
+	revengeBarGaugeSprite_->SetScale(
+		{
+			std::lerp(0.0f, -revengeBarGaugeSpriteData_.scale.x,barT),
+			revengeBarGaugeSpriteData_.scale.y
+		}
+	);
+	revengeBarGaugeSprite_->SetTexcoordSize(
+		{
+			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.x,barT),
+			revengeBarGaugeSpriteData_.textureSize.y
+		}
+	);
+	revengeBarGaugeSprite_->SetTexcoordBase(
+		{
+			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.x,barT),
+			revengeBarGaugeSpriteData_.textureSize.y
+		}
+	);
+#pragma endregion
 //
 //	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
 //		//tutorial1_->SetIsActive(false);
