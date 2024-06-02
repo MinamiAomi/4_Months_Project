@@ -21,6 +21,7 @@ namespace {
             PostQuitMessage(0);
             return 0;
         }
+
         return DefWindowProc(hwnd, msg, wparam, lparam);
     }
 }
