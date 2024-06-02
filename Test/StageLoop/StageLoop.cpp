@@ -11,6 +11,9 @@
 #include "File/JsonConverter.h"
 
 #include "HammerMovie.h"
+#include "Engine/Graphics/ImGuiManager.h"
+#include "File/JsonHelper.h"
+#include "Externals/nlohmann/json.hpp"
 
 void StageLoop::Initialize() {
 
@@ -58,6 +61,12 @@ void StageLoop::Initialize() {
 }
 
 void StageLoop::Update() {
+
+#ifdef _DEBUG
+	Debug();
+#endif // _DEBUG
+
+
 	if (hammerMovie_->IsHitFrame() && !isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
@@ -390,7 +399,42 @@ void StageLoop::LoadJson() {
 	for (const auto& key : sortedKeys) {
 		stageData_.emplace_back(stageData[key]);
 	}
+	// ステージ確率のやつ
+	{
+		// ファイルを開く
+		std::ifstream inputFile("Resources/Data/StageLoop/StageLoop.json");
 
+		// ファイル内容を文字列として読み込む
+		std::string fileContent((std::istreambuf_iterator<char>(inputFile)),
+			std::istreambuf_iterator<char>());
+
+		// JSON文字列を解析
+		auto jsonParsed = nlohmann::json::parse(fileContent);
+
+		// levelDesc_配列をクリア
+		levelDesc_.clear();
+
+		// JSONオブジェクトをループ
+		for (auto& [key, value] : jsonParsed.items()) {
+			LevelDesc levelDesc;
+
+			// 各StageLoopのデータを解析
+			levelDesc.stage.min = value["levelDesc.stage.min"];
+			levelDesc.stage.max = value["levelDesc.stage.max"];
+
+			// Probabilityのデータを解析
+			int index = 0;
+			while (value.contains("Probability" + std::to_string(index))) {
+				levelDesc.probability.push_back(value["Probability" + std::to_string(index)]["probability"]);
+				index++;
+			}
+
+			// 配列に追加
+			levelDesc_.push_back(levelDesc);
+		}
+		levelDivision_ = int(levelDesc_.size());
+		bossHPDivision_ = int(levelDesc_.at(0).probability.size());
+	}
 }
 
 void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
@@ -577,7 +621,7 @@ void StageLoop::CheckOnPlayerStageParts() {
 		}
 	}
 
-	if (stageDistance_.at(index + 1).distance > 0) {
+	if (stageDistance_.at(index).distance > 0) {
 		leaveNextStageNum = stageDistance_.at(index + 1).stageNum;
 	}
 	else {
@@ -598,6 +642,63 @@ void StageLoop::CheckOnPlayerStageParts() {
 		});
 }
 
+void StageLoop::Debug() {
+	ImGui::Begin("Editor");
+	if (ImGui::BeginMenu("StageLoop")) {
+		ImGui::DragInt("ボスのHPを何分割するか", &bossHPDivision_, 1, 0);
+		for (auto& levelDesc : levelDesc_) {
+			if (levelDesc.probability.size() != bossHPDivision_) {
+				levelDesc.probability.resize(bossHPDivision_);
+			}
+		}
+
+		ImGui::DragInt("レベルを何分割するか", &levelDivision_, 1, 0);
+		if (levelDesc_.size() != levelDivision_) {
+			// 同じサイズに調整する
+			levelDesc_.resize(levelDivision_);
+		}
+		if (ImGui::TreeNode("レベルの幅")) {
+			for (int level = 0; level < levelDivision_; ++level) {
+				if (ImGui::TreeNode((std::to_string(level) + "レベル").c_str())) {
+					ImGui::DragInt((std::to_string(level) + "最小").c_str(), &levelDesc_.at(level).stage.min, 1, 0);
+					ImGui::DragInt((std::to_string(level) + "最大").c_str(), &levelDesc_.at(level).stage.max, 1, levelDesc_.at(level).stage.min);
+					ImGui::TreePop();
+				}
+			}
+			ImGui::TreePop();
+		}
+		for (int gauge = 0; gauge < bossHPDivision_; ++gauge) {
+			if (ImGui::TreeNode((std::to_string(gauge) + "ゲージ目").c_str())) {
+				for (int level = 0; level < levelDivision_; ++level) {
+					ImGui::DragFloat((std::to_string(level) + "レベルの確率").c_str(), &levelDesc_.at(level).probability.at(gauge), 1.0f, 0.0f);
+				}
+				ImGui::TreePop();
+			}
+		}
+		if (ImGui::Button("Save")) {
+			JSON_OPEN("Resources/Data/StageLoop/StageLoop.json");
+			for (uint32_t i = 0; auto & levelDesc : levelDesc_) {
+				JSON_OBJECT("StageLoop" + std::to_string(i));
+				JSON_SAVE(levelDesc.stage.min);
+				JSON_SAVE(levelDesc.stage.max);
+				JSON_ROOT();
+				for (uint32_t j = 0; auto & probability : levelDesc.probability) {
+					JSON_OBJECT("StageLoop" + std::to_string(i));
+					JSON_OBJECT("Probability" + std::to_string(j));
+					JSON_SAVE(probability);
+					JSON_ROOT();
+					j++;
+				}
+				JSON_ROOT();
+				++i;
+			}
+			JSON_CLOSE();
+		}
+		ImGui::EndMenu();
+	}
+	ImGui::End();
+}
+
 void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	CheckOnPlayerStageParts();
 
@@ -614,11 +715,30 @@ void StageLoop::CreateStage(uint32_t stageInputIndex) {
 	CreateStageObject(stageData_.at(stageDistance_.at(1).stageIndex), distance, stageNum_);
 	stageNum_++;
 
-	uint32_t stageIndex;
+	uint32_t stageIndex = 0;
+	// BossHPが今何割か
+	auto hp = boss_->GetBossHP()->GetCurrentHP();
+	int32_t maxHP = boss_->GetBossHP()->kMaxHP;
+	float hpRatio = 1.0f - (static_cast<float>(hp) / static_cast<float>(maxHP));
+	uint32_t levelCount = static_cast<uint32_t>(levelDesc_.size()) - 1;
+
+	// ここの部分でどのlevelDescを使うか
+	uint32_t currentLevel = std::clamp(static_cast<uint32_t>(std::lerp(0.0f, static_cast<float>(levelCount), hpRatio)), 0u, levelCount);
 	for (uint32_t i = 2; i < kCreateStageNum + 2; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
+
+			// 確率をとりどこのレベルを使用するか
+			float probability = std::lerp(0.0f, 100.0f, rnd_.NextFloatUnit());
+			float sum = 0.0f;
+
+			for (size_t j = 0; j < levelDesc_.at(currentLevel).probability.size(); ++j) {
+				sum += levelDesc_.at(currentLevel).probability.at(j);
+				if (sum >= probability) {
+					stageIndex = rnd_.NextUIntRange(levelDesc_.at(currentLevel).stage.min, levelDesc_.at(currentLevel).stage.max);
+					break;
+				}
+			}
 		}
 		else {
 			stageIndex = stageInputIndex;

@@ -70,7 +70,9 @@ private:
 	void Clear();
 	void DeleteObject();
 	void CheckOnPlayerStageParts();
-	// 複数個
+
+	void Debug();
+
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void CreateStageObject(const Desc& stageData, float distance, uint32_t index);
 
@@ -85,6 +87,20 @@ private:
 	Random::RandomNumberGenerator rnd_;
 	bool isCreateStage_;
 	uint32_t stageNum_;
+
+	struct LevelDesc {
+		struct Range {
+			int min;
+			int max;
+		}stage;
+		std::vector<float> probability;
+	};
+
+	std::vector<LevelDesc> levelDesc_;
+
+	int bossHPDivision_;
+	int levelDivision_;
+
 #pragma region
 	std::unique_ptr<BeltConveyorManager> beltConveyorManager_;
 	std::unique_ptr<BlockManager> blockManager_;
