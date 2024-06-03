@@ -28,7 +28,7 @@ void GeometryRenderingPass::Initialize(uint32_t width, uint32_t height) {
     float metallicRoughnessClearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
     metallicRoughness_.SetClearColor(metallicRoughnessClearColor);
     metallicRoughness_.Create(L"GeometryRenderingPass MetallicRoughness", width, height, DXGI_FORMAT_R16G16_UNORM);
-    float normalClearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    float normalClearColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
     normal_.SetClearColor(normalClearColor);
     normal_.Create(L"GeometryRenderingPass Normal", width, height, DXGI_FORMAT_R10G10B10A2_UNORM);
     depth_.Create(L"GeometryRenderingPass Depth", width, height, DXGI_FORMAT_D32_FLOAT);
@@ -117,6 +117,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
         Matrix4x4 worldInverseTransposeMatrix;
         Vector3 color;
         uint32_t useLighting;
+        uint32_t wireFrameMask;
     };
 
 
@@ -172,6 +173,7 @@ void GeometryRenderingPass::Render(CommandContext& commandContext, const Camera&
             instancesData[drawCount].worldInverseTransposeMatrix = instancesData[drawCount].worldMatrix;
             instancesData[drawCount].color = instance->GetColor();
             instancesData[drawCount].useLighting = instance->UseLighting();
+            instancesData[drawCount].wireFrameMask = instance->GetWireFrameMask() ? 1 : 0;
             ++drawCount;
         }
     }

@@ -24,7 +24,7 @@ public:
     };
 
     void Initialize(DXGI_FORMAT rtvFormat);
-    void Render(CommandContext& commandContext, const Camera& camera, ColorBuffer& colorBuffer);
+    void Render(CommandContext& commandContext, const Camera& camera, ColorBuffer& maskTexture, ColorBuffer& colorBuffer);
 
     void SetModel(ModelInstance* model) { model_ = model; }
 

@@ -74,10 +74,13 @@ void WireTranslucentRenderer::Initialize(DXGI_FORMAT rtvFormat) {
     }
 }
 
-void WireTranslucentRenderer::Render(CommandContext& commandContext, const Camera& camera, ColorBuffer& colorBuffer) {
+void WireTranslucentRenderer::Render(CommandContext& commandContext, const Camera& camera, ColorBuffer& maskTexture, ColorBuffer& colorBuffer) {
     struct SceneData {
         Matrix4x4 viewMatrix;
         Matrix4x4 projectionMatrix;
+        uint32_t maskTextureIndex;
+        float textureWidth;
+        float textureHeight;
     };
     struct InstanceData {
         Matrix4x4 worldMatrix;
@@ -90,6 +93,7 @@ void WireTranslucentRenderer::Render(CommandContext& commandContext, const Camer
     
     if (!model_ || !model_->GetModel() || !model_->IsActive()) { return; }
 
+    commandContext.TransitionResource(maskTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
     commandContext.TransitionResource(colorBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
     commandContext.SetRenderTarget(colorBuffer.GetRTV());
     commandContext.SetViewportAndScissorRect(0, 0, colorBuffer.GetWidth(), colorBuffer.GetHeight());
@@ -101,6 +105,9 @@ void WireTranslucentRenderer::Render(CommandContext& commandContext, const Camer
     SceneData sceneData;
     sceneData.viewMatrix = camera.GetViewMatrix();
     sceneData.projectionMatrix = camera.GetProjectionMatrix();
+    sceneData.maskTextureIndex = maskTexture.GetSRV().GetIndex();
+    sceneData.textureWidth = (float)colorBuffer.GetWidth();
+    sceneData.textureHeight = (float)colorBuffer.GetHeight();
     commandContext.SetDynamicConstantBufferView(RootIndex::Scene, sizeof(sceneData), &sceneData);
     
     InstanceData instanceData;
