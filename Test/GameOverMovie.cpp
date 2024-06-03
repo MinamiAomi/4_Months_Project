@@ -10,6 +10,7 @@ void GameOverMovie::Update() {
 	player_->GetModelInstance().SetColor({1.0f,1.0f,1.0f});
 
 	if (!isInitialize_) {
+		isClearGameOver = true;
 		isInitialize_ = true;
 		savePlayerPos_ = player_->GetWorldMatrix().GetTranslate();
 		player_->GetTransform().rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);

@@ -16,6 +16,7 @@ public:
 
 	static bool isPlaying;
 	static bool isEndFrame;
+	static bool isClearGameOver;
 
 	virtual void Initialize(Player* player,Boss* boss,Camera* camera, const StageCamera* stageCamera);
 	virtual void Update();

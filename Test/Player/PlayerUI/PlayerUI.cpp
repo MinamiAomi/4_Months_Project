@@ -8,6 +8,7 @@
 #include"Engine/Graphics/GameWindow.h"
 #include "Player/Player.h"
 #include "Math/Camera.h"
+#include "Movie.h"
 
 void PlayerUI::Initialize() {
 	LoadJson();
@@ -174,6 +175,24 @@ void PlayerUI::Update() {
 	hpSprite_.at(1)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(1).position);
 	hpSprite_.at(2)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(2).position);
 
+	if (Movie::isClearGameOver) {
+		playerFrameSprite_->SetIsActive(false);
+		toBossDistanceBarSprite_->SetIsActive(false);
+		toBossDistanceMeterSprite_->SetIsActive(false);
+		toBossDistanceNumberSprite100_->SetIsActive(false);
+		toBossDistanceNumberSprite10_->SetIsActive(false);
+		toBossDistanceNumberSprite1_->SetIsActive(false);
+		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(1)->SetIsActive(false);
+		hpSprite_.at(2)->SetIsActive(false);
+		revengeBarGaugeSprite_->SetIsActive(false);
+		revengeBarGaugeBaseSprite_->SetIsActive(false);
+		revengeBarIconSprite_->SetIsActive(false);
+		tutorial1_->SetIsActive(false);
+		tutorial2_->SetIsActive(false);
+		tutorial3_->SetIsActive(false);
+	}
+	
 }
 
 void PlayerUI::UpdatePlayerUI() {

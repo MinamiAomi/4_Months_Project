@@ -1,6 +1,8 @@
 #include "PlayerHammer.h"
 #include "Framework/ResourceManager.h"
 #include "CharacterState.h"
+#include "Graphics/ImGuiManager.h"
+#include "Graphics/RenderManager.h"
 
 void PlayerHammer::Initialize(const Player* player) {
 	player_ = player;
@@ -14,6 +16,16 @@ void PlayerHammer::Initialize(const Player* player) {
 	clampY_ = transform.translate.y;
 	particle_ = std::make_unique<PlayerHammerParticle>();
 	particle_->Initialize(*this);
+
+	lightManager_ = &RenderManager::GetInstance()->GetLightManager();
+	pointLight_ = std::make_shared<PointLight>();
+	pointLight_->color = { 1.0f,1.0f,0.0f };
+	pointLight_->decay = 2.8f;
+	pointLight_->intensity = 8.5f;
+	pointLight_->range = 9.2f;
+
+	pointLightTransform_.SetParent(&transform, false);
+	pointLightTransform_.translate = { 0.0f,4.0f,0.0f };
 }
 
 void PlayerHammer::Update() {
@@ -34,6 +46,20 @@ void PlayerHammer::Update() {
 			SetIsActive();
 		}
 	}
+	ImGui::Begin("han");
+	ImGui::DragFloat3("LightsPos", &pointLightTransform_.translate.x, 0.1f);
+	ImGui::DragFloat3("Color", &pointLight_->color.x, 0.01f);
+	ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
+	ImGui::DragFloat("intensity", &pointLight_->intensity, 0.01f);
+	ImGui::DragFloat("range", &pointLight_->range, 0.01f);
+	ImGui::End();
+
+	pointLightTransform_.UpdateMatrix();
+	pointLight_->position = pointLightTransform_.worldMatrix.GetTranslate();
+	if (model_->IsActive()) {
+		lightManager_->Add(pointLight_);
+	}
+	UpdateTransform();
 }
 
 void PlayerHammer::UpdateTransform()

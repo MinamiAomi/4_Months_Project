@@ -8,6 +8,7 @@
 
 bool Movie::isPlaying = false;
 bool Movie::isEndFrame = false;
+bool Movie::isClearGameOver = false;
 
 
 void Movie::Initialize(Player* player, Boss* boss, Camera* camera, const StageCamera* stageCamera) {

@@ -8,6 +8,7 @@
 #include "Collision/GameObject.h"
 #include "PlayerHammerParticle.h"
 #include "Player/Player.h"
+#include "Graphics/LightManager.h"
 class PlayerHammer :
 	public GameObject {
 public:
@@ -30,11 +31,13 @@ public:
 private:
 
 	const Player* player_;
+	LightManager* lightManager_ = nullptr;
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<PlayerHammerParticle> particle_;
 	float clampY_;
 	float velocity_;
 	float acceleration_;
 
-	
+	std::shared_ptr<PointLight> pointLight_;
+	Transform pointLightTransform_;
 };

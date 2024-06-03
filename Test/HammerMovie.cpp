@@ -92,6 +92,11 @@ void HammerMovie::Update() {
 			camera_->SetPosition(Vector3::Lerp(t, player_->transform.worldMatrix.GetTranslate() + playerOffset, stageCamera_->GetCamera()->GetPosition()));
 			player_->transform.translate = Vector3::QuadraticBezierCurve(t, curvePoint_[2], curvePoint_[1], curvePoint_[0]);
 			player_->transform.rotate = Quaternion::MakeForXAxis(std::lerp(420.0f * Math::ToRadian, 0.0f , t)) * saveQuaternion_;
+
+			auto& skeleton = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+			auto& parts = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kDamage);
+			skeleton->ApplyAnimation(parts.animation->GetAnimation("Hit_Bakudan_Damage"), t);
+			skeleton->Update();
 		}
 	}
 

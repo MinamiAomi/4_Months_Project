@@ -20,6 +20,7 @@ void GameClearMovie::Update() {
 		saveZoomPos_[1] = bossVec + twoCameOffset;
 		saveZoomPos_[2] = bossVec + threeCameOffset;
 		camera_->SetPosition(saveZoomPos_[0]);
+		isClearGameOver = true;
 	}
 
 	Movie::Update();
@@ -60,7 +61,7 @@ void GameClearMovie::Update() {
 			}
 			else {
 				//Camera
-				t = float(frame_ - kOneCameFrame - kTwoCameFrame - kThreeCameFrame) / kRotateFrame;
+				t = float(frame_ - kOneCameFrame - kTwoCameFrame - kThreeCameFrame) / kLeaveFrame;
 				t = std::clamp(t, 0.0f, 1.0f);
 				camera_->SetPosition(Vector3::Lerp(t, saveZoomPos_[2], { saveZoomPos_[2].x,saveZoomPos_[2].y,saveZoomPos_[2].z + 20.0f }));
 				cameraToBoss = (boss_->transform.worldMatrix.GetTranslate() - camera_->GetPosition()).Normalize();
@@ -69,6 +70,14 @@ void GameClearMovie::Update() {
 	}
 	camera_->SetRotate(Quaternion::MakeLookRotation(cameraToBoss));
 	camera_->UpdateMatrices();
+
+	t = float(frame_) / kFullFrame;
+	t = std::clamp(t, 0.0f, 1.0f);
+	auto& skeleton = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+	auto& parts = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kDead);
+	skeleton->ApplyAnimation(parts.animation->GetAnimation("DeadBoss"), t);
+	skeleton->Update();
+
 	frame_++;
 	if (frame_ >= kFullFrame) {
 		isPlaying = false;

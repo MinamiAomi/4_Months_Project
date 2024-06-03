@@ -14,7 +14,7 @@ public:
 
 	const int kZoomFrame = 40;
 	const int kStopFrame = 10;
-	const int kBackFrame = 40;
+	const int kBackFrame = 60;
 	const int kFullFrame = kZoomFrame + kStopFrame + kBackFrame;
 
 	void Initialize(Player* player, Boss* boss, Camera* camera, const StageCamera* stageCamera) override;

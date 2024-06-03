@@ -5,6 +5,7 @@
 #include "Graphics/Model.h"
 #include "Math/Transform.h"
 #include "Math/Random.h"
+#include "Audio/AudioSource.h"
 #include "Collision/GameObject.h"
 class Player;
 class Boss;
@@ -44,4 +45,6 @@ private:
 	bool isSaveDisAppearPos_ = false;
 	bool isFreePlayer_ = true;
 	Vector3 saveDisAppearPos_;
+
+	std::unique_ptr<AudioSource> se_;
 };

@@ -18,6 +18,9 @@ void UFO::Initialize(Player* player,const Boss* boss) {
 	transform.isParentRotate = false;
 	isSaveDisAppearPos_ = false;
 	isFreePlayer_ = true;
+
+	se_ = std::make_unique<AudioSource>();
+	(*se_) = ResourceManager::GetInstance()->FindSound("ufoSE");
 }
 
 void UFO::Update() {
@@ -60,7 +63,16 @@ void UFO::Update() {
 					isSaveDisAppearPos_ = true;
 					transform.SetParent(nullptr);
 					saveDisAppearPos_ = transform.translate;
-					player_->transform.rotate = Quaternion::identity;
+					if (Character::currentCharacterState_ == Character::kChase) {
+						player_->transform.rotate = Quaternion::identity;
+					}
+					else if(Character::currentCharacterState_ == Character::kRunAway){
+						player_->transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
+					}
+					else {
+						player_->transform.rotate = Quaternion::identity;
+					}
+					
 					isFreePlayer_ = true;
 				}
 				//消える
@@ -78,8 +90,11 @@ void UFO::Update() {
 		transform.UpdateMatrix();
 		model_->SetWorldMatrix(transform.worldMatrix);
 
+
+
 		if (frame >= kFullFrame) {
 			model_->SetIsActive(false);
+			se_->Stop();
 		}
 	}
 }
@@ -92,6 +107,10 @@ void UFO::UpdateTransform()
 
 void UFO::SetIsActive()
 {
+
+	se_->Play(true);
+	se_->SetVolume(1.0f);
+
 	model_->SetIsActive(true);
 	savePoint_[0] = player_->transform.worldMatrix.GetTranslate();
 

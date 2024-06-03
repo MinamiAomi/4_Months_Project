@@ -35,6 +35,11 @@ void GameStartMovie::Update() {
 			camera_->Shake({ 0.5f,0.5f,0.5f });
 			camera_->SetPosition(Vector3::Lerp(t, boss_->transform.worldMatrix.GetTranslate() + closePos_, stageCamera_->GetCamera()->GetPosition()));
 			boss_->transform.rotate = Quaternion::MakeForYAxis(std::lerp(180.0f * Math::ToRadian, 0.0f, t));
+
+			auto& skeleton = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+			auto& parts = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoar);
+			skeleton->ApplyAnimation(parts.animation->GetAnimation("roar"), t);
+			skeleton->Update();
 		}
 		else {
 			

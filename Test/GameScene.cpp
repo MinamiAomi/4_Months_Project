@@ -114,6 +114,8 @@ void GameScene::OnInitialize() {
 	gameStartMovie_->ResetIsEnd();
 
 	Character::isEndFirstChange_ = false;
+
+	Movie::isClearGameOver = false;
 }
 
 void GameScene::OnUpdate() {
@@ -271,11 +273,13 @@ void GameScene::OnUpdate() {
 			}
 			// シーン変更
 			if ((Input::GetInstance()->IsKeyTrigger(DIK_U) &&
-				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())) {
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) ||
+				pause_->GetOrderToTitle()) {
 				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 			}
 			if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
-				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()||
+				pause_->GetOrderReset())
 				) {
 				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
 			}

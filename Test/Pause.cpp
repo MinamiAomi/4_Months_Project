@@ -81,10 +81,10 @@ void Pause::PauseUpdate()
 	switch (select_)
 	{
 	case Pause::Retry:
-		arrow_->SetPosition({ arrow_->GetPosition().x , retry_->GetPosition().y });
+		arrow_->SetPosition({ arrowData_.position.x , retry_->GetPosition().y });
 		break;
 	case Pause::ToTitle:
-		arrow_->SetPosition({ arrow_->GetPosition().x , ToTitle_->GetPosition().y });
+		arrow_->SetPosition({ arrowData_.position.x , ToTitle_->GetPosition().y });
 		break;
 	default:
 		break;
