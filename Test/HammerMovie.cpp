@@ -79,6 +79,7 @@ void HammerMovie::Update() {
 				isHitFrame_ = true;
 				se_->Play();
 				se_->SetVolume(1.0f);
+				boss_->SetChangeColorFrame(10);
 			}
 			camera_->Shake({ 0.5f,0.5f,0.5f });
 			

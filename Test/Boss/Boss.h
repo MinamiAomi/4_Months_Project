@@ -34,6 +34,7 @@ public:
 	void SetCamera(Camera* camera) { camera_ = camera; }
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetIsFirstHit(bool is) { isFirstHit_ = is; }
+	void SetChangeColorFrame(int frame) { changeColorFrame_ = frame; }
 	const bool GetIsAlive() const { return isAlive_; }
 
 	const std::unique_ptr<BossModelManager>& GetModelManager() const { return bossModelManager_; }
@@ -61,6 +62,7 @@ private:
 
 	std::shared_ptr<PointLight> pointLight_;
 	Transform pointLightTransform_;
+	int changeColorFrame_ = 0;
 
 	Vector3 velocity_;
 	Vector3 offset_;

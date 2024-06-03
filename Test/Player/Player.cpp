@@ -87,6 +87,7 @@ void Player::Initialize() {
 	animationTime_ = 0.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("idle"), 0.0f);
 	model_->SetSkeleton(skeleton_);
+	model_->SetWireFrameMask(true);
 	animationType_ = IdleAnimation;
 
 	hammer_ = std::make_unique<PlayerHammer>();
@@ -95,6 +96,9 @@ void Player::Initialize() {
 	// 二段ジャンプ回転用
 	rotateAnimation_.SetParent(&transform,false);
 	rotateAnimation_.scale = Vector3::one;
+
+	ufo_ = std::make_unique<UFO>();
+	ufo_->Initialize(this,boss_);
 
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
@@ -117,10 +121,12 @@ void Player::Update() {
 		}
 		if (!isHit_ && !isDash_) {
 			// 移動
-			Move();
+			if (ufo_->GetIsFree()) {
+				Move();
+				// ジャンプ
+				Jump();
+			}
 
-			// ジャンプ
-			Jump();
 
 			// ダッシュ
 			//Dash();
@@ -172,7 +178,7 @@ void Player::Update() {
 			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
 			Character::SetNextScene(Character::State::kRunAway);
 		}
-		if (!isDash_) {
+		if (!isDash_ && ufo_->GetIsFree()) {
 			acceleration_.y += gravity_;
 		}
 		else {
@@ -184,8 +190,9 @@ void Player::Update() {
 			Vector3 dashVelocity = dashVector_ * dashPower_;
 			transform.translate += dashVelocity;
 		}
-		transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_) + windVelocity_;
-
+		if (ufo_->GetIsFree()) {
+			transform.translate += velocity_ + Vector3(0.0f, 0.0f, beltConveyorVelocity_) + windVelocity_;
+		}
 		beltConveyorVelocity_ = 0.0f;
 		windVelocity_ = Vector3::zero;
 
@@ -212,9 +219,10 @@ void Player::Update() {
 
 
 		// 救済
-		if (transform.translate.y <= -10.0f) {
-			transform.translate.y = 8.0f;
-			acceleration_.y = 0.0f;
+		if (transform.translate.y <= -10.0f && !ufo_->GetIsActive()) {
+			/*transform.translate.y = 8.0f;
+			acceleration_.y = 0.0f;*/
+			ufo_->SetIsActive();
 			// ジャンプ復活
 			canFirstJump_ = true;
 			canSecondJump_ = true;
@@ -252,6 +260,7 @@ void Player::Update() {
 
 	DebugParam();
 	hammer_->Update();
+	ufo_->Update();
 	UpdateTransform();
 	AnimationUpdate();
 
@@ -628,6 +637,8 @@ void Player::DebugParam() {
 		ImGui::Checkbox("isHit_", &isHit_);
 		ImGui::Checkbox("preIsHit_", &preIsHit_);
 		ImGui::Checkbox("isSceneChangeInvincible_", &isSceneChangeInvincible_);
+		Vector3 toBossVector = transform.worldMatrix.GetTranslate() - boss_->transform.worldMatrix.GetTranslate();
+		ImGui::Text("boss to player Vector3  %f,%f,%f", toBossVector.x, toBossVector.y, toBossVector.z);
 		if (ImGui::TreeNode("パラメーター")) {
 			ImGui::DragFloat3("オフセット", &offset_.x);
 			ImGui::DragFloat("縦のスピード", &verticalSpeed_);

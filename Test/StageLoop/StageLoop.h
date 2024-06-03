@@ -28,7 +28,7 @@ public:
 	void Reset();
 
 	void SetCamera(const Camera* camera) { camera_ = camera; }
-	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetBoss(Boss* boss) { boss_ = boss; }
 	void SetPlayer(Player* player) { player_ = player; }
 	void SetHammerMovie(const HammerMovie* hammerMovie) { hammerMovie_ = hammerMovie; }
 
@@ -43,7 +43,7 @@ public:
 	const std::unique_ptr<StageObjectManager>& GetStageObjectManager()const { return stageObjectManager_; }
 	//const std::unique_ptr<TrapManager>& GetTrapManager()const { return trapManager_; }
 private:
-	const Boss* boss_;
+	Boss* boss_;
 	const Camera* camera_;
 	const HammerMovie* hammerMovie_;
 	Player* player_;

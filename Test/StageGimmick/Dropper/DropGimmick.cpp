@@ -106,6 +106,7 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 			isAlive_ = false;
 			hitSE_->SetVolume(1.0f);
 			hitSE_->Play();
+			boss_->SetChangeColorFrame(5);
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||

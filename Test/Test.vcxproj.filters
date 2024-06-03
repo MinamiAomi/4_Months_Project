@@ -151,6 +151,9 @@
     <Filter Include="Game\Object\Boss\TitleBoss">
       <UniqueIdentifier>{137dec8c-9e54-476a-984c-7ac1dc7a44e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\UFO">
+      <UniqueIdentifier>{3f44be74-c381-4ee8-b788-e557d1db6836}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -393,6 +396,10 @@
     <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
     <ClCompile Include="LoadScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="Player\UFO\UFO.cpp">
+      <Filter>Game\Object\Player\UFO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,6 +655,9 @@
     </ClInclude>
     <ClInclude Include="Boss\TitleBoss\TitleBoss.h">
       <Filter>Game\Object\Boss\TitleBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\UFO\UFO.h">
+      <Filter>Game\Object\Player\UFO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

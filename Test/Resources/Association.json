@@ -75,7 +75,8 @@
     "beltConveyor": "BeltConveyor/beltConveyor.gltf",
     "dropBall": "DropGimmick/ball.gltf",
     "hammer": "Player/Hammer/hammer.gltf",
-    "floorEdge": "Floor/floorEdge.gltf",
-    "wind": "Wind/wind.gltf"
+    "wind": "Wind/wind.gltf",
+    "ufo": "UFO/UFO.gltf",
+    "floorEdge": "Floor/floorEdge.gltf"
   }
 }

@@ -85,6 +85,7 @@ public:
 		kLazerAttack,
 		kWindAttack,
 		kShotAttack,
+		kRoar,
 	};
 private:
 	void OnCollision(const CollisionInfo& collisionInfo) override;

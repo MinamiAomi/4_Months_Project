@@ -37,11 +37,11 @@ public:
 	bool GetIsAlive() { return isAlive_; }
 
 	void SetPlayer(const Player* player) { player_ = player; }
-	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetBoss(Boss* boss) { boss_ = boss; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 private:
 	const Player* player_;
-	const Boss* boss_;
+	Boss* boss_;
 	const Camera* camera_;
 
 	void UpdateTransform();
@@ -136,12 +136,12 @@ public:
 	void Delete(DropperBall* ball);
 
 	void SetPlayer(const Player* player) { player_ = player; }
-	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetBoss(Boss* boss) { boss_ = boss; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	std::list<std::unique_ptr<DropperBall>>& GetDropGimmicks() { return dropperBalls_; }
 private:
 	const Player* player_;
-	const Boss* boss_;
+	Boss* boss_;
 	const Camera* camera_;
 
 	std::list<std::unique_ptr<DropperBall>>dropperBalls_;

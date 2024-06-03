@@ -1,13 +1,14 @@
 #include "BossLineParticle.h"
 #include "Boss/Boss.h"
 #include "Framework/ResourceManager.h"
+#include "CharacterState.h"
 
 void BossLineParticle::Initialize(const Boss* boss) {
 	boss_ = boss;
 	minDirection_ = { -0.5f,0.5f,-0.5f };
 	maxDirection_ = { 0.5f,1.0f,0.5f };
 	emitTransform_.SetParent(&boss_->transform,false);
-	emitTransform_.translate = { 0.0f,0.0f,-20.0f };
+	emitTransform_.translate = { 0.0f,-1.0f,-31.0f };
 	isEmit_ = true;
 	for (DustParticle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
@@ -33,6 +34,19 @@ void BossLineParticle::Emit()
 
 	if (isEmit_) {
 
+		if (Character::currentCharacterState_ == Character::kChase) {
+			emitTransform_.translate = { 0.0f,0.0f,28.0f };
+			for (DustParticle& particle : particles_) {
+				particle.model_->SetColor({ 1.0f,1.0f,0.0f });
+			}
+		}
+		else {
+			emitTransform_.translate = { 0.0f,0.0f,-17.0f };
+			for (DustParticle& particle : particles_) {
+				particle.model_->SetColor({ 0.3f,0.8f,1.0f });
+			}
+		}
+
 		emitTransform_.UpdateMatrix();
 
 		for (uint32_t i = 0; i < emitNum_; i++) {
@@ -42,7 +56,7 @@ void BossLineParticle::Emit()
 					particle.model_->SetIsActive(true);
 					
 					particle.transform.translate = emitTransform_.worldMatrix.GetTranslate();
-					particle.transform.translate.z += rng_.NextFloatRange(-stageWidth_ / 2.0f, stageWidth_ / 2.0f);
+					particle.transform.translate.x += rng_.NextFloatRange(-stageWidth_ / 2.0f, stageWidth_ / 2.0f);
 					particle.transform.rotate = Quaternion::identity;
 					particle.transform.scale = initialScale;
 					particle.direction = Vector3{ rng_.NextFloatRange(minDirection_.x,maxDirection_.x),rng_.NextFloatRange(minDirection_.y,maxDirection_.y) ,rng_.NextFloatRange(minDirection_.z,maxDirection_.z) };

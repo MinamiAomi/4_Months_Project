@@ -73,6 +73,8 @@ void Boss::Initialize() {
 	pointLightTransform_.SetParent(&transform, false);
 	pointLightTransform_.translate = { 0.0f,14.0f,20.0f };
 
+	bossLineParticle_ = std::make_unique<BossLineParticle>();
+	bossLineParticle_->Initialize(this);
 }
 
 void Boss::Update() {
@@ -109,7 +111,7 @@ void Boss::Update() {
 	if (Character::IsInSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
-
+	state_->Update();
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
@@ -133,7 +135,6 @@ void Boss::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
-		state_->ChangeState(BossStateManager::State::kRoot);
 		BossBulletManager::GetInstance()->Reset();
 		if (Character::isEndFirstChange_) {
 			if (Character::nextCharacterState_ == Character::State::kChase) {
@@ -151,7 +152,13 @@ void Boss::Update() {
 				}
 				if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
 					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
-
+					auto& skeleton = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+					auto& parts = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoar);
+					skeleton->ApplyAnimation(parts.animation->GetAnimation("roar"), Character::GetSceneChangeTime());
+					skeleton->Update();
+				}
+				else {
+					state_->ChangeState(BossStateManager::State::kRoot);
 				}
 			}
 		}
@@ -160,16 +167,34 @@ void Boss::Update() {
 	default:
 		break;
 	}
-	state_->Update();
+	
 	bossUI_->Update();
 	bossHP_->Update();
+	bossLineParticle_->Update();
 	BossBulletManager::GetInstance()->Update();
 	UpdateTransform();
+	if (bossHP_->GetCurrentHP() <= 0) {
+		isAlive_ = false;
+	}
+	if (changeColorFrame_ > 0) {
+		changeColorFrame_--;
+		pointLight_->color.x = 6.0f;
+	}
+	else {
+		pointLight_->color.x = 1.77f;
+	}
 }
 
 void Boss::MovieUpdate() {
 	isHit_ = false;
 	lightManager_->Add(pointLight_);
+	if (changeColorFrame_ > 0) {
+		changeColorFrame_--;
+		pointLight_->color.x = 6.0f;
+	}
+	else {
+		pointLight_->color.x = 1.77f;
+	}
 }
 
 void Boss::Reset(uint32_t stageIndex) {
@@ -221,12 +246,14 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
-				isHit_ = true;
-			}
-			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
-			if (isFirstHit_ && !Movie::isPlaying) {
-				bossHP_->AddPlayerHitHP();
+			if (player_->transform.translate.y >= 0.0f && player_->GetIsFree()) {
+				if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
+					isHit_ = true;
+				}
+				player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
+				if (isFirstHit_ && !Movie::isPlaying) {
+					bossHP_->AddPlayerHitHP();
+				}
 			}
 
 		}
