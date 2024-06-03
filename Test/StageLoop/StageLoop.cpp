@@ -643,6 +643,7 @@ void StageLoop::CheckOnPlayerStageParts() {
 }
 
 void StageLoop::Debug() {
+#ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("StageLoop")) {
 		ImGui::DragInt("ボスのHPを何分割するか", &bossHPDivision_, 1, 0);
@@ -697,6 +698,7 @@ void StageLoop::Debug() {
 		ImGui::EndMenu();
 	}
 	ImGui::End();
+#endif // _DEBUG
 }
 
 void StageLoop::CreateStage(uint32_t stageInputIndex) {

@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v4.0.44",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Floor",
+			"name":"Floor.048",
 			"translation":[
 				0,
 				-2.7427167892456055,
@@ -26,7 +26,7 @@
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Floor",
+			"name":"Floor.003",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -38,7 +38,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.010",
+			"name":"\u7acb\u65b9\u4f53.338",
 			"primitives":[
 				{
 					"attributes":{
@@ -69,10 +69,10 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1268,
+			"count":1669,
 			"max":[
 				50.14963150024414,
-				2.540358304977417,
+				1.4892735481262207,
 				18.94748306274414
 			],
 			"min":[
@@ -85,45 +85,45 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1268,
+			"count":1669,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1268,
+			"count":1669,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":2196,
+			"count":3459,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":15216,
+			"byteLength":20028,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":15216,
-			"byteOffset":15216,
+			"byteLength":20028,
+			"byteOffset":20028,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":10144,
-			"byteOffset":30432,
+			"byteLength":13352,
+			"byteOffset":40056,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4392,
-			"byteOffset":40576,
+			"byteLength":6918,
+			"byteOffset":53408,
 			"target":34963
 		}
 	],
@@ -135,7 +135,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":44968,
+			"byteLength":60328,
 			"uri":"floor.bin"
 		}
 	]
