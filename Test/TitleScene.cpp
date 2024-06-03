@@ -28,9 +28,9 @@ void TitleScene::OnInitialize() {
 	title_->SetTexture(ResourceManager::GetInstance()->FindTexture("title"));
 	title_->SetIsActive(true);
 	title_->SetDrawOrder(static_cast<uint8_t>(0));
-	title_->SetScale({ 864.0f,278.0f });
+	title_->SetScale({ 864.0f*0.8f,278.0f * 0.8f });
 	title_->SetRotate(0.0f);
-	title_->SetPosition(Vector2{ float(GameWindow::GetInstance()->GetClientWidth() * 0.5f),float(GameWindow::GetInstance()->GetClientHeight() * 0.5f) });
+	title_->SetPosition(Vector2{ float(GameWindow::GetInstance()->GetClientWidth() * 0.25f),float(GameWindow::GetInstance()->GetClientHeight() * 0.7f) });
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
 	title_->SetTexcoordSize({ 864.0f,278.0f });
