@@ -34,19 +34,21 @@ void BossAttackTrigger::Initialize(const Desc& desc) {
 }
 
 void BossAttackTrigger::Update() {
-	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
-		//model_->SetIsActive(true);
-		collider_->SetIsActive(true);
+	if (!isCollision_) {
+		if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
+			//model_->SetIsActive(true);
+			collider_->SetIsActive(true);
+		}
+		else {
+			//model_->SetIsActive(false);
+			collider_->SetIsActive(false);
+		}
+		transform.UpdateMatrix();
+		collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
+		collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
+		collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
+		model_->SetWorldMatrix(transform.worldMatrix);
 	}
-	else {
-		//model_->SetIsActive(false);
-		collider_->SetIsActive(false);
-	}
-	transform.UpdateMatrix();
-	collider_->SetCenter(desc_.desc.collider->center * transform.worldMatrix);
-	collider_->SetOrientation(transform.rotate * desc_.desc.collider->rotate);
-	collider_->SetSize({ transform.scale.x * desc_.desc.collider->size.x ,transform.scale.y * desc_.desc.collider->size.y ,transform.scale.z * desc_.desc.collider->size.z });
-	model_->SetWorldMatrix(transform.worldMatrix);
 }
 
 void BossAttackTrigger::Reset() {
@@ -89,9 +91,9 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 				}
 
 			}
-			else if(!Movie::isPlaying &&
+			else if (!Movie::isPlaying &&
 				Character::currentCharacterState_ == Character::kChase) {
- 				switch (desc_.state) {
+				switch (desc_.state) {
 
 				case BossStateManager::kBeamAttack:
 				{
