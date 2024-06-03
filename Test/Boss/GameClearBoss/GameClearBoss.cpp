@@ -16,6 +16,8 @@ void GameClearBoss::Initialize() {
 	offset_ = 50.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("GameClear"), 0.0f);
 	model_->SetSkeleton(skeleton_);
+	transform.scale = Vector3(0.5f, 0.5f, 0.5f);
+	UpdateTransform();
 }
 
 void GameClearBoss::Update() {

@@ -44,7 +44,8 @@
         "bossHPBase": "Boss/BossUI/BossHPBase.png",
         "bossHPBar": "Boss/BossUI/BossHPBar.png",
         "titleLogo": "TitleLogo.png",
-        "gameOver": "ResultUI/gameOver.png"
+        "gameOver": "ResultUI/gameOver.png",
+        "gameClear": "ResultUI/ClearUI.png"
     },
   "Model": {
     "bossBody": "Boss/Body/boss.gltf",

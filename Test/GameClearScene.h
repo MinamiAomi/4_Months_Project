@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene/BaseScene.h"
 
+#include <array>
 #include <memory>
 #include <vector>
 
@@ -9,6 +10,8 @@
 #include "Math/Camera.h"
 #include "Graphics/Sprite.h"
 #include "Boss/GameClearBoss/GameClearBoss.h"
+#include "Player/GameClearPlayer/GameClearPlayer.h"
+#include "TitleFloor.h"
 
 class GameClearScene :
 	public BaseScene {
@@ -24,5 +27,7 @@ private:
 
 	std::unique_ptr<Sprite> title_;
 	std::unique_ptr<GameClearBoss> gameClearBoss_;
+	std::unique_ptr<GameClearPlayer> gameClearPlayer_;
+	std::array<std::unique_ptr<TitleFloor>, 3>titleFloor_;
 	bool isDebugCamera_;
 };
