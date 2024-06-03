@@ -10,6 +10,15 @@ class Test;
 class LoadScene :
 	public BaseScene {
 public:
+    enum Member {
+        Rikihisa,
+        Aomi,
+        Mint,
+        Fuga,
+        Sakiren,
+
+        NumMembers
+    };
 
 	void OnInitialize() override;
 	void OnUpdate() override;
@@ -18,7 +27,10 @@ public:
 	void SetTest(Test* test) { test_ = test; }
 
 private:
-	std::unique_ptr<Sprite> load_;
+	std::unique_ptr<Sprite> members_[NumMembers];
+	std::unique_ptr<Sprite> donburi_;
+	std::unique_ptr<Sprite> logo_;
+
 	float animationTime_;
 	Test* test_;
 };

@@ -49,7 +49,7 @@ Sprite::~Sprite() {
 
 void Sprite::SetTexture(const std::shared_ptr<Texture>& texture) {
     texture_ = texture;
-    if (texture_) { return; }
+    if (!texture_) { return; }
     texcoordBase_ = {};
     texcoordSize_ = { texture_->GetWidth(), texture_->GetHeight() };
 }

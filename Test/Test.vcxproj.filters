@@ -388,10 +388,12 @@
     </ClCompile>
     <ClCompile Include="Wind.cpp" />
     <ClCompile Include="WindManager.cpp" />
-    <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="Player\TitlePlayer\TitlePlayer.cpp" />
     <ClCompile Include="TitleFloor.cpp" />
     <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
