@@ -440,29 +440,26 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 							//onGroundSE_->Play();
 						}
 
-						UpdateTransform();
-					}
-			
-		
-					//const GameObject* nextParent = collisionInfo.collider->GetGameObject();
-					//if (nextParent) {
-					//	transform.SetParent(&nextParent->transform);
-					//}
-				}
-				else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
-					collisionInfo.collider->GetName() == "bossFloorAll" ||
-					collisionInfo.collider->GetName() == "bossLongDistanceAttack" ||
-					collisionInfo.collider->GetName() == "bossBullet") {
-					HitDamage(1);
-				}
-				else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
-					collisionInfo.collider->GetName() == "PendulumBall") &&
-					!isHit_) {
-					HitDamage();
-				}
-				else if (collisionInfo.collider->GetName() == "RevengeCoin") {
-					playerRevengeGage_->AddGage();
-				}
+			UpdateTransform();
+			//const GameObject* nextParent = collisionInfo.collider->GetGameObject();
+			//if (nextParent) {
+			//	transform.SetParent(&nextParent->transform);
+			//}
+		}
+		else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
+			collisionInfo.collider->GetName() == "bossFloorAll" ||
+			collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
+			HitDamage(1);
+		}
+		else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
+			collisionInfo.collider->GetName() == "PendulumBall"|| 
+			collisionInfo.collider->GetName() == "bossBullet") &&
+			!isHit_) {
+			HitDamage();
+		}
+		else if (collisionInfo.collider->GetName() == "RevengeCoin") {
+			playerRevengeGage_->AddGage();
+		}
 
 				//RayCastInfo rayCastInfo{};
 				//if (CollisionManager::GetInstance()->RayCast(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), ~CollisionAttribute::Player, &rayCastInfo)) {

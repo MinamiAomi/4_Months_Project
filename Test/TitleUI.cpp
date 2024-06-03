@@ -8,6 +8,7 @@
 void TitleUI::Initialize() {
 	LoadJson();
 	pushA_ = CreateSprite(pushAData_, "pressA");
+	titleLogo_ = CreateSprite(titleLogoData_, "titleLogo");
 	pushAT_ = 0.0f;
 }
 
@@ -22,6 +23,7 @@ void TitleUI::Update() {
 		if (ImGui::TreeNode("pushA")) {
 
 			DrawImGui(pushAData_, "controll", pushA_.get());
+			DrawImGui(titleLogoData_, "titleLogo", titleLogo_.get());
 
 			if (ImGui::Button("Save")) {
 				SaveJson();
@@ -39,6 +41,10 @@ void TitleUI::LoadJson() {
 	JSON_OPEN("Resources/Data/TitleUI/TitleUI.json");
 	JSON_OBJECT("pushAData_");
 	pushAData_.Load();
+	JSON_ROOT();
+	JSON_OBJECT("titleLogoData_");
+	titleLogoData_.Load();
+	JSON_ROOT();
 	JSON_CLOSE();
 }
 
@@ -46,6 +52,10 @@ void TitleUI::SaveJson() {
 	JSON_OPEN("Resources/Data/TitleUI/TitleUI.json");
 	JSON_OBJECT("pushAData_");
 	pushAData_.Save();
+	JSON_ROOT();
+	JSON_OBJECT("titleLogoData_");
+	titleLogoData_.Save();
+	JSON_ROOT();
 	JSON_CLOSE();
 }
 

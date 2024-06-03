@@ -6,6 +6,7 @@
 #include "Graphics/ImGuiManager.h"
 #include "File/JsonHelper.h"
 #include "Framework/ResourceManager.h"
+#include "Movie.h"
 
 void BossAttackTrigger::Initialize(const Desc& desc) {
 	Reset();
@@ -88,8 +89,9 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 				}
 
 			}
-			else {
-				switch (desc_.state) {
+			else if(!Movie::isPlaying &&
+				Character::currentCharacterState_ == Character::kChase) {
+ 				switch (desc_.state) {
 
 				case BossStateManager::kBeamAttack:
 				{

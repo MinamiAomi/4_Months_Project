@@ -31,6 +31,7 @@
     <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
     <ClCompile Include="Boss\BossUI\BossUI.cpp" />
+    <ClCompile Include="Boss\GameOverBoss\GameOverBoss.cpp" />
     <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="Boss\BossParticle\BossLineParticle.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
     <ClInclude Include="Boss\BossUI\BossUI.h" />
+    <ClInclude Include="Boss\GameOverBoss\GameOverBoss.h" />
     <ClInclude Include="Boss\TitleBoss\TitleBoss.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />

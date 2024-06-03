@@ -154,6 +154,9 @@
     <Filter Include="Game\Object\Player\UFO">
       <UniqueIdentifier>{3f44be74-c381-4ee8-b788-e557d1db6836}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\GameOverBoss">
+      <UniqueIdentifier>{513dd56d-6667-4cb4-9f31-2189e195a0a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -401,6 +404,7 @@
     <ClCompile Include="Player\UFO\UFO.cpp">
       <Filter>Game\Object\Player\UFO</Filter>
     </ClCompile>
+    <ClCompile Include="Boss\GameOverBoss\GameOverBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -658,6 +662,9 @@
     </ClInclude>
     <ClInclude Include="Player\UFO\UFO.h">
       <Filter>Game\Object\Player\UFO</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\GameOverBoss\GameOverBoss.h">
+      <Filter>Game\Object\Boss\GameOverBoss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
