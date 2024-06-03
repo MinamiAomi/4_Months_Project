@@ -64,6 +64,8 @@ public:
 	void Jump();
 
 	bool GetIsFree() const { return ufo_->GetIsFree(); }
+
+	const float& GetToBossDistance() const { return toBossDistance_; }
 private:
 	enum AnimationType {
 		IdleAnimation,
@@ -144,6 +146,7 @@ private:
 	uint32_t dashMaxCount_;
 	uint32_t dashIntervalCount_;
 	float rotateAnimationAllFrame_;
+	float toBossDistance_;
 #pragma endregion
 
 #pragma region Json

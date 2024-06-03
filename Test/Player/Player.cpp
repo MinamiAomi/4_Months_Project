@@ -248,6 +248,16 @@ void Player::Update() {
 			break;
 		}
 	}
+
+	//ボスとの距離
+	if (Character::currentCharacterState_ == Character::State::kChase) {
+		toBossDistance_ = Vector3::Distance(GetTransform().translate, boss_->transform.translate) - 32;
+	}
+	
+	if (Character::currentCharacterState_ == Character::State::kRunAway) {
+		toBossDistance_ = Vector3::Distance(GetTransform().translate, boss_->transform.translate) - 16;
+	}
+
 	DebugParam();
 	hammer_->Update();
 	ufo_->Update();
