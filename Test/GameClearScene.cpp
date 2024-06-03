@@ -9,11 +9,14 @@
 #include "GameScene.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/GameWindow.h"
+#include "Graphics/ImGuiManager.h"
 
 void GameClearScene::OnInitialize() {
 	camera_ = std::make_unique<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
+	camera_->SetPosition({ 0.0f,25.0f,-20.0f });
+	camera_->UpdateMatrices();
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 	title_ = std::make_unique<Sprite>();
@@ -26,9 +29,13 @@ void GameClearScene::OnInitialize() {
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
 	title_->SetTexcoordSize({ 1920.0f,1080.0f });
+
+	gameClearBoss_ = std::make_unique<GameClearBoss>();
+	gameClearBoss_->Initialize();
 }
 
 void GameClearScene::OnUpdate() {
+	gameClearBoss_->Update();
 	if ((Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))&&
@@ -57,8 +64,19 @@ void GameClearScene::OnUpdate() {
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 	}
-#endif // _DEBUG
+	if (ImGui::Checkbox("DebugCamera", &isDebugCamera_)) {
 
+		if (isDebugCamera_) {
+			RenderManager::GetInstance()->SetCamera(debugCamera_->GetCamera());
+		}
+		else {
+			RenderManager::GetInstance()->SetCamera(camera_);
+		}
+	}
+	if (isDebugCamera_) {
+		debugCamera_->Update();
+	}
+#endif // _DEBUG
 }
 
 void GameClearScene::OnFinalize() {}
