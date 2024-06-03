@@ -28,7 +28,7 @@ void Boss::Initialize() {
 	bossHP_ = std::make_unique<BossHP>();
 	bossHP_->SetCamera(camera_);
 	bossHP_->Initialize();
-	
+
 	bossUI_ = std::make_unique<BossUI>();
 	bossUI_->SetBossHP(bossHP_.get());
 	bossUI_->Initialize();
@@ -37,7 +37,7 @@ void Boss::Initialize() {
 	bossModelManager_ = std::make_unique<BossModelManager>();
 	bossModelManager_->Initialize(&transform, player_);
 
-	
+
 	BossBulletManager::GetInstance()->Initialize();
 
 	Reset(0);
@@ -51,10 +51,10 @@ void Boss::Initialize() {
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
 	collider_->SetName("Boss");
-	collider_->SetCenter(Vector3( transform.translate.x, transform.translate.y, transform.translate.z- 15.0f));
+	collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z - 15.0f));
 	collider_->SetOrientation(transform.rotate);
 	Vector3 modelSize = (bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex - bossModelManager_->GetModel(BossParts::kBossBody)->GetModel()->GetModel()->GetMeshes().at(0).minVertex);
-	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z*0.8f});
+	collider_->SetSize({ modelSize.x * 2.0f,modelSize.y ,modelSize.z * 0.8f });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossAttackTrigger);
@@ -70,7 +70,7 @@ void Boss::Initialize() {
 	pointLight_->decay = 2.280f;
 	pointLight_->intensity = 1.16f;
 	pointLight_->range = 14.77f;
-	pointLightTransform_.SetParent(&transform,false);
+	pointLightTransform_.SetParent(&transform, false);
 	pointLightTransform_.translate = { 0.0f,14.0f,20.0f };
 
 }
@@ -95,7 +95,7 @@ void Boss::Update() {
 			JSON_ROOT();
 			JSON_CLOSE();
 		}
-		ImGui::DragFloat3("LightsPos", &pointLightTransform_.translate.x,0.1f);
+		ImGui::DragFloat3("LightsPos", &pointLightTransform_.translate.x, 0.1f);
 		ImGui::DragFloat3("Color", &pointLight_->color.x, 0.01f);
 		ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
 		ImGui::DragFloat("intensity", &pointLight_->intensity, 0.01f);
@@ -109,7 +109,7 @@ void Boss::Update() {
 	if (Character::IsInSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
-	
+
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
@@ -133,6 +133,7 @@ void Boss::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
+		state_->ChangeState(BossStateManager::State::kRoot);
 		BossBulletManager::GetInstance()->Reset();
 		if (Character::isEndFirstChange_) {
 			if (Character::nextCharacterState_ == Character::State::kChase) {
@@ -166,8 +167,7 @@ void Boss::Update() {
 	UpdateTransform();
 }
 
-void Boss::MovieUpdate()
-{
+void Boss::MovieUpdate() {
 	isHit_ = false;
 	lightManager_->Add(pointLight_);
 }
@@ -203,7 +203,7 @@ void Boss::UpdateTransform() {
 	break;
 	case Character::State::kRunAway:
 	{
-		collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z ));
+		collider_->SetCenter(Vector3(transform.translate.x, transform.translate.y, transform.translate.z));
 	}
 	break;
 	default:
@@ -222,7 +222,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		case Character::State::kChase:
 		{
 			if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
- 				isHit_ = true;
+				isHit_ = true;
 			}
 			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 			if (isFirstHit_ && !Movie::isPlaying) {
@@ -240,7 +240,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 			break;
 		}
 		//一回目
-		
+
 	}
 
 	//if (collisionInfo.collider->GetName() == "DropGimmickBall") {
