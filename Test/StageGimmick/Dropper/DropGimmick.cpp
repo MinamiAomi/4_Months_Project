@@ -97,6 +97,7 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 			state_ == State::kShot) {
 			boss_->GetBossHP()->AddBallHitHP();
 			isAlive_ = false;
+			boss_->SetChangeColorFrame(5);
 		}
 	}
 	else if (collisionInfo.collider->GetName() == "Block" ||

@@ -145,6 +145,9 @@
     <Filter Include="Game\Object\Wind">
       <UniqueIdentifier>{8e2b312e-378c-41bc-98da-6f4a5ddbd33d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\UFO">
+      <UniqueIdentifier>{3f44be74-c381-4ee8-b788-e557d1db6836}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -383,6 +386,9 @@
     <ClCompile Include="Wind.cpp" />
     <ClCompile Include="WindManager.cpp" />
     <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="Player\UFO\UFO.cpp">
+      <Filter>Game\Object\Player\UFO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -628,6 +634,9 @@
     </ClInclude>
     <ClInclude Include="LoadScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\UFO\UFO.h">
+      <Filter>Game\Object\Player\UFO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

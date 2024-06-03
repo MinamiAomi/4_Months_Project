@@ -7,6 +7,9 @@ public:
     void UpdateMatrix() {
         worldMatrix = Matrix4x4::MakeAffineTransform(scale, rotate, translate);
         if (parent_) {
+            if (!isParentRotate) {
+                worldMatrix *= Matrix4x4::MakeRotation(parent_->rotate).Inverse();
+            }
             worldMatrix *= parent_->worldMatrix;
         }
     }
@@ -41,6 +44,7 @@ public:
     Quaternion rotate;
     Vector3 translate;
     Matrix4x4 worldMatrix;
+    bool isParentRotate = true;
 
 private:
     const Transform* parent_ = nullptr;

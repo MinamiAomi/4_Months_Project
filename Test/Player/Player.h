@@ -17,6 +17,7 @@
 #include "PlayerHanmmer/PlayerHammer.h"
 #include "Audio/AudioSource.h"
 #include "Math/Random.h"
+#include "UFO/UFO.h"
 
 class TrapManager;
 class Player :
@@ -53,10 +54,14 @@ public:
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
 	const float GetRunAwayLimitLine() const {	return runAwayLimitLine_;}
+	bool GetCanFirstJump() { return canFirstJump_; }
 
 	const Vector3& GetPrePos() const { return prePos_; }
 	const Vector3& GetAcceleration() const { return acceleration_; }
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
+	void Jump();
+
+	bool GetIsFree() const { return ufo_->GetIsFree(); }
 private:
 	enum AnimationType {
 		IdleAnimation,
@@ -64,7 +69,6 @@ private:
 	};
 
 	void Move();
-	void Jump();
 	void Dash();
 	void Invincible();
 	void SetTrap();
@@ -86,6 +90,7 @@ private:
 	std::unique_ptr<PlayerHammer> hammer_;
 	std::shared_ptr<Animation> animation_;
 	std::shared_ptr<Skeleton> skeleton_;
+	std::unique_ptr<UFO> ufo_;
 	//PlayerModel playerModel_;
 	std::unique_ptr<BoxCollider> collider_;
 	Vector3 acceleration_;
