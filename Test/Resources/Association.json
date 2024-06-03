@@ -42,7 +42,8 @@
         "retry": "PauseUI/retry.png",
         "bossHPBase": "Boss/BossUI/BossHPBase.png",
         "bossHPBar": "Boss/BossUI/BossHPBar.png",
-        "titleLogo": "TitleLogo.png"
+        "titleLogo": "TitleLogo.png",
+        "gameOver": "ResultUI/gameOver.png"
     },
   "Model": {
     "bossBody": "Boss/Body/boss.gltf",
