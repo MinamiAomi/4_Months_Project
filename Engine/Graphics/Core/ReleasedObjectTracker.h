@@ -6,6 +6,7 @@
 #include <array>
 #include <vector>
 #include <string>
+#include <mutex>
 
 class ReleasedObjectTracker {
 public:
@@ -26,4 +27,5 @@ private:
     using TrackingObjectList = std::vector<ReleasedObject>;
     
     std::array<TrackingObjectList, kAliveFrameCount> trackingObjectLists_;
+    std::mutex mutex_;
 };

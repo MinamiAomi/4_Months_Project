@@ -53,7 +53,7 @@ void BLAS::Create(const std::wstring& name, CommandContext& commandContext, cons
     // スクラッチリソース一時的なリソース
     GPUResource scratchResource;
     CD3DX12_RESOURCE_DESC scratchDesc = CD3DX12_RESOURCE_DESC::Buffer(asInfo.ScratchDataSizeInBytes, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
-    scratchResource.CreateResource(L"BLAS ScratchDataBuffer", defaultHeapProps, scratchDesc, D3D12_RESOURCE_STATE_COMMON);
+    scratchResource.CreateResource(name + L"BLAS ScratchDataBuffer", defaultHeapProps, scratchDesc, D3D12_RESOURCE_STATE_COMMON);
 
     D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC asDesc{};
     asDesc.Inputs = asInputs;
