@@ -29,7 +29,7 @@ void PlayerUI::Initialize() {
 
 	userFrameSprite_ = CreateSprite(userFrameSpriteData_, "FrameUI");
 	userFrameSprite2_ = CreateSprite(userFrameSpriteData2_, "FrameUI_2");
-	userFrameSprite2_->SetIsActive(false);
+	userFrameSprite_->SetIsActive(false);
 
 #pragma endregion
 
@@ -227,6 +227,10 @@ void PlayerUI::LoadJson() {
 
 	JSON_OBJECT("userFrameSpriteData_");
 	userFrameSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("userFrameSpriteData2_");
+	userFrameSpriteData2_.Load();
 	JSON_ROOT();
 
 	JSON_OBJECT("playerFrameSpriteData_");
