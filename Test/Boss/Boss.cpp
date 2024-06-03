@@ -155,7 +155,7 @@ void Boss::Update() {
 					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 					auto& skeleton = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
 					auto& parts = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoar);
-					skeleton->ApplyAnimation(parts.animation->GetAnimation("roar"), Character::GetSceneChangeTime());
+					skeleton->ApplyAnimation(parts.animation->GetAnimation("houkou"), Character::GetSceneChangeTime());
 					skeleton->Update();
 				}
 			}

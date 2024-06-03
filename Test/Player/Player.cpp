@@ -416,31 +416,32 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 				collisionInfo.collider->GetName() == "BeltConveyor" ||
 				collisionInfo.collider->GetName() == "DropGimmickDropper" ||
 				collisionInfo.collider->GetName() == "DropGimmickSwitch") {
-					if (ufo_->GetIsFree()) {
-						// ワールド空間の押し出しベクトル
-						Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
-						auto parent = transform.GetParent();
-						if (parent) {
-							pushVector = parent->rotate.Inverse() * pushVector;
+				if (ufo_->GetIsFree()) {
+					// ワールド空間の押し出しベクトル
+					Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
+					auto parent = transform.GetParent();
+					if (parent) {
+						pushVector = parent->rotate.Inverse() * pushVector;
+					}
+					transform.translate += pushVector;
+					// 上から乗ったら
+					if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
+						//transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y + collisionInfo.collider->GetGameObject()->transform.scale.y * 0.5f;
+						if (acceleration_.y < 0.0f) {
+							acceleration_.y = 0.0f;
 						}
-						transform.translate += pushVector;
-						// 上から乗ったら
-						if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
-							//transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y + collisionInfo.collider->GetGameObject()->transform.scale.y * 0.5f;
-							if (acceleration_.y < 0.0f) {
-								acceleration_.y = 0.0f;
-							}
-							//velocity_.y = 0.0f;
-							canFirstJump_ = true;
-							canSecondJump_ = true;
-							isGround_ = true;
-							if (preIsHit_ && isHit_) {
-								isHit_ = false;
-							}
-							//onGroundSE_->Play();
+						//velocity_.y = 0.0f;
+						canFirstJump_ = true;
+						canSecondJump_ = true;
+						isGround_ = true;
+						if (preIsHit_ && isHit_) {
+							isHit_ = false;
 						}
+						//onGroundSE_->Play();
+					}
 
-			UpdateTransform();
+					UpdateTransform();
+				}
 			//const GameObject* nextParent = collisionInfo.collider->GetGameObject();
 			//if (nextParent) {
 			//	transform.SetParent(&nextParent->transform);

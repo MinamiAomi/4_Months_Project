@@ -38,7 +38,7 @@ void GameStartMovie::Update() {
 
 			auto& skeleton = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
 			auto& parts = boss_->GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoar);
-			skeleton->ApplyAnimation(parts.animation->GetAnimation("roar"), t);
+			skeleton->ApplyAnimation(parts.animation->GetAnimation("houkou"), t);
 			skeleton->Update();
 		}
 		else {
