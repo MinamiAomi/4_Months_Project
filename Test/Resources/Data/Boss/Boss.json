@@ -13,7 +13,7 @@
     },
     "StateBeamAttack": {
         "jsonData_.beamAttackData.attackEasingTime": 60.0,
-        "jsonData_.beamAttackData.chargeEasingTime": 30.0,
+        "jsonData_.beamAttackData.chargeEasingTime": 60.0,
         "jsonData_.beamAttackData.endPosition": [
             0.0,
             0.0,
@@ -36,20 +36,22 @@
             -50.0
         ],
         "jsonData_.beamAttackData.transitionFrame": 30.0,
-        "jsonData_.beamAttackData.wind.endScale.max": 25.0,
-        "jsonData_.beamAttackData.wind.endScale.min": 15.0,
+        "jsonData_.beamAttackData.wind.endScale.max": 1.0,
+        "jsonData_.beamAttackData.wind.endScale.min": 0.0,
+        "jsonData_.beamAttackData.wind.interval": 10,
+        "jsonData_.beamAttackData.wind.lifeTime": 120,
         "jsonData_.beamAttackData.wind.offset": [
             0.0,
-            7.0,
+            10.0,
             0.0
         ],
-        "jsonData_.beamAttackData.wind.rotate": 90.0,
+        "jsonData_.beamAttackData.wind.rotate": 20.0,
         "jsonData_.beamAttackData.wind.rotate.max": 20.0,
         "jsonData_.beamAttackData.wind.rotate.min": -20.0,
-        "jsonData_.beamAttackData.wind.startScale.max": 5.0,
-        "jsonData_.beamAttackData.wind.startScale.min": 3.0,
-        "jsonData_.beamAttackData.wind.velocity.max": 2.0,
-        "jsonData_.beamAttackData.wind.velocity.min": 1.0
+        "jsonData_.beamAttackData.wind.startScale.max": 1.0,
+        "jsonData_.beamAttackData.wind.startScale.min": 0.0,
+        "jsonData_.beamAttackData.wind.velocity.max": 3.0,
+        "jsonData_.beamAttackData.wind.velocity.min": 2.0
     },
     "StateFloorAll": {
         "jsonData_.floorAllData.attackEasingTime": 30.0,

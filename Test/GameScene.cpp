@@ -56,6 +56,7 @@ void GameScene::OnInitialize() {
 	stageLoop_->SetPlayer(player_.get());
 	stageLoop_->SetBoss(boss_.get());
 	stageLoop_->SetCamera(cameraManager_->GetCamera().get());
+	stageLoop_->SetHammerMovie(hammerMovie_.get());
 	stageLoop_->Initialize();
 
 	stageBlockManager_ = std::make_unique<StageBlockManager>();

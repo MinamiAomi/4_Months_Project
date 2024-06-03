@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v4.0.44",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,13 +15,13 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u58ca\u308c\u305f\u6a4b"
+			"name":"\u58ca\u308c\u305f\u6a4b.040"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"breakbrige",
+			"name":"breakbrige.001",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -33,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.019",
+			"name":"\u7acb\u65b9\u4f53.336",
 			"primitives":[
 				{
 					"attributes":{

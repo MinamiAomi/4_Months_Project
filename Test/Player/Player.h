@@ -45,6 +45,8 @@ public:
 	const bool GetIsMove() const { return isMove_; }
 	const bool GetIsGround() const { return isGround_; }
 	const bool GetIsAlive() const { return isAlive_; }
+	const bool GetCanFirstJump() const { return canFirstJump_; }
+	const bool GetCanSecondJump() const { return canSecondJump_; }
 	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
 	void SetWindVelocity(const Vector3& velocity) { windVelocity_ = velocity; }
@@ -117,9 +119,16 @@ private:
 	Vector3 windVelocity_;
 
 	bool isSceneChangeInvincible_;
+	// にダンジョンプ
+	float rotateAnimationFrame_;
+	Transform rotateAnimation_;
+	bool isSecondJumpAnimation_;
 	// JumpSE
-	std::unique_ptr<AudioSource> jumpSE_;
+	std::unique_ptr<AudioSource> firstJumpSE_;
+	std::unique_ptr<AudioSource> secondJumpSE_;
 	std::unique_ptr<AudioSource> revengeSE_;
+	std::unique_ptr<AudioSource> damageSE_;
+	std::unique_ptr<AudioSource> onGroundSE_;
 #pragma region パラメーター
 	float verticalSpeed_;
 	float horizontalSpeed_;
@@ -134,6 +143,7 @@ private:
 	float dashPower_;
 	uint32_t dashMaxCount_;
 	uint32_t dashIntervalCount_;
+	float rotateAnimationAllFrame_;
 #pragma endregion
 
 #pragma region Json

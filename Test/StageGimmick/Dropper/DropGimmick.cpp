@@ -17,6 +17,11 @@ void DropperBall::Initialize(const Desc& desc) {
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("dropBall"));
 	model_->SetIsActive(true);
 
+	kickSE_ = std::make_unique<AudioSource>();
+	hitSE_ = std::make_unique<AudioSource>();
+	(*kickSE_) = ResourceManager::GetInstance()->FindSound("kickDropBall");
+	(*hitSE_) = ResourceManager::GetInstance()->FindSound("hitDropBall");
+
 	state_ = kDrop;
 
 	random_.x = rnd_.NextFloatRange(-30.0f, 30.0f);
@@ -89,6 +94,8 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 	if (collisionInfo.collider->GetName() == "Player") {
 		if (Character::currentCharacterState_ == Character::State::kChase &&
 			state_ == State::kStay) {
+			kickSE_->SetVolume(0.5f);
+			kickSE_->Play();
 			state_ = State::kShot;
 		}
 	}
@@ -97,6 +104,8 @@ void DropperBall::OnCollision(const CollisionInfo& collisionInfo) {
 			state_ == State::kShot) {
 			boss_->GetBossHP()->AddBallHitHP();
 			isAlive_ = false;
+			hitSE_->SetVolume(1.0f);
+			hitSE_->Play();
 			boss_->SetChangeColorFrame(5);
 		}
 	}
@@ -130,6 +139,9 @@ void Switch::Initialize(const Desc& desc) {
 
 	time_ = 0.0f;
 	isPushed_ = false;
+	switchSE_ = std::make_unique<AudioSource>();
+	(*switchSE_) = ResourceManager::GetInstance()->FindSound("switchSE");
+
 #pragma region コライダー
 	collider_ = std::make_unique<BoxCollider>();
 	collider_->SetGameObject(this);
@@ -155,7 +167,7 @@ void Switch::Update() {
 	camera.radius = (camera_->GetFarClip());
 	if (Math::IsCollision(model, camera)) {
 		if (isPushed_) {
-			time_ += 1.0f / 30.0f;
+			time_ += 1.0f / 15.0f;
 			switchTransform_.translate.y = std::lerp(0.0f,-1.0f, time_);
 			time_ = std::clamp(time_,0.0f,1.0f);
 		}
@@ -185,8 +197,11 @@ void Switch::OnCollision(const CollisionInfo& collisionInfo) {
 		if (Character::currentCharacterState_ == Character::State::kRunAway) {
 			// 落下しているとき
 			if (Dot(collisionInfo.normal, Vector3::down) >= 0.8f &&
-				player_->GetVelocity().y <= 0.0f) {
+				player_->GetVelocity().y <= 0.0f&&
+				!isPushed_) {
 				isPushed_ = true;
+				switchSE_->Play();
+				switchSE_->SetVolume(0.5f);
 			}
 		}
 	}

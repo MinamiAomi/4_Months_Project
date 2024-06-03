@@ -145,6 +145,12 @@
     <Filter Include="Game\Object\Wind">
       <UniqueIdentifier>{8e2b312e-378c-41bc-98da-6f4a5ddbd33d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\TitlePlayer">
+      <UniqueIdentifier>{56214266-b8ce-4a07-8b2d-d07fd45a57df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\TitleBoss">
+      <UniqueIdentifier>{137dec8c-9e54-476a-984c-7ac1dc7a44e3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Object\Player\UFO">
       <UniqueIdentifier>{3f44be74-c381-4ee8-b788-e557d1db6836}</UniqueIdentifier>
     </Filter>
@@ -385,6 +391,12 @@
     </ClCompile>
     <ClCompile Include="Wind.cpp" />
     <ClCompile Include="WindManager.cpp" />
+    <ClCompile Include="Player\TitlePlayer\TitlePlayer.cpp" />
+    <ClCompile Include="TitleFloor.cpp" />
+    <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
+    <ClCompile Include="LoadScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="Player\UFO\UFO.cpp">
       <Filter>Game\Object\Player\UFO</Filter>
@@ -634,6 +646,15 @@
     </ClInclude>
     <ClInclude Include="LoadScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\TitlePlayer\TitlePlayer.h">
+      <Filter>Game\Object\Player\TitlePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleFloor.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\TitleBoss\TitleBoss.h">
+      <Filter>Game\Object\Boss\TitleBoss</Filter>
     </ClInclude>
     <ClInclude Include="Player\UFO\UFO.h">
       <Filter>Game\Object\Player\UFO</Filter>

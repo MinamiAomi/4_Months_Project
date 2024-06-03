@@ -9,11 +9,19 @@
 #include "GameScene.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/GameWindow.h"
+#include "Graphics/ImGuiManager.h"
 
 void TitleScene::OnInitialize() {
-	camera_ = std::make_unique<Camera>();
+	camera_ = std::make_shared<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
+	debugCamera_ = std::make_unique<DebugCamera>();
+	debugCamera_->Initialize();
+
+	// ここ手打ちで
+	camera_->SetRotate(Quaternion::MakeFromEulerAngle({ -0.08f,-0.3f,0.0f }));
+	camera_->SetPosition({ 14.8f,3.02f,-18.7f });
+	camera_->UpdateMatrices();
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 	title_ = std::make_unique<Sprite>();
@@ -29,14 +37,38 @@ void TitleScene::OnInitialize() {
 
 	UI_ = std::make_unique<TitleUI>();
 	UI_->Initialize();
+
+	titlePlayer_ = std::make_unique<TitlePlayer>();
+	titlePlayer_->Initialize();
+
+	for (int i = 0; i < 3; ++i) {
+		titleFloor_.at(i) = std::make_unique<TitleFloor>();
+		titleFloor_.at(i)->Initialize();
+		float modelSize = titleFloor_.at(i)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex.x - titleFloor_.at(i)->GetModel()->GetModel()->GetMeshes().at(0).minVertex.x;
+		titleFloor_.at(i)->transform.translate.z = modelSize * (i - 1);
+	}
+
+	titleBoss_ = std::make_unique<TitleBoss>();
+	titleBoss_->Initialize();
 }
 
 void TitleScene::OnUpdate() {
+
+	titlePlayer_->Update();
+	for (uint32_t i = 0; i < 3; ++i) {
+		titleFloor_.at(i)->transform.translate.z += 0.5f;
+		titleFloor_.at(i)->Update();
+		float modelSize = titleFloor_.at(i)->GetModel()->GetModel()->GetMeshes().at(0).maxVertex.x - titleFloor_.at(i)->GetModel()->GetModel()->GetMeshes().at(0).minVertex.x;
+		if (titleFloor_.at(i)->transform.translate.z > modelSize * 2.0f) {
+			titleFloor_.at(i)->transform.translate.z = -modelSize;
+		}
+	}
+	titleBoss_->Update();
 	UI_->Update();
 	if (((Input::GetInstance()->IsKeyTrigger(DIK_A)) ||
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
-		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
-			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))&&
+			((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
+				!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A))) &&
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameScene>(true);
@@ -62,6 +94,18 @@ void TitleScene::OnUpdate() {
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+	}
+	if (ImGui::Checkbox("DebugCamera", &isDebugCamera_)) {
+
+		if (isDebugCamera_) {
+			RenderManager::GetInstance()->SetCamera(debugCamera_->GetCamera());
+		}
+		else {
+			RenderManager::GetInstance()->SetCamera(camera_);
+		}
+	}
+	if (isDebugCamera_) {
+		debugCamera_->Update();
 	}
 #endif // _DEBUG
 }

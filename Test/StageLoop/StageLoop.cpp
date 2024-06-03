@@ -10,6 +10,10 @@
 #include "CharacterState.h"
 #include "File/JsonConverter.h"
 
+#include "HammerMovie.h"
+#include "Engine/Graphics/ImGuiManager.h"
+#include "File/JsonHelper.h"
+#include "Externals/nlohmann/json.hpp"
 
 void StageLoop::Initialize() {
 
@@ -51,20 +55,28 @@ void StageLoop::Initialize() {
 	LoadJson();
 
 	stageNum_ = 0;
-
 	InitializeCreateStage(0);
 
 	isCreateStage_ = false;
 }
 
 void StageLoop::Update() {
-	if (Character::currentCharacterState_ == Character::State::kScneChange && Character::nextCharacterState_ == Character::State::kRunAway && !isCreateStage_) {
+
+#ifdef _DEBUG
+	Debug();
+#endif // _DEBUG
+	if (hammerMovie_->IsHitFrame() && !isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
+	}
+	else if (!boss_->GetIsFirstHit()) {
+		TutorialCreateStage();
+
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
 	}
+
 	blockManager_->Update();
 	fireBarManager_->Update();
 	floorManager_->Update();
@@ -80,7 +92,6 @@ void StageLoop::Update() {
 
 void StageLoop::Reset() {
 	stageNum_ = 0;
-
 	InitializeCreateStage();
 }
 
@@ -390,7 +401,42 @@ void StageLoop::LoadJson() {
 	for (const auto& key : sortedKeys) {
 		stageData_.emplace_back(stageData[key]);
 	}
+	// ステージ確率のやつ
+	{
+		// ファイルを開く
+		std::ifstream inputFile("Resources/Data/StageLoop/StageLoop.json");
 
+		// ファイル内容を文字列として読み込む
+		std::string fileContent((std::istreambuf_iterator<char>(inputFile)),
+			std::istreambuf_iterator<char>());
+
+		// JSON文字列を解析
+		auto jsonParsed = nlohmann::json::parse(fileContent);
+
+		// levelDesc_配列をクリア
+		levelDesc_.clear();
+
+		// JSONオブジェクトをループ
+		for (auto& [key, value] : jsonParsed.items()) {
+			LevelDesc levelDesc;
+
+			// 各StageLoopのデータを解析
+			levelDesc.stage.min = value["levelDesc.stage.min"];
+			levelDesc.stage.max = value["levelDesc.stage.max"];
+
+			// Probabilityのデータを解析
+			int index = 0;
+			while (value.contains("Probability" + std::to_string(index))) {
+				levelDesc.probability.push_back(value["Probability" + std::to_string(index)]["probability"]);
+				index++;
+			}
+
+			// 配列に追加
+			levelDesc_.push_back(levelDesc);
+		}
+		levelDivision_ = int(levelDesc_.size());
+		bossHPDivision_ = int(levelDesc_.at(0).probability.size());
+	}
 }
 
 void StageLoop::InitializeCreateStage(uint32_t stageInputIndex) {
@@ -437,32 +483,13 @@ void StageLoop::Clear() {
 	stageObjectManager_->Clear();
 }
 
-void StageLoop::DeleteObject() {
-	uint32_t leaveIndex = 0;
-	bool found = false;
-	// プレイヤーの位置に基づいて leaveIndex を決定
-	for (const auto& stageDistance : stageDistance_) {
-		if (player_->transform.worldMatrix.GetTranslate().z <= stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f &&
-			player_->transform.worldMatrix.GetTranslate().z >= stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f) {
-			leaveIndex = stageDistance.stageNum;
-			found = true;
-			break;
-		}
-	}
+void StageLoop::DeleteObject(uint32_t index) {
 
-	if (found) {
-		// leaveIndex に一致しない要素を削除
-		stageDistance_.erase(
-			std::remove_if(stageDistance_.begin(), stageDistance_.end(),
-				[leaveIndex](const StageDistance& stageDistance) {
-					return stageDistance.stageNum != leaveIndex;
-				}),
-			stageDistance_.end());
-	}
+	uint32_t leaveIndex = index;
 
 	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
 	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = bossTriggers.erase(it);
 		}
 		else {
@@ -472,7 +499,7 @@ void StageLoop::DeleteObject() {
 
 	auto& beltConveyorManager = beltConveyorManager_->GetBlocks();
 	for (auto it = beltConveyorManager.begin(); it != beltConveyorManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = beltConveyorManager.erase(it);
 		}
 		else {
@@ -483,7 +510,7 @@ void StageLoop::DeleteObject() {
 
 	auto& blockManager = blockManager_->GetBlocks();
 	for (auto it = blockManager.begin(); it != blockManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = blockManager.erase(it);
 		}
 		else {
@@ -494,7 +521,7 @@ void StageLoop::DeleteObject() {
 
 	auto& fireBarManager = fireBarManager_->GetFireBars();
 	for (auto it = fireBarManager.begin(); it != fireBarManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = fireBarManager.erase(it);
 		}
 		else {
@@ -506,7 +533,7 @@ void StageLoop::DeleteObject() {
 
 	auto& revengeCoinManager = revengeCoinManager_->GetBlocks();
 	for (auto it = revengeCoinManager.begin(); it != revengeCoinManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = revengeCoinManager.erase(it);
 		}
 		else {
@@ -518,7 +545,7 @@ void StageLoop::DeleteObject() {
 
 	auto& floorManager = floorManager_->GetFloors();
 	for (auto it = floorManager_->GetFloors().begin(); it != floorManager_->GetFloors().end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = floorManager.erase(it);
 		}
 		else {
@@ -530,7 +557,7 @@ void StageLoop::DeleteObject() {
 
 	auto& dropGimmickManager = dropGimmickManager_->GetDropGimmicks();
 	for (auto it = dropGimmickManager.begin(); it != dropGimmickManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = dropGimmickManager.erase(it);
 		}
 		else {
@@ -541,7 +568,7 @@ void StageLoop::DeleteObject() {
 
 	auto& dropperBallManager = dropGimmickManager_->GetDropperBallManager()->GetDropGimmicks();
 	for (auto it = dropperBallManager.begin(); it != dropperBallManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = dropperBallManager.erase(it);;
 		}
 		else {
@@ -553,7 +580,7 @@ void StageLoop::DeleteObject() {
 
 	auto& pendulumManager = pendulumManager_->GetPendulums();
 	for (auto it = pendulumManager.begin(); it != pendulumManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = pendulumManager.erase(it);
 		}
 		else {
@@ -565,7 +592,7 @@ void StageLoop::DeleteObject() {
 
 	auto& stageObjectManager = stageObjectManager_->GetStageObjects();
 	for (auto it = stageObjectManager.begin(); it != stageObjectManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			// イテレータを削除後にインクリメントする
 			it = stageObjectManager.erase(it);
 		}
@@ -576,15 +603,146 @@ void StageLoop::DeleteObject() {
 	}
 }
 
-void StageLoop::CreateStage(uint32_t stageInputIndex) {
-	DeleteObject();
+void StageLoop::CheckOnPlayerStageParts() {
+	bool found = false;
+	uint32_t index = 0;
+	uint32_t leaveStageNum = 0;
+	uint32_t leaveNextStageNum = 0;
 
-	uint32_t stageIndex;
+	// プレイヤーの位置に基づいて leaveIndex と leaveNextIndex を決定
+	for (uint32_t i = 0; i < stageDistance_.size(); ++i) {
+		const auto& stageDistance = stageDistance_[i];
+		float playerZ = player_->transform.worldMatrix.GetTranslate().z;
+		float stageMinZ = stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+		float stageMaxZ = stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+
+		if (playerZ >= stageMinZ && playerZ <= stageMaxZ) {
+			index = i;
+			leaveStageNum = stageDistance.stageNum;
+			found = true;
+		}
+	}
+
+	if (stageDistance_.at(index).distance > 0) {
+		leaveNextStageNum = stageDistance_.at(index + 1).stageNum;
+	}
+	else {
+		leaveNextStageNum = stageDistance_.at(index - 1).stageNum;
+	}
+	// leaveIndex と leaveNextIndex を残す
+	stageDistance_.erase(
+		std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+			[leaveStageNum, leaveNextStageNum](const StageDistance& stageDistance) {
+				return stageDistance.stageNum != leaveStageNum && stageDistance.stageNum != leaveNextStageNum;
+			}),
+		stageDistance_.end());
+
+	// distance を大きい順にソート
+	std::sort(stageDistance_.begin(), stageDistance_.end(),
+		[](const StageDistance& a, const StageDistance& b) {
+			return a.distance > b.distance;
+		});
+}
+
+void StageLoop::Debug() {
+#ifdef _DEBUG
+	ImGui::Begin("Editor");
+	if (ImGui::BeginMenu("StageLoop")) {
+		ImGui::DragInt("ボスのHPを何分割するか", &bossHPDivision_, 1, 0);
+		for (auto& levelDesc : levelDesc_) {
+			if (levelDesc.probability.size() != bossHPDivision_) {
+				levelDesc.probability.resize(bossHPDivision_);
+			}
+		}
+
+		ImGui::DragInt("レベルを何分割するか", &levelDivision_, 1, 0);
+		if (levelDesc_.size() != levelDivision_) {
+			// 同じサイズに調整する
+			levelDesc_.resize(levelDivision_);
+		}
+		if (ImGui::TreeNode("ステージの幅")) {
+			for (int level = 0; level < levelDivision_; ++level) {
+				if (ImGui::TreeNode((std::to_string(level) + "レベル").c_str())) {
+					ImGui::DragInt((std::to_string(level) + "最小").c_str(), &levelDesc_.at(level).stage.min, 1, 0);
+					ImGui::DragInt((std::to_string(level) + "最大").c_str(), &levelDesc_.at(level).stage.max, 1, levelDesc_.at(level).stage.min);
+					ImGui::TreePop();
+				}
+			}
+			ImGui::TreePop();
+		}
+		for (int gauge = 0; gauge < bossHPDivision_; ++gauge) {
+			if (ImGui::TreeNode((std::to_string(gauge) + "ゲージ目").c_str())) {
+				for (int level = 0; level < levelDivision_; ++level) {
+					ImGui::DragFloat((std::to_string(level) + "レベルの確率").c_str(), &levelDesc_.at(level).probability.at(gauge), 1.0f, 0.0f);
+				}
+				ImGui::TreePop();
+			}
+		}
+		if (ImGui::Button("Save")) {
+			JSON_OPEN("Resources/Data/StageLoop/StageLoop.json");
+			for (uint32_t i = 0; auto & levelDesc : levelDesc_) {
+				JSON_OBJECT("StageLoop" + std::to_string(i));
+				JSON_SAVE(levelDesc.stage.min);
+				JSON_SAVE(levelDesc.stage.max);
+				JSON_ROOT();
+				for (uint32_t j = 0; auto & probability : levelDesc.probability) {
+					JSON_OBJECT("StageLoop" + std::to_string(i));
+					JSON_OBJECT("Probability" + std::to_string(j));
+					JSON_SAVE(probability);
+					JSON_ROOT();
+					j++;
+				}
+				JSON_ROOT();
+				++i;
+			}
+			JSON_CLOSE();
+		}
+		ImGui::EndMenu();
+	}
+	ImGui::End();
+#endif // _DEBUG
+}
+
+void StageLoop::CreateStage(uint32_t stageInputIndex) {
+	CheckOnPlayerStageParts();
+
+	Clear();
+
+	// 中身確認
+	//DeleteObject();
+
+	// プレイヤーが現在いるパーツとその前のパーツの処理
 	float distance = stageDistance_.at(0).distance;
-	for (uint32_t i = 1; i < kCreateStageNum; i++) {
+	CreateStageObject(stageData_.at(stageDistance_.at(0).stageIndex), distance, stageNum_);
+	stageNum_++;
+	distance -= stageData_.at(stageDistance_.at(0).stageIndex).stageSize * 0.5f + stageData_.at(stageDistance_.at(1).stageIndex).stageSize * 0.5f;
+	CreateStageObject(stageData_.at(stageDistance_.at(1).stageIndex), distance, stageNum_);
+	stageNum_++;
+
+	uint32_t stageIndex = 0;
+	// BossHPが今何割か
+	auto hp = boss_->GetBossHP()->GetCurrentHP();
+	int32_t maxHP = boss_->GetBossHP()->kMaxHP;
+	float hpRatio = 1.0f - (static_cast<float>(hp) / static_cast<float>(maxHP));
+	uint32_t levelCount = static_cast<uint32_t>(levelDesc_.size()) - 1;
+
+	// ここの部分でどのlevelDescを使うか
+	uint32_t currentLevel = std::clamp(static_cast<uint32_t>(std::lerp(0.0f, static_cast<float>(levelCount), hpRatio)), 0u, levelCount);
+	for (uint32_t i = 2; i < kCreateStageNum + 2; i++) {
 		StageDistance stageDistance{};
 		if (stageInputIndex == (uint32_t)-1) {
-			stageIndex = rnd_.NextUIntRange(1, uint32_t(stageData_.size()) - 1);
+
+			// 確率をとりどこのレベルを使用するか
+			float probability = std::lerp(0.0f, 100.0f, rnd_.NextFloatUnit());
+			float sum = 0.0f;
+
+			for (size_t j = 0; j < levelDesc_.at(currentLevel).probability.size(); ++j) {
+				sum += levelDesc_.at(currentLevel).probability.at(j);
+				if (sum >= probability) {
+					stageIndex = rnd_.NextUIntRange(levelDesc_.at(currentLevel).stage.min, levelDesc_.at(currentLevel).stage.max);
+					break;
+				}
+			}
 		}
 		else {
 			stageIndex = stageInputIndex;
@@ -657,5 +815,50 @@ void StageLoop::CreateStageObject(const Desc& stageData, float distance, uint32_
 		StageObject::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
 		stageObjectManager_->Create(mutableDesc, index);
+	}
+}
+
+void StageLoop::TutorialCreateStage() {
+	bool found = false;
+	uint32_t index = 0;
+	uint32_t leaveStageNum = 0;
+
+	// プレイヤーの位置に基づいて leaveIndex と leaveNextIndex を決定
+	for (uint32_t i = 0; i < stageDistance_.size(); ++i) {
+		const auto& stageDistance = stageDistance_[i];
+		float playerZ = player_->transform.worldMatrix.GetTranslate().z;
+		float stageMinZ = stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+		float stageMaxZ = stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+
+		if (playerZ >= stageMinZ && playerZ <= stageMaxZ) {
+			index = i;
+			leaveStageNum = stageDistance.stageNum;
+			found = true;
+			break;
+		}
+	}
+	// leaveIndex と leaveNextIndex を残す
+	stageDistance_.erase(
+		std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+			[leaveStageNum](const StageDistance& stageDistance) {
+				return stageDistance.stageNum < leaveStageNum;
+			}),
+		stageDistance_.end());
+
+	if (stageDistance_.size() < kCreateStageNum) {
+		if (leaveStageNum > 2) {
+		DeleteObject(leaveStageNum - 2);
+		}
+		float distance = 0.0f;
+		uint32_t stageIndex = 0;
+		StageDistance stageDistance{};
+		distance += stageDistance_.back().distance + stageData_.at(stageIndex).stageSize * 0.5f;
+
+		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
+		stageDistance.distance = distance;
+		stageDistance.stageIndex = stageIndex;
+		stageDistance.stageNum = stageNum_;
+		stageDistance_.emplace_back(stageDistance);
+		stageNum_++;
 	}
 }

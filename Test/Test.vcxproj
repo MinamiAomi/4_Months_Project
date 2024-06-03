@@ -31,6 +31,7 @@
     <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
     <ClCompile Include="Boss\BossUI\BossUI.cpp" />
+    <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
     <ClCompile Include="CameraManager\StageCamera\StageCamera.cpp" />
     <ClCompile Include="CharacterState.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
+    <ClCompile Include="Player\TitlePlayer\TitlePlayer.cpp" />
     <ClCompile Include="Player\UFO\UFO.cpp" />
     <ClCompile Include="SkyBlock.cpp" />
     <ClCompile Include="SkyBlockManager.cpp" />
@@ -95,6 +97,7 @@
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TitleFloor.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleUI.cpp" />
     <ClCompile Include="Trap\Trap.cpp" />
@@ -115,6 +118,7 @@
     <ClInclude Include="Boss\BossParticle\BossLineParticle.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
     <ClInclude Include="Boss\BossUI\BossUI.h" />
+    <ClInclude Include="Boss\TitleBoss\TitleBoss.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
     <ClInclude Include="CameraManager\StageCamera\StageCamera.h" />
     <ClInclude Include="CharacterState.h" />
@@ -152,6 +156,7 @@
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
     <ClInclude Include="Player\UFO\UFO.h" />
+    <ClInclude Include="Player\TitlePlayer\TitlePlayer.h" />
     <ClInclude Include="SkyBlock.h" />
     <ClInclude Include="SkyBlockManager.h" />
     <ClInclude Include="StageBlock.h" />
@@ -179,6 +184,7 @@
     <ClInclude Include="StartMovie.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="TitleFloor.h" />
     <ClInclude Include="TitleUI.h" />
     <ClInclude Include="Trap\Trap.h" />
     <ClInclude Include="Trap\TrapManager.h" />

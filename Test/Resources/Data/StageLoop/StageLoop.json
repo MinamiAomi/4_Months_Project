@@ -1,0 +1,16 @@
+{
+    "StageLoop0": {
+        "Probability0": {
+            "probability": 100.0
+        },
+        "Probability1": {
+            "probability": 30.0
+        },
+        "Probability2": {
+            "probability": 20.0
+        },
+        "levelDesc.stage.max": 7,
+        "levelDesc.stage.min": 1
+    }
+  
+}

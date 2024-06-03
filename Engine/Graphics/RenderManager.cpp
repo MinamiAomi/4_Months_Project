@@ -14,6 +14,7 @@ static bool enableDebugDraw = false;
 static bool useBloom = true;
 static bool useEdge = true;
 static bool useFog = true;
+static bool enableWireFrameModel = false;
 #endif // ENABLE_IMGUI
 
 
@@ -65,7 +66,7 @@ void RenderManager::Initialize() {
     //commandContext_.Finish(true);
 
     timer_.Initialize();
-
+    wireTranslucentRenderer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat());
     skyTexture_.Create(L"SkyTexture", lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM, false);
     skyRenderer_.Initialize(skyTexture_.GetRTVFormat());
     fog_.Initialize();
@@ -105,7 +106,7 @@ void RenderManager::Render() {
         // 影、スペキュラ
         assert(!lightManager_.GetDirectionalLight().empty());
         raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
-        
+
 
 #ifdef ENABLE_IMGUI
         if (!enableDebugDraw) {
@@ -134,6 +135,17 @@ void RenderManager::Render() {
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
         lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+
+
+#ifdef ENABLE_IMGUI
+        if (enableWireFrameModel) {
+#endif // ENABLE_IMGUI
+#ifdef _DEBUG
+        wireTranslucentRenderer_.Render(commandContext_, *camera, lightingRenderingPass_.GetResult());
+#endif // _DEBUG
+#ifdef ENABLE_IMGUI
+        }
+#endif // ENABLE_IMGUI
 
 #ifdef _DEBUG
         if (enableDebugDraw) {
@@ -173,7 +185,7 @@ void RenderManager::Render() {
 #endif // ENABLE_IMGUI
 
         }
-    }
+        }
 
 
 
@@ -194,9 +206,9 @@ void RenderManager::Render() {
     commandContext_.SetViewportAndScissorRect(0, 0, temporaryScreenBuffer_.GetWidth(), temporaryScreenBuffer_.GetHeight());
     postEffect_.Render(commandContext_, fxaa_.GetResult());
     whiteFilter_.Render(commandContext_);
-    
+
     spriteRenderer_.Render(commandContext_, 0.0f, 0.0f, float(temporaryScreenBuffer_.GetWidth()), float(temporaryScreenBuffer_.GetHeight()));
-    
+
     transition_.Dispatch(commandContext_, temporaryScreenBuffer_);
 
     auto& swapChainBuffer = swapChain_.GetColorBuffer(targetSwapChainBufferIndex);
@@ -247,7 +259,7 @@ void RenderManager::Render() {
         fog_.SetFar(fogFar);
         ImGui::TreePop();
     }
-
+    ImGui::Checkbox("WireFrameModel", &enableWireFrameModel);
     ImGui::End();
 #endif // ENABLE_IMGUI
 
@@ -271,10 +283,8 @@ void RenderManager::Render() {
     commandContext_.Finish(false);
 
     graphics_->GetReleasedObjectTracker().FrameIncrementForRelease();
-    auto time = Debug::ElapsedTime([&]() {
-        timer_.KeepFrameRate(60);
-        });
-    Debug::Log(std::format("eeee {}\n", time));
+    timer_.KeepFrameRate(60);
+
 
     imguiManager->NewFrame();
     // ライトをリセット

@@ -50,6 +50,7 @@ void DebugCamera::Update() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("CameraManager")) {
 		ImGui::Text("Pos:%f,%f,%f", (position.x + diffPosition.x), (position.y + diffPosition.y), (position.z + diffPosition.z));
+		ImGui::Text("Rotate:%f,%f,%f", eulerAngle_.x, eulerAngle_.y, eulerAngle_.z);
 		ImGui::EndMenu();
 	}
 	ImGui::End();

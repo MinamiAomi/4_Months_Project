@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.0.43",
+		"generator":"Khronos glTF Blender I/O v4.0.44",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -15,18 +15,18 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"block",
+			"name":"block.080",
 			"scale":[
-				2.3741064071655273,
-				2.3741064071655273,
-				2.3741064071655273
+				5,
+				5,
+				5
 			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"\u30de\u30c6\u30ea\u30a2\u30eb.002",
+			"name":"\u30de\u30c6\u30ea\u30a2\u30eb.004",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
@@ -38,7 +38,7 @@
 	],
 	"meshes":[
 		{
-			"name":"\u7acb\u65b9\u4f53.005",
+			"name":"\u7acb\u65b9\u4f53.361",
 			"primitives":[
 				{
 					"attributes":{
@@ -69,9 +69,9 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":2230,
+			"count":2124,
 			"max":[
-				0.49002373218536377,
+				0.5053471326828003,
 				0.5141708850860596,
 				0.5126945972442627
 			],
@@ -85,45 +85,45 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":2230,
+			"count":2124,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":2230,
+			"count":2124,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":2952,
+			"count":3384,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":26760,
+			"byteLength":25488,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":26760,
-			"byteOffset":26760,
+			"byteLength":25488,
+			"byteOffset":25488,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":17840,
-			"byteOffset":53520,
+			"byteLength":16992,
+			"byteOffset":50976,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":5904,
-			"byteOffset":71360,
+			"byteLength":6768,
+			"byteOffset":67968,
 			"target":34963
 		}
 	],
@@ -135,7 +135,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":77264,
+			"byteLength":74736,
 			"uri":"block.bin"
 		}
 	]

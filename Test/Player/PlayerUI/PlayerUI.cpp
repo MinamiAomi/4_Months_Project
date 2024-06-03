@@ -28,6 +28,8 @@ void PlayerUI::Initialize() {
 #pragma region 全体フレーム
 
 	userFrameSprite_ = CreateSprite(userFrameSpriteData_, "FrameUI");
+	userFrameSprite2_ = CreateSprite(userFrameSpriteData2_, "FrameUI_2");
+	userFrameSprite_->SetIsActive(false);
 
 #pragma endregion
 
@@ -42,6 +44,9 @@ void PlayerUI::Initialize() {
 	toBossDistanceBarSprite_ = CreateSprite(toBossDistanceBarSpriteData_, "ToBossDistanceBar");
 	toBossDistanceMeterSprite_ = CreateSprite(toBossDistanceMeterSpriteData_, "ToBossDistanceMeter");
 	toBossDistanceNumberSprite_ = CreateSprite(toBossDistanceNumberSpriteData_, "ToBossDistanceNumber");
+	toBossDistanceBarSprite_->SetIsActive(false);
+	toBossDistanceMeterSprite_->SetIsActive(false);
+	toBossDistanceNumberSprite_->SetIsActive(false);
 
 #pragma endregion
 
@@ -63,10 +68,29 @@ void PlayerUI::Initialize() {
 
 #pragma endregion
 
+	tutorial1_->SetIsActive(false);
+	tutorial2_->SetIsActive(false);
+	tutorial3_->SetIsActive(true);
+
 }
 
 void PlayerUI::Update() {
 	UpdatePlayerUI();
+	// ジャンプしてない
+	if (player_->GetCanFirstJump()) {
+		userFrameSprite_->SetIsActive(true);
+		userFrameSprite2_->SetIsActive(false);
+	}
+	// 一回ジャンプ
+	else if(player_->GetCanSecondJump()) {
+		userFrameSprite_->SetIsActive(false);
+		userFrameSprite2_->SetIsActive(true);
+	}
+	// 二回ジャンプ
+	else {
+		userFrameSprite_->SetIsActive(true);
+		userFrameSprite2_->SetIsActive(false);
+	}
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
@@ -112,15 +136,22 @@ void PlayerUI::Update() {
 
 
 #endif // _DEBUG
+
+	RECT rect;
+	GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
+	LONG width = rect.right - rect.left;
+	LONG height = rect.bottom - rect.top;
+
 	Matrix4x4 vpv = camera_->GetViewMatrix() * camera_->GetProjectionMatrix() ;
 	vpv *= Matrix4x4::MakeScaling({ 1.0f, -1.0f, 1.0f }) * Matrix4x4::MakeTranslation({0.0f, 0.0f, 0.0f});
-	vpv *= Matrix4x4::MakeViewport(0, 0, float(GameWindow::GetInstance()->GetClientWidth()), float(GameWindow::GetInstance()->GetClientHeight()), camera_->GetNearClip(), camera_->GetFarClip());
+	vpv *= Matrix4x4::MakeViewport(0, 0, float(width), float(height), camera_->GetNearClip(), camera_->GetFarClip());
 	Vector3 viewportPlayerPosition = vpv.ApplyTransformWDivide(player_->transform.worldMatrix.GetTranslate());
 
-	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x, viewportPlayerPosition.y));
+	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x - 20.0f, viewportPlayerPosition.y - 20.0f));
 
 	//プレイヤーUIフレームを親にする
-	revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
+	UpdateRevengeGage();
+	//revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
 	revengeBarGaugeBaseSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeBaseSpriteData_.position);
 	revengeBarIconSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarIconSpriteData_.position);
 	toBossDistanceBarSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceBarSpriteData_.position);
@@ -135,7 +166,6 @@ void PlayerUI::Update() {
 
 void PlayerUI::UpdatePlayerUI() {
 	UpdateHP();
-	UpdateRevengeGage();
 }
 
 void PlayerUI::UpdateHP() {
@@ -146,14 +176,14 @@ void PlayerUI::UpdateHP() {
 		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 1) {
-		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(0)->SetIsActive(true);
 		hpSprite_.at(1)->SetIsActive(false);
-		hpSprite_.at(2)->SetIsActive(true);
+		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 2) {
-		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(0)->SetIsActive(true);
 		hpSprite_.at(1)->SetIsActive(true);
-		hpSprite_.at(2)->SetIsActive(true);
+		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 3) {
 		hpSprite_.at(0)->SetIsActive(true);
@@ -163,51 +193,43 @@ void PlayerUI::UpdateHP() {
 }
 
 void PlayerUI::UpdateRevengeGage() {
-//	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
-//	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
-//#pragma region Bar
-//	revengeBarGaugeSprite_->SetPosition(
-//		{
-//		revengeBarGaugeSpriteData_.position.x,
-//		std::lerp(revengeBarGaugeSpriteData_.position.y - revengeBarGaugeSpriteData_.scale.y * 0.5f, revengeBarGaugeSpriteData_.position.y,barT)
-//		}
-//	);
-//	revengeBarGaugeSprite_->SetScale(
-//		{
-//		revengeBarGaugeSpriteData_.scale.x,
-//		std::lerp(0.0f, revengeBarGaugeSpriteData_.scale.y,barT)
-//		}
-//	);
-//	revengeBarGaugeSprite_->SetTexcoordSize(
-//		{
-//			revengeBarGaugeSpriteData_.textureSize.x,
-//			std::lerp(0.0f, revengeBarGaugeSpriteData_.textureSize.y,barT)
-//		}
-//	);
-//	revengeBarGaugeSprite_->SetTexcoordBase(
-//		{
-//			revengeBarGaugeSpriteData_.textureSize.x,
-//			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.y,barT)
-//		}
-//	);
-//#pragma endregion
-//
-//	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
-//		//tutorial1_->SetIsActive(false);
-//		//tutorial2_->SetIsActive(true);
-//		//tutorial3_->SetIsActive(false);
-//	}
-//	else
-//	if (Character::currentCharacterState_ == Character::kRunAway) {
-//		//tutorial1_->SetIsActive(true);
-//		//tutorial2_->SetIsActive(false);
-//		//tutorial3_->SetIsActive(false);
-//	}else
-//	if (Character::currentCharacterState_ == Character::kChase) {
-//		//tutorial1_->SetIsActive(false);
-//		//tutorial2_->SetIsActive(false);
-//		//tutorial3_->SetIsActive(true);
-//	}
+	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
+	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
+#pragma region Bar
+	revengeBarGaugeSprite_->SetPosition(
+		{
+		std::lerp((playerFrameSprite_->GetPosition().x + revengeBarGaugeSpriteData_.position.x) - revengeBarGaugeSpriteData_.scale.x * 0.5f,(playerFrameSprite_->GetPosition().x + revengeBarGaugeSpriteData_.position.x) ,barT),
+		playerFrameSprite_->GetPosition().y + revengeBarGaugeSpriteData_.position.y
+		}
+	);
+	revengeBarGaugeSprite_->SetScale(
+		{
+			std::lerp(0.0f, -revengeBarGaugeSpriteData_.scale.x,barT),
+			revengeBarGaugeSpriteData_.scale.y
+		}
+	);
+	revengeBarGaugeSprite_->SetTexcoordSize(
+		{
+			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.x,barT),
+			revengeBarGaugeSpriteData_.textureSize.y
+		}
+	);
+	revengeBarGaugeSprite_->SetTexcoordBase(
+		{
+			std::lerp(0.0f, -revengeBarGaugeSpriteData_.textureSize.x,barT),
+			revengeBarGaugeSpriteData_.textureSize.y
+		}
+	);
+#pragma endregion
+
+	if (Character::currentCharacterState_ == Character::kRunAway) {
+		tutorial1_->SetIsActive(true);
+		tutorial3_->SetIsActive(false);
+	}else
+	if (Character::currentCharacterState_ == Character::kChase) {
+		tutorial1_->SetIsActive(false);
+		tutorial3_->SetIsActive(true);
+	}
 }
 
 void PlayerUI::LoadJson() {
@@ -215,6 +237,10 @@ void PlayerUI::LoadJson() {
 
 	JSON_OBJECT("userFrameSpriteData_");
 	userFrameSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("userFrameSpriteData2_");
+	userFrameSpriteData2_.Load();
 	JSON_ROOT();
 
 	JSON_OBJECT("playerFrameSpriteData_");

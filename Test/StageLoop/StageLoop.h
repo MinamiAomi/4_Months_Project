@@ -19,6 +19,8 @@
 class Boss;
 class Camera;
 class Player;
+class HammerMovie;
+class Camera;
 class StageLoop {
 public:
 	void Initialize();
@@ -28,6 +30,7 @@ public:
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 	void SetPlayer(Player* player) { player_ = player; }
+	void SetHammerMovie(const HammerMovie* hammerMovie) { hammerMovie_ = hammerMovie; }
 
 	const std::unique_ptr<BeltConveyorManager>& GetBeltConveyorManager()const { return beltConveyorManager_; }
 	const std::unique_ptr<BlockManager>& GetBlockManager()const { return blockManager_; }
@@ -42,6 +45,7 @@ public:
 private:
 	const Boss* boss_;
 	const Camera* camera_;
+	const HammerMovie* hammerMovie_;
 	Player* player_;
 	static const uint32_t kCreateStageNum = 5;
 
@@ -64,10 +68,14 @@ private:
 
 	void InitializeCreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void Clear();
-	void DeleteObject();
+	void DeleteObject(uint32_t index);
+	void CheckOnPlayerStageParts();
+
+	void Debug();
+
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void CreateStageObject(const Desc& stageData, float distance, uint32_t index);
-
+	void TutorialCreateStage();
 	struct StageDistance {
 		float distance;
 		uint32_t stageIndex;
@@ -79,6 +87,20 @@ private:
 	Random::RandomNumberGenerator rnd_;
 	bool isCreateStage_;
 	uint32_t stageNum_;
+
+	struct LevelDesc {
+		struct Range {
+			int min;
+			int max;
+		}stage;
+		std::vector<float> probability;
+	};
+
+	std::vector<LevelDesc> levelDesc_;
+
+	int bossHPDivision_;
+	int levelDivision_;
+
 #pragma region
 	std::unique_ptr<BeltConveyorManager> beltConveyorManager_;
 	std::unique_ptr<BlockManager> blockManager_;

@@ -6,11 +6,11 @@
 #include "Graphics.h"
 
 UploadBuffer::~UploadBuffer() {
-    Destroy();
+    GPUResource::Destroy();
 }
 
 void UploadBuffer::Create(const std::wstring& name, size_t bufferSize) {
-    Destroy();
+    GPUResource::Destroy();
 
     auto desc = CD3DX12_RESOURCE_DESC::Buffer(UINT64(bufferSize));
     auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);

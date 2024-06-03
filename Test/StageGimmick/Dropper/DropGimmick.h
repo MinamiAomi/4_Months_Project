@@ -5,10 +5,12 @@
 #include <vector>
 #include <memory>
 
+#include "Audio/AudioSource.h"
 #include "Collision/Collider.h"
 #include "Graphics/Model.h"
 #include "StageGimmick/StageGimmick.h"
 #include "Math/Random.h"
+#include "Engine/Audio/AudioSource.h"
 
 class Player;
 class Camera;
@@ -47,6 +49,8 @@ private:
 
 	std::unique_ptr<BoxCollider> collider_;
 	std::unique_ptr<ModelInstance> model_;
+	std::unique_ptr<AudioSource> kickSE_;
+	std::unique_ptr<AudioSource> hitSE_;
 	State state_;
 	bool isAlive_;
 
@@ -83,7 +87,7 @@ private:
 	std::unique_ptr<BoxCollider> collider_;
 	std::unique_ptr<ModelInstance> switchBase_;
 	std::unique_ptr<ModelInstance> switch_;
-
+	std::unique_ptr<AudioSource> switchSE_;
 	Transform switchTransform_;
 
 	Desc desc_;

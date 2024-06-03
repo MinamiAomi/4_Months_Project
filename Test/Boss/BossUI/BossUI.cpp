@@ -6,9 +6,9 @@
 
 void BossUI::Initialize() {
 	LoadJson();
-	hp_ = CreateSprite(hpData_, "white2x2");
-	hpBase_ = CreateSprite(hpBaseData_, "white2x2");
-	hp_->SetIsActive(false);
+	hpBase_ = CreateSprite(hpBaseData_, "bossHPBase");
+	hp_ = CreateSprite(hpData_, "bossHPBar");
+	/*hp_->SetIsActive(false);*/
 }
 
 void BossUI::Update() {
@@ -45,18 +45,18 @@ void BossUI::UpdateHP() {
 		hpData_.scale.y,
 		}
 	);
-	hp_->SetTexcoordSize(
+	/*hp_->SetTexcoordSize(
 		{
 			std::lerp(0.0f, hpData_.textureSize.x,barT),
 			hpData_.textureSize.y
 		}
-	);
-	hp_->SetTexcoordBase(
-		{
-			std::lerp(0.0f, -hpData_.textureSize.x,barT),
-			hpData_.textureSize.y,
-		}
-	);
+	);*/
+	//hp_->SetTexcoordBase(
+	//	{
+	//		std::lerp(0.0f, hpData_.textureSize.x,barT),
+	//		hpData_.textureSize.y,
+	//	}
+	//);
 }
 
 void BossUI::LoadJson() {
@@ -64,6 +64,11 @@ void BossUI::LoadJson() {
 	JSON_OBJECT("hpData_");
 	hpData_.Load();
 	JSON_ROOT();
+
+	JSON_OBJECT("hpBaseData_");
+	hpBaseData_.Load();
+	JSON_ROOT();
+
 	JSON_CLOSE();
 }
 
@@ -72,6 +77,11 @@ void BossUI::SaveJson() {
 	JSON_OBJECT("hpData_");
 	hpData_.Save();
 	JSON_ROOT();
+
+	JSON_OBJECT("hpBaseData_");
+	hpBaseData_.Save();
+	JSON_ROOT();
+
 	JSON_CLOSE();
 }
 
