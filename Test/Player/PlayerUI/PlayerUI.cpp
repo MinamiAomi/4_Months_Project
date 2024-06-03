@@ -87,7 +87,6 @@ void PlayerUI::Update() {
 	else {
 		userFrameSprite_->SetIsActive(true);
 		userFrameSprite2_->SetIsActive(false);
-
 	}
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
