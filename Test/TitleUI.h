@@ -12,7 +12,7 @@ private:
 		Vector2 scale = { 64.0f,64.0f };
 		float rotate = 0.0f;
 		Vector2 position = {0.0f,0.0f};
-		Vector4 color = { 1.0f,1.0f,1.0f,1.0 };
+		Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
 		Vector2 textureSize = { 0.0f,0.0f };
 		Vector2 textureBase = { 0.0f,0.0f };
 		int order = 0;
@@ -32,6 +32,8 @@ private:
 
 	// 操作
 	std::unique_ptr<Sprite> pushA_;
+	std::unique_ptr<Sprite> titleLogo_;
 	float pushAT_ = 0.0f;
 	SpriteData pushAData_;
+	SpriteData titleLogoData_;
 };
