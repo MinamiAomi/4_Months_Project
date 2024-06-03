@@ -73,6 +73,8 @@ void Boss::Initialize() {
 	pointLightTransform_.SetParent(&transform, false);
 	pointLightTransform_.translate = { 0.0f,14.0f,20.0f };
 
+	bossLineParticle_ = std::make_unique<BossLineParticle>();
+	bossLineParticle_->Initialize(this);
 }
 
 void Boss::Update() {
@@ -166,13 +168,31 @@ void Boss::Update() {
 
 	bossUI_->Update();
 	bossHP_->Update();
+	bossLineParticle_->Update();
 	BossBulletManager::GetInstance()->Update();
 	UpdateTransform();
+	if (bossHP_->GetCurrentHP() <= 0) {
+		isAlive_ = false;
+	}
+	if (changeColorFrame_ > 0) {
+		changeColorFrame_--;
+		pointLight_->color.x = 6.0f;
+	}
+	else {
+		pointLight_->color.x = 1.77f;
+	}
 }
 
 void Boss::MovieUpdate() {
 	isHit_ = false;
 	lightManager_->Add(pointLight_);
+	if (changeColorFrame_ > 0) {
+		changeColorFrame_--;
+		pointLight_->color.x = 6.0f;
+	}
+	else {
+		pointLight_->color.x = 1.77f;
+	}
 }
 
 void Boss::Reset(uint32_t stageIndex) {
@@ -224,12 +244,14 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 		switch (Character::currentCharacterState_) {
 		case Character::State::kChase:
 		{
-			if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
-				isHit_ = true;
-			}
-			player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
-			if (isFirstHit_ && !Movie::isPlaying) {
-				bossHP_->AddPlayerHitHP();
+			if (player_->transform.translate.y >= 0.0f && player_->GetIsFree()) {
+				if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
+					isHit_ = true;
+				}
+				player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
+				if (isFirstHit_ && !Movie::isPlaying) {
+					bossHP_->AddPlayerHitHP();
+				}
 			}
 
 		}

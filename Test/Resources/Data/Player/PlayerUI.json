@@ -294,8 +294,8 @@
         ],
         "order": 0,
         "position": [
-            149.0,
-            9.0
+            126.0,
+            0.0
         ],
         "rotate": 0.0,
         "scale": [
@@ -309,6 +309,84 @@
         "textureSize": [
             40.0,
             45.0
+        ]
+    },
+    "toBossDistanceNumberSpriteData100_": {
+        "color": [
+            0.9959999918937683,
+            0.8029999732971191,
+            0.10100000351667404,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            126.0,
+            11.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            30.0,
+            30.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            75.0,
+            75.0
+        ]
+    },
+    "toBossDistanceNumberSpriteData10_": {
+        "color": [
+            0.9959999918937683,
+            0.8029999732971191,
+            0.10100000351667404,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            126.0,
+            11.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            30.0,
+            30.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            75.0,
+            75.0
+        ]
+    },
+    "toBossDistanceNumberSpriteData1_": {
+        "color": [
+            0.9959999918937683,
+            0.8029999732971191,
+            0.10100000351667404,
+            1.0
+        ],
+        "order": 0,
+        "position": [
+            126.0,
+            11.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            30.0,
+            30.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            75.0,
+            75.0
         ]
     },
     "toBossDistanceNumberSpriteData_": {

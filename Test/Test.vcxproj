@@ -68,6 +68,7 @@
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
     <ClCompile Include="Player\TitlePlayer\TitlePlayer.cpp" />
+    <ClCompile Include="Player\UFO\UFO.cpp" />
     <ClCompile Include="SkyBlock.cpp" />
     <ClCompile Include="SkyBlockManager.cpp" />
     <ClCompile Include="StageBlock.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
+    <ClInclude Include="Player\UFO\UFO.h" />
     <ClInclude Include="Player\TitlePlayer\TitlePlayer.h" />
     <ClInclude Include="SkyBlock.h" />
     <ClInclude Include="SkyBlockManager.h" />

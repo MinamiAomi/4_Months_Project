@@ -41,6 +41,7 @@ private:
 	void UpdateHP();
 	void UpdateRevengeGage();
 	void UpdatePlayerUI();
+	void UpdateToBossDistance();
 
 	void LoadJson();
 	void SaveJson();
@@ -77,8 +78,14 @@ private:
 	std::unique_ptr<Sprite> toBossDistanceMeterSprite_;
 	SpriteData toBossDistanceMeterSpriteData_;
 
-	std::unique_ptr<Sprite> toBossDistanceNumberSprite_;
-	SpriteData toBossDistanceNumberSpriteData_;
+	std::unique_ptr<Sprite> toBossDistanceNumberSprite100_;
+	SpriteData toBossDistanceNumberSpriteData100_;
+
+	std::unique_ptr<Sprite> toBossDistanceNumberSprite10_;
+	SpriteData toBossDistanceNumberSpriteData10_;
+
+	std::unique_ptr<Sprite> toBossDistanceNumberSprite1_;
+	SpriteData toBossDistanceNumberSpriteData1_;
 
 #pragma endregion
 

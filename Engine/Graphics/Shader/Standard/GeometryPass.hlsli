@@ -13,6 +13,7 @@ struct Instance {
     float4x4 worldInverseTransposeMatrix;
     float3 color;
     uint useLighting;
+    uint wireFrameMask;
 };
 struct InstanceOffset {
     uint offset;

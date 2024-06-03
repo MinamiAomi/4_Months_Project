@@ -5,12 +5,13 @@
 #include "CharacterState.h"
 
 class Boss;
+class Player;
 
 class PlayerRevengeGage {
 public:
 	static const float kMaxRevengeBar;
 
-	void Initialize(const Boss* boss);
+	void Initialize(const Boss* boss,const Player* player);
 	void Update();
 	void Reset();
 	void SetIsMove(bool flag) { isMove_ = flag; }
@@ -22,6 +23,7 @@ public:
 private:
 
 	const Boss* boss_ = nullptr;
+	const Player* player_ = nullptr;
 
 	float addCoin_;
 	float addGageBar_;
