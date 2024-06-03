@@ -67,7 +67,7 @@ void PlayerUI::Initialize() {
 
 	tutorial1_->SetIsActive(false);
 	tutorial2_->SetIsActive(false);
-	tutorial3_->SetIsActive(false);
+	tutorial3_->SetIsActive(true);
 
 }
 
@@ -203,23 +203,15 @@ void PlayerUI::UpdateRevengeGage() {
 		}
 	);
 #pragma endregion
-//
-//	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
-//		//tutorial1_->SetIsActive(false);
-//		//tutorial2_->SetIsActive(true);
-//		//tutorial3_->SetIsActive(false);
-//	}
-//	else
-//	if (Character::currentCharacterState_ == Character::kRunAway) {
-//		//tutorial1_->SetIsActive(true);
-//		//tutorial2_->SetIsActive(false);
-//		//tutorial3_->SetIsActive(false);
-//	}else
-//	if (Character::currentCharacterState_ == Character::kChase) {
-//		//tutorial1_->SetIsActive(false);
-//		//tutorial2_->SetIsActive(false);
-//		//tutorial3_->SetIsActive(true);
-//	}
+
+	if (Character::currentCharacterState_ == Character::kRunAway) {
+		tutorial1_->SetIsActive(true);
+		tutorial3_->SetIsActive(false);
+	}else
+	if (Character::currentCharacterState_ == Character::kChase) {
+		tutorial1_->SetIsActive(false);
+		tutorial3_->SetIsActive(true);
+	}
 }
 
 void PlayerUI::LoadJson() {
