@@ -127,10 +127,11 @@ void PlayerUI::Update() {
 	vpv *= Matrix4x4::MakeViewport(0, 0, float(width), float(height), camera_->GetNearClip(), camera_->GetFarClip());
 	Vector3 viewportPlayerPosition = vpv.ApplyTransformWDivide(player_->transform.worldMatrix.GetTranslate());
 
-	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x - 20.0f, viewportPlayerPosition.y));
+	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x - 20.0f, viewportPlayerPosition.y - 20.0f));
 
 	//プレイヤーUIフレームを親にする
-	revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
+	UpdateRevengeGage();
+	//revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
 	revengeBarGaugeBaseSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeBaseSpriteData_.position);
 	revengeBarIconSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarIconSpriteData_.position);
 	toBossDistanceBarSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceBarSpriteData_.position);
@@ -145,7 +146,6 @@ void PlayerUI::Update() {
 
 void PlayerUI::UpdatePlayerUI() {
 	UpdateHP();
-	UpdateRevengeGage();
 }
 
 void PlayerUI::UpdateHP() {
@@ -178,8 +178,8 @@ void PlayerUI::UpdateRevengeGage() {
 #pragma region Bar
 	revengeBarGaugeSprite_->SetPosition(
 		{
-		std::lerp(revengeBarGaugeSpriteData_.position.x - revengeBarGaugeSpriteData_.scale.x * 0.5f, revengeBarGaugeSpriteData_.position.x,barT),
-		revengeBarGaugeSpriteData_.position.y
+		std::lerp((playerFrameSprite_->GetPosition().x + revengeBarGaugeSpriteData_.position.x) - revengeBarGaugeSpriteData_.scale.x * 0.5f,(playerFrameSprite_->GetPosition().x + revengeBarGaugeSpriteData_.position.x) ,barT),
+		playerFrameSprite_->GetPosition().y + revengeBarGaugeSpriteData_.position.y
 		}
 	);
 	revengeBarGaugeSprite_->SetScale(
