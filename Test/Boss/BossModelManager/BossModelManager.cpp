@@ -55,6 +55,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
     models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "razerAttack");
     models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "windAttack");
     models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "shotAttack");
+    models_.at(BossParts::Parts::kBossBody)->AddAnimation(partsName, "roar");
     models_.at(BossParts::Parts::kBossBody)->SetModelIsAlive(true);
 
     RenderManager::GetInstance()->GetWireTranslucentRenderer().SetModel(models_.at(BossParts::Parts::kBossBody)->GetModel().get());

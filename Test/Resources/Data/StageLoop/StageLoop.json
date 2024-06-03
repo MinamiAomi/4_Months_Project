@@ -1,7 +1,7 @@
 {
     "StageLoop0": {
         "Probability0": {
-            "probability": 50.0
+            "probability": 40.0
         },
         "Probability1": {
             "probability": 30.0
@@ -27,7 +27,7 @@
     },
     "StageLoop2": {
         "Probability0": {
-            "probability": 10.0
+            "probability": 20.0
         },
         "Probability1": {
             "probability": 20.0

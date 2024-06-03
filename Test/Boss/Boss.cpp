@@ -109,7 +109,7 @@ void Boss::Update() {
 	if (Character::IsInSceneChange()) {
 		easingStartPosition_ = transform.translate;
 	}
-
+	state_->Update();
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
 	{
@@ -133,7 +133,6 @@ void Boss::Update() {
 	break;
 	case Character::State::kScneChange:
 	{
-		state_->ChangeState(BossStateManager::State::kRoot);
 		BossBulletManager::GetInstance()->Reset();
 		if (Character::isEndFirstChange_) {
 			if (Character::nextCharacterState_ == Character::State::kChase) {
@@ -151,7 +150,13 @@ void Boss::Update() {
 				}
 				if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
 					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
-
+					auto& skeleton = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
+					auto& parts = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoar);
+					skeleton->ApplyAnimation(parts.animation->GetAnimation("roar"), Character::GetSceneChangeTime());
+					skeleton->Update();
+				}
+				else {
+					state_->ChangeState(BossStateManager::State::kRoot);
 				}
 			}
 		}
@@ -160,7 +165,7 @@ void Boss::Update() {
 	default:
 		break;
 	}
-	state_->Update();
+	
 	bossUI_->Update();
 	bossHP_->Update();
 	BossBulletManager::GetInstance()->Update();
