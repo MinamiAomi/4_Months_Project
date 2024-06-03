@@ -44,6 +44,9 @@ void PlayerUI::Initialize() {
 	toBossDistanceBarSprite_ = CreateSprite(toBossDistanceBarSpriteData_, "ToBossDistanceBar");
 	toBossDistanceMeterSprite_ = CreateSprite(toBossDistanceMeterSpriteData_, "ToBossDistanceMeter");
 	toBossDistanceNumberSprite_ = CreateSprite(toBossDistanceNumberSpriteData_, "ToBossDistanceNumber");
+	toBossDistanceBarSprite_->SetIsActive(false);
+	toBossDistanceMeterSprite_->SetIsActive(false);
+	toBossDistanceNumberSprite_->SetIsActive(false);
 
 #pragma endregion
 
@@ -87,7 +90,6 @@ void PlayerUI::Update() {
 	else {
 		userFrameSprite_->SetIsActive(true);
 		userFrameSprite2_->SetIsActive(false);
-
 	}
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
@@ -174,14 +176,14 @@ void PlayerUI::UpdateHP() {
 		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 1) {
-		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(0)->SetIsActive(true);
 		hpSprite_.at(1)->SetIsActive(false);
-		hpSprite_.at(2)->SetIsActive(true);
+		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 2) {
-		hpSprite_.at(0)->SetIsActive(false);
+		hpSprite_.at(0)->SetIsActive(true);
 		hpSprite_.at(1)->SetIsActive(true);
-		hpSprite_.at(2)->SetIsActive(true);
+		hpSprite_.at(2)->SetIsActive(false);
 	}
 	else if (playerHP_->GetCurrentHP() == 3) {
 		hpSprite_.at(0)->SetIsActive(true);
