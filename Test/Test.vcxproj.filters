@@ -145,6 +145,12 @@
     <Filter Include="Game\Object\Wind">
       <UniqueIdentifier>{8e2b312e-378c-41bc-98da-6f4a5ddbd33d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Player\TitlePlayer">
+      <UniqueIdentifier>{56214266-b8ce-4a07-8b2d-d07fd45a57df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Boss\TitleBoss">
+      <UniqueIdentifier>{137dec8c-9e54-476a-984c-7ac1dc7a44e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -383,6 +389,9 @@
     <ClCompile Include="Wind.cpp" />
     <ClCompile Include="WindManager.cpp" />
     <ClCompile Include="LoadScene.cpp" />
+    <ClCompile Include="Player\TitlePlayer\TitlePlayer.cpp" />
+    <ClCompile Include="TitleFloor.cpp" />
+    <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -628,6 +637,15 @@
     </ClInclude>
     <ClInclude Include="LoadScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\TitlePlayer\TitlePlayer.h">
+      <Filter>Game\Object\Player\TitlePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleFloor.h">
+      <Filter>Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\TitleBoss\TitleBoss.h">
+      <Filter>Game\Object\Boss\TitleBoss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

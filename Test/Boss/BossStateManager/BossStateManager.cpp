@@ -480,7 +480,7 @@ void BossStateLowerAttack::ChargeUpdate() {
 void BossStateLowerAttack::AttackUpdate() {
 	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->transform.rotate = Quaternion::MakeForYAxis(rnd_.NextFloatRange(-1.0f, 1.0f));
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->GetRotate();
 	rotate.y += 0.5f;
@@ -589,7 +589,7 @@ void BossStateInsideAttack::ChargeUpdate() {
 void BossStateInsideAttack::AttackUpdate() {
 	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->GetRotate();
 	rotate.y += 0.5f;
 	if (t >= 1.0f) {
@@ -721,7 +721,7 @@ void BossStateBeamAttack::ChargeUpdate() {
 void BossStateBeamAttack::AttackUpdate() {
 	float t = time_ / data_.attackEasingTime;
 	time_ += 1.0f;
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,0.0f,0.0f });
+	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 	static const uint32_t kNumWind = 10;
 
 	if (time_ >= lastWindTime_ + data_.wind.interval) {

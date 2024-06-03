@@ -658,7 +658,7 @@ void StageLoop::Debug() {
 			// 同じサイズに調整する
 			levelDesc_.resize(levelDivision_);
 		}
-		if (ImGui::TreeNode("レベルの幅")) {
+		if (ImGui::TreeNode("ステージの幅")) {
 			for (int level = 0; level < levelDivision_; ++level) {
 				if (ImGui::TreeNode((std::to_string(level) + "レベル").c_str())) {
 					ImGui::DragInt((std::to_string(level) + "最小").c_str(), &levelDesc_.at(level).stage.min, 1, 0);

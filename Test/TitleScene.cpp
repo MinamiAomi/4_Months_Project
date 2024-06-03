@@ -14,7 +14,10 @@ void TitleScene::OnInitialize() {
 	camera_ = std::make_unique<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
-	RenderManager::GetInstance()->SetCamera(camera_);
+	debugCamera_ = std::make_unique<DebugCamera>();
+	debugCamera_->Initialize();
+
+	RenderManager::GetInstance()->SetCamera(debugCamera_->GetCamera());
 
 	title_ = std::make_unique<Sprite>();
 	title_->SetTexture(ResourceManager::GetInstance()->FindTexture("title"));
@@ -29,9 +32,22 @@ void TitleScene::OnInitialize() {
 
 	UI_ = std::make_unique<TitleUI>();
 	UI_->Initialize();
+
+	titlePlayer_ = std::make_unique<TitlePlayer>();
+	titlePlayer_->Initialize();
+
+	titleFloor_ = std::make_unique<TitleFloor>();
+	titleFloor_->Initialize();
+
+	titleBoss_ = std::make_unique<TitleBoss>();
+	titleBoss_->Initialize();
 }
 
 void TitleScene::OnUpdate() {
+	debugCamera_->Update();
+	titlePlayer_->Update();
+	titleFloor_->Update();
+	titleBoss_->Update();
 	UI_->Update();
 	if (((Input::GetInstance()->IsKeyTrigger(DIK_A)) ||
 		(Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||

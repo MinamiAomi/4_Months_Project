@@ -114,7 +114,6 @@ private:
 	bool isSceneChangeInvincible_;
 	// にダンジョンプ
 	float rotateAnimationFrame_;
-	Quaternion initialRotate_;
 	Transform rotateAnimation_;
 	bool isSecondJumpAnimation_;
 	// JumpSE

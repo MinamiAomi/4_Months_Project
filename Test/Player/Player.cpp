@@ -545,7 +545,7 @@ void Player::Jump() {
 		isSecondJumpAnimation_ = true;
 		acceleration_.y = jumpPower_ * 0.5f;
 		rotateAnimation_.rotate = Quaternion::identity;
-		initialRotate_ = transform.rotate;
+		velocity_ = Vector3::zero;
 		rotateAnimationFrame_ = 0.0f;
 	}
 }
