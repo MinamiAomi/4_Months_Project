@@ -35,10 +35,6 @@ void StageObject::Initialize(const Desc& desc) {
 }
 
 void StageObject::Update() {
-	UpdateTransform();
-}
-
-void StageObject::UpdateTransform() {
 	Vector3 modelSize = (model_->GetModel()->GetMeshes().at(0).maxVertex - model_->GetModel()->GetMeshes().at(0).minVertex);
 	Math::Sphere model{}, camera{};
 	model.center = (transform.worldMatrix.GetTranslate());
@@ -46,14 +42,7 @@ void StageObject::UpdateTransform() {
 	camera.center = (camera_->GetPosition());
 	camera.radius = (camera_->GetFarClip());
 	if (Math::IsCollision(model, camera)) {
-		transform.UpdateMatrix();
-		if (colliderDesc_) {
-			collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
-			collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-			collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
-		}
-		model_->SetWorldMatrix(Matrix4x4::MakeRotationY(Math::ToRadian * 90.0f) * transform.worldMatrix);
-		model_->SetIsActive(true);
+		UpdateTransform();
 		if (colliderDesc_) {
 			collider_->SetIsActive(true);
 			collider_->DebugDraw();
@@ -65,6 +54,17 @@ void StageObject::UpdateTransform() {
 			collider_->SetIsActive(false);
 		}
 	}
+}
+
+void StageObject::UpdateTransform() {
+	transform.UpdateMatrix();
+	if (colliderDesc_) {
+		collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
+		collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
+		collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
+	}
+	model_->SetWorldMatrix(Matrix4x4::MakeRotationY(Math::ToRadian * 90.0f) * transform.worldMatrix);
+	model_->SetIsActive(true);
 }
 
 //void StageObject::OnCollision(const CollisionInfo& collisionInfo) {}

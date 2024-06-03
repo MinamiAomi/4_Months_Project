@@ -23,6 +23,7 @@
     "HPBar_Gauge": "Player/PlayerUI/HPBar_Gauge.png",
     "PlayerUIFrame": "Player/PlayerUI/PlayerUIFrame.png",
     "FrameUI": "Player/PlayerUI/FrameUI.png",
+    "FrameUI_2": "Player/PlayerUI/FrameUI_2.png",
     "RevengeBar_Icon": "Player/PlayerUI/RevengeBar_Icon.png",
     "RevengeBar_RevengeGauge": "Player/PlayerUI/RevengeBar_RevengeGauge.png",
     "RevengeBar_Frame": "Player/PlayerUI/RevengeBar_RevengeFrame.png",
@@ -74,6 +75,7 @@
     "beltConveyor": "BeltConveyor/beltConveyor.gltf",
     "dropBall": "DropGimmick/ball.gltf",
     "hammer": "Player/Hammer/hammer.gltf",
+    "floorEdge": "Floor/floorEdge.gltf",
     "wind": "Wind/wind.gltf"
   }
 }

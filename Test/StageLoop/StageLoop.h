@@ -68,14 +68,14 @@ private:
 
 	void InitializeCreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void Clear();
-	void DeleteObject();
+	void DeleteObject(uint32_t index);
 	void CheckOnPlayerStageParts();
 
 	void Debug();
 
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
 	void CreateStageObject(const Desc& stageData, float distance, uint32_t index);
-
+	void TutorialCreateStage();
 	struct StageDistance {
 		float distance;
 		uint32_t stageIndex;

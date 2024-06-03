@@ -35,7 +35,7 @@ void BossUI::UpdateHP() {
 	float barT = currentHP / float(BossHP::kMaxHP);
 	hp_->SetPosition(
 		{
-		std::lerp(hpData_.position.x - hpData_.scale.x, hpData_.position.x,barT),
+		std::lerp(hpData_.position.x - hpData_.scale.x * 0.5f, hpData_.position.x,barT),
 		hpData_.position.y
 		}
 	);
@@ -45,18 +45,18 @@ void BossUI::UpdateHP() {
 		hpData_.scale.y,
 		}
 	);
-	hp_->SetTexcoordSize(
+	/*hp_->SetTexcoordSize(
 		{
 			std::lerp(0.0f, hpData_.textureSize.x,barT),
 			hpData_.textureSize.y
 		}
-	);
-	hp_->SetTexcoordBase(
-		{
-			std::lerp(0.0f, -hpData_.textureSize.x,barT),
-			hpData_.textureSize.y,
-		}
-	);
+	);*/
+	//hp_->SetTexcoordBase(
+	//	{
+	//		std::lerp(0.0f, hpData_.textureSize.x,barT),
+	//		hpData_.textureSize.y,
+	//	}
+	//);
 }
 
 void BossUI::LoadJson() {

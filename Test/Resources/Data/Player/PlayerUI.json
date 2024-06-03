@@ -415,6 +415,32 @@
             176.0
         ]
     },
+    "userFrameSpriteData2_": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "order": 2,
+        "position": [
+            960.0,
+            540.0
+        ],
+        "rotate": 0.0,
+        "scale": [
+            1920.0,
+            1080.0
+        ],
+        "textureBase": [
+            0.0,
+            0.0
+        ],
+        "textureSize": [
+            1920.0,
+            1080.0
+        ]
+    },
     "userFrameSpriteData_": {
         "color": [
             1.0,

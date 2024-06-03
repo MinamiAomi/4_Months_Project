@@ -28,6 +28,8 @@ void PlayerUI::Initialize() {
 #pragma region 全体フレーム
 
 	userFrameSprite_ = CreateSprite(userFrameSpriteData_, "FrameUI");
+	userFrameSprite2_ = CreateSprite(userFrameSpriteData2_, "FrameUI_2");
+	userFrameSprite_->SetIsActive(false);
 
 #pragma endregion
 
@@ -65,12 +67,28 @@ void PlayerUI::Initialize() {
 
 	tutorial1_->SetIsActive(false);
 	tutorial2_->SetIsActive(false);
-	tutorial3_->SetIsActive(false);
+	tutorial3_->SetIsActive(true);
 
 }
 
 void PlayerUI::Update() {
 	UpdatePlayerUI();
+	// ジャンプしてない
+	if (player_->GetCanFirstJump()) {
+		userFrameSprite_->SetIsActive(true);
+		userFrameSprite2_->SetIsActive(false);
+	}
+	// 一回ジャンプ
+	else if(player_->GetCanSecondJump()) {
+		userFrameSprite_->SetIsActive(false);
+		userFrameSprite2_->SetIsActive(true);
+	}
+	// 二回ジャンプ
+	else {
+		userFrameSprite_->SetIsActive(true);
+		userFrameSprite2_->SetIsActive(false);
+
+	}
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
@@ -201,23 +219,15 @@ void PlayerUI::UpdateRevengeGage() {
 		}
 	);
 #pragma endregion
-//
-//	if (revengeGage >= PlayerRevengeGage::kMaxRevengeBar) {
-//		//tutorial1_->SetIsActive(false);
-//		//tutorial2_->SetIsActive(true);
-//		//tutorial3_->SetIsActive(false);
-//	}
-//	else
-//	if (Character::currentCharacterState_ == Character::kRunAway) {
-//		//tutorial1_->SetIsActive(true);
-//		//tutorial2_->SetIsActive(false);
-//		//tutorial3_->SetIsActive(false);
-//	}else
-//	if (Character::currentCharacterState_ == Character::kChase) {
-//		//tutorial1_->SetIsActive(false);
-//		//tutorial2_->SetIsActive(false);
-//		//tutorial3_->SetIsActive(true);
-//	}
+
+	if (Character::currentCharacterState_ == Character::kRunAway) {
+		tutorial1_->SetIsActive(true);
+		tutorial3_->SetIsActive(false);
+	}else
+	if (Character::currentCharacterState_ == Character::kChase) {
+		tutorial1_->SetIsActive(false);
+		tutorial3_->SetIsActive(true);
+	}
 }
 
 void PlayerUI::LoadJson() {
@@ -225,6 +235,10 @@ void PlayerUI::LoadJson() {
 
 	JSON_OBJECT("userFrameSpriteData_");
 	userFrameSpriteData_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("userFrameSpriteData2_");
+	userFrameSpriteData2_.Load();
 	JSON_ROOT();
 
 	JSON_OBJECT("playerFrameSpriteData_");

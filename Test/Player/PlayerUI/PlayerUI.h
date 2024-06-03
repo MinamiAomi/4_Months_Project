@@ -56,6 +56,8 @@ private:
 
 	std::unique_ptr<Sprite> userFrameSprite_;
 	SpriteData userFrameSpriteData_;
+	std::unique_ptr<Sprite> userFrameSprite2_;
+	SpriteData userFrameSpriteData2_;
 
 #pragma endregion
 
@@ -63,6 +65,7 @@ private:
 
 	std::unique_ptr<Sprite> playerFrameSprite_;
 	SpriteData playerFrameSpriteData_;
+
 
 #pragma endregion
 
