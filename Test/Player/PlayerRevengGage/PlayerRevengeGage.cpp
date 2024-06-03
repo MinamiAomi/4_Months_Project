@@ -4,12 +4,14 @@
 #include "File/JsonHelper.h"
 #include "Graphics/ImGuiManager.h"
 #include "Boss/Boss.h"
+#include "Player/Player.h"
 
 const float PlayerRevengeGage::kMaxRevengeBar = 100.0f;
 
-void PlayerRevengeGage::Initialize(const Boss* boss) {
+void PlayerRevengeGage::Initialize(const Boss* boss,const Player* player) {
 	Reset();
 	boss_ = boss;
+	player_ = player;
 	JSON_OPEN("Resources/Data/Player/PlayerRevengeGage.json");
 	JSON_OBJECT("PlayerRevengeGage");
 	JSON_LOAD(addCoin_);
@@ -34,7 +36,7 @@ void PlayerRevengeGage::Update() {
 	break;
 	case Character::State::kRunAway:
 	{
-		if (isMove_) {
+		if (isMove_ && player_->GetIsFree()) {
 			if (currentRevengeBarGage_ < kMaxRevengeBar) {
 				currentRevengeBarGage_ += addGageBar_;
 			}
