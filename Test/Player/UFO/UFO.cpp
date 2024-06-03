@@ -11,6 +11,7 @@ void UFO::Initialize(Player* player,const Boss* boss) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("ufo"));
 	model_->SetIsActive(false);
+	model_->SetWireFrameMask(true);
 
 	transform.SetParent(&player_->transform);
 	transform.translate.y = player_->GetModelInstance().GetModel()->GetMeshes()[0].maxVertex.y + 9.0f;

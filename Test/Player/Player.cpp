@@ -49,7 +49,7 @@ void Player::Initialize() {
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->SetCamera(camera_);
 	playerUI_->Initialize();
-	playerRevengeGage_->Initialize(boss_);
+	playerRevengeGage_->Initialize(boss_,this);
 
 	bulletManager_->Initialize();
 
@@ -248,6 +248,16 @@ void Player::Update() {
 			break;
 		}
 	}
+
+	//ボスとの距離
+	if (Character::currentCharacterState_ == Character::State::kChase) {
+		toBossDistance_ = Vector3::Distance(GetTransform().translate, boss_->transform.translate) - 32;
+	}
+	
+	if (Character::currentCharacterState_ == Character::State::kRunAway) {
+		toBossDistance_ = Vector3::Distance(GetTransform().translate, boss_->transform.translate) - 16;
+	}
+
 	DebugParam();
 	hammer_->Update();
 	ufo_->Update();
@@ -438,12 +448,12 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 		else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
 			collisionInfo.collider->GetName() == "bossFloorAll" ||
-			collisionInfo.collider->GetName() == "bossLongDistanceAttack" ||
-			collisionInfo.collider->GetName() == "bossBullet") {
+			collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
 			HitDamage(1);
 		}
 		else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
-			collisionInfo.collider->GetName() == "PendulumBall") &&
+			collisionInfo.collider->GetName() == "PendulumBall"|| 
+			collisionInfo.collider->GetName() == "bossBullet") &&
 			!isHit_) {
 			HitDamage();
 		}

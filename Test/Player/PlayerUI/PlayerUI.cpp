@@ -16,7 +16,9 @@ void PlayerUI::Initialize() {
 	playerFrameSpriteData_.scale = (Vector2(playerFrameSpriteData_.textureSize.x * userFrameSpriteRatioUI, playerFrameSpriteData_.textureSize.y * userFrameSpriteRatioUI));
 	toBossDistanceBarSpriteData_.scale = (Vector2(toBossDistanceBarSpriteData_.textureSize.x * ratioUI, toBossDistanceBarSpriteData_.textureSize.y * ratioUI));
 	toBossDistanceMeterSpriteData_.scale = (Vector2(toBossDistanceMeterSpriteData_.textureSize.x * ratioUI, toBossDistanceMeterSpriteData_.textureSize.y * ratioUI));
-	toBossDistanceNumberSpriteData_.scale = (Vector2(toBossDistanceNumberSpriteData_.textureSize.x * ratioUI, toBossDistanceNumberSpriteData_.textureSize.y * ratioUI));
+	toBossDistanceNumberSpriteData100_.scale = (Vector2(toBossDistanceNumberSpriteData100_.textureSize.x * ratioUI, toBossDistanceNumberSpriteData100_.textureSize.y * ratioUI));
+	toBossDistanceNumberSpriteData10_.scale = (Vector2(toBossDistanceNumberSpriteData10_.textureSize.x * ratioUI, toBossDistanceNumberSpriteData10_.textureSize.y * ratioUI));
+	toBossDistanceNumberSpriteData1_.scale = (Vector2(toBossDistanceNumberSpriteData1_.textureSize.x * ratioUI, toBossDistanceNumberSpriteData1_.textureSize.y * ratioUI));
 	revengeBarGaugeSpriteData_.scale = (Vector2(revengeBarGaugeSpriteData_.textureSize.x * ratioUI, revengeBarGaugeSpriteData_.textureSize.y * ratioUI));
 	revengeBarGaugeBaseSpriteData_.scale = (Vector2(revengeBarGaugeBaseSpriteData_.textureSize.x * ratioUI, revengeBarGaugeBaseSpriteData_.textureSize.y * ratioUI));
 	revengeBarIconSpriteData_.scale = (Vector2(revengeBarIconSpriteData_.textureSize.x * ratioUI, revengeBarIconSpriteData_.textureSize.y * ratioUI));
@@ -43,10 +45,12 @@ void PlayerUI::Initialize() {
 
 	toBossDistanceBarSprite_ = CreateSprite(toBossDistanceBarSpriteData_, "ToBossDistanceBar");
 	toBossDistanceMeterSprite_ = CreateSprite(toBossDistanceMeterSpriteData_, "ToBossDistanceMeter");
-	toBossDistanceNumberSprite_ = CreateSprite(toBossDistanceNumberSpriteData_, "ToBossDistanceNumber");
-	toBossDistanceBarSprite_->SetIsActive(false);
-	toBossDistanceMeterSprite_->SetIsActive(false);
-	toBossDistanceNumberSprite_->SetIsActive(false);
+	toBossDistanceNumberSprite100_ = CreateSprite(toBossDistanceNumberSpriteData100_, "ToBossDistanceNumber");
+	toBossDistanceNumberSprite10_ = CreateSprite(toBossDistanceNumberSpriteData10_, "ToBossDistanceNumber");
+	toBossDistanceNumberSprite1_ = CreateSprite(toBossDistanceNumberSpriteData1_, "ToBossDistanceNumber");
+	//toBossDistanceBarSprite_->SetIsActive(false);
+	//toBossDistanceMeterSprite_->SetIsActive(false);
+	//toBossDistanceNumberSprite_->SetIsActive(false);
 
 #pragma endregion
 
@@ -104,7 +108,9 @@ void PlayerUI::Update() {
 
 			DrawImGui(toBossDistanceMeterSpriteData_, "toBossDistanceMeterSpriteData_", toBossDistanceMeterSprite_.get());
 
-			DrawImGui(toBossDistanceNumberSpriteData_, "toBossDistanceNumberSpriteData_", toBossDistanceNumberSprite_.get());
+			DrawImGui(toBossDistanceNumberSpriteData100_, "toBossDistanceNumberSpriteData100_", toBossDistanceNumberSprite100_.get());
+			DrawImGui(toBossDistanceNumberSpriteData10_, "toBossDistanceNumberSpriteData10_", toBossDistanceNumberSprite10_.get());
+			DrawImGui(toBossDistanceNumberSpriteData1_, "toBossDistanceNumberSpriteData1_", toBossDistanceNumberSprite1_.get());
 
 			DrawImGui(revengeBarGaugeSpriteData_, "revengeBarGageSpriteData_", revengeBarGaugeSprite_.get());
 
@@ -117,6 +123,8 @@ void PlayerUI::Update() {
 			DrawImGui(tutorial2Data_, "tutorial2Data_", tutorial2_.get());
 
 			DrawImGui(tutorial3Data_, "tutorial3Data_", tutorial3_.get());
+
+			ImGui::Text("ボスとの距離 %f", player_->GetToBossDistance());
 
 			for (uint32_t i = 0; i < hpSpriteData_.size(); i++) {
 				std::string string = "hpSpriteData:(" + std::to_string(i) + ")";
@@ -137,6 +145,8 @@ void PlayerUI::Update() {
 
 #endif // _DEBUG
 
+	UpdateToBossDistance();
+
 	RECT rect;
 	GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
 	LONG width = rect.right - rect.left;
@@ -156,7 +166,9 @@ void PlayerUI::Update() {
 	revengeBarIconSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarIconSpriteData_.position);
 	toBossDistanceBarSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceBarSpriteData_.position);
 	toBossDistanceMeterSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceMeterSpriteData_.position);
-	toBossDistanceNumberSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData_.position);
+	toBossDistanceNumberSprite100_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData100_.position);
+	toBossDistanceNumberSprite10_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData10_.position);
+	toBossDistanceNumberSprite1_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData1_.position);
 
 	hpSprite_.at(0)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(0).position);
 	hpSprite_.at(1)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(1).position);
@@ -232,6 +244,74 @@ void PlayerUI::UpdateRevengeGage() {
 	}
 }
 
+void PlayerUI::UpdateToBossDistance() {
+	if (player_->GetToBossDistance() >= 100) {
+		int number = int(player_->GetToBossDistance());
+		int eachNumber[3] = {};
+		//百の位
+		eachNumber[0] = number / 100;
+		number = number % 100;
+		//十の位
+		eachNumber[1] = number / 10;
+		number = number % 10;
+		//一の位
+		eachNumber[2] = number;
+
+		toBossDistanceNumberSprite100_->SetIsActive(true);
+		toBossDistanceNumberSprite10_->SetIsActive(true);
+		toBossDistanceNumberSprite1_->SetIsActive(true);
+		toBossDistanceNumberSpriteData100_.position = toBossDistanceNumberSpriteData100_.position;
+		toBossDistanceNumberSpriteData10_.position = toBossDistanceNumberSpriteData100_.position + Vector2(15.0f, 0);
+		toBossDistanceNumberSpriteData1_.position = toBossDistanceNumberSpriteData10_.position + Vector2(15.0f, 0);
+		toBossDistanceMeterSpriteData_.position = toBossDistanceNumberSpriteData1_.position + Vector2(20.0f, -5.0f);
+
+		toBossDistanceNumberSpriteData100_.textureBase.x = 75.0f * (eachNumber[0]);
+		toBossDistanceNumberSpriteData10_.textureBase.x = 75.0f * (eachNumber[1]);
+		toBossDistanceNumberSpriteData1_.textureBase.x = 75.0f * (eachNumber[2]);
+		toBossDistanceNumberSprite100_->SetTexcoordBase(toBossDistanceNumberSpriteData100_.textureBase);
+		toBossDistanceNumberSprite10_->SetTexcoordBase(toBossDistanceNumberSpriteData10_.textureBase);
+		toBossDistanceNumberSprite1_->SetTexcoordBase(toBossDistanceNumberSpriteData1_.textureBase);
+
+	}
+
+	if (player_->GetToBossDistance() >= 10 && player_->GetToBossDistance() < 100) {
+		int number = int(player_->GetToBossDistance());
+		int eachNumber[2] = {};
+		//十の位
+		eachNumber[0] = number / 10;
+		number = number % 10;
+		//一の位
+		eachNumber[1] = number;
+
+		toBossDistanceNumberSprite100_->SetIsActive(false);
+		toBossDistanceNumberSprite10_->SetIsActive(true);
+		toBossDistanceNumberSprite1_->SetIsActive(true);
+		toBossDistanceNumberSpriteData10_.position = toBossDistanceNumberSpriteData100_.position;
+		toBossDistanceNumberSpriteData1_.position = toBossDistanceNumberSpriteData10_.position + Vector2(15.0f, 0);
+		toBossDistanceMeterSpriteData_.position = toBossDistanceNumberSpriteData1_.position + Vector2(20.0f, -5.0f);
+
+		toBossDistanceNumberSpriteData10_.textureBase.x = 75.0f * (eachNumber[0]);
+		toBossDistanceNumberSpriteData1_.textureBase.x = 75.0f * (eachNumber[1]);
+		toBossDistanceNumberSprite10_->SetTexcoordBase(toBossDistanceNumberSpriteData10_.textureBase);
+		toBossDistanceNumberSprite1_->SetTexcoordBase(toBossDistanceNumberSpriteData1_.textureBase);
+
+	}
+
+	if (player_->GetToBossDistance() >= 0 && player_->GetToBossDistance() < 10) {
+		int number = int(player_->GetToBossDistance());
+
+		toBossDistanceNumberSprite100_->SetIsActive(false);
+		toBossDistanceNumberSprite10_->SetIsActive(false);
+		toBossDistanceNumberSprite1_->SetIsActive(true);
+		toBossDistanceNumberSpriteData1_.position = toBossDistanceNumberSpriteData100_.position;
+		toBossDistanceMeterSpriteData_.position = toBossDistanceNumberSpriteData1_.position + Vector2(20.0f, -5.0f);
+		toBossDistanceNumberSpriteData1_.textureBase.x = 75.0f * (number);
+		toBossDistanceNumberSprite1_->SetTexcoordBase(toBossDistanceNumberSpriteData1_.textureBase);
+
+	}
+
+}
+
 void PlayerUI::LoadJson() {
 	JSON_OPEN("Resources/Data/Player/PlayerUI.json");
 
@@ -255,8 +335,16 @@ void PlayerUI::LoadJson() {
 	toBossDistanceMeterSpriteData_.Load();
 	JSON_ROOT();
 
-	JSON_OBJECT("toBossDistanceNumberSpriteData_");
-	toBossDistanceNumberSpriteData_.Load();
+	JSON_OBJECT("toBossDistanceNumberSpriteData100_");
+	toBossDistanceNumberSpriteData100_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData10_");
+	toBossDistanceNumberSpriteData10_.Load();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData1_");
+	toBossDistanceNumberSpriteData1_.Load();
 	JSON_ROOT();
 
 #pragma region HP
@@ -288,9 +376,9 @@ void PlayerUI::LoadJson() {
 	toBossDistanceMeterSpriteData_.Load();
 	JSON_ROOT();
 
-	JSON_OBJECT("toBossDistanceNumberSpriteData_");
-	toBossDistanceNumberSpriteData_.Load();
-	JSON_ROOT();
+	//JSON_OBJECT("toBossDistanceNumberSpriteData_");
+	//toBossDistanceNumberSpriteData_.Load();
+	//JSON_ROOT();
 
 	// 円
 	JSON_OBJECT("tutorial1Data_");
@@ -335,8 +423,16 @@ void PlayerUI::SaveJson() {
 	toBossDistanceMeterSpriteData_.Save();
 	JSON_ROOT();
 
-	JSON_OBJECT("toBossDistanceNumberSpriteData_");
-	toBossDistanceNumberSpriteData_.Save();
+	JSON_OBJECT("toBossDistanceNumberSpriteData100_");
+	toBossDistanceNumberSpriteData100_.Save();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData10_");
+	toBossDistanceNumberSpriteData10_.Save();
+	JSON_ROOT();
+
+	JSON_OBJECT("toBossDistanceNumberSpriteData1_");
+	toBossDistanceNumberSpriteData1_.Save();
 	JSON_ROOT();
 
 #pragma region HP

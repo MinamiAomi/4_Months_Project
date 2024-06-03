@@ -39,6 +39,7 @@ void BossBullet::Update() {
 		isAlive_ = false;
 	}
 	else {
+		transform.rotate = Quaternion::MakeForXAxis(Math::TwoPi*5.0f * float(lifeTime_)/600.0f);
 		lifeTime_++;
 	}
 	transform.translate += velocity_;
