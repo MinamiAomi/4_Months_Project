@@ -144,6 +144,7 @@ void Boss::Update() {
 
 			}
 			else {
+				state_->ChangeState(BossStateManager::State::kRoot);
 				if (player_->transform.translate.z <= transform.translate.z - player_->GetRunAwayLimitLine()) {
 					float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
 					transform.translate.z -= tmp;
@@ -155,9 +156,6 @@ void Boss::Update() {
 					skeleton->ApplyAnimation(parts.animation->GetAnimation("roar"), Character::GetSceneChangeTime());
 					skeleton->Update();
 				}
-				else {
-					state_->ChangeState(BossStateManager::State::kRoot);
-				}
 			}
 		}
 	}
@@ -165,7 +163,7 @@ void Boss::Update() {
 	default:
 		break;
 	}
-	
+
 	bossUI_->Update();
 	bossHP_->Update();
 	BossBulletManager::GetInstance()->Update();
