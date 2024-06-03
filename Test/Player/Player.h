@@ -44,6 +44,8 @@ public:
 	const bool GetIsMove() const { return isMove_; }
 	const bool GetIsGround() const { return isGround_; }
 	const bool GetIsAlive() const { return isAlive_; }
+	const bool GetCanFirstJump() const { return canFirstJump_; }
+	const bool GetCanSecondJump() const { return canSecondJump_; }
 	void SetBeltConveyorVelocity(float velocity) { beltConveyorVelocity_ = velocity; }
 
 	void SetWindVelocity(const Vector3& velocity) { windVelocity_ = velocity; }

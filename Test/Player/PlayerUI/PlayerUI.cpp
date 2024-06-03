@@ -73,6 +73,22 @@ void PlayerUI::Initialize() {
 
 void PlayerUI::Update() {
 	UpdatePlayerUI();
+	// ジャンプしてない
+	if (player_->GetCanFirstJump()) {
+		userFrameSprite_->SetIsActive(true);
+		userFrameSprite2_->SetIsActive(false);
+	}
+	// 一回ジャンプ
+	else if(player_->GetCanSecondJump()) {
+		userFrameSprite_->SetIsActive(false);
+		userFrameSprite2_->SetIsActive(true);
+	}
+	// 二回ジャンプ
+	else {
+		userFrameSprite_->SetIsActive(true);
+		userFrameSprite2_->SetIsActive(false);
+
+	}
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Player")) {
