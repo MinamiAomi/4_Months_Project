@@ -54,7 +54,7 @@ PSOutput main(PSInput input) {
     
     float3 normal = GetNormal(normalize(input.normal), normalize(input.tangent), input.texcoord);
     output.normal.xyz = (normal + 1.0f) * 0.5f;
-    output.normal.w = 1.0f;
+    output.normal.w = (float)instance.wireFrameMask;
   
     return output;
 }

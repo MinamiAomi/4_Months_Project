@@ -58,6 +58,7 @@ void BossModelManager::Initialize(const Transform* Transform, Player* player) {
     models_.at(BossParts::Parts::kBossBody)->SetModelIsAlive(true);
 
     RenderManager::GetInstance()->GetWireTranslucentRenderer().SetModel(models_.at(BossParts::Parts::kBossBody)->GetModel().get());
+    models_.at(BossParts::Parts::kBossBody)->GetModel()->SetWireFrameMask(true);
 }
 
 void BossModelManager::Update() {

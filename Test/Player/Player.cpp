@@ -87,6 +87,7 @@ void Player::Initialize() {
 	animationTime_ = 0.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("idle"), 0.0f);
 	model_->SetSkeleton(skeleton_);
+	model_->SetWireFrameMask(true);
 	animationType_ = IdleAnimation;
 
 	hammer_ = std::make_unique<PlayerHammer>();
