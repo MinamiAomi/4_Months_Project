@@ -170,52 +170,6 @@
             }
         },
         {
-            "type": "EMPTY",
-            "name": "反撃ボストリガーShot.010",
-            "transform": {
-                "translate": [
-                    0.0,
-                    15.813758850097656,
-                    44.160343170166016
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    18.837787628173828,
-                    24.59412956237793,
-                    1.0
-                ]
-            },
-            "file_name": "a",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "Trigger",
-                "state": 4
-            }
-        },
-        {
             "type": "MESH",
             "name": "floorEdge.009",
             "transform": {
@@ -671,7 +625,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -716,7 +671,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         },
         {
@@ -761,7 +717,8 @@
                 ]
             },
             "gimmick": {
-                "type": "BossHookAttackTrigger"
+                "type": "Trigger",
+                "state": 0
             }
         }
     ]

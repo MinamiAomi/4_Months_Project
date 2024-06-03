@@ -448,12 +448,12 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 		else if (collisionInfo.collider->GetName() == "bossLeftHand" ||
 			collisionInfo.collider->GetName() == "bossFloorAll" ||
-			collisionInfo.collider->GetName() == "bossLongDistanceAttack" ||
-			collisionInfo.collider->GetName() == "bossBullet") {
+			collisionInfo.collider->GetName() == "bossLongDistanceAttack") {
 			HitDamage(1);
 		}
 		else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
-			collisionInfo.collider->GetName() == "PendulumBall") &&
+			collisionInfo.collider->GetName() == "PendulumBall"|| 
+			collisionInfo.collider->GetName() == "bossBullet") &&
 			!isHit_) {
 			HitDamage();
 		}

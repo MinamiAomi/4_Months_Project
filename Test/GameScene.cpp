@@ -164,6 +164,7 @@ void GameScene::OnUpdate() {
 		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameStartMovie_.get();
+			boss_->GetStateManager()->ChangeState(BossStateManager::State::kRoot);
 		}
 
 

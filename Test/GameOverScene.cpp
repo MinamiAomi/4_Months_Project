@@ -9,26 +9,36 @@
 #include "GameScene.h"
 #include "Framework/ResourceManager.h"
 #include "Graphics/GameWindow.h"
+#include "Graphics/ImGuiManager.h"
 
 void GameOverScene::OnInitialize() {
 	camera_ = std::make_unique<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 
+	debugCamera_ = std::make_unique<DebugCamera>();
+	debugCamera_->Initialize();
+
+	camera_->SetPosition({ 0.0f,25.0f,-20.0f });
+	camera_->UpdateMatrices();
 	RenderManager::GetInstance()->SetCamera(camera_);
 
 	title_ = std::make_unique<Sprite>();
-	title_->SetTexture(ResourceManager::GetInstance()->FindTexture("title"));
+	title_->SetTexture(ResourceManager::GetInstance()->FindTexture("gameOver"));
 	title_->SetIsActive(true);
 	title_->SetDrawOrder(static_cast<uint8_t>(0));
-	title_->SetScale({ 864.0f,278.0f });
+	title_->SetScale({ 739.0f,139.0f });
 	title_->SetRotate(0.0f);
-	title_->SetPosition(Vector2{ float(GameWindow::GetInstance()->GetClientWidth() * 0.5f),float(GameWindow::GetInstance()->GetClientHeight() * 0.5f) });
+	title_->SetPosition(Vector2{ float(GameWindow::GetInstance()->GetClientWidth() * 0.5f),float(GameWindow::GetInstance()->GetClientHeight() * 0.25f) });
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
-	title_->SetTexcoordSize({ 864.0f,278.0f });
+	title_->SetTexcoordSize({ 739.0f,139.0f});
+
+	gameOverBoss_ = std::make_unique<GameOverBoss>();
+	gameOverBoss_->Initialize();
 }
 
 void GameOverScene::OnUpdate() {
+	gameOverBoss_->Update();
 	if ((Input::GetInstance()->IsKeyTrigger(DIK_SPACE) ||
 		((Input::GetInstance()->GetXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A) &&
 			!(Input::GetInstance()->GetPreXInputState().Gamepad.wButtons & XINPUT_GAMEPAD_A)))&&
@@ -56,6 +66,18 @@ void GameOverScene::OnUpdate() {
 		!SceneManager::GetInstance()->GetSceneTransition().IsPlaying())
 		) {
 		SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
+	}
+	if (ImGui::Checkbox("DebugCamera", &isDebugCamera_)) {
+
+		if (isDebugCamera_) {
+			RenderManager::GetInstance()->SetCamera(debugCamera_->GetCamera());
+		}
+		else {
+			RenderManager::GetInstance()->SetCamera(camera_);
+		}
+	}
+	if (isDebugCamera_) {
+		debugCamera_->Update();
 	}
 #endif // _DEBUG
 }
