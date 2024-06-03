@@ -49,7 +49,7 @@ void Player::Initialize() {
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->SetCamera(camera_);
 	playerUI_->Initialize();
-	playerRevengeGage_->Initialize(boss_);
+	playerRevengeGage_->Initialize(boss_,this);
 
 	bulletManager_->Initialize();
 
