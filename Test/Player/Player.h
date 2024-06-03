@@ -59,6 +59,8 @@ public:
 	const Vector3& GetPrePos() const { return prePos_; }
 	const Vector3& GetAcceleration() const { return acceleration_; }
 	void SetTrapManager(TrapManager* trapManager) { trapManager_ = trapManager; }
+
+	const float& GetToBossDistance() const { return toBossDistance_; }
 private:
 	enum AnimationType {
 		IdleAnimation,
@@ -139,6 +141,7 @@ private:
 	uint32_t dashMaxCount_;
 	uint32_t dashIntervalCount_;
 	float rotateAnimationAllFrame_;
+	float toBossDistance_;
 #pragma endregion
 
 #pragma region Json
