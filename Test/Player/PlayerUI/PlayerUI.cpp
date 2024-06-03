@@ -28,6 +28,8 @@ void PlayerUI::Initialize() {
 #pragma region 全体フレーム
 
 	userFrameSprite_ = CreateSprite(userFrameSpriteData_, "FrameUI");
+	userFrameSprite2_ = CreateSprite(userFrameSpriteData2_, "FrameUI_2");
+	userFrameSprite2_->SetIsActive(false);
 
 #pragma endregion
 
