@@ -927,6 +927,98 @@
                 "type": "Trigger",
                 "state": 4
             }
+        },
+        {
+            "type": "MESH",
+            "name": "スイッチ.032",
+            "transform": {
+                "translate": [
+                    18.867219924926758,
+                    -2.2937111854553223,
+                    0.9192514419555664
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    2.4596660137176514,
+                    2.4596660137176514,
+                    2.4596660137176514
+                ]
+            },
+            "file_name": "switch",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    5.239999771118164,
+                    2.8499999046325684,
+                    6.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickSwitch",
+                "dropGimmickIndex": 33
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "ダクト（仮）.029",
+            "transform": {
+                "translate": [
+                    11.498930931091309,
+                    35.13273239135742,
+                    -28.487903594970703
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "dropper",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    -0.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "rotate": [
+                    0.0,
+                    -0.0,
+                    -0.0,
+                    1.0
+                ]
+            },
+            "gimmick": {
+                "type": "DropGimmickDropper",
+                "dropGimmickIndex": 33
+            }
         }
     ]
 }
