@@ -65,11 +65,13 @@ void StageLoop::Update() {
 #ifdef _DEBUG
 	Debug();
 #endif // _DEBUG
-
-
 	if (hammerMovie_->IsHitFrame() && !isCreateStage_) {
 		isCreateStage_ = true;
 		CreateStage();
+	}
+	else if (!boss_->GetIsFirstHit()) {
+		TutorialCreateStage();
+
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
@@ -481,13 +483,13 @@ void StageLoop::Clear() {
 	stageObjectManager_->Clear();
 }
 
-void StageLoop::DeleteObject() {
+void StageLoop::DeleteObject(uint32_t index) {
 
-	uint32_t leaveIndex = stageDistance_.at(0).stageNum;
+	uint32_t leaveIndex = index;
 
 	auto& bossTriggers = bossAttackTriggerManager_->GetBossAttackTriggers();
 	for (auto it = bossTriggers.begin(); it != bossTriggers.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = bossTriggers.erase(it);
 		}
 		else {
@@ -497,7 +499,7 @@ void StageLoop::DeleteObject() {
 
 	auto& beltConveyorManager = beltConveyorManager_->GetBlocks();
 	for (auto it = beltConveyorManager.begin(); it != beltConveyorManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = beltConveyorManager.erase(it);
 		}
 		else {
@@ -508,7 +510,7 @@ void StageLoop::DeleteObject() {
 
 	auto& blockManager = blockManager_->GetBlocks();
 	for (auto it = blockManager.begin(); it != blockManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = blockManager.erase(it);
 		}
 		else {
@@ -519,7 +521,7 @@ void StageLoop::DeleteObject() {
 
 	auto& fireBarManager = fireBarManager_->GetFireBars();
 	for (auto it = fireBarManager.begin(); it != fireBarManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = fireBarManager.erase(it);
 		}
 		else {
@@ -531,7 +533,7 @@ void StageLoop::DeleteObject() {
 
 	auto& revengeCoinManager = revengeCoinManager_->GetBlocks();
 	for (auto it = revengeCoinManager.begin(); it != revengeCoinManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = revengeCoinManager.erase(it);
 		}
 		else {
@@ -543,7 +545,7 @@ void StageLoop::DeleteObject() {
 
 	auto& floorManager = floorManager_->GetFloors();
 	for (auto it = floorManager_->GetFloors().begin(); it != floorManager_->GetFloors().end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = floorManager.erase(it);
 		}
 		else {
@@ -555,7 +557,7 @@ void StageLoop::DeleteObject() {
 
 	auto& dropGimmickManager = dropGimmickManager_->GetDropGimmicks();
 	for (auto it = dropGimmickManager.begin(); it != dropGimmickManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = dropGimmickManager.erase(it);
 		}
 		else {
@@ -566,7 +568,7 @@ void StageLoop::DeleteObject() {
 
 	auto& dropperBallManager = dropGimmickManager_->GetDropperBallManager()->GetDropGimmicks();
 	for (auto it = dropperBallManager.begin(); it != dropperBallManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = dropperBallManager.erase(it);;
 		}
 		else {
@@ -578,7 +580,7 @@ void StageLoop::DeleteObject() {
 
 	auto& pendulumManager = pendulumManager_->GetPendulums();
 	for (auto it = pendulumManager.begin(); it != pendulumManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			it = pendulumManager.erase(it);
 		}
 		else {
@@ -590,7 +592,7 @@ void StageLoop::DeleteObject() {
 
 	auto& stageObjectManager = stageObjectManager_->GetStageObjects();
 	for (auto it = stageObjectManager.begin(); it != stageObjectManager.end(); ) {
-		if ((*it)->stageGimmickNumber != leaveIndex) {
+		if ((*it)->stageGimmickNumber == leaveIndex) {
 			// イテレータを削除後にインクリメントする
 			it = stageObjectManager.erase(it);
 		}
@@ -813,5 +815,50 @@ void StageLoop::CreateStageObject(const Desc& stageData, float distance, uint32_
 		StageObject::Desc mutableDesc = desc;
 		mutableDesc.desc.transform.translate.z += distance;
 		stageObjectManager_->Create(mutableDesc, index);
+	}
+}
+
+void StageLoop::TutorialCreateStage() {
+	bool found = false;
+	uint32_t index = 0;
+	uint32_t leaveStageNum = 0;
+
+	// プレイヤーの位置に基づいて leaveIndex と leaveNextIndex を決定
+	for (uint32_t i = 0; i < stageDistance_.size(); ++i) {
+		const auto& stageDistance = stageDistance_[i];
+		float playerZ = player_->transform.worldMatrix.GetTranslate().z;
+		float stageMinZ = stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+		float stageMaxZ = stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+
+		if (playerZ >= stageMinZ && playerZ <= stageMaxZ) {
+			index = i;
+			leaveStageNum = stageDistance.stageNum;
+			found = true;
+			break;
+		}
+	}
+	// leaveIndex と leaveNextIndex を残す
+	stageDistance_.erase(
+		std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+			[leaveStageNum](const StageDistance& stageDistance) {
+				return stageDistance.stageNum < leaveStageNum;
+			}),
+		stageDistance_.end());
+
+	if (stageDistance_.size() < kCreateStageNum) {
+		if (leaveStageNum > 2) {
+		DeleteObject(leaveStageNum - 2);
+		}
+		float distance = 0.0f;
+		uint32_t stageIndex = 0;
+		StageDistance stageDistance{};
+		distance += stageDistance_.back().distance + stageData_.at(stageIndex).stageSize * 0.5f;
+
+		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
+		stageDistance.distance = distance;
+		stageDistance.stageIndex = stageIndex;
+		stageDistance.stageNum = stageNum_;
+		stageDistance_.emplace_back(stageDistance);
+		stageNum_++;
 	}
 }
