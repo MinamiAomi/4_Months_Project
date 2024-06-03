@@ -63,7 +63,7 @@ void StageObject::UpdateTransform() {
 		collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
 		collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
 	}
-	model_->SetWorldMatrix(transform.worldMatrix);
+	model_->SetWorldMatrix(Matrix4x4::MakeRotationY(Math::ToRadian * 90.0f) * transform.worldMatrix);
 	model_->SetIsActive(true);
 }
 
