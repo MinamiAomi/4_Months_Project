@@ -11,6 +11,8 @@ class TitleFloor :
 public:
 	void Initialize();
 	void Update();
+
+	ModelInstance* GetModel() { return model_.get(); }
 private:
 	void UpdateTransform();
 

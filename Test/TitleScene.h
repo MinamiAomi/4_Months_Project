@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene/BaseScene.h"
 
+#include <array>
 #include <memory>
 #include <vector>
 
@@ -30,8 +31,8 @@ private:
 	std::unique_ptr<Sprite> title_;
 	std::unique_ptr<TitleUI> UI_;
 	std::unique_ptr<TitlePlayer> titlePlayer_;
-	std::unique_ptr<TitleFloor> titleFloor_;
+	std::array<std::unique_ptr<TitleFloor>,3>titleFloor_;
 	std::unique_ptr<TitleBoss> titleBoss_;
 
-
+	bool isDebugCamera_;
 };

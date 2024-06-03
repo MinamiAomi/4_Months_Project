@@ -13,7 +13,7 @@ void TitleBoss::Initialize() {
 	skeleton_->Create(model_->GetModel());
 	animationAllFrame_ = 240.0f;
 	animationTime_ = 0.0f;
-	offset_ = -10.0f;
+	offset_ = 50.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("move"), 0.0f);
 	model_->SetSkeleton(skeleton_);
 }

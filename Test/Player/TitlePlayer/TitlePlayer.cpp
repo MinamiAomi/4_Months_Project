@@ -2,6 +2,7 @@
 
 #include "Framework/ResourceManager.h"
 #include "Engine/Graphics/ImGuiManager.h"
+#include "Math/MathUtils.h"
 
 void TitlePlayer::Initialize() {
 	model_ = std::make_unique<ModelInstance>();
@@ -15,6 +16,8 @@ void TitlePlayer::Initialize() {
 	animationTime_ = 0.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("move.001"), 0.0f);
 	model_->SetSkeleton(skeleton_);
+
+	transform.rotate = Quaternion::MakeForYAxis(180.0f*Math::ToRadian);
 }
 
 void TitlePlayer::Update() {
