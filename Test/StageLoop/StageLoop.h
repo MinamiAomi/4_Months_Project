@@ -47,7 +47,7 @@ private:
 	const Camera* camera_;
 	const HammerMovie* hammerMovie_;
 	Player* player_;
-	static const uint32_t kCreateStageNum = 5;
+	static const uint32_t kCreateStageNum = 7;
 
 	struct Desc {
 		std::vector<BeltConveyor::Desc>beltConveyorDesc;
@@ -71,6 +71,8 @@ private:
 	void DeleteObject(uint32_t index);
 	void CheckOnPlayerStageParts();
 
+	void AddStage();
+
 	void Debug();
 
 	void CreateStage(uint32_t stageIndex = (uint32_t)-1);
@@ -87,6 +89,7 @@ private:
 	Random::RandomNumberGenerator rnd_;
 	bool isCreateStage_;
 	uint32_t stageNum_;
+	uint32_t playerCurrentStageNum_;
 
 	struct LevelDesc {
 		struct Range {

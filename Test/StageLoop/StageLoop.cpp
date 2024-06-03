@@ -55,6 +55,7 @@ void StageLoop::Initialize() {
 	LoadJson();
 
 	stageNum_ = 0;
+	playerCurrentStageNum_ = 0;
 	InitializeCreateStage(0);
 
 	isCreateStage_ = false;
@@ -75,6 +76,7 @@ void StageLoop::Update() {
 	}
 	else if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		isCreateStage_ = false;
+		AddStage();
 	}
 
 	blockManager_->Update();
@@ -620,6 +622,8 @@ void StageLoop::CheckOnPlayerStageParts() {
 			index = i;
 			leaveStageNum = stageDistance.stageNum;
 			found = true;
+			playerCurrentStageNum_ = leaveStageNum;
+			break;
 		}
 	}
 
@@ -833,6 +837,7 @@ void StageLoop::TutorialCreateStage() {
 		if (playerZ >= stageMinZ && playerZ <= stageMaxZ) {
 			index = i;
 			leaveStageNum = stageDistance.stageNum;
+			playerCurrentStageNum_ = leaveStageNum;
 			found = true;
 			break;
 		}
@@ -847,12 +852,79 @@ void StageLoop::TutorialCreateStage() {
 
 	if (stageDistance_.size() < kCreateStageNum) {
 		if (leaveStageNum > 2) {
-		DeleteObject(leaveStageNum - 2);
+			DeleteObject(leaveStageNum - 2);
 		}
 		float distance = 0.0f;
 		uint32_t stageIndex = 0;
 		StageDistance stageDistance{};
 		distance += stageDistance_.back().distance + stageData_.at(stageIndex).stageSize * 0.5f;
+
+		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
+		stageDistance.distance = distance;
+		stageDistance.stageIndex = stageIndex;
+		stageDistance.stageNum = stageNum_;
+		stageDistance_.emplace_back(stageDistance);
+		stageNum_++;
+	}
+}
+
+void StageLoop::AddStage() {
+	bool found = false;
+	uint32_t index = 0;
+	uint32_t leaveStageNum = 0;
+	uint32_t prePlayerCurrentStageNum = playerCurrentStageNum_;
+	// プレイヤーの位置に基づいて leaveIndex と leaveNextIndex を決定
+	for (uint32_t i = 0; i < stageDistance_.size(); ++i) {
+		const auto& stageDistance = stageDistance_[i];
+		float playerZ = player_->transform.worldMatrix.GetTranslate().z;
+		float stageMinZ = stageDistance.distance - stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+		float stageMaxZ = stageDistance.distance + stageData_.at(stageDistance.stageIndex).stageSize * 0.5f;
+
+		if (playerZ >= stageMinZ && playerZ <= stageMaxZ) {
+			index = i;
+			leaveStageNum = stageDistance.stageNum;
+			playerCurrentStageNum_ = leaveStageNum;
+			found = true;
+			break;
+		}
+	}
+
+
+
+	//// leaveIndex と leaveNextIndex を残す
+	//stageDistance_.erase(
+	//	std::remove_if(stageDistance_.begin(), stageDistance_.end(),
+	//		[leaveStageNum](const StageDistance& stageDistance) {
+	//			return stageDistance.stageNum < leaveStageNum;
+	//		}),
+	//	stageDistance_.end());
+
+	if (playerCurrentStageNum_ > prePlayerCurrentStageNum) {
+		uint32_t stageIndex = 0;
+		// BossHPが今何割か
+		auto hp = boss_->GetBossHP()->GetCurrentHP();
+		int32_t maxHP = boss_->GetBossHP()->kMaxHP;
+		float hpRatio = 1.0f - (static_cast<float>(hp) / static_cast<float>(maxHP));
+		uint32_t levelCount = static_cast<uint32_t>(levelDesc_.size()) - 1;
+
+		// ここの部分でどのlevelDescを使うか
+		uint32_t currentLevel = std::clamp(static_cast<uint32_t>(std::lerp(0.0f, static_cast<float>(levelCount), hpRatio)), 0u, levelCount);
+		StageDistance stageDistance{};
+
+		// 確率をとりどこのレベルを使用するか
+		float probability = std::lerp(0.0f, 100.0f, rnd_.NextFloatUnit());
+		float sum = 0.0f;
+
+		for (size_t j = 0; j < levelDesc_.at(currentLevel).probability.size(); ++j) {
+			sum += levelDesc_.at(currentLevel).probability.at(j);
+			if (sum >= probability) {
+				stageIndex = rnd_.NextUIntRange(levelDesc_.at(currentLevel).stage.min, levelDesc_.at(currentLevel).stage.max);
+				break;
+			}
+		}
+
+		float distance = stageDistance_.back().distance - stageData_.at(stageDistance_.back().stageIndex).stageSize * 0.5f - (stageData_.at(stageIndex).stageSize * 0.5f);
+
 
 		CreateStageObject(stageData_.at(stageIndex), distance, stageNum_);
 		stageDistance.distance = distance;

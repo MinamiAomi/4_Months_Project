@@ -301,12 +301,7 @@ void BossStateManager::ChangeState(const BossStateManager::State& state) {
 void BossStateRoot::Initialize() {
 	SetDesc();
 	time_ = 0.0f;
-	if (Character::currentCharacterState_ == Character::State::kRunAway) {
-		manager_.boss.transform.rotate = Quaternion::identity;
-	}
-	else {
-		manager_.boss.transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
-	}
+
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kFloorAll)->SetIsAlive(false);
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kLongDistanceAttack)->SetIsAlive(false);
 	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
