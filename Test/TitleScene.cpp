@@ -53,7 +53,7 @@ void TitleScene::OnInitialize() {
 }
 
 void TitleScene::OnUpdate() {
-	
+
 	titlePlayer_->Update();
 	for (uint32_t i = 0; i < 3; ++i) {
 		titleFloor_.at(i)->transform.translate.z += 0.5f;

@@ -77,6 +77,9 @@ void Boss::Initialize() {
 
 void Boss::Update() {
 	isHit_ = false;
+	if (bossHP_->GetCurrentHP() <= 0) {
+		isAlive_ = false;
+	}
 #ifdef _DEBUG
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
@@ -161,9 +164,6 @@ void Boss::Update() {
 	bossHP_->Update();
 	BossBulletManager::GetInstance()->Update();
 	UpdateTransform();
-	if (bossHP_->GetCurrentHP() <= 0) {
-		isAlive_ = false;
-	}
 }
 
 void Boss::MovieUpdate()
