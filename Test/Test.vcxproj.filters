@@ -157,6 +157,12 @@
     <Filter Include="Game\Object\Boss\GameOverBoss">
       <UniqueIdentifier>{513dd56d-6667-4cb4-9f31-2189e195a0a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Boss\GameClearBoss">
+      <UniqueIdentifier>{f2547533-7f3c-44b0-9ece-aa10f0139d63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Player\GameClearPlayer">
+      <UniqueIdentifier>{71a000da-3dd9-4eff-9173-bb2722e6f933}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -405,6 +411,8 @@
       <Filter>Game\Object\Player\UFO</Filter>
     </ClCompile>
     <ClCompile Include="Boss\GameOverBoss\GameOverBoss.cpp" />
+    <ClCompile Include="Boss\GameClearBoss\GameClearBoss.cpp" />
+    <ClCompile Include="Player\GameClearPlayer\GameClearPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -665,6 +673,12 @@
     </ClInclude>
     <ClInclude Include="Boss\GameOverBoss\GameOverBoss.h">
       <Filter>Game\Object\Boss\GameOverBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\GameClearBoss\GameClearBoss.h">
+      <Filter>Game\Object\Boss\GameClearBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\GameClearPlayer\GameClearPlayer.h">
+      <Filter>Game\Object\Player\GameClearPlayer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,6 +31,7 @@
     <ClCompile Include="Boss\BossParticle\BossLineParticle.cpp" />
     <ClCompile Include="Boss\BossStateManager\BossStateManager.cpp" />
     <ClCompile Include="Boss\BossUI\BossUI.cpp" />
+    <ClCompile Include="Boss\GameClearBoss\GameClearBoss.cpp" />
     <ClCompile Include="Boss\GameOverBoss\GameOverBoss.cpp" />
     <ClCompile Include="Boss\TitleBoss\TitleBoss.cpp" />
     <ClCompile Include="CameraManager\CameraManager.cpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="LoadScene.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="Player\GameClearPlayer\GameClearPlayer.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerAttack\PlayerAttackManager.cpp" />
     <ClCompile Include="Player\PlayerBullet\BulletManager.cpp" />
@@ -119,6 +121,7 @@
     <ClInclude Include="Boss\BossParticle\BossLineParticle.h" />
     <ClInclude Include="Boss\BossStateManager\BossStateManager.h" />
     <ClInclude Include="Boss\BossUI\BossUI.h" />
+    <ClInclude Include="Boss\GameClearBoss\GameClearBoss.h" />
     <ClInclude Include="Boss\GameOverBoss\GameOverBoss.h" />
     <ClInclude Include="Boss\TitleBoss\TitleBoss.h" />
     <ClInclude Include="CameraManager\CameraManager.h" />
@@ -147,6 +150,7 @@
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="Movie.h" />
     <ClInclude Include="Pause.h" />
+    <ClInclude Include="Player\GameClearPlayer\GameClearPlayer.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerAttack\PlayerAttackManager.h" />
     <ClInclude Include="Player\PlayerBullet\BulletManager.h" />
