@@ -56,25 +56,23 @@ void Sprite::SetTexture(const std::shared_ptr<Texture>& texture) {
 
 void Sprite::SetPosition(const Vector2& position)
 {
-    GameWindow* w = GameWindow::GetInstance();
-    float y = position.y / w->GetClientHeight();
-    float x = position.x / w->GetClientWidth();
     RECT rect;
     GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
     float width = float(rect.right - rect.left);
     float height = float(rect.bottom - rect.top);
-    position_ = { width * x,height * y };
+    float x = width / 1920.0f;
+    float y = height / 1080.0f;
+    position_ = { position.x * x, position.y * y };
 }
 
 void Sprite::SetScale(const Vector2& scale)
 {
-    GameWindow* w = GameWindow::GetInstance();
     RECT rect;
     GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
     float width = float(rect.right - rect.left);
     float height = float(rect.bottom - rect.top);
 
-    float x = width / w->GetClientWidth();
-    float y = height / w->GetClientHeight();
+    float x = width / 1920.0f;
+    float y = height / 1080.0f;
     scale_ = Vector2{ scale.x * x,scale.y * y };
 }

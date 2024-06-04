@@ -7,6 +7,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 #include "Core/Helper.h"
 
+//#define FULL_SCREEN
 
 namespace {
     // ウィンドウプロシージャ
@@ -34,7 +35,13 @@ GameWindow* GameWindow::GetInstance() {
 void GameWindow::Initialize(const wchar_t* title, uint32_t clientWidth, uint32_t clientHeight) {
     ASSERT_IF_FAILED(CoInitializeEx(0, COINIT_MULTITHREADED));
 
+#ifdef FULL_SCREEN
     windowStyle_ = WS_OVERLAPPEDWINDOW;
+    windowStyleEx_ = 0;
+#else
+    windowStyle_ = WS_POPUP;
+    windowStyleEx_ = WS_EX_APPWINDOW;
+#endif
 
     // ウィンドウクラスを生成
     WNDCLASS wc{};
@@ -44,26 +51,32 @@ void GameWindow::Initialize(const wchar_t* title, uint32_t clientWidth, uint32_t
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);	// カーソル
     RegisterClass(&wc);	// ウィンドウクラスを登録
 
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+    clientWidth_ = clientWidth;
+    clientHeight_ = clientHeight;
+    clientWidth_ = screenWidth;
+    clientHeight_ = screenHeight;
+
     // ウィンドウサイズを表す構造体にクライアント領域を入れる
-    RECT wrc{ 0,0,static_cast<LONG>(clientWidth),static_cast<LONG>(clientHeight) };
+    RECT wrc{ 0,0,static_cast<LONG>(clientWidth_),static_cast<LONG>(clientHeight_) };
     // クライアント領域を元に実際のサイズにwrcを変更してもらう
     AdjustWindowRect(&wrc, windowStyle_, false);
 
     // ウィンドウの生成
-    hWnd_ = CreateWindow(
+    hWnd_ = CreateWindowEx(
+        windowStyleEx_,
         wc.lpszClassName,		// 利用するクラス名
         title,				// タイトルバーの文字
         windowStyle_,	// よく見るウィンドウスタイル
-        CW_USEDEFAULT,			// 表示X座標（WindowsOSに任せる）
-        CW_USEDEFAULT,			// 表示Y座標（WindowsOSに任せる）
+        0,			// 表示X座標（WindowsOSに任せる）
+        0,			// 表示Y座標（WindowsOSに任せる）
         wrc.right - wrc.left,	// ウィンドウ横幅
         wrc.bottom - wrc.top,	// ウィンドウ縦幅
         nullptr,				// 親ウィンドウハンドル
         nullptr,				// メニューハンドル
         wc.hInstance,			// インスタンスハンドル
         nullptr);				// オプション
-    clientWidth_ = clientWidth;
-    clientHeight_ = clientHeight;
     aspectRaito_ = clientWidth_ / float(clientHeight_);
 
     SetWindowLongPtr(hWnd_, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
