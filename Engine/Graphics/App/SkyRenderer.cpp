@@ -9,6 +9,8 @@ namespace {
 	const wchar_t kPixelShader[] = L"App/SkyPS.hlsl";
 }
 
+float SkyRenderer::t_ = 0.0f;
+
 void SkyRenderer::Initialize(DXGI_FORMAT rtvFormat) {
 #pragma region パラメーター
 	JSON_OPEN("Resources/Data/Sky/Sky.json");

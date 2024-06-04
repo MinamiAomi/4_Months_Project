@@ -166,7 +166,7 @@ void Boss::Update() {
 		break;
 	}
 
-	bossUI_->Update();
+	
 	bossHP_->Update();
 	bossLineParticle_->Update();
 	BossBulletManager::GetInstance()->Update();
@@ -186,6 +186,7 @@ void Boss::Update() {
 void Boss::MovieUpdate() {
 	isHit_ = false;
 	lightManager_->Add(pointLight_);
+	bossUI_->Update();
 	if (changeColorFrame_ > 0) {
 		changeColorFrame_--;
 		pointLight_->color.x = 6.0f;

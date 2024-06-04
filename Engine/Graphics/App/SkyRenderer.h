@@ -13,6 +13,8 @@
 
 class SkyRenderer {
 public:
+   static float t_;
+
     void Initialize(DXGI_FORMAT rtvFormat);
     void Render(CommandContext& commandContext, const Camera& camera, Matrix4x4 worldMatrix);
     void DebugParam();
@@ -22,6 +24,8 @@ public:
 
     const Vector3& GetTopColor() const { return topColor_; }
     const Vector3& GetBottomColor() const { return bottomColor_; }
+
+    static void SetZero() { t_ = 0.0f; }
 
 private:
     RootSignature rootSignature_;
@@ -34,7 +38,7 @@ private:
     Vector3 oppositionTopColor_ = { 0.790f,1.0f,0.06f };
     Vector3 oppositionBottomColor_ = { 0.220f,1.0f,0.06f };
     Character::State saveState_;
-    float t_ = 0.0f;
+
     float speed_ = 0.01f;
 
 };
