@@ -744,9 +744,8 @@ void BossStateBeamAttack::AttackUpdate() {
 	}
 
 	if (t >= 1.0f) {
-		auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
-		rotate.y = 0.0f;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		auto& rotate = manager_.boss.transform.rotate;
+		rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->SetIsAlive(false);
 		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBeamAttack)->GetModel()->SetColor({ 1.0f,1.0f,1.0f });
 		manager_.ChangeState(BossStateManager::State::kRoot);
@@ -810,12 +809,10 @@ float BossStateShotAttack::GetAnimationTime() const {
 void BossStateBeamAttack::RotateUpdate() {
 	float t = time_ / data_.rotateEasingTime;
 	time_ += 1.0f;
-	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
-	rotate.y = std::lerp(0.0f * Math::ToRadian, 180.0f * Math::ToRadian, t);
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+	auto& rotate = manager_.boss.transform.rotate;
+	rotate = Quaternion::MakeForYAxis(std::lerp(0.0f * Math::ToRadian, 180.0f * Math::ToRadian, t));
 	if (t >= 1.0f) {
-		rotate.y = 180.0f * Math::ToRadian;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
 		attackState_ = kChage;
 		time_ = 0.0f;
 	}
@@ -863,9 +860,8 @@ void BossStateShotAttack::AttackUpdate() {
 	}
 
 	if (t >= 1.0f) {
-		auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
-		rotate.y = 0.0f * Math::ToRadian;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		auto& rotate = manager_.boss.transform.rotate;
+		rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
 		manager_.ChangeState(BossStateManager::State::kRoot);
 		lastBulletTime_ = 0.0f;
 	}
@@ -874,12 +870,10 @@ void BossStateShotAttack::AttackUpdate() {
 void BossStateShotAttack::RotateUpdate() {
 	float t = time_ / data_.rotateEasingTime;
 	time_ += 1.0f;
-	auto& rotate = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetRotate();
-	rotate.y = std::lerp(0.0f * Math::ToRadian, 180.0f * Math::ToRadian, t);
-	manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+	auto& rotate = manager_.boss.transform.rotate;
+	rotate = Quaternion::MakeForYAxis(std::lerp(180.0f * Math::ToRadian, 0.0f * Math::ToRadian, t));
 	if (t >= 1.0f) {
-		rotate.y = 180.0f * Math::ToRadian;
-		manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::MakeFromEulerAngle(rotate);
+		rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
 		attackState_ = kChage;
 		time_ = 0.0f;
 	}

@@ -9,7 +9,7 @@
         "Probability2": {
             "probability": 0.0
         },
-        "levelDesc.stage.max": 3,
+        "levelDesc.stage.max": 7,
         "levelDesc.stage.min": 1
     },
     "StageLoop1": {

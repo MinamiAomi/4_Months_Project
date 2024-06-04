@@ -152,28 +152,31 @@ void PlayerUI::Update() {
 	GetWindowRect(GameWindow::GetInstance()->GetHWND(), &rect);
 	LONG width = rect.right - rect.left;
 	LONG height = rect.bottom - rect.top;
+	width = 1920;
+	height = 1080;
 
 	Matrix4x4 vpv = camera_->GetViewMatrix() * camera_->GetProjectionMatrix() ;
 	vpv *= Matrix4x4::MakeScaling({ 1.0f, -1.0f, 1.0f }) * Matrix4x4::MakeTranslation({0.0f, 0.0f, 0.0f});
 	vpv *= Matrix4x4::MakeViewport(0, 0, float(width), float(height), camera_->GetNearClip(), camera_->GetFarClip());
 	Vector3 viewportPlayerPosition = vpv.ApplyTransformWDivide(player_->transform.worldMatrix.GetTranslate());
+	Vector2 framePosition = Vector2(viewportPlayerPosition.x, viewportPlayerPosition.y);
 
-	playerFrameSprite_->SetPosition(Vector2(viewportPlayerPosition.x - 20.0f, viewportPlayerPosition.y - 20.0f));
+	playerFrameSprite_->SetPosition(framePosition);
 
 	//プレイヤーUIフレームを親にする
-	UpdateRevengeGage();
+	UpdateRevengeGage(framePosition);
 	//revengeBarGaugeSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeSpriteData_.position);
-	revengeBarGaugeBaseSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarGaugeBaseSpriteData_.position);
-	revengeBarIconSprite_->SetPosition(playerFrameSprite_->GetPosition() + revengeBarIconSpriteData_.position);
-	toBossDistanceBarSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceBarSpriteData_.position);
-	toBossDistanceMeterSprite_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceMeterSpriteData_.position);
-	toBossDistanceNumberSprite100_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData100_.position);
-	toBossDistanceNumberSprite10_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData10_.position);
-	toBossDistanceNumberSprite1_->SetPosition(playerFrameSprite_->GetPosition() + toBossDistanceNumberSpriteData1_.position);
+	revengeBarGaugeBaseSprite_->SetPosition(framePosition + revengeBarGaugeBaseSpriteData_.position);
+	revengeBarIconSprite_->SetPosition(framePosition + revengeBarIconSpriteData_.position);
+	toBossDistanceBarSprite_->SetPosition(framePosition + toBossDistanceBarSpriteData_.position);
+	toBossDistanceMeterSprite_->SetPosition(framePosition + toBossDistanceMeterSpriteData_.position);
+	toBossDistanceNumberSprite100_->SetPosition(framePosition + toBossDistanceNumberSpriteData100_.position);
+	toBossDistanceNumberSprite10_->SetPosition(framePosition + toBossDistanceNumberSpriteData10_.position);
+	toBossDistanceNumberSprite1_->SetPosition(framePosition + toBossDistanceNumberSpriteData1_.position);
 
-	hpSprite_.at(0)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(0).position);
-	hpSprite_.at(1)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(1).position);
-	hpSprite_.at(2)->SetPosition(playerFrameSprite_->GetPosition() + hpSpriteData_.at(2).position);
+	hpSprite_.at(0)->SetPosition(framePosition + hpSpriteData_.at(0).position);
+	hpSprite_.at(1)->SetPosition(framePosition + hpSpriteData_.at(1).position);
+	hpSprite_.at(2)->SetPosition(framePosition + hpSpriteData_.at(2).position);
 
 	if (Movie::isPlaying) {
 		playerFrameSprite_->SetIsActive(false);
@@ -231,14 +234,14 @@ void PlayerUI::UpdateHP() {
 	}
 }
 
-void PlayerUI::UpdateRevengeGage() {
+void PlayerUI::UpdateRevengeGage(const Vector2& framePosition) {
 	float revengeGage = playerRevengeGage_->GetCurrentRevengeBarGage();
 	float barT = revengeGage / PlayerRevengeGage::kMaxRevengeBar;
 #pragma region Bar
 	revengeBarGaugeSprite_->SetPosition(
 		{
-		std::lerp((playerFrameSprite_->GetPosition().x + revengeBarGaugeSpriteData_.position.x) - revengeBarGaugeSpriteData_.scale.x * 0.5f,(playerFrameSprite_->GetPosition().x + revengeBarGaugeSpriteData_.position.x) ,barT),
-		playerFrameSprite_->GetPosition().y + revengeBarGaugeSpriteData_.position.y
+		std::lerp((framePosition.x + revengeBarGaugeSpriteData_.position.x) - revengeBarGaugeSpriteData_.scale.x * 0.5f,(framePosition.x + revengeBarGaugeSpriteData_.position.x) ,barT),
+		framePosition.y + revengeBarGaugeSpriteData_.position.y
 		}
 	);
 	revengeBarGaugeSprite_->SetScale(

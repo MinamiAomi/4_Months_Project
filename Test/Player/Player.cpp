@@ -177,6 +177,7 @@ void Player::Update() {
 		if (Character::currentCharacterState_ == Character::State::kChase &&
 			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
 			Character::SetNextScene(Character::State::kRunAway);
+			boss_->SaveQuaternion();
 		}
 		if (!isDash_ && ufo_->GetIsFree()) {
 			acceleration_.y += gravity_;

@@ -43,11 +43,11 @@ void RenderManager::Initialize() {
     //preSwapChainBuffer_.Create(L"PreSwapChainBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_R8G8B8A8_UNORM);
     //mainDepthBuffer_.Create(L"MainDepthBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), DXGI_FORMAT_D32_FLOAT);
 
+    temporaryScreenBuffer_.Create(L"TemporaryScreenBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), swapChainBuffer.GetRTVFormat());
     skinningManager_.Initialize();
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
-    temporaryScreenBuffer_.Create(L"TemporaryScreenBuffer", swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight(), swapChainBuffer.GetRTVFormat());
     lineDrawer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat());
 
     bloom_.Initialize(&lightingRenderingPass_.GetResult());
@@ -146,9 +146,7 @@ void RenderManager::Render() {
 #ifdef ENABLE_IMGUI
         if (enableWireFrameModel) {
 #endif // ENABLE_IMGUI
-#ifdef _DEBUG
         wireTranslucentRenderer_.Render(commandContext_, *camera, geometryRenderingPass_.GetNormal(), lightingRenderingPass_.GetResult());
-#endif // _DEBUG
 #ifdef ENABLE_IMGUI
         }
 #endif // ENABLE_IMGUI

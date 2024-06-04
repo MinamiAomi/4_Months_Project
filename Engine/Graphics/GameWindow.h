@@ -34,7 +34,8 @@ private:
     HWND hWnd_;
     uint32_t clientWidth_ = 0;
     uint32_t clientHeight_ = 0;
-    UINT windowStyle_;
+    DWORD windowStyle_;
+    DWORD windowStyleEx_;
     RECT windowRect_;
     float aspectRaito_;
     SizeChangeMode sizeChangeMode_ = SizeChangeMode::kFixedAspect;
