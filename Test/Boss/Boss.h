@@ -70,6 +70,8 @@ private:
 
 	Vector3 toCameraVector_;
 
+	Quaternion saveQuaternion_;
+
 	bool isMove_;
 	bool isAlive_;
 	bool isFirstHit_;

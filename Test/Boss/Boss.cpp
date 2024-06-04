@@ -142,17 +142,18 @@ void Boss::Update() {
 				if (transform.rotate != Quaternion::MakeForYAxis(180.0f * Math::ToRadian)) {
 					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(0.0f * Math::ToRadian), Quaternion::MakeForYAxis(180.0f * Math::ToRadian));
 				}
-
-
 			}
 			else {
+				bossModelManager_->GetModel(BossParts::Parts::kBossBody)->transform.rotate = Quaternion::identity;
+				bossModelManager_->GetModel(BossParts::Parts::kBossBody)->SetRotate(Vector3::zero);
 				state_->ChangeState(BossStateManager::State::kRoot);
+
 				if (player_->transform.translate.z <= transform.translate.z - player_->GetRunAwayLimitLine()) {
 					float tmp = (transform.translate.z - player_->GetRunAwayLimitLine()) - player_->transform.translate.z;
 					transform.translate.z -= tmp;
 				}
 				if (transform.rotate != Quaternion::MakeForYAxis(0.0f * Math::ToRadian)) {
-					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), Quaternion::MakeForYAxis(180.0f * Math::ToRadian), Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
+					transform.rotate = Quaternion::Slerp(Character::GetSceneChangeTime(), saveQuaternion_, Quaternion::MakeForYAxis(0.0f * Math::ToRadian));
 					auto& skeleton = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetSkeleton();
 					auto& parts = bossModelManager_->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoar);
 					skeleton->ApplyAnimation(parts.animation->GetAnimation("houkou"), Character::GetSceneChangeTime());
@@ -248,6 +249,7 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 				if (!Character::IsOutSceneChange() && !Movie::isPlaying && !Movie::isEndFrame) {
 					isHit_ = true;
 				}
+				saveQuaternion_ = transform.rotate;
 				player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
 				if (isFirstHit_ && !Movie::isPlaying) {
 					bossHP_->AddPlayerHitHP();
