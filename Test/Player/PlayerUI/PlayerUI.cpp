@@ -192,6 +192,14 @@ void PlayerUI::Update() {
 		tutorial2_->SetIsActive(false);
 		tutorial3_->SetIsActive(false);
 	}
+	else {
+		playerFrameSprite_->SetIsActive(true);
+		toBossDistanceBarSprite_->SetIsActive(true);
+		toBossDistanceMeterSprite_->SetIsActive(true);
+		revengeBarGaugeSprite_->SetIsActive(true);
+		revengeBarGaugeBaseSprite_->SetIsActive(true);
+		revengeBarIconSprite_->SetIsActive(true);
+	}
 	
 }
 
