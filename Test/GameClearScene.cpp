@@ -18,7 +18,8 @@ void GameClearScene::OnInitialize() {
 	debugCamera_ = std::make_unique<DebugCamera>();
 	debugCamera_->Initialize();
 
-	camera_->SetPosition({ 0.0f,25.0f,-20.0f });
+	camera_->SetPosition({ 13.0f,23.0f,36.0f });
+	camera_->SetRotate(Quaternion::MakeFromEulerAngle({0.36f,3.5f,0.0f}));
 	camera_->UpdateMatrices();
 	RenderManager::GetInstance()->SetCamera(camera_);
 
@@ -26,9 +27,9 @@ void GameClearScene::OnInitialize() {
 	title_->SetTexture(ResourceManager::GetInstance()->FindTexture("gameClear"));
 	title_->SetIsActive(true);
 	title_->SetDrawOrder(static_cast<uint8_t>(0));
-	title_->SetScale({ 1092.0f,201.6f });
+	title_->SetScale({ 1365.0f*0.5f,252.0f *0.5f});
 	title_->SetRotate(0.0f);
-	title_->SetPosition(Vector2{ float(GameWindow::GetInstance()->GetClientWidth() * 0.5f),float(GameWindow::GetInstance()->GetClientHeight() * 0.75f) });
+	title_->SetPosition(Vector2{ float(GameWindow::GetInstance()->GetClientWidth() * 0.5f),float(GameWindow::GetInstance()->GetClientHeight() * 0.8f) });
 	title_->SetColor({ 1.0f,1.0f,1.0f,1.0f });
 	title_->SetTexcoordBase({ 0.0f,0.0f });
 	title_->SetTexcoordSize({ 1365.0f,252.0f });
