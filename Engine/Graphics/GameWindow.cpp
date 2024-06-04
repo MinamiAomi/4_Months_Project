@@ -7,7 +7,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 #include "Core/Helper.h"
 
-//#define FULL_SCREEN
+#define FULL_SCREEN
 
 namespace {
     // ウィンドウプロシージャ
