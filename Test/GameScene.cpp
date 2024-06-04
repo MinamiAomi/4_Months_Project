@@ -295,6 +295,14 @@ void GameScene::OnUpdate() {
 				SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 			}
 #endif // _DEBUG
+
+			if (pause_->GetOrderToTitle()) {
+				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
+			}
+			if (pause_->GetOrderReset()) {
+				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
+			}
+
 			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
 				player_->Reset();
 				cameraManager_->Reset();
