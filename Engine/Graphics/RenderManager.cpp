@@ -101,6 +101,12 @@ void RenderManager::Render() {
     skinningManager_.Update(commandContext_);
 
     if (camera) {
+        assert(!(isnan(camera->GetPosition().x) || isnan(camera->GetPosition().y) || isnan(camera->GetPosition().z)
+            || isnan(camera->GetRotate().x) || isnan(camera->GetRotate().y) || isnan(camera->GetRotate().z) || isnan(camera->GetRotate().w)));
+
+
+
+
         // 影、スペキュラ
         modelSorter_.Sort(*camera);;
         // 影、スペキュラ

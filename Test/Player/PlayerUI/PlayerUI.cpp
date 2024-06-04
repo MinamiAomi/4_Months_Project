@@ -178,7 +178,7 @@ void PlayerUI::Update() {
 	hpSprite_.at(1)->SetPosition(framePosition + hpSpriteData_.at(1).position);
 	hpSprite_.at(2)->SetPosition(framePosition + hpSpriteData_.at(2).position);
 
-	if (Movie::isClearGameOver) {
+	if (Movie::isPlaying) {
 		playerFrameSprite_->SetIsActive(false);
 		toBossDistanceBarSprite_->SetIsActive(false);
 		toBossDistanceMeterSprite_->SetIsActive(false);

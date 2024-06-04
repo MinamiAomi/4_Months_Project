@@ -157,7 +157,7 @@ void Player::Update() {
 		playerHP_->Update();
 
 		// UIアップデート
-		playerUI_->Update();
+		
 
 		// 切り替え
 		if (Character::currentCharacterState_ == Character::State::kRunAway &&
@@ -385,6 +385,7 @@ void Player::SceneChangeUpdate() {
 		invincibleTime_ = maxInvincibleTime_;
 	}
 	hammer_->Update();
+	playerUI_->Update();
 }
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
