@@ -62,7 +62,7 @@ void WireTranslucentRenderer::Initialize(DXGI_FORMAT rtvFormat) {
         pipelineStateDesc.BlendState = Helper::BlendDisable;
         pipelineStateDesc.DepthStencilState = Helper::DepthStateDisabled;
         //pipelineStateDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_GREATER;
-        pipelineStateDesc.RasterizerState = Helper::RasterizerDefault;
+        pipelineStateDesc.RasterizerState = Helper::RasterizerNoCull;
         pipelineStateDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
         pipelineStateDesc.NumRenderTargets = 1;
         pipelineStateDesc.RTVFormats[0] = rtvFormat;
