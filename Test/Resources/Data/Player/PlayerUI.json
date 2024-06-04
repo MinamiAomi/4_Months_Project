@@ -355,7 +355,7 @@
             30.0
         ],
         "textureBase": [
-            450.0,
+            150.0,
             0.0
         ],
         "textureSize": [
@@ -381,7 +381,7 @@
             30.0
         ],
         "textureBase": [
-            600.0,
+            0.0,
             0.0
         ],
         "textureSize": [
@@ -425,7 +425,7 @@
         "order": 2,
         "position": [
             960.0,
-            847.0
+            912.0
         ],
         "rotate": 0.0,
         "scale": [
@@ -451,7 +451,7 @@
         "order": 2,
         "position": [
             960.0,
-            847.0
+            912.0
         ],
         "rotate": 0.0,
         "scale": [
@@ -477,7 +477,7 @@
         "order": 2,
         "position": [
             960.0,
-            847.0
+            912.0
         ],
         "rotate": 0.0,
         "scale": [

@@ -121,10 +121,12 @@ private:
 	Vector3 windVelocity_;
 
 	bool isSceneChangeInvincible_;
+	public:
 	// にダンジョンプ
 	float rotateAnimationFrame_;
 	Transform rotateAnimation_;
 	bool isSecondJumpAnimation_;
+	private:
 	// JumpSE
 	std::unique_ptr<AudioSource> firstJumpSE_;
 	std::unique_ptr<AudioSource> secondJumpSE_;

@@ -3,6 +3,7 @@
 #include "CharacterState.h"
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
+#include "Movie.h"
 
 void PlayerHammer::Initialize(const Player* player) {
 	player_ = player;
@@ -32,8 +33,10 @@ void PlayerHammer::Update() {
 
 	
 	particle_->Update();
-	transform.translate.y += player_->GetVelocity().y / 3.0f;
-	transform.translate.y = std::clamp(transform.translate.y, clampY_, FLT_MAX);
+	if (!Movie::isPlaying) {
+		transform.translate.y += player_->GetVelocity().y / 5.0f;
+		transform.translate.y = std::clamp(transform.translate.y, clampY_, FLT_MAX);
+	}
 
 	if (!player_->GetIsAlive() && model_->IsActive()) {
 		SetIsInactive();
@@ -46,13 +49,13 @@ void PlayerHammer::Update() {
 			SetIsActive();
 		}
 	}
-	ImGui::Begin("han");
+	/*ImGui::Begin("han");
 	ImGui::DragFloat3("LightsPos", &pointLightTransform_.translate.x, 0.1f);
 	ImGui::DragFloat3("Color", &pointLight_->color.x, 0.01f);
 	ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
 	ImGui::DragFloat("intensity", &pointLight_->intensity, 0.01f);
 	ImGui::DragFloat("range", &pointLight_->range, 0.01f);
-	ImGui::End();
+	ImGui::End();*/
 
 	pointLightTransform_.UpdateMatrix();
 	pointLight_->position = pointLightTransform_.worldMatrix.GetTranslate();
