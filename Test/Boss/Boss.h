@@ -41,6 +41,8 @@ public:
 	const std::unique_ptr<BossStateManager>& GetStateManager()const { return state_; }
 	const std::unique_ptr<BossHP>& GetBossHP()const { return bossHP_; }
 	std::shared_ptr<PointLight>& GetPointLight() {return pointLight_;}
+
+	void SaveQuaternion() { saveQuaternion_ = transform.rotate; }
 private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 

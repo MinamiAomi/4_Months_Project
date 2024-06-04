@@ -51,7 +51,7 @@ public:
 
 	void SetWindVelocity(const Vector3& velocity) { windVelocity_ = velocity; }
 	void SetCamera(Camera* camera) { camera_ =camera; }
-	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetBoss(Boss* boss) { boss_ = boss; }
 
 	void SetIsMove(bool flag) { playerRevengeGage_->SetIsMove(flag); }
 	const float GetChaseLimitLine() const {	return chaseLimitLine_;}
@@ -80,7 +80,7 @@ private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 
 	Camera* camera_;
-	const Boss* boss_;
+	Boss* boss_;
 	TrapManager* trapManager_;
 	
 	Random::RandomNumberGenerator rnd_;

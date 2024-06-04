@@ -59,7 +59,6 @@ void Boss::Initialize() {
 	collider_->SetCollisionAttribute(CollisionAttribute::Boss);
 	collider_->SetCollisionMask(CollisionAttribute::Player | CollisionAttribute::DropGimmickDropperBall | CollisionAttribute::BossAttackTrigger);
 	collider_->SetIsActive(true);
-
 #pragma endregion
 
 	isFirstHit_ = false;
@@ -211,6 +210,7 @@ void Boss::Reset(uint32_t stageIndex) {
 	bossHP_->Reset();
 	bossModelManager_->Reset();
 	BossBulletManager::GetInstance()->Reset();
+	saveQuaternion_ = transform.rotate;
 }
 
 void Boss::UpdateTransform() {
@@ -218,7 +218,8 @@ void Boss::UpdateTransform() {
 	Vector3 scale, translate;
 	Quaternion rotate;
 	transform.worldMatrix.GetAffineValue(scale, rotate, translate);
-	collider_->SetOrientation(rotate);
+
+	collider_->SetOrientation(Quaternion::identity);
 
 	switch (Character::currentCharacterState_) {
 	case Character::State::kChase:
@@ -255,6 +256,8 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 				/*if (isFirstHit_ && !Movie::isPlaying) {
 					bossHP_->AddPlayerHitHP();
 				}*/
+
+				saveQuaternion_ = transform.rotate;
 			}
 
 		}
