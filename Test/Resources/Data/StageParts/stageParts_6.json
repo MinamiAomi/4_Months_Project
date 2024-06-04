@@ -393,57 +393,6 @@
         },
         {
             "type": "MESH",
-            "name": "振り子バー.029",
-            "transform": {
-                "translate": [
-                    0.0,
-                    18.0,
-                    -27.194053649902344
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0114229917526245,
-                    1.0114229917526245,
-                    1.0114229917526245
-                ]
-            },
-            "file_name": "Pendulum",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "Pendulum",
-                "length": 15,
-                "angle": 20,
-                "initializeAngle": 5,
-                "gravity": 0.03999999910593033,
-                "stickScale": 1,
-                "ballScale": 1
-            }
-        },
-        {
-            "type": "MESH",
             "name": "振り子バー.030",
             "transform": {
                 "translate": [
@@ -915,57 +864,6 @@
                     0.0,
                     18.0,
                     -46.651641845703125
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0114229917526245,
-                    1.0114229917526245,
-                    1.0114229917526245
-                ]
-            },
-            "file_name": "Pendulum",
-            "collider": {
-                "type": "BOX",
-                "center": [
-                    0.0,
-                    0.0,
-                    -0.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "rotate": [
-                    0.0,
-                    -0.0,
-                    -0.0,
-                    1.0
-                ]
-            },
-            "gimmick": {
-                "type": "Pendulum",
-                "length": 15,
-                "angle": 20,
-                "initializeAngle": 5,
-                "gravity": 0.03999999910593033,
-                "stickScale": 1,
-                "ballScale": 1
-            }
-        },
-        {
-            "type": "MESH",
-            "name": "振り子バー.034",
-            "transform": {
-                "translate": [
-                    0.0,
-                    18.0,
-                    -66.1092300415039
                 ],
                 "rotate": [
                     0.0,
