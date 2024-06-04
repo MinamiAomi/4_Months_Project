@@ -39,7 +39,7 @@ public:
 	void SetCamera(Camera* camera) { camera_ = camera; }
 private:
 	void UpdateHP();
-	void UpdateRevengeGage();
+	void UpdateRevengeGage(const Vector2& framePosition);
 	void UpdatePlayerUI();
 	void UpdateToBossDistance();
 

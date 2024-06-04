@@ -46,7 +46,7 @@ namespace {
 void LoadScene::OnInitialize() {
     assert(test_);
 
-    Vector2 center = { GameWindow::GetInstance()->GetClientWidth() * 0.5f, GameWindow::GetInstance()->GetClientHeight() * 0.5f };
+    Vector2 center = { 1920.0f * 0.5f, 1080.0f * 0.5f };
     for (int i = 0; i < NumMembers; ++i) {
         auto texture = Texture::Load(kMemberPaths[i]);
         texture->SetExtension(Texture::Extension::Clamp);
@@ -92,7 +92,7 @@ void LoadScene::OnUpdate() {
     animationTime_ += 1.0f / kAnimationFrame;
     animationTime_ = std::fmod(animationTime_, 1.0f);
 
-    Vector2 center = { GameWindow::GetInstance()->GetClientWidth() * 0.5f, GameWindow::GetInstance()->GetClientHeight() * 0.5f };
+    Vector2 center = { 1920.0f * 0.5f, 1080.0f * 0.5f };
 
     if (animationTime_ >= kInStart && animationTime_ < kJumpStart) {
         float t = (animationTime_ - kInStart) / (kJumpStart - kInStart);
