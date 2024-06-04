@@ -46,13 +46,13 @@ void PlayerHammer::Update() {
 			SetIsActive();
 		}
 	}
-	ImGui::Begin("han");
+	/*ImGui::Begin("han");
 	ImGui::DragFloat3("LightsPos", &pointLightTransform_.translate.x, 0.1f);
 	ImGui::DragFloat3("Color", &pointLight_->color.x, 0.01f);
 	ImGui::DragFloat("decay", &pointLight_->decay, 0.01f);
 	ImGui::DragFloat("intensity", &pointLight_->intensity, 0.01f);
 	ImGui::DragFloat("range", &pointLight_->range, 0.01f);
-	ImGui::End();
+	ImGui::End();*/
 
 	pointLightTransform_.UpdateMatrix();
 	pointLight_->position = pointLightTransform_.worldMatrix.GetTranslate();
