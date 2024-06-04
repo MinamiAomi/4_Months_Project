@@ -3,6 +3,7 @@
 #include "CharacterState.h"
 #include "Graphics/ImGuiManager.h"
 #include "Graphics/RenderManager.h"
+#include "Movie.h"
 
 void PlayerHammer::Initialize(const Player* player) {
 	player_ = player;
@@ -32,8 +33,10 @@ void PlayerHammer::Update() {
 
 	
 	particle_->Update();
-	transform.translate.y += player_->GetVelocity().y / 3.0f;
-	transform.translate.y = std::clamp(transform.translate.y, clampY_, FLT_MAX);
+	if (!Movie::isPlaying) {
+		transform.translate.y += player_->GetVelocity().y / 5.0f;
+		transform.translate.y = std::clamp(transform.translate.y, clampY_, FLT_MAX);
+	}
 
 	if (!player_->GetIsAlive() && model_->IsActive()) {
 		SetIsInactive();
