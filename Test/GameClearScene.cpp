@@ -12,6 +12,7 @@
 #include "Graphics/ImGuiManager.h"
 
 void GameClearScene::OnInitialize() {
+	SkyRenderer::SetZero();
 	camera_ = std::make_unique<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 

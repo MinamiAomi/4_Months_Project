@@ -10,8 +10,12 @@
 #include "Framework/ResourceManager.h"
 #include "Graphics/GameWindow.h"
 #include "Graphics/ImGuiManager.h"
+#include "Graphics/App/SkyRenderer.h"
 
 void TitleScene::OnInitialize() {
+	
+	SkyRenderer::SetZero();
+
 	camera_ = std::make_shared<Camera>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 

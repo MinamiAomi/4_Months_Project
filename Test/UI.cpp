@@ -30,7 +30,7 @@ void UI::Update() {
 	ImGui::End();
 #endif // _DEBUG
 
-	controll_->SetIsActive(Pause::isPause_);
+	controll_->SetIsActive(false);
 }
 
 void UI::LoadJson() {
