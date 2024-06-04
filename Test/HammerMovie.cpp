@@ -49,6 +49,9 @@ void HammerMovie::Update() {
 		else {
 			isLeft_ = false;
 		}
+		player_->rotateAnimationFrame_ = 0.0f;
+		player_->rotateAnimation_.rotate = Quaternion::identity;
+		player_->isSecondJumpAnimation_ = false;
 	}
 	isHitFrame_ = false;
 	Vector3 cameraToPlayer = (player_->transform.worldMatrix.GetTranslate() - camera_->GetPosition()).Normalize();

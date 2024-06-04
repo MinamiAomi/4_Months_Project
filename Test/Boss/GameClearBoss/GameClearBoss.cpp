@@ -13,10 +13,11 @@ void GameClearBoss::Initialize() {
 	skeleton_->Create(model_->GetModel());
 	animationAllFrame_ = 240.0f;
 	animationTime_ = 0.0f;
-	offset_ = 50.0f;
+	offset_ = 0.0f;
 	skeleton_->ApplyAnimation(animation_->GetAnimation("GameClear"), 0.0f);
 	model_->SetSkeleton(skeleton_);
 	transform.scale = Vector3(0.5f, 0.5f, 0.5f);
+	transform.rotate = Quaternion::MakeForYAxis(180.0f * Math::ToRadian);
 	UpdateTransform();
 }
 
