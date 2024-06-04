@@ -167,7 +167,7 @@ void Boss::Update() {
 		break;
 	}
 
-	bossUI_->Update();
+	
 	bossHP_->Update();
 	bossLineParticle_->Update();
 	BossBulletManager::GetInstance()->Update();
@@ -187,6 +187,7 @@ void Boss::Update() {
 void Boss::MovieUpdate() {
 	isHit_ = false;
 	lightManager_->Add(pointLight_);
+	bossUI_->Update();
 	if (changeColorFrame_ > 0) {
 		changeColorFrame_--;
 		pointLight_->color.x = 6.0f;
@@ -251,9 +252,9 @@ void Boss::OnCollision(const CollisionInfo& collisionInfo) {
 				}
 				saveQuaternion_ = transform.rotate;
 				player_->GetRevengeGage()->SetCurrentRevengeBarGage(0.0f);
-				if (isFirstHit_ && !Movie::isPlaying) {
+				/*if (isFirstHit_ && !Movie::isPlaying) {
 					bossHP_->AddPlayerHitHP();
-				}
+				}*/
 			}
 
 		}
