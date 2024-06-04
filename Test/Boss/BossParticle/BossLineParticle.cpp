@@ -13,6 +13,7 @@ void BossLineParticle::Initialize(const Boss* boss) {
 	for (DustParticle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
 		particle.model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
+		particle.model_->SetWireFrameMask(true);
 	}
 	Reset();
 }

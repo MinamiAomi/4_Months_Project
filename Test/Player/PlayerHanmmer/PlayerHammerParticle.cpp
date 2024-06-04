@@ -13,6 +13,7 @@ void PlayerHammerParticle::Initialize(PlayerHammer& playerHammer) {
 		particle.model_ = std::make_unique<ModelInstance>();
 		particle.model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
 		particle.model_->SetColor({1.0f,1.0f,0.0f});
+		particle.model_->SetWireFrameMask(true);
 	}
 	emitFrame_ = -1;
 	Reset();
