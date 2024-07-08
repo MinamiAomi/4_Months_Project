@@ -52,7 +52,7 @@ void StageLoop::Initialize() {
 	//trapManager_->SetPlayer(player_);
 	//trapManager_->SetBoss(boss_);
 	//trapManager_->Initialize();
-	LoadJson();　
+	LoadJson();
 
 	stageNum_ = 0;
 	playerCurrentStageNum_ = 0;
