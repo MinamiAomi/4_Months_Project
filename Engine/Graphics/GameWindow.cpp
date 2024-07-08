@@ -51,12 +51,12 @@ void GameWindow::Initialize(const wchar_t* title, uint32_t clientWidth, uint32_t
     wc.hCursor = LoadCursor(nullptr, IDC_ARROW);	// カーソル
     RegisterClass(&wc);	// ウィンドウクラスを登録
 
-    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+    //int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    //int screenHeight = GetSystemMetrics(SM_CYSCREEN);
     clientWidth_ = clientWidth;
     clientHeight_ = clientHeight;
-    clientWidth_ = screenWidth;
-    clientHeight_ = screenHeight;
+    //clientWidth_ = screenWidth;
+    //clientHeight_ = screenHeight;
 
     // ウィンドウサイズを表す構造体にクライアント領域を入れる
     RECT wrc{ 0,0,static_cast<LONG>(clientWidth_),static_cast<LONG>(clientHeight_) };
