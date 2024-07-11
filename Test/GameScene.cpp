@@ -232,6 +232,7 @@ void GameScene::OnUpdate() {
 			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 			playerDustParticle_->Update();
 #ifdef _DEBUG
+			ImGui::Text("distance:%f", std::fabsf(std::fabsf(player_->transform.translate.z) - std::fabsf(boss_->transform.translate.z)));
 			//editorManager_->Update();
 			if (ImGui::Checkbox("Move", &isMove_)) {
 				player_->SetIsMove(isMove_);

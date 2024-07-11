@@ -185,12 +185,12 @@
         "jsonData_.shotAttackData.offset": [
             0.0,
             5.0,
-            30.0
+            -30.0
         ],
         "jsonData_.shotAttackData.range": 10.0,
         "jsonData_.shotAttackData.rotateEasingTime": 60.0,
         "jsonData_.shotAttackData.transitionFrame": 0.0,
-        "jsonData_.shotAttackData.velocity": 0.5
+        "jsonData_.shotAttackData.velocity": -0.5
     },
     "bollLongDistanceAttack": {},
     "bossBeamAttack": {},
