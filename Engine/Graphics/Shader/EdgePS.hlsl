@@ -58,7 +58,7 @@ PSOutput main(PSInput input) {
 	depth += depthTex.Sample(smp, input.texRB.xy).x;
 
 	//法線の計算結果、あるいは深度値の計算結果が一定以上ならエッジとみなす。
-	if (length(Normal) >= 0.2f || abs(depth) > 0.0001f) {
+	if (length(Normal) >= 0.7f || abs(depth) > 0.0001f) {
 		output.color.xyz = lerp(param_.edgeColor, colorTex.Sample(smp, input.texCenter).xyz, t.value);
 		output.color.w = 1.0f;
 	}
