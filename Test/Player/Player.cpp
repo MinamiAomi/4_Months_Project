@@ -411,6 +411,9 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 					break;
 				}
 			}
+			else if (!ufo_->GetIsFree()) {
+
+			}
 			else if (collisionInfo.collider->GetName() == "Block" ||
 				collisionInfo.collider->GetName() == "FireBarCenter" ||
 				collisionInfo.collider->GetName() == "Floor" ||
@@ -418,7 +421,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 				collisionInfo.collider->GetName() == "BeltConveyor" ||
 				collisionInfo.collider->GetName() == "DropGimmickDropper" ||
 				collisionInfo.collider->GetName() == "DropGimmickSwitch") {
-				if (ufo_->GetIsFree()) {
+				
 					// ワールド空間の押し出しベクトル
 					Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
 					auto parent = transform.GetParent();
@@ -443,7 +446,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 					}
 
 					UpdateTransform();
-				}
+				
 			//const GameObject* nextParent = collisionInfo.collider->GetGameObject();
 			//if (nextParent) {
 			//	transform.SetParent(&nextParent->transform);
