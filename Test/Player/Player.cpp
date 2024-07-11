@@ -570,6 +570,12 @@ void Player::Jump() {
 		velocity_ = Vector3::zero;
 		rotateAnimationFrame_ = 0.0f;
 	}
+
+	if (Character::isChangeEndFrame_) {
+		canFirstJump_ = true;
+		canSecondJump_ = true;
+	}
+
 }
 
 void Player::Dash() {

@@ -16,7 +16,9 @@
 #include "WindManager.h"
 
 void GameScene::OnInitialize() {
-
+	Quaternion tmp = Quaternion(0.0f, -0.752374649f, 0.0f, 0.658735633f);
+	Quaternion tmp1 = Quaternion(0.0f, 0.752577603f, 0.0f, 0.658735633f);
+	tmp = Quaternion::Slerp(0.5f, tmp, tmp1);
 	cameraManager_ = std::make_unique<CameraManager>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 	directionalLight_->direction = Vector3(0.1f, -1.0f, 0.3f).Normalized();
@@ -199,7 +201,7 @@ void GameScene::OnUpdate() {
 
 			stageLoop_->Update();
 
-			
+
 
 			//ムービー中動いてほしくないもの
 			if (!Movie::isPlaying && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
@@ -279,7 +281,7 @@ void GameScene::OnUpdate() {
 				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 			}
 			if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
-				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()||
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying() ||
 				pause_->GetOrderReset())
 				) {
 				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
@@ -329,9 +331,9 @@ void GameScene::Initialize() {
 	directionalLight_->DrawImGui("directionalLight");
 
 	stageLoop_->Update();
-	
+
 	stageBlockManager_->Update();
-	
+
 	player_->Update();
 	//ライティングされなくなるからこれだけ
 	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {
