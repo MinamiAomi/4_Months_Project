@@ -7,6 +7,7 @@
 #include "File/JsonHelper.h"
 #include "Framework/ResourceManager.h"
 #include "Movie.h"
+#include "Player/Player.h"
 
 void BossAttackTrigger::Initialize(const Desc& desc) {
 	Reset();
@@ -121,7 +122,10 @@ void BossAttackTrigger::OnCollision(const CollisionInfo& collisionInfo) {
 				break;
 				case BossStateManager::kShotAttack:
 				{
-					boss_->GetStateManager()->ChangeState(BossStateManager::State::kShotAttack);
+					float distance = std::fabsf((std::fabsf(player_->transform.translate.z) - std::fabsf(boss_->transform.translate.z)));
+					if (distance >= 60.0f) {
+						boss_->GetStateManager()->ChangeState(BossStateManager::State::kShotAttack);
+					}
 				}
 				break;
 				default:

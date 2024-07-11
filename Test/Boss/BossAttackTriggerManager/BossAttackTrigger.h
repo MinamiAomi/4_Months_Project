@@ -12,8 +12,9 @@
 #include "StageGimmick/StageGimmick.h"
 
 class Boss;
+class Player;
 class BossAttackTrigger :
-	public GameObject ,public StageGimmick::StageGimmickNumber{
+	public GameObject, public StageGimmick::StageGimmickNumber {
 public:
 	struct Desc {
 		StageGimmick::Desc desc;
@@ -27,6 +28,7 @@ public:
 	Desc& GetDesc() { return desc_; }
 	void SetDesc(const Desc& desc);
 	void SetBoss(const Boss* boss) { boss_ = boss; }
+	void SetPlayer(const Player* player) { player_ = player; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
 	void SetIsAlive(bool flag);
 	void SetIsModelAlive(bool flag) { return model_->SetIsActive(flag); }
@@ -35,6 +37,7 @@ private:
 	void OnCollision(const CollisionInfo& collisionInfo);
 	const Boss* boss_;
 	const Camera* camera_;
+	const Player* player_;
 
 	std::unique_ptr<ModelInstance> model_;
 	std::unique_ptr<BoxCollider> collider_;

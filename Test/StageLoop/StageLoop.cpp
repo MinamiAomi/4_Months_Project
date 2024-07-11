@@ -30,6 +30,7 @@ void StageLoop::Initialize() {
 
 	bossAttackTriggerManager_->SetCamera(camera_);
 	bossAttackTriggerManager_->SetBoss(boss_);
+	bossAttackTriggerManager_->SetPlayer(player_);
 	beltConveyorManager_->SetCamera(camera_);
 	beltConveyorManager_->SetPlayer(player_);
 	blockManager_->SetCamera(camera_);
