@@ -4,7 +4,7 @@
 #include "Framework/ResourceManager.h"
 
 
-void BossBullet::Initialize(const Transform& parent,const Vector3& position, const Vector3& velocity) {
+void BossBullet::Initialize(const Transform& parent, const Vector3& position, const Vector3& velocity) {
 	model_ = std::make_unique<ModelInstance>();
 	model_->SetModel(ResourceManager::GetInstance()->FindModel("bossBullet"));
 	model_->SetIsActive(true);
@@ -35,12 +35,15 @@ void BossBullet::Initialize(const Transform& parent,const Vector3& position, con
 
 
 void BossBullet::Update() {
-	if (lifeTime_>=600) {
+	if (lifeTime_ >= 600) {
 		isAlive_ = false;
 	}
 	else {
-		transform.rotate = Quaternion::MakeForXAxis(Math::TwoPi*5.0f * float(lifeTime_)/600.0f);
+		transform.rotate = Quaternion::MakeForXAxis(Math::TwoPi * 5.0f * float(lifeTime_) / 600.0f);
 		lifeTime_++;
+	}
+	if (velocity_.Length() != 0.0f && transform.GetParent()) {
+		transform.SetParent(nullptr);
 	}
 	transform.translate += velocity_;
 	UpdateTransform();

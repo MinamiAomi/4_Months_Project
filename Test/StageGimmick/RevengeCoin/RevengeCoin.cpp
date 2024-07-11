@@ -26,7 +26,8 @@ void RevengeCoin::Initialize(const Desc& desc) {
 	collider_->SetName("RevengeCoin");
 	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
 	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
+	// サイズでっかくしたいbleander側で変えるのめんどくさい
+	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x * 2.0f ,transform.scale.y * colliderDesc_->size.y * 2.0f ,transform.scale.z * colliderDesc_->size.z * 2.0f });
 	collider_->SetCallback([this](const CollisionInfo& collisionInfo) { OnCollision(collisionInfo); });
 	collider_->SetCollisionAttribute(CollisionAttribute::GameObject);
 	collider_->SetCollisionMask(CollisionAttribute::Player);
@@ -37,7 +38,7 @@ void RevengeCoin::Initialize(const Desc& desc) {
 
 void RevengeCoin::Update() {
 	if (std::fabs((camera_->GetPosition() - transform.worldMatrix.GetTranslate()).Length()) <= 200.0f) {
-		
+
 		//static const float kMaxTime = 180.0f;
 		//transform.translate.y = std::sin(time_ / kMaxTime * Math::TwoPi) * 0.5f;
 		//time_ += 1.0f;
@@ -70,7 +71,7 @@ void RevengeCoin::UpdateTransform() {
 	transform.UpdateMatrix();
 	collider_->SetCenter(colliderDesc_->center * transform.worldMatrix);
 	collider_->SetOrientation(transform.rotate * colliderDesc_->rotate);
-	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x ,transform.scale.y * colliderDesc_->size.y ,transform.scale.z * colliderDesc_->size.z });
+	collider_->SetSize({ transform.scale.x * colliderDesc_->size.x * 2.0f,transform.scale.y * colliderDesc_->size.y * 2.0f ,transform.scale.z * colliderDesc_->size.z * 2.0f });
 	model_->SetWorldMatrix(transform.worldMatrix);
 }
 

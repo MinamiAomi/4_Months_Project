@@ -47,7 +47,7 @@ void RenderManager::Initialize() {
     skinningManager_.Initialize();
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
-    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    //raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
     lineDrawer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat());
 
     bloom_.Initialize(&lightingRenderingPass_.GetResult());
@@ -111,7 +111,7 @@ void RenderManager::Render() {
         modelSorter_.Sort(*camera);;
         // 影、スペキュラ
         assert(!lightManager_.GetDirectionalLight().empty());
-        raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
+        //raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
 
 
 #ifdef ENABLE_IMGUI
@@ -140,7 +140,7 @@ void RenderManager::Render() {
         }
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-        lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+       // lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
 
 #ifdef ENABLE_IMGUI
