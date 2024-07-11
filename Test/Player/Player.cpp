@@ -49,14 +49,14 @@ void Player::Initialize() {
 	playerUI_->SetPlaterRevengeGage(playerRevengeGage_.get());
 	playerUI_->SetCamera(camera_);
 	playerUI_->Initialize();
-	playerRevengeGage_->Initialize(boss_,this);
+	playerRevengeGage_->Initialize(boss_, this);
 
 	bulletManager_->Initialize();
 
 	Reset();
 #pragma region SE
 	firstJumpSE_ = std::make_unique<AudioSource>();
-	secondJumpSE_= std::make_unique<AudioSource>();
+	secondJumpSE_ = std::make_unique<AudioSource>();
 	revengeSE_ = std::make_unique<AudioSource>();
 	damageSE_ = std::make_unique<AudioSource>();
 	onGroundSE_ = std::make_unique<AudioSource>();
@@ -94,11 +94,11 @@ void Player::Initialize() {
 	hammer_->Initialize(this);
 
 	// 二段ジャンプ回転用
-	rotateAnimation_.SetParent(&transform,false);
+	rotateAnimation_.SetParent(&transform, false);
 	rotateAnimation_.scale = Vector3::one;
 
 	ufo_ = std::make_unique<UFO>();
-	ufo_->Initialize(this,boss_);
+	ufo_->Initialize(this, boss_);
 
 	//playerModel_.Initialize(&transform);
 	//playerModel_.PlayAnimation(PlayerModel::kWait, true);
@@ -157,11 +157,12 @@ void Player::Update() {
 		playerHP_->Update();
 
 		// UIアップデート
-		
+
 
 		// 切り替え
 		if (Character::currentCharacterState_ == Character::State::kRunAway &&
-			(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar)) {
+			(playerRevengeGage_->GetCurrentRevengeBarGage() >= PlayerRevengeGage::kMaxRevengeBar) &&
+			boss_->GetStateManager()->GetState() == BossStateManager::kRoot) {
 			Character::SetNextScene(Character::State::kChase);
 			//transform.translate.x = 0.0f;
 			//transform.translate.z = boss_->transform.worldMatrix.GetTranslate().z - chaseLimitLine_;
@@ -175,7 +176,8 @@ void Player::Update() {
 		}
 
 		if (Character::currentCharacterState_ == Character::State::kChase &&
-			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0) {
+			playerRevengeGage_->GetCurrentRevengeBarGage() <= 0 &&
+			boss_->GetStateManager()->GetState() == BossStateManager::kRoot) {
 			Character::SetNextScene(Character::State::kRunAway);
 			boss_->SaveQuaternion();
 		}
@@ -254,7 +256,7 @@ void Player::Update() {
 	if (Character::currentCharacterState_ == Character::State::kChase) {
 		toBossDistance_ = Vector3::Distance(GetTransform().translate, boss_->transform.translate) - 32;
 	}
-	
+
 	if (Character::currentCharacterState_ == Character::State::kRunAway) {
 		toBossDistance_ = Vector3::Distance(GetTransform().translate, boss_->transform.translate) - 16;
 	}
@@ -458,7 +460,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			HitDamage(1);
 		}
 		else if ((collisionInfo.collider->GetName() == "FireBarBar" ||
-			collisionInfo.collider->GetName() == "PendulumBall"|| 
+			collisionInfo.collider->GetName() == "PendulumBall" ||
 			collisionInfo.collider->GetName() == "bossBullet") &&
 			!isHit_) {
 			HitDamage();
@@ -467,16 +469,16 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 			playerRevengeGage_->AddGage();
 		}
 
-				//RayCastInfo rayCastInfo{};
-				//if (CollisionManager::GetInstance()->RayCast(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), ~CollisionAttribute::Player, &rayCastInfo)) {
-				//	RenderManager::GetInstance()->GetLineDrawer().AddLine(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+		//RayCastInfo rayCastInfo{};
+		//if (CollisionManager::GetInstance()->RayCast(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), ~CollisionAttribute::Player, &rayCastInfo)) {
+		//	RenderManager::GetInstance()->GetLineDrawer().AddLine(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1.0f));
 
-				//}
-				//else {
+		//}
+		//else {
 
-				//	RenderManager::GetInstance()->GetLineDrawer().AddLine(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f));
-				//}
-			}
+		//	RenderManager::GetInstance()->GetLineDrawer().AddLine(transform.worldMatrix.GetTranslate(), transform.worldMatrix.GetTranslate() + Vector3(50.0f, 0.0f, 0.0f), Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+		//}
+	}
 }
 
 void Player::Move() {
