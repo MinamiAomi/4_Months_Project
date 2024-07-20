@@ -28,6 +28,7 @@ public:
 	virtual void OnCollision(const CollisionInfo& collisionInfo) = 0;
 	virtual AnimationSet* GetAnimation() const = 0;
 	virtual float GetAnimationTime() const = 0;
+	virtual Quaternion GetRotate() const = 0;
 	BossStateManager& GetManager() { return manager_; }
 protected:
 	BossStateManager& manager_;
@@ -51,6 +52,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 	AnimationSet* GetAnimation() const override;
 	float GetAnimationTime() const override;
+	Quaternion GetRotate() const override;
 
 private:
 	JsonData data_;
@@ -70,6 +72,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 	AnimationSet* GetAnimation() const override;
 	float GetAnimationTime() const override;
+	Quaternion GetRotate() const override;
 private:
 	JsonData data_;
 	
@@ -92,6 +95,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 	AnimationSet* GetAnimation() const override;
 	float GetAnimationTime() const override;
+	Quaternion GetRotate() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -116,6 +120,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 	AnimationSet* GetAnimation() const override;
 	float GetAnimationTime() const override;
+	Quaternion GetRotate() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -156,6 +161,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 	AnimationSet* GetAnimation() const override;
 	float GetAnimationTime() const override;
+	Quaternion GetRotate() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -185,6 +191,7 @@ public:
 	void OnCollision(const CollisionInfo& collisionInfo) override;
 	AnimationSet* GetAnimation() const override;
 	float GetAnimationTime() const override;
+	Quaternion GetRotate() const override;
 private:
 	void ChargeUpdate();
 	void AttackUpdate();
@@ -226,6 +233,7 @@ public:
 	void ChangeState(const BossStateManager::State& state);
 	AnimationSet* GetPrevAnimation() const { return prevAnimation_; }
 	float GetPrevAnimationTime() const { return prevAnimationTime_; }
+	Quaternion GetPrevRotate() const { return prevRotate_; }
 
 	Boss& boss;
 	JsonData jsonData_;
@@ -234,5 +242,6 @@ private:
 	std::unique_ptr<BossState> standbyState_;
 	AnimationSet* prevAnimation_ = nullptr;
 	float prevAnimationTime_;
+	Quaternion prevRotate_;
 	State state_;
 };
