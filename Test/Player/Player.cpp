@@ -393,59 +393,62 @@ void Player::SceneChangeUpdate() {
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
-	if (!Movie::isPlaying) {
-		if (collisionInfo.collider->GetName() == "Boss") {
-			switch (Character::currentCharacterState_) {
-			case Character::State::kChase:
-			{
-				transform.translate.z -= 5.0f;
-			}
-			break;
-			case Character::State::kRunAway:
-			{
-				if (!isHit_ && !isSceneChangeInvincible_) {
-					acceleration_.z -= knockBack_;
+		if (!Movie::isPlaying) {
+			if (collisionInfo.collider->GetName() == "Boss") {
+				switch (Character::currentCharacterState_) {
+				case Character::State::kChase:
+				{
+					transform.translate.z -= 5.0f;
 				}
-				HitDamage(1);
-			}
-			break;
-			default:
 				break;
+				case Character::State::kRunAway:
+				{
+					if (!isHit_ && !isSceneChangeInvincible_) {
+						acceleration_.z -= knockBack_;
+					}
+					HitDamage(1);
+				}
+				break;
+				default:
+					break;
+				}
 			}
-		}
-		else if (collisionInfo.collider->GetName() == "Block" ||
-			collisionInfo.collider->GetName() == "FireBarCenter" ||
-			collisionInfo.collider->GetName() == "Floor" ||
-			collisionInfo.collider->GetName() == "StageObject" ||
-			collisionInfo.collider->GetName() == "BeltConveyor" ||
-			collisionInfo.collider->GetName() == "DropGimmickDropper" ||
-			collisionInfo.collider->GetName() == "DropGimmickSwitch") {
-			if (ufo_->GetIsFree()) {
-				// ワールド空間の押し出しベクトル
-				Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
-				auto parent = transform.GetParent();
-				if (parent) {
-					pushVector = parent->rotate.Inverse() * pushVector;
-				}
-				transform.translate += pushVector;
-				// 上から乗ったら
-				if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
-					//transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y + collisionInfo.collider->GetGameObject()->transform.scale.y * 0.5f;
-					if (acceleration_.y < 0.0f) {
-						acceleration_.y = 0.0f;
-					}
-					//velocity_.y = 0.0f;
-					canFirstJump_ = true;
-					canSecondJump_ = true;
-					isGround_ = true;
-					if (preIsHit_ && isHit_) {
-						isHit_ = false;
-					}
-					//onGroundSE_->Play();
-				}
+			else if (!ufo_->GetIsFree()) {
 
-				UpdateTransform();
 			}
+			else if (collisionInfo.collider->GetName() == "Block" ||
+				collisionInfo.collider->GetName() == "FireBarCenter" ||
+				collisionInfo.collider->GetName() == "Floor" ||
+				collisionInfo.collider->GetName() == "StageObject" ||
+				collisionInfo.collider->GetName() == "BeltConveyor" ||
+				collisionInfo.collider->GetName() == "DropGimmickDropper" ||
+				collisionInfo.collider->GetName() == "DropGimmickSwitch") {
+				
+					// ワールド空間の押し出しベクトル
+					Vector3 pushVector = collisionInfo.normal * collisionInfo.depth;
+					auto parent = transform.GetParent();
+					if (parent) {
+						pushVector = parent->rotate.Inverse() * pushVector;
+					}
+					transform.translate += pushVector;
+					// 上から乗ったら
+					if (std::fabs(Dot(collisionInfo.normal, Vector3::down)) >= 0.5f) {
+						//transform.translate.y = collisionInfo.collider->GetGameObject()->transform.translate.y + collisionInfo.collider->GetGameObject()->transform.scale.y * 0.5f;
+						if (acceleration_.y < 0.0f) {
+							acceleration_.y = 0.0f;
+						}
+						//velocity_.y = 0.0f;
+						canFirstJump_ = true;
+						canSecondJump_ = true;
+						isGround_ = true;
+						if (preIsHit_ && isHit_) {
+							isHit_ = false;
+						}
+						//onGroundSE_->Play();
+					}
+
+					UpdateTransform();
+				
 			//const GameObject* nextParent = collisionInfo.collider->GetGameObject();
 			//if (nextParent) {
 			//	transform.SetParent(&nextParent->transform);
