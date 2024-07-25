@@ -5,6 +5,7 @@
 
 #include "BossAttackTrigger.h"
 
+class Player;
 class BossAttackTriggerManager {
 public:
 	void Initialize();
@@ -16,11 +17,13 @@ public:
 
 	void SetBoss(const Boss* boss) { boss_ = boss; }
 	void SetCamera(const Camera* camera) { camera_ = camera; }
+	void SetPlayer(const Player* player) { player_ = player; }
 	void SetModelIsAlive(bool flag);
 
 	std::list<std::unique_ptr<BossAttackTrigger>>& GetBossAttackTriggers() { return bossAttackTriggers_; }
 private:
 	const Boss* boss_;
 	const Camera* camera_;
+	const Player* player_;
 	std::list<std::unique_ptr<BossAttackTrigger>> bossAttackTriggers_;
 };

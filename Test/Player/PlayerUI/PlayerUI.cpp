@@ -39,6 +39,7 @@ void PlayerUI::Initialize() {
 #pragma region プレイヤーUIフレーム
 
 	playerFrameSprite_ = CreateSprite(playerFrameSpriteData_, "PlayerUIFrame");
+	playerFrameSprite_->SetIsActive(false);
 
 #pragma endregion
 

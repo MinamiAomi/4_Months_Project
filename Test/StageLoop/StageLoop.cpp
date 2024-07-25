@@ -30,6 +30,7 @@ void StageLoop::Initialize() {
 
 	bossAttackTriggerManager_->SetCamera(camera_);
 	bossAttackTriggerManager_->SetBoss(boss_);
+	bossAttackTriggerManager_->SetPlayer(player_);
 	beltConveyorManager_->SetCamera(camera_);
 	beltConveyorManager_->SetPlayer(player_);
 	blockManager_->SetCamera(camera_);
@@ -674,10 +675,10 @@ void StageLoop::Debug() {
 			}
 			ImGui::TreePop();
 		}
-		for (int gauge = 0; gauge < bossHPDivision_; ++gauge) {
+		for (int gauge = 0; gauge < levelDivision_; ++gauge) {
 			if (ImGui::TreeNode((std::to_string(gauge) + "ゲージ目").c_str())) {
-				for (int level = 0; level < levelDivision_; ++level) {
-					ImGui::DragFloat((std::to_string(level) + "レベルの確率").c_str(), &levelDesc_.at(level).probability.at(gauge), 1.0f, 0.0f);
+				for (int level = 0; level < bossHPDivision_; ++level) {
+					ImGui::DragFloat((std::to_string(level) + "レベルの確率").c_str(), &levelDesc_.at(gauge).probability.at(level), 1.0f, 0.0f);
 				}
 				ImGui::TreePop();
 			}

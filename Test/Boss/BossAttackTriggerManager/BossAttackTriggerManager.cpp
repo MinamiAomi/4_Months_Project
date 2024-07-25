@@ -49,6 +49,7 @@ void BossAttackTriggerManager::Create(const BossAttackTrigger::Desc desc , uint3
 	BossAttackTrigger* bossAttackTrigger = new BossAttackTrigger();
 	bossAttackTrigger->SetCamera(camera_);
 	bossAttackTrigger->SetBoss(boss_);
+	bossAttackTrigger->SetPlayer(player_);
 	bossAttackTrigger->Initialize(desc);
 	bossAttackTrigger->stageGimmickNumber=index;
 	bossAttackTriggers_.emplace_back(std::move(bossAttackTrigger));

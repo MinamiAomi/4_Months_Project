@@ -89,7 +89,7 @@ void BossStateManager::DrawImGui() {
 	ImGui::Begin("Editor");
 	if (ImGui::BeginMenu("Boss")) {
 		const char* items[] = { "Root", "Hook" ,"InsideAttack","LowerAttack" ,"BeamAttack","ShotAttack" };
-		static int selectedItem = static_cast<int>(state_);
+		int selectedItem = static_cast<int>(state_);
 		if (ImGui::Combo("State", &selectedItem, items, IM_ARRAYSIZE(items))) {
 			state_ = static_cast<State>(selectedItem);
 			switch (state_) {
@@ -269,6 +269,7 @@ void BossStateManager::ChangeState(const BossStateManager::State& state) {
 	if (activeState_) {
 		prevAnimation_ = activeState_->GetAnimation();
 		prevAnimationTime_ = activeState_->GetAnimationTime();
+		prevRotate_ = activeState_->GetRotate();
 		if (prevAnimation_) {
 			inTransition = true;
 		}
@@ -315,6 +316,17 @@ void BossStateRoot::SetDesc() {
 void BossStateRoot::Update() {
 	time_ += 1.0f;
 	if (inTransition_ && time_ >= data_.transitionFrame) {
+		/*auto& rotate = manager_.boss.transform.rotate;
+		switch (Character::nextCharacterState_) {
+		case Character::State::kChase:
+			rotate = Character::GetRotate(Character::State::kChase);
+			break;
+		case Character::State::kRunAway:
+			rotate = Character::GetRotate(Character::State::kRunAway);
+			break;
+		default:
+			break;
+		}*/
 		inTransition_ = false;
 		time_ -= data_.transitionFrame;
 	}
@@ -326,6 +338,17 @@ void BossStateRoot::Update() {
 	auto& parts = manager_.boss.GetModelManager()->GetModel(BossParts::Parts::kBossBody)->GetAnimation(BossBody::kRoot);
 	if (inTransition_) {
 		float t = time_ / data_.transitionFrame;
+		/*auto& rotate = manager_.boss.transform.rotate;
+		switch (Character::nextCharacterState_) {
+		case Character::State::kChase:
+			rotate = Quaternion::Lerp(t, manager_.GetPrevRotate(),Character::GetRotate(Character::State::kChase));
+			break;
+		case Character::State::kRunAway:
+			rotate = Quaternion::Lerp(t, manager_.GetPrevRotate(), Character::GetRotate(Character::State::kRunAway));
+			break;
+		default:
+			break;
+		}*/
 		skeleton->ApplyAnimationTransition(*manager_.GetPrevAnimation(), manager_.GetPrevAnimationTime(), parts.animation->GetAnimation("move"), 0.0f, t);
 	}
 	else {
@@ -347,6 +370,20 @@ AnimationSet* BossStateRoot::GetAnimation() const {
 
 float BossStateRoot::GetAnimationTime() const {
 	return time_ / data_.allFrame;
+}
+
+Quaternion BossStateRoot::GetRotate() const {
+	switch (Character::currentCharacterState_) {
+	case Character::State::kChase:
+		Character::GetRotate(Character::State::kChase);
+		break;
+	case Character::State::kRunAway:
+		Character::GetRotate(Character::State::kRunAway);
+		break;
+	default:
+		break;
+	}
+	return Character::GetRotate(Character::State::kChase);
 }
 
 void BossStateHook::Initialize() {
@@ -400,6 +437,10 @@ float BossStateHook::GetAnimationTime() const {
 	return time_ / data_.allFrame;
 }
 
+Quaternion BossStateHook::GetRotate() const {
+	return Character::GetRotate(Character::State::kRunAway);
+}
+
 void BossStateLowerAttack::Initialize() {
 	SetDesc();
 	attackState_ = kChage;
@@ -445,6 +486,10 @@ float BossStateLowerAttack::GetAnimationTime() const {
 		return 1.0f;
 	}
 	return 0.0f;
+}
+
+Quaternion BossStateLowerAttack::GetRotate() const {
+	return Character::GetRotate(Character::State::kRunAway);
 }
 
 void BossStateLowerAttack::ChargeUpdate() {
@@ -540,6 +585,10 @@ float BossStateInsideAttack::GetAnimationTime() const {
 		return 1.0f;
 	}
 	return 0.0f;
+}
+
+Quaternion BossStateInsideAttack::GetRotate() const {
+	return Character::GetRotate(Character::State::kRunAway);
 }
 
 void BossStateInsideAttack::ChargeUpdate() {
@@ -671,6 +720,10 @@ float BossStateBeamAttack::GetAnimationTime() const {
 		return 1.0f;
 	}
 	return 0.0f;
+}
+
+Quaternion BossStateBeamAttack::GetRotate() const {
+	return Character::GetRotate(Character::State::kChase);
 }
 
 void BossStateBeamAttack::ChargeUpdate() {
@@ -806,11 +859,14 @@ float BossStateShotAttack::GetAnimationTime() const {
 	}
 	return 0.0f;
 }
+Quaternion BossStateShotAttack::GetRotate() const {
+	return Character::GetRotate(Character::State::kChase);
+}
 void BossStateBeamAttack::RotateUpdate() {
 	float t = time_ / data_.rotateEasingTime;
 	time_ += 1.0f;
 	auto& rotate = manager_.boss.transform.rotate;
-	rotate = Quaternion::MakeForYAxis(std::lerp(0.0f * Math::ToRadian, 180.0f * Math::ToRadian, t));
+	rotate = Quaternion::MakeForYAxis(std::lerp(180.0f * Math::ToRadian, 0.0f * Math::ToRadian, t));
 	if (t >= 1.0f) {
 		rotate = Quaternion::MakeForYAxis(0.0f * Math::ToRadian);
 		attackState_ = kChage;

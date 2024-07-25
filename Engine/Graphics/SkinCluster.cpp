@@ -79,10 +79,6 @@ void SkinCluster::Update(CommandContext& commandContext, const Skeleton& skeleto
         mappedPalette[jointIndex].skeletonSpaceInverseTransposeMatrix = mappedPalette[jointIndex].skeletonSpaceMatrix.Inverse().Transpose();
     }
     commandContext.CopyBufferRegion(matrixPaletteBuffer_, 0, matrixPaletteBufferAllocation.resource, matrixPaletteBufferAllocation.offset, matrixPaletteBuffer_.GetBufferSize());
-    commandContext.TransitionResource(matrixPaletteBuffer_, D3D12_RESOURCE_STATE_GENERIC_READ);
-    commandContext.TransitionResource(skinnedVertexBuffer_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+    commandContext.TransitionResource(matrixPaletteBuffer_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
     commandContext.FlushResourceBarriers();
-    
-    skinnedBLAS_.Update(commandContext, blasDescs_);
-    commandContext.TransitionResource(matrixPaletteBuffer_, D3D12_RESOURCE_STATE_ALL_SHADER_RESOURCE);
 }

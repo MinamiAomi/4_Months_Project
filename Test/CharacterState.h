@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Math/MathUtils.h"
+
 namespace Character {
 	enum State {
 		// ボスのことを追いかける
@@ -36,4 +39,5 @@ namespace Character {
 	void LoadJson();
 	void SaveJson();
 	void Update();
+	Quaternion GetRotate(const Character::State& state);
 }

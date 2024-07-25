@@ -16,7 +16,9 @@
 #include "WindManager.h"
 
 void GameScene::OnInitialize() {
-
+	Quaternion tmp = Quaternion(0.0f, -0.752374649f, 0.0f, 0.658735633f);
+	Quaternion tmp1 = Quaternion(0.0f, 0.752577603f, 0.0f, 0.658735633f);
+	tmp = Quaternion::Slerp(0.5f, tmp, tmp1);
 	cameraManager_ = std::make_unique<CameraManager>();
 	directionalLight_ = std::make_shared<DirectionalLight>();
 	directionalLight_->direction = Vector3(0.1f, -1.0f, 0.3f).Normalized();
@@ -131,17 +133,29 @@ void GameScene::OnUpdate() {
 	if (!pause_->GetIsPause()) {
 
 		//gameClear
-		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_C)) {
+		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) 
+#ifdef _DEBUG
+			|| Input::GetInstance()->IsKeyTrigger(DIK_C) 
+#endif // _DEBUG
+			)	{
 			Movie::isPlaying = true;
 			currentMovie_ = gameClearMovie_.get();
 		}
 		//gameOver
-		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_K)) {
+		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) 
+#ifdef _DEBUG
+			|| Input::GetInstance()->IsKeyTrigger(DIK_K)
+#endif // _DEBUG
+			) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameOverMovie_.get();
 		}
 		//hammer
-		if ((boss_->GetIsHit() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
+		if ((boss_->GetIsHit() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying)
+#ifdef _DEBUG			
+			|| Input::GetInstance()->IsKeyTrigger(DIK_F)
+#endif // _DEBUG
+			) {
 			Movie::isPlaying = true;
 			currentMovie_ = hammerMovie_.get();
 		}
@@ -163,7 +177,11 @@ void GameScene::OnUpdate() {
 		}
 
 		//gameStart
-		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
+		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) 
+#ifdef _DEBUG
+			|| Input::GetInstance()->IsKeyTrigger(DIK_F)
+#endif // _DEBUG
+			) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameStartMovie_.get();
 			boss_->GetStateManager()->ChangeState(BossStateManager::State::kRoot);
@@ -199,7 +217,7 @@ void GameScene::OnUpdate() {
 
 			stageLoop_->Update();
 
-			
+
 
 			//ムービー中動いてほしくないもの
 			if (!Movie::isPlaying && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
@@ -230,6 +248,7 @@ void GameScene::OnUpdate() {
 			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 			playerDustParticle_->Update();
 #ifdef _DEBUG
+			ImGui::Text("distance:%f", std::fabsf(std::fabsf(player_->transform.translate.z) - std::fabsf(boss_->transform.translate.z)));
 			//editorManager_->Update();
 			if (ImGui::Checkbox("Move", &isMove_)) {
 				player_->SetIsMove(isMove_);
@@ -279,7 +298,7 @@ void GameScene::OnUpdate() {
 				SceneManager::GetInstance()->ChangeScene<TitleScene>(true);
 			}
 			if ((Input::GetInstance()->IsKeyTrigger(DIK_I) &&
-				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying()||
+				!SceneManager::GetInstance()->GetSceneTransition().IsPlaying() ||
 				pause_->GetOrderReset())
 				) {
 				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
@@ -294,6 +313,13 @@ void GameScene::OnUpdate() {
 				) {
 				SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 			}
+			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+				player_->Reset();
+				cameraManager_->Reset();
+				stageBlockManager_->Reset();
+				boss_->Reset(0);
+				stageLoop_->Reset();
+			}
 #endif // _DEBUG
 
 			if (pause_->GetOrderToTitle()) {
@@ -303,13 +329,7 @@ void GameScene::OnUpdate() {
 				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
 			}
 
-			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-				player_->Reset();
-				cameraManager_->Reset();
-				stageBlockManager_->Reset();
-				boss_->Reset(0);
-				stageLoop_->Reset();
-			}
+		
 			//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 			//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 			//}
@@ -329,9 +349,9 @@ void GameScene::Initialize() {
 	directionalLight_->DrawImGui("directionalLight");
 
 	stageLoop_->Update();
-	
+
 	stageBlockManager_->Update();
-	
+
 	player_->Update();
 	//ライティングされなくなるからこれだけ
 	for (std::unique_ptr<StageLineLight>& stageLineLight : stageLineLights_) {

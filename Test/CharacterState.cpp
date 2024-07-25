@@ -141,4 +141,19 @@ namespace Character {
 		}
 #endif // _DEBUG
 	}
+	Quaternion GetRotate(const Character::State& state) {
+		Quaternion rotate{};
+		switch (state) {
+		case Character::kChase:
+			return Quaternion::MakeForYAxis(0.0f);
+			break;
+		case Character::kRunAway:
+			return Quaternion::MakeForYAxis(180.0f);
+			break;
+		default:
+			break;
+		}
+
+		return Quaternion();
+	}
 }
