@@ -18,6 +18,7 @@
 #include "Editor/EditorManager.h"
 #include "Player/Player.h"
 #include "Player/PlayerParticle/PlayerDustParticle.h"
+#include "Player/PlayerParticle/RevengeCoinParticle.h"
 #include "Skydome.h"
 #include "StageLineLight.h"
 #include "StageBlockManager.h"
@@ -33,6 +34,7 @@
 #include "GameOverMovie.h"
 #include "GameStartMovie.h"
 #include "HammerMovie.h"
+
 
 class GameScene :
 	public BaseScene {
@@ -57,6 +59,7 @@ private:
 #pragma region ゲーム
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<PlayerDustParticle> playerDustParticle_;
+	std::unique_ptr<RevengeCoinParticle> revengeCoinParticle_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<Skydome> skydome_;
 

@@ -68,6 +68,7 @@
     <ClCompile Include="Player\PlayerHanmmer\PlayerHammerParticle.cpp" />
     <ClCompile Include="Player\PlayerHP\PlayerHP.cpp" />
     <ClCompile Include="Player\PlayerParticle\PlayerDustParticle.cpp" />
+    <ClCompile Include="Player\PlayerParticle\RevengeCoinParticle.cpp" />
     <ClCompile Include="Player\PlayerRevengGage\PlayerRevengeGage.cpp" />
     <ClCompile Include="Player\PlayerUI\PlayerUI.cpp" />
     <ClCompile Include="Player\TitlePlayer\TitlePlayer.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Player\PlayerHanmmer\PlayerHammerParticle.h" />
     <ClInclude Include="Player\PlayerHP\PlayerHP.h" />
     <ClInclude Include="Player\PlayerParticle\PlayerDustParticle.h" />
+    <ClInclude Include="Player\PlayerParticle\RevengeCoinParticle.h" />
     <ClInclude Include="Player\PlayerRevengGage\PlayerRevengeGage.h" />
     <ClInclude Include="Player\PlayerUI\PlayerUI.h" />
     <ClInclude Include="Player\UFO\UFO.h" />

@@ -1,43 +1,40 @@
-#include "PlayerDustParticle.h"
+#include "RevengeCoinParticle.h"
 #include "Player/Player.h"
 #include "Framework/ResourceManager.h"
 
-void PlayerDustParticle::Initialize() {
+void RevengeCoinParticle::Initialize() {
 	minDirection_ = { -0.5f,0.5f,-0.5f };
-	maxDirection_ = { 0.5f,1.0f,0.5f };
+	maxDirection_ = { 0.5f,0.8f,0.5f };
 	emitTransform_.SetParent(&player_->transform,false);
-	Vector3 modelMinSize = player_->GetMinModelSize();
-	//emitTransform_.translate.y = modelMinSize.y - 2.0f;
-	emitTransform_.translate.z = modelMinSize.z;
-	for (DustParticle& particle : particles_) {
+	for (Particle& particle : particles_) {
 		particle.model_ = std::make_unique<ModelInstance>();
 		particle.model_->SetModel(ResourceManager::GetInstance()->FindModel("box"));
+		particle.model_->SetColor({0.005f,0.6f,0.95f});
 	}
 	Reset();
 }
 
-void PlayerDustParticle::Update() {
+void RevengeCoinParticle::Update() {
 	Emit();
 	ParticleUpdate();
 }
 
-void PlayerDustParticle::Reset() {
-	for (DustParticle & particle : particles_) {
+void RevengeCoinParticle::Reset() {
+	for (Particle & particle : particles_) {
 		particle.isActive = false;
 		particle.model_->SetIsActive(false);
 	}
 }
 
-void PlayerDustParticle::Emit()
+void RevengeCoinParticle::Emit()
 {
-	isEmit_ = player_->GetIsMove() && player_->GetIsGround();
 
 	if (isEmit_) {
 
 		emitTransform_.UpdateMatrix();
 
 		for (uint32_t i = 0; i < emitNum_; i++) {
-			for (DustParticle& particle : particles_) {
+			for (Particle& particle : particles_) {
 				if (!particle.isActive) {
 					particle.isActive = true;
 					particle.model_->SetIsActive(true);
@@ -50,16 +47,17 @@ void PlayerDustParticle::Emit()
 				}
 			}
 		}
+		isEmit_ = false;
 	}
 }
 
-void PlayerDustParticle::ParticleUpdate()
+void RevengeCoinParticle::ParticleUpdate()
 {
-	for (uint32_t i = 0; DustParticle & particle : particles_) {
+	for (uint32_t i = 0; Particle & particle : particles_) {
 		float rotationSpeed = (2.0f * Math::ToRadian) * (float(i % 2) * 2.0f - 1.0f);
 		if (particle.isActive) {
 			particle.transform.translate += particle.direction * speed_;
-			particle.transform.rotate *= Quaternion::MakeFromAngleAxis(rotationSpeed, { 0.0f,0.0f,1.0f });
+			particle.transform.rotate *= Quaternion::MakeFromAngleAxis(rotationSpeed, particle.direction);
 			particle.transform.scale.x -= scaleSpeed_;
 			particle.transform.scale.y -= scaleSpeed_;
 			particle.transform.scale.z -= scaleSpeed_;

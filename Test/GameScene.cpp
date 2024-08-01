@@ -93,6 +93,10 @@ void GameScene::OnInitialize() {
 	playerDustParticle_->SetPlayer(player_.get());
 	playerDustParticle_->Initialize();
 
+	revengeCoinParticle_ = std::make_unique<RevengeCoinParticle>();
+	revengeCoinParticle_->SetPlayer(player_.get());
+	revengeCoinParticle_->Initialize();
+
 	ui_ = std::make_unique<UI>();
 	ui_->Initialize();
 
@@ -231,6 +235,10 @@ void GameScene::OnUpdate() {
 
 			//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 			playerDustParticle_->Update();
+			if (player_->GetRevengeCoin()) {
+				revengeCoinParticle_->SetEmit();
+			}
+			revengeCoinParticle_->Update();
 #ifdef _DEBUG
 			ImGui::Text("distance:%f", std::fabsf(std::fabsf(player_->transform.translate.z) - std::fabsf(boss_->transform.translate.z)));
 			//editorManager_->Update();
@@ -354,6 +362,7 @@ void GameScene::Initialize() {
 
 	//playerが地面にいるかの確認をするためコリジョンの下(いいコメントアウトだね＾＾)
 	playerDustParticle_->Update();
+	revengeCoinParticle_->Update();
 
 	RenderManager::GetInstance()->GetLightManager().Add(directionalLight_);
 }

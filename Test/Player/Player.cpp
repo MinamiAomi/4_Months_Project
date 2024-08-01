@@ -115,6 +115,7 @@ void Player::Update() {
 		preIsHit_ = isHit_;
 		isGround_ = false;
 		isMove_ = false;
+		isGetRevengeCoin_ = false;
 
 		if (playerHP_->GetCurrentHP() <= 0) {
 			isAlive_ = false;
@@ -393,6 +394,7 @@ void Player::SceneChangeUpdate() {
 
 void Player::OnCollision(const CollisionInfo& collisionInfo) {
 
+	
 		if (!Movie::isPlaying) {
 			if (collisionInfo.collider->GetName() == "Boss") {
 				switch (Character::currentCharacterState_) {
@@ -467,6 +469,7 @@ void Player::OnCollision(const CollisionInfo& collisionInfo) {
 		}
 		else if (collisionInfo.collider->GetName() == "RevengeCoin") {
 			playerRevengeGage_->AddGage();
+			isGetRevengeCoin_ = true;
 		}
 
 		//RayCastInfo rayCastInfo{};
