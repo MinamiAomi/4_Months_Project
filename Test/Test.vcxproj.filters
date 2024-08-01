@@ -413,6 +413,9 @@
     <ClCompile Include="Boss\GameOverBoss\GameOverBoss.cpp" />
     <ClCompile Include="Boss\GameClearBoss\GameClearBoss.cpp" />
     <ClCompile Include="Player\GameClearPlayer\GameClearPlayer.cpp" />
+    <ClCompile Include="Player\PlayerParticle\RevengeCoinParticle.cpp">
+      <Filter>Game\Object\Player\PlayerParticle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -679,6 +682,9 @@
     </ClInclude>
     <ClInclude Include="Player\GameClearPlayer\GameClearPlayer.h">
       <Filter>Game\Object\Player\GameClearPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerParticle\RevengeCoinParticle.h">
+      <Filter>Game\Object\Player\PlayerParticle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

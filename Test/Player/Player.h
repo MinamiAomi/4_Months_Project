@@ -18,6 +18,7 @@
 #include "Audio/AudioSource.h"
 #include "Math/Random.h"
 #include "UFO/UFO.h"
+#include "Player/PlayerParticle/RevengeCoinParticle.h"
 
 class TrapManager;
 class Player :
@@ -66,6 +67,8 @@ public:
 	bool GetIsFree() const { return ufo_->GetIsFree(); }
 
 	const float& GetToBossDistance() const { return toBossDistance_; }
+
+	const bool& GetRevengeCoin() { return isGetRevengeCoin_; }
 private:
 	enum AnimationType {
 		IdleAnimation,
@@ -121,6 +124,7 @@ private:
 	Vector3 windVelocity_;
 
 	bool isSceneChangeInvincible_;
+	bool isGetRevengeCoin_;
 	public:
 	// にダンジョンプ
 	float rotateAnimationFrame_;
