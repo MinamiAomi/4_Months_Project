@@ -137,17 +137,29 @@ void GameScene::OnUpdate() {
 	if (!pause_->GetIsPause()) {
 
 		//gameClear
-		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_C)) {
+		if ((!boss_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) 
+#ifdef _DEBUG
+			|| Input::GetInstance()->IsKeyTrigger(DIK_C) 
+#endif // _DEBUG
+			)	{
 			Movie::isPlaying = true;
 			currentMovie_ = gameClearMovie_.get();
 		}
 		//gameOver
-		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_K)) {
+		if ((!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) 
+#ifdef _DEBUG
+			|| Input::GetInstance()->IsKeyTrigger(DIK_K)
+#endif // _DEBUG
+			) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameOverMovie_.get();
 		}
 		//hammer
-		if ((boss_->GetIsHit() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
+		if ((boss_->GetIsHit() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying)
+#ifdef _DEBUG			
+			|| Input::GetInstance()->IsKeyTrigger(DIK_F)
+#endif // _DEBUG
+			) {
 			Movie::isPlaying = true;
 			currentMovie_ = hammerMovie_.get();
 		}
@@ -169,7 +181,11 @@ void GameScene::OnUpdate() {
 		}
 
 		//gameStart
-		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) || Input::GetInstance()->IsKeyTrigger(DIK_F)) {
+		if ((boss_->GetIsFirstHit() && !gameStartMovie_->GetIsEnd() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying() && !Movie::isPlaying) 
+#ifdef _DEBUG
+			|| Input::GetInstance()->IsKeyTrigger(DIK_F)
+#endif // _DEBUG
+			) {
 			Movie::isPlaying = true;
 			currentMovie_ = gameStartMovie_.get();
 			boss_->GetStateManager()->ChangeState(BossStateManager::State::kRoot);
@@ -305,6 +321,13 @@ void GameScene::OnUpdate() {
 				) {
 				SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 			}
+			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
+				player_->Reset();
+				cameraManager_->Reset();
+				stageBlockManager_->Reset();
+				boss_->Reset(0);
+				stageLoop_->Reset();
+			}
 #endif // _DEBUG
 
 			if (pause_->GetOrderToTitle()) {
@@ -314,13 +337,7 @@ void GameScene::OnUpdate() {
 				SceneManager::GetInstance()->ChangeScene<GameScene>(true);
 			}
 
-			if (Input::GetInstance()->IsKeyTrigger(DIK_R)) {
-				player_->Reset();
-				cameraManager_->Reset();
-				stageBlockManager_->Reset();
-				boss_->Reset(0);
-				stageLoop_->Reset();
-			}
+		
 			//if (!player_->GetIsAlive() && !SceneManager::GetInstance()->GetSceneTransition().IsPlaying()) {
 			//    SceneManager::GetInstance()->ChangeScene<GameOverScene>(true);
 			//}
