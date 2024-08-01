@@ -38,6 +38,7 @@ void Boss::Initialize() {
 	bossModelManager_->Initialize(&transform, player_);
 
 
+
 	BossBulletManager::GetInstance()->Initialize();
 
 	Reset(0);
