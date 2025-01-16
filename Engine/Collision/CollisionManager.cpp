@@ -23,7 +23,10 @@ void CollisionManager::CheckCollision() {
         Collider* collider1 = *iter1;
         // アクティブじゃなければ通さない
         if (!collider1->isActive_) { continue; }
-        collider1->DebugDraw(); sum++;
+#ifdef _DEBUG
+        collider1->DebugDraw(); 
+#endif // _DEBUG
+        sum++;
         auto iter2 = iter1;
         ++iter2;
         for (; iter2 != colliders_.end(); ++iter2) {
@@ -43,8 +46,6 @@ void CollisionManager::CheckCollision() {
             }
         }
     }
-    int a = 0;
-    a;
 }
 
 bool CollisionManager::RayCast(const Vector3& origin, const Vector3& diff, uint32_t mask, RayCastInfo* nearest) {
