@@ -62,6 +62,7 @@ void SkinningManager::Update(CommandContext& commandContext) {
 
         skinCluster->Update(commandContext, *skeleton);
 
+        commandContext.TransitionResource(skinCluster->matrixPaletteBuffer_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
         commandContext.TransitionResource(skinCluster->skinnedVertexBuffer_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
         commandContext.SetComputeDescriptorTable(kMatrixPalette, skinCluster->matrixPaletteBuffer_.GetSRV());
         commandContext.SetComputeDescriptorTable(kInputVertices, model->GetVertexBuffer().GetSRV());

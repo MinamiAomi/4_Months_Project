@@ -73,6 +73,7 @@ void Voronoi::Initialize(uint32_t width, uint32_t height, uint32_t numPoints) {
 
     commandContext.Dispatch((UINT)std::floor(width / 8), (UINT)std::floor(height / 8));
     commandContext.UAVBarrier(colorBuffer_);
+    commandContext.TransitionResource(colorBuffer_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
     commandContext.FlushResourceBarriers();
     commandContext.Finish(true);
 

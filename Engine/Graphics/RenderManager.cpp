@@ -47,7 +47,7 @@ void RenderManager::Initialize() {
     skinningManager_.Initialize();
     geometryRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
     lightingRenderingPass_.Initialize(swapChainBuffer.GetWidth(), swapChainBuffer.GetHeight());
-    //raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
+    raytracingRenderer_.Create(lightingRenderingPass_.GetResult().GetWidth(), lightingRenderingPass_.GetResult().GetHeight());
     lineDrawer_.Initialize(lightingRenderingPass_.GetResult().GetRTVFormat());
 
     bloom_.Initialize(&lightingRenderingPass_.GetResult());
@@ -58,7 +58,6 @@ void RenderManager::Initialize() {
     transition_.Initialize();
     postEffect_.Initialize(temporaryScreenBuffer_);
     lightingPassPostEffect_.Initialize(lightingRenderingPass_.GetResult());
-    //raymarchingRenderer_.Create(mainColorBuffer_.GetWidth(), mainColorBuffer_.GetHeight());
 
     //computeShaderTester_.Initialize(1024, 1024);
     //commandContext_.Start(D3D12_COMMAND_LIST_TYPE_DIRECT);
@@ -93,7 +92,7 @@ void RenderManager::Finalize() {
 
 void RenderManager::Render() {
 
-    uint32_t targetSwapChainBufferIndex = (swapChain_.GetCurrentBackBufferIndex() + 1) % SwapChain::kNumBuffers;
+    uint32_t targetSwapChainBufferIndex = (swapChain_.GetCurrentBackBufferIndex()) % SwapChain::kNumBuffers;
 
     auto camera = camera_.lock();
 
@@ -111,7 +110,7 @@ void RenderManager::Render() {
         modelSorter_.Sort(*camera);;
         // 影、スペキュラ
         assert(!lightManager_.GetDirectionalLight().empty());
-        //raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
+        raytracingRenderer_.Render(commandContext_, *camera, lightManager_.GetDirectionalLight()[0]);
 
 
 #ifdef ENABLE_IMGUI
@@ -140,7 +139,7 @@ void RenderManager::Render() {
         }
 #endif // ENABLE_IMGUI
         lightingRenderingPass_.Render(commandContext_, geometryRenderingPass_, *camera, lightManager_);
-       // lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
+        lightingPassPostEffect_.RenderMultiplyTexture(commandContext_, raytracingRenderer_.GetShadow());
 
 
 #ifdef ENABLE_IMGUI
@@ -276,15 +275,16 @@ void RenderManager::Render() {
 
     // コマンドリスト完成(クローズ)
     commandContext_.Close();
-
+    commandContext_.Finish(false);
+ 
+    auto& commandQueue = graphics_->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+    //commandQueue.WaitForIdle();
     // バックバッファをフリップ
     swapChain_.Present();
     frameCount_++;
     // シグナルを発行し待つ
-    auto& commandQueue = graphics_->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
     commandQueue.WaitForIdle();
 
-    commandContext_.Finish(false);
 
     graphics_->GetReleasedObjectTracker().FrameIncrementForRelease();
     timer_.KeepFrameRate(60);

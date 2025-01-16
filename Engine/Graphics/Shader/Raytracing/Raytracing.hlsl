@@ -61,6 +61,7 @@ float3 GetWorldPosition(in float2 texcoord, in float depth, in float4x4 viewProj
 void RayGeneration() {
     // レイのインデックス
     uint2 dispatchRaysIndex = DispatchRaysIndex().xy;
+    g_Shadow[dispatchRaysIndex].rgb = float32_t3(1.0f, 1.0f, 1.0f);
     // レイの縦横数
     uint2 dispatchRaysDimensions = DispatchRaysDimensions().xy;
     // テクスチャ座標系を求める    
@@ -130,7 +131,7 @@ void PrimaryClosestHit(inout PrimaryPayload payload, in Attributes attributes) {
             shadowRay,
             shadowPayload);
         
-        payload.shadow = lerp(1.0f, 0.5f, shadowPayload.isHit);
+        payload.shadow = lerp(1.0f, 0.1f, shadowPayload.isHit);
     }
 }
 

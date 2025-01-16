@@ -204,7 +204,7 @@ void PlayerUI::Update() {
 		revengeBarGaugeBaseSprite_->SetIsActive(true);
 		revengeBarIconSprite_->SetIsActive(true);
 	}
-	
+
 }
 
 void PlayerUI::UpdatePlayerUI() {

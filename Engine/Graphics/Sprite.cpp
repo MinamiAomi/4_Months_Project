@@ -16,25 +16,26 @@ std::shared_ptr<Texture> Texture::Load(const std::filesystem::path& path) {
 
 
 const DescriptorHandle& Texture::GetSampler() const {
-    switch (interpolation_) {
-    case Texture::Interpolation::Linear:
-        switch (extension_) {
-        case Texture::Extension::Wrap:
-            return SamplerManager::LinearWrap;
-        case Texture::Extension::Clamp:
-            return SamplerManager::LinearClamp;
-        }
-        break;
-    case Texture::Interpolation::Point:
-        switch (extension_) {
-        case Texture::Extension::Wrap:
-            return SamplerManager::PointWrap;
-        case Texture::Extension::Clamp:
-            return SamplerManager::PointClamp;
-        }
-        break;
-    }
-    return SamplerManager::AnisotropicWrap;
+    //switch (interpolation_) {
+    //case Texture::Interpolation::Linear:
+    //    switch (extension_) {
+    //    case Texture::Extension::Wrap:
+    //        return SamplerManager::LinearWrap;
+    //    case Texture::Extension::Clamp:
+    //        return SamplerManager::LinearClamp;
+    //    }
+    //    break;
+    //case Texture::Interpolation::Point:
+    //    switch (extension_) {
+    //    case Texture::Extension::Wrap:
+    //        return SamplerManager::PointWrap;
+    //    case Texture::Extension::Clamp:
+    //        return SamplerManager::PointClamp;
+    //    }
+    //    break;
+    //}
+    //return SamplerManager::AnisotropicWrap;
+    return SamplerManager::PointClamp;
 }
 
 std::list<Sprite*> Sprite::instanceList_;

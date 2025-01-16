@@ -28,7 +28,7 @@ struct PSOutput {
 
 // 静的変数を初期化
 void InitializeSurfaceProperties(PSInput input) {
-     // 深度をサンプリング
+    // 深度をサンプリング
     float depth = g_Depth.SampleLevel(g_Sampler, input.texcoord, 0);
     // xは0~1から-1~1, yは0~1から1~-1に上下反転
     float2 xy = input.texcoord * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f);
@@ -118,7 +118,7 @@ float3 ShadeDirectionalLight(DirectionalLight light) {
     float NdotL = saturate(dot(Normal, lightDirection));
     float LdotH = saturate(dot(lightDirection, halfVector));
     float NdotH = saturate(dot(Normal, halfVector));
-        
+
     float3 diffuse = DiffuseBRDF();
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
@@ -136,16 +136,16 @@ float GetDistanceAttenuation(float3 unNormalizedLightVector, float decay, float 
 float3 ShadePointLight(PointLight light) {
     float3 diff = light.position - Position;
     float3 lightDirection = normalize(diff);
-    
+
     float3 halfVector = normalize(lightDirection + ViewDirection);
     float NdotL = saturate(dot(Normal, lightDirection));
     float LdotH = saturate(dot(lightDirection, halfVector));
     float NdotH = saturate(dot(Normal, halfVector));
-        
+
     float3 diffuse = DiffuseBRDF();
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
-    
+
     float attenuation = GetDistanceAttenuation(diff, light.decay, light.range);
     float intensity = light.intensity * PI;
     float3 ambient = Albedo * light.color * 0.1f;
@@ -162,19 +162,19 @@ float GetAngleAttenuation(float3 unNormalizedLightVector, float3 lightDirection,
 float3 ShadeSpotLight(SpotLight light) {
     float3 diff = light.position - Position;
     float3 lightDirection = normalize(diff);
-    
+
     float3 halfVector = normalize(lightDirection + ViewDirection);
     float NdotL = saturate(dot(Normal, lightDirection));
     float LdotH = saturate(dot(lightDirection, halfVector));
     float NdotH = saturate(dot(Normal, halfVector));
-        
+
     float3 diffuse = DiffuseBRDF();
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
-    
+
     //float attenuation = GetDistanceAttenuation(diff);
     //attenuation = GetAngleAttenuation(-lightDirection, light.direction, light.angleScale, light.angleOffset);
-    
+
     return BRDF * NdotL * light.color * INV_PI;
 }
 
@@ -184,20 +184,20 @@ float3 ShadeLineLight(LineLight light) {
     float dis = dot(Position - light.origin, dir);
     dis = clamp(dis, 0.0f, len);
     float3 closestPoint = light.origin + dis * dir;
-    
-    
+
+
     float3 diff = closestPoint - Position;
     float3 lightDirection = normalize(diff);
-    
+
     float3 halfVector = normalize(lightDirection + ViewDirection);
     float NdotL = saturate(dot(Normal, lightDirection));
     float LdotH = saturate(dot(lightDirection, halfVector));
     float NdotH = saturate(dot(Normal, halfVector));
-        
+
     float3 diffuse = DiffuseBRDF();
     float3 specular = SpecularBRDF(NdotL, LdotH, NdotH);
     float3 BRDF = diffuse + specular;
-    
+
     float attenuation = GetDistanceAttenuation(diff, light.decay, light.range);
     float3 ambient = Albedo * light.color * 0.1f;
     float intensity = light.intensity * PI;
@@ -207,30 +207,29 @@ float3 ShadeLineLight(LineLight light) {
 PSOutput main(PSInput input) {
 
     PSOutput output;
-   
+
     InitializeSurfaceProperties(input);
-    
+
     // AlbedoのWが0の場合は計算しない
     //if (g_Albedo.SampleLevel(g_Sampler, input.texcoord, 0).w == 0.0f) {
     //    discard;
     //}
-    
+
     float3 color = 0.0f;
     uint i = 0;
     for (i = 0; i < g_Scene.numDirectionalLights; ++i) {
         color += ShadeDirectionalLight(g_DirectionalLight[i]);
     }
-    
     for (i = 0; i < g_Scene.numPointLights; ++i) {
         color += ShadePointLight(g_PointLight[i]);
     }
-    
+
     for (i = 0; i < g_Scene.numLineLights; ++i) {
         color += ShadeLineLight(g_LineLight[i]);
     }
-    
+
     output.color.rgb = lerp(Albedo, color, UseLighting);
     output.color.a = 1.0f;
-    
+
     return output;
 }
